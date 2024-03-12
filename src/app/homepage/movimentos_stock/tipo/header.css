@@ -1,0 +1,28 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .header-item {
+    margin-right: 20px;
+  }
+  
+  .header-label {
+    display: block;
+    margin-bottom: -2px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .custom-date-picker:focus {
+    border-color: #CCCCCC; /* Substitua pela cor desejada */
+    border-top: none; /* Remove a borda superior */
+    border-left: none; /* Remove a borda esquerda */
+    border-right: none; /* Remove a borda direita */
+    outline: none;
+    font-size: text-sm;
+  }
+
+  .custom-date-picker {
+    margin-top: 12px;
+    font-size: text-sm;
+  }

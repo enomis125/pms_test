@@ -10,7 +10,15 @@ const ModalGT = () => {
   return (
     <>
     <Button onPress={onOpen} radius="md"></Button>
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+    <Modal
+   classNames={{
+                    base: "max-h-screen",
+                    wrapper: "lg:pl-72 h-screen w-full",
+                    body: "h-full",
+                }}
+   size="full"
+   isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}
+>
       <ModalContent>
         {(onClose) => (
           <>
