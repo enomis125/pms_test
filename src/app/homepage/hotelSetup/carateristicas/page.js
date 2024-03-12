@@ -133,6 +133,7 @@ export default function Characteristics() {
             </TableRow>
         </TableBody>
     </Table>
+    <h1>funciona?</h1>
     </main>
   )
 }
