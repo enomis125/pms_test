@@ -529,3 +529,10 @@ model seasons {
   endDate   DateTime? @default(dbgenerated("('1900-01-01 00:00:00')")) @db.DateTime(0)
   bez       String?   @default("") @db.VarChar(50)
 }
+
+model Carateristics {
+  idCarateristics Int    @id @default(autoincrement())
+  Description     String @db.VarChar(1000)
+  Abreviature     String @db.VarChar(4)
+  Details         String @db.VarChar(250)
+}
