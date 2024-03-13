@@ -15,13 +15,13 @@ const Card = () => {
                 <Cartao title={"GRUPOS TIPOLOGIAS"} description={"Inserir grupos que relacionam várias tipologias de quartos"} listType={"grupo_tipologia"} formName={"ModalGT"} icon={<PiListPlus size={35} />} formTypeCard={1}/>
             </div>
             <div className="">
-                <Cartao title={"TIPOLOGIAS"} description={"Inserir as tipologias que associam quartos da mesma categoria"} listType={"tipologia"} formType={"/quartos/bedrooms"} formName={"Bedrooms"} icon={<FaBoxesStacked size={35}/>} formTypeCard={1}/>
+                <Cartao title={"TIPOLOGIAS"} description={"Inserir as tipologias que associam quartos da mesma categoria"} listType={"tipologia"} formType={"/quartos/bedrooms"} formName={"Bedrooms"} icon={<FaBoxesStacked size={35}/>} formTypeCard={4}/>
             </div>
             <div className="">
-                <Cartao title={"QUARTOS"} counter1={"39"} counter2={"01"} listType={"quartos"} icon={<FaBed size={35}/>} formTypeCard={2}/>
+                <Cartao title={"QUARTOS"} counter1={"39"} counter2={"01"} listType={"quartos"} icon={<FaBed size={35}/>} formTypeCard={1}/>
             </div>
             <div className="">
-                <Cartao title={"CARACTERÍSTICAS"} description={"Inserir lista com as várias características para cada quarto"} listType={"carateristicas"} icon={<FaPencilRuler size={35}/>} formTypeCard={1}/>
+                <Cartao title={"CARACTERÍSTICAS"} description={"Inserir lista com as várias características para cada quarto"} listType={"carateristicas"} icon={<FaPencilRuler size={35}/>} formTypeCard={3}/>
             </div>
             <div className="">
                 <Cartao title={"MANUTENÇÃO"} description={""} icon={<FaWrench size={35}/>} formTypeCard={1} />

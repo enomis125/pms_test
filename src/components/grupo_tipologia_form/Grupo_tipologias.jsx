@@ -9,7 +9,7 @@ const ModalGT = () => {
 
   return (
     <>
-    <Button onPress={onOpen} radius="md"></Button>
+    <Button onPress={onOpen} radius="md" className="bg-transparent">Editar</Button>
     <Modal
    classNames={{
                     base: "max-h-screen",

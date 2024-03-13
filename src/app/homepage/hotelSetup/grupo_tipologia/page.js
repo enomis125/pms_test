@@ -162,7 +162,7 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                    <DropdownItem key="new"><ModalGT></ModalGT></DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>

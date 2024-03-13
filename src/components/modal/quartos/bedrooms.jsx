@@ -41,7 +41,7 @@ const Bedrooms = () => {
     return (
         <>
 
-                <Button className="max-w-fit" onPress={onOpen}>
+                <Button className="max-w-fit bg-transparent" onPress={onOpen}>
                     Inserir Quarto
                 </Button>
                 <Modal
