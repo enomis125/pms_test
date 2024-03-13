@@ -71,7 +71,7 @@ export default function Characteristics() {
           isCompact
           showControls
           showShadow
-          color="bg-primary"
+          color="var(--dark-green)"
           page={page}
           total={pages}
           onChange={(page) => setPage(page)}
