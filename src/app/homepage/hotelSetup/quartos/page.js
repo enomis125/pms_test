@@ -37,8 +37,9 @@ export default function Roooms() {
     <main className="mx-5">
     <div className="flex flex-col my-10 py-3">
         <p className="text-xs px-6">Quartos</p>
-        <div className="flex flex-row">
-        <div className="flex flex-wrap md:flex-nowrap gap-4">
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row">
+          <div className="flex flex-wrap md:flex-nowrap gap-4">
         <Input
         className="mt-4 w-80"
           placeholder="Pesquisa"
@@ -60,6 +61,8 @@ export default function Roooms() {
           </AutocompleteItem>
         ))}
       </Autocomplete>
+          </div>
+      <Button color="primary">Inserir</Button>
         </div>
     </div>
     <Table removeWrapper isStriped
@@ -113,7 +116,7 @@ export default function Roooms() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Quarto"} 
-                      formTypeModal={2} 
+                      formTypeModal={21} 
                       ></FormModals>
                   </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
@@ -144,7 +147,7 @@ export default function Roooms() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Quarto"} 
-                      formTypeModal={2} 
+                      formTypeModal={21} 
                       ></FormModals>
                   </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>

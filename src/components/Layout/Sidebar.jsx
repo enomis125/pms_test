@@ -57,6 +57,15 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/false", label: "False", active: hotelSetup
                 },
             ]
+        },
+
+        "Cardex Setup" :{
+            active:true,
+            items: [
+                {
+                    ref: "/homepage/cardex/", label: "Cardex", active: true
+                },
+            ]
         }
     }
     return (
@@ -78,7 +87,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     <div className="flex items-center space-x-2">
                         <Link href="/dashboard" className='flex space-x-4 align-middle ml-3'>
                             <FaUser className="text-2xl text-primary-800" />
-                            <span className="text-sm text-primary-800 font-semibold">{name}</span>
+                            <span className="text-sm text-primary-800 font-semibold">Sujeito Teste</span>
                         </Link>
                     </div>
 

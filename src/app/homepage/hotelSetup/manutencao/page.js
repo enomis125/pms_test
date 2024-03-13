@@ -39,8 +39,9 @@ export default function Characteristics() {
     <main className="mx-5">
     <div className="flex flex-col my-10 py-3">
         <p className="text-xs px-6">Manutenção</p>
-        <div className="flex flex-row">
-        <div className="flex flex-wrap md:flex-nowrap gap-4">
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row">
+          <div className="flex flex-wrap md:flex-nowrap gap-4">
         <Input
         className="mt-4 w-80"
           placeholder="Pesquisa"
@@ -62,6 +63,8 @@ export default function Characteristics() {
           </AutocompleteItem>
         ))}
       </Autocomplete>
+          </div>
+      <Button color="primary">Inserir</Button>
         </div>
     </div>
     <Table removeWrapper isStriped
@@ -109,7 +112,7 @@ export default function Characteristics() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Manutenção"} 
-                      formTypeModal={5} 
+                      formTypeModal={51} 
                       ></FormModals>
                   </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
@@ -137,7 +140,7 @@ export default function Characteristics() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Manutenção"} 
-                      formTypeModal={5} 
+                      formTypeModal={51} 
                       ></FormModals>
                   </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>

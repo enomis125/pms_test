@@ -23,6 +23,7 @@ import FormModals from "@/components/modal/formModals"
 
 
 
+
 export default function TypologyGroup() {
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
@@ -40,8 +41,9 @@ export default function TypologyGroup() {
     <main className="mx-5">
     <div className="flex flex-col my-10 py-3">
         <p className="text-xs px-6">Grupo de Tipologias</p>
-        <div className="flex flex-row">
-        <div className="flex flex-wrap md:flex-nowrap gap-4">
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row">
+          <div className="flex flex-wrap md:flex-nowrap gap-4">
         <Input
         className="mt-4 w-80"
           placeholder="Pesquisa"
@@ -63,8 +65,11 @@ export default function TypologyGroup() {
           </AutocompleteItem>
         ))}
       </Autocomplete>
+          </div>
+      <Button color="primary">Inserir</Button>
         </div>
     </div>
+
     <Table removeWrapper
      bottomContent={
       <div className="flex w-full justify-center">
@@ -116,7 +121,7 @@ export default function TypologyGroup() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Grupo de Tipologias"} 
-                      formTypeModal={1} 
+                      formTypeModal={11} 
                       ></FormModals>
                   </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
@@ -147,7 +152,7 @@ export default function TypologyGroup() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Grupo de Tipologias"} 
-                      formTypeModal={1} 
+                      formTypeModal={11} 
                       classNames={{
                       base: "max-h-screen",
                       wrapper: "lg:pl-72 h-screen w-full",
@@ -219,7 +224,7 @@ export default function TypologyGroup() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Grupo de Tipologias"} 
-                      formTypeModal={1} 
+                      formTypeModal={11} 
                       classNames={{
                       base: "max-h-screen",
                       wrapper: "lg:pl-72 h-screen w-full",
@@ -255,7 +260,7 @@ export default function TypologyGroup() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Grupo de Tipologias"} 
-                      formTypeModal={1} 
+                      formTypeModal={11} 
                       classNames={{
                       base: "max-h-screen",
                       wrapper: "lg:pl-72 h-screen w-full",
@@ -291,7 +296,7 @@ export default function TypologyGroup() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Grupo de Tipologias"} 
-                      formTypeModal={1} 
+                      formTypeModal={11} 
                       classNames={{
                       base: "max-h-screen",
                       wrapper: "lg:pl-72 h-screen w-full",
@@ -327,7 +332,7 @@ export default function TypologyGroup() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Grupo de Tipologias"} 
-                      formTypeModal={1} 
+                      formTypeModal={11} 
                       classNames={{
                       base: "max-h-screen",
                       wrapper: "lg:pl-72 h-screen w-full",
@@ -363,7 +368,7 @@ export default function TypologyGroup() {
                       <FormModals 
                       buttonName={"Editar"} 
                       modalHeader={"Inserir Grupo de Tipologias"} 
-                      formTypeModal={1} 
+                      formTypeModal={11} 
                       classNames={{
                       base: "max-h-screen",
                       wrapper: "lg:pl-72 h-screen w-full",
