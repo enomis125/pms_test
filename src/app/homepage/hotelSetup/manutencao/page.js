@@ -38,7 +38,7 @@ export default function Characteristics() {
   return (
     <main className="mx-5">
     <div className="flex flex-col my-10 py-3">
-        <p className="text-xs px-6">Caraterísticas</p>
+        <p className="text-xs px-6">Manutenção</p>
         <div className="flex flex-row">
         <div className="flex flex-wrap md:flex-nowrap gap-4">
         <Input
@@ -71,7 +71,7 @@ export default function Characteristics() {
           isCompact
           showControls
           showShadow
-          color="var(--dark-green)"
+          color="bg-primary"
           page={page}
           total={pages}
           onChange={(page) => setPage(page)}
@@ -108,8 +108,8 @@ export default function Characteristics() {
                 <DropdownItem key="edit">
                       <FormModals 
                       buttonName={"Editar"} 
-                      modalHeader={"Inserir Carateristicas"} 
-                      formTypeModal={3} 
+                      modalHeader={"Inserir Manutenção"} 
+                      formTypeModal={5} 
                       ></FormModals>
                   </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
@@ -136,8 +136,8 @@ export default function Characteristics() {
                 <DropdownItem key="edit">
                       <FormModals 
                       buttonName={"Editar"} 
-                      modalHeader={"Inserir Carateristicas"} 
-                      formTypeModal={3} 
+                      modalHeader={"Inserir Manutenção"} 
+                      formTypeModal={5} 
                       ></FormModals>
                   </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>

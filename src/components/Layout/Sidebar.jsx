@@ -51,6 +51,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/hotelSetup/carateristicas", label: "Caraterísticas", active: true
                 },
                 {
+                    ref: "/homepage/hotelSetup/manutencao", label: "Manutenção", active: true
+                },
+                {
                     ref: "/homepage/false", label: "False", active: hotelSetup
                 },
             ]

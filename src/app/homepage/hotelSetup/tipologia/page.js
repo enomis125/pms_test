@@ -18,6 +18,8 @@ import {typologys, actions, users } from "../../../data/data";
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdSearch } from "react-icons/io";
+import FormModals from "@/components/modal/formModals"
+
 
 
 
@@ -111,7 +113,13 @@ export default function Typology() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new">Editar</DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Tipologia"} 
+                      formTypeModal={4} 
+                      ></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -137,7 +145,13 @@ export default function Typology() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new">Editar</DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Tipologia"} 
+                      formTypeModal={4} 
+                      ></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>

@@ -19,7 +19,7 @@ import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdSearch } from "react-icons/io";
 //import de modal quartos
-import Bedrooms from "@/components/modal/quartos/bedrooms"
+import FormModals from "@/components/modal/formModals"
 
 export default function Roooms() {
     const [page, setPage] = React.useState(1);
@@ -109,7 +109,13 @@ export default function Roooms() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><Bedrooms>Editar</Bedrooms></DropdownItem>
+                    <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Quarto"} 
+                      formTypeModal={2} 
+                      ></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -134,7 +140,13 @@ export default function Roooms() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><Bedrooms>Editar</Bedrooms></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Quarto"} 
+                      formTypeModal={2} 
+                      ></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>

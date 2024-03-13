@@ -19,7 +19,7 @@ import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdSearch } from "react-icons/io";
 //imports de modals
-import ModalGT from "@/components/grupo_tipologia_form/Grupo_tipologias"
+import FormModals from "@/components/modal/formModals"
 
 
 
@@ -112,7 +112,13 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                    <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      ></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -137,7 +143,18 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      classNames={{
+                      base: "max-h-screen",
+                      wrapper: "lg:pl-72 h-screen w-full",
+                      body: "h-full",
+                  }}
+                  size="full"></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -162,7 +179,18 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT></ModalGT></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      classNames={{
+                      base: "max-h-screen",
+                      wrapper: "lg:pl-72 h-screen w-full",
+                      body: "h-full",
+                  }}
+                  size="full"></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -187,7 +215,18 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      classNames={{
+                      base: "max-h-screen",
+                      wrapper: "lg:pl-72 h-screen w-full",
+                      body: "h-full",
+                  }}
+                  size="full"></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -212,7 +251,18 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      classNames={{
+                      base: "max-h-screen",
+                      wrapper: "lg:pl-72 h-screen w-full",
+                      body: "h-full",
+                  }}
+                  size="full"></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -237,7 +287,18 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      classNames={{
+                      base: "max-h-screen",
+                      wrapper: "lg:pl-72 h-screen w-full",
+                      body: "h-full",
+                  }}
+                  size="full"></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -262,7 +323,18 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      classNames={{
+                      base: "max-h-screen",
+                      wrapper: "lg:pl-72 h-screen w-full",
+                      body: "h-full",
+                  }}
+                  size="full"></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
@@ -287,7 +359,18 @@ export default function TypologyGroup() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="new"><ModalGT>Editar</ModalGT></DropdownItem>
+                <DropdownItem key="edit">
+                      <FormModals 
+                      buttonName={"Editar"} 
+                      modalHeader={"Inserir Grupo de Tipologias"} 
+                      formTypeModal={1} 
+                      classNames={{
+                      base: "max-h-screen",
+                      wrapper: "lg:pl-72 h-screen w-full",
+                      body: "h-full",
+                  }}
+                  size="full"></FormModals>
+                  </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
