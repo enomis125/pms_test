@@ -108,7 +108,7 @@ export default function Characteristics() {
                 <DropdownItem key="edit">
                       <FormModals 
                       buttonName={"Editar"} 
-                      modalHeader={"Inserir Carateristicas"} 
+                      modalHeader={"Inserir Caraterísticas"} 
                       formTypeModal={3} 
                       ></FormModals>
                   </DropdownItem>
@@ -136,7 +136,7 @@ export default function Characteristics() {
                 <DropdownItem key="edit">
                       <FormModals 
                       buttonName={"Editar"} 
-                      modalHeader={"Inserir Carateristicas"} 
+                      modalHeader={"Inserir Caraterísticas"} 
                       formTypeModal={3} 
                       ></FormModals>
                   </DropdownItem>
