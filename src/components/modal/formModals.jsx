@@ -1,7 +1,8 @@
 "use client"
-import React from "react";
+import React ,{useState} from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
+import axios from 'axios';
 
 /*
 os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:
@@ -35,6 +36,36 @@ const formModals = ({ buttonName, modalHeader, formTypeModal }) => {
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
 
+    //inserção na tabela carateristicas
+    const [caracteristica, setCaracteristica] = useState({
+        Description: '',
+        Abreviature: '',
+        Details: ''
+    })
+
+    const handleInput = (event) => {
+        setCaracteristica({...caracteristica, [event.target.name]: event.target.value})
+    }
+    function handleSubmit(event) {
+        event.preventDefault()
+        if (!caracteristica.Description || !caracteristica.Abreviature || !caracteristica.Details) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/hotel/caracteristicas', caracteristica)
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+        /*const newcara = res.response.caracteristica;
+        setCaracteristica([
+            ...caracteristica,
+            {
+                Description: newcara.Description,
+                Abreviature: newcara.Abreviature,
+                Details: newcara.Details,
+            },
+        ]);*/
+    }
+    //final da inserção na tabela carateristicas
 
     return (
         <>
@@ -437,20 +468,22 @@ const formModals = ({ buttonName, modalHeader, formTypeModal }) => {
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={handleSubmit}> 
                                     <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
                                     <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                        <input type="text" name="Description" onChange={handleInput} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                        <input type="text" name="Abreviature" onChange={handleInput} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                        <textarea type="textarea" name="Details" onChange={handleInput} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="danger" variant="light" onPress={onClose}>
                                             Fechar
                                         </Button>
-                                        <Button color="primary" onPress={onClose}>
-                                            Teste
+                                        <Button color="primary" type="submit">
+                                            Enviar
                                         </Button>
                                     </ModalFooter>
+                                    </form>
 
                                 </>
                             )}

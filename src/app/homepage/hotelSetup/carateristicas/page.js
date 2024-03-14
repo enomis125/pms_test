@@ -1,6 +1,7 @@
 "use client"
 
-import React from "react";
+import axios from 'axios';
+import React, { useEffect, useState } from "react";
 import {
   //imports de tabelas
   Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, getKeyValue,
@@ -10,10 +11,10 @@ import {
   Autocomplete, AutocompleteItem,
   //imports de inputs
   Input
-} 
-from "@nextui-org/react";
+}
+  from "@nextui-org/react";
 //imports de dados
-import {typologys, actions, users } from "../../../data/data";
+import { typologys, actions, users } from "../../../data/data";
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -23,7 +24,7 @@ import FormModals from "@/components/modal/formModals"
 
 
 export default function Characteristics() {
-    const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
 
   const pages = Math.ceil(users.length / rowsPerPage);
@@ -35,121 +36,109 @@ export default function Characteristics() {
     return users.slice(start, end);
   }, [page, users]);
 
+  const [caracteristics, setCaracteristics] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await axios.get('/api/hotel/caracteristicas')
+      setCaracteristics(res.data.response);
+    };
+    getData();
+  }, []);
+
   return (
     <main className="mx-5">
-    <div className="flex flex-col my-10 py-3">
+      <div className="flex flex-col my-10 py-3">
         <p className="text-xs px-6">Caraterísticas</p>
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-row">
-          <div className="flex flex-wrap md:flex-nowrap gap-4">
-        <Input
-        className="mt-4 w-80"
-          placeholder="Pesquisa"
-          labelPlacement="outside"
-          startContent={
-            <IoMdSearch className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
+            <div className="flex flex-wrap md:flex-nowrap gap-4">
+              <Input
+                className="mt-4 w-80"
+                placeholder="Pesquisa"
+                labelPlacement="outside"
+                startContent={
+                  <IoMdSearch className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
 
-          }
-        />
-    </div>
-    <Autocomplete 
-      variant="underlined"
-        label="Selecione a opção" 
-        className="max-w-xs" 
-      >
-        {typologys.map((typology) => (
-          <AutocompleteItem key={typology.value} value={typology.value}>
-            {typology.label}
-          </AutocompleteItem>
-        ))}
-      </Autocomplete>
+                }
+              />
+            </div>
+            <Autocomplete
+              variant="underlined"
+              label="Selecione a opção"
+              className="max-w-xs"
+            >
+              {typologys.map((typology) => (
+                <AutocompleteItem key={typology.value} value={typology.value}>
+                  {typology.label}
+                </AutocompleteItem>
+              ))}
+            </Autocomplete>
           </div>
-      <Button color="primary">Inserir</Button>
+          <FormModals
+            buttonName={"Editar"}
+            modalHeader={"Inserir Caraterísticas"}
+            formTypeModal={31}
+          ></FormModals>
         </div>
-    </div>
-    <Table removeWrapper isStriped
-     bottomContent={
-      <div className="flex w-full justify-center">
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color="var(--dark-green)"
-          page={page}
-          total={pages}
-          onChange={(page) => setPage(page)}
-        />
       </div>
-    }
-    classNames={{
-      wrapper: "min-h-[222px]",
-    }}>
+      <Table removeWrapper isStriped
+        bottomContent={
+          <div className="flex w-full justify-center">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="primary"
+              page={page}
+              total={pages}
+              onChange={(page) => setPage(page)}
+            />
+          </div>
+        }
+        classNames={{
+          wrapper: "min-h-[222px]",
+        }}>
         <TableHeader>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">ID</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">DESCRIÇÃO</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">ABREVIATURA</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">DETALHE</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] flex justify-center items-center"><GoGear size={20}/></TableColumn>
+          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">ID</TableColumn>
+          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">DESCRIÇÃO</TableColumn>
+          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">ABREVIATURA</TableColumn>
+          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">DETALHE</TableColumn>
+          <TableColumn className="bg-primary-600 text-[var(--white)] flex justify-center items-center"><GoGear size={20} /></TableColumn>
         </TableHeader>
         <TableBody>
-            <TableRow key="1">
-                <TableCell>1</TableCell>
-                <TableCell>1234</TableCell>
-                <TableCell>Quarto Duplo</TableCell>
-                <TableCell>QD</TableCell>
-                <TableCell className="flex flex-row gap-4 justify-center">
+          {caracteristics.map((caracteristic, index) => (
+            <TableRow key={index}>
+              <TableCell>{caracteristic.idCarateristics}</TableCell>
+              <TableCell>{caracteristic.Description}</TableCell>
+              <TableCell>{caracteristic.Abreviature}</TableCell>
+              <TableCell>{caracteristic.Details}</TableCell>
+              <TableCell className="flex flex-row gap-4 justify-center">
                 <Dropdown>
-                <DropdownTrigger>
-                    <Button 
-                    variant="light" 
-                    className="flex flex-row justify-center"
+                  <DropdownTrigger>
+                    <Button
+                      variant="light"
+                      className="flex flex-row justify-center"
                     >
-                    <BsThreeDotsVertical size={20} className="text-gray-400"/>
+                      <BsThreeDotsVertical size={20} className="text-gray-400" />
                     </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                <DropdownItem key="edit">
-                      <FormModals 
-                      buttonName={"Editar"} 
-                      modalHeader={"Inserir Caraterísticas"} 
-                      formTypeModal={31} 
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                    <DropdownItem key="edit">
+                      <FormModals
+                        buttonName={"Editar"}
+                        modalHeader={"Inserir Caraterísticas"}
+                        formTypeModal={31}
                       ></FormModals>
-                  </DropdownItem>
+                    </DropdownItem>
                     <DropdownItem key="copy">Apagar</DropdownItem>
-                </DropdownMenu>
+                  </DropdownMenu>
                 </Dropdown>
-                </TableCell>
+              </TableCell>
             </TableRow>
-            <TableRow key="2">
-                <TableCell>1</TableCell>
-                <TableCell>1234</TableCell>
-                <TableCell>Quarto Duplo</TableCell>
-                <TableCell>QD</TableCell>
-                <TableCell className="flex flex-row gap-4 justify-center">
-                <Dropdown>
-                <DropdownTrigger>
-                    <Button 
-                    variant="light" 
-                    className="flex flex-row justify-center"
-                    >
-                    <BsThreeDotsVertical size={20} className="text-gray-400"/>
-                    </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                <DropdownItem key="edit">
-                      <FormModals 
-                      buttonName={"Editar"} 
-                      modalHeader={"Inserir Caraterísticas"} 
-                      formTypeModal={31} 
-                      ></FormModals>
-                  </DropdownItem>
-                    <DropdownItem key="copy">Apagar</DropdownItem>
-                </DropdownMenu>
-                </Dropdown>
-                </TableCell>
-            </TableRow>
+          ))}
         </TableBody>
-    </Table>
+      </Table>
     </main>
   )
 }
