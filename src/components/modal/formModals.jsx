@@ -11,7 +11,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ buttonName, modalHeader, formTypeModal }) => {
+const formModals = ({ buttonName, modalHeader, formTypeModal, buttonColor}) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const variants = ["underlined"];
 
@@ -454,7 +454,7 @@ const formModals = ({ buttonName, modalHeader, formTypeModal }) => {
 
             {formTypeModal === 31 && (
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName}
                     </Button>
                     <Modal

@@ -1,5 +1,6 @@
 "use client"
 
+//import de axios para BD
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import {
@@ -62,6 +63,7 @@ export default function Characteristics() {
 
                 }
               />
+              
             </div>
             <Autocomplete
               variant="underlined"
@@ -76,7 +78,8 @@ export default function Characteristics() {
             </Autocomplete>
           </div>
           <FormModals
-            buttonName={"Editar"}
+            buttonName={"Inserir"}
+            buttonColor={"primary"}
             modalHeader={"Inserir Caraterísticas"}
             formTypeModal={31}
           ></FormModals>
