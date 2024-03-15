@@ -28,6 +28,7 @@ export async function PUT(request) {
         });
 
         return new NextResponse(JSON.stringify({ status: 200 }));
+
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
     } finally {

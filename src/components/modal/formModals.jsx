@@ -1,8 +1,13 @@
 "use client"
-import React ,{useState} from "react";
+import React, { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import axios from 'axios';
+
+import { TfiSave } from "react-icons/tfi";
+import { LiaExpandSolid } from "react-icons/lia";
+import { RxExit } from "react-icons/rx";
+
 
 /*
 os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:
@@ -11,7 +16,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ buttonName, modalHeader, formTypeModal, buttonColor}) => {
+const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, buttonColor }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const variants = ["underlined"];
 
@@ -44,7 +49,7 @@ const formModals = ({ buttonName, modalHeader, formTypeModal, buttonColor}) => {
     })
 
     const handleInput = (event) => {
-        setCaracteristica({...caracteristica, [event.target.name]: event.target.value})
+        setCaracteristica({ ...caracteristica, [event.target.name]: event.target.value })
     }
     function handleSubmit(event) {
         event.preventDefault()
@@ -53,8 +58,8 @@ const formModals = ({ buttonName, modalHeader, formTypeModal, buttonColor}) => {
             return;
         }
         axios.put('/api/hotel/caracteristicas', caracteristica)
-        .then(response => console.log(response))
-        .catch(err => console.log(err))
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
         /*const newcara = res.response.caracteristica;
         setCaracteristica([
             ...caracteristica,
@@ -66,6 +71,12 @@ const formModals = ({ buttonName, modalHeader, formTypeModal, buttonColor}) => {
         ]);*/
     }
     //final da inserção na tabela carateristicas
+
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
 
     return (
         <>
@@ -455,12 +466,12 @@ const formModals = ({ buttonName, modalHeader, formTypeModal, buttonColor}) => {
             {formTypeModal === 31 && (
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
-                        {buttonName}
+                        {buttonName} {buttonIcon}
                     </Button>
                     <Modal
                         classNames={{
                             base: "max-h-screen",
-                            wrapper: "lg:pl-72 h-screen w-full",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
                             body: "h-full",
                         }}
                         size="full"
@@ -468,21 +479,19 @@ const formModals = ({ buttonName, modalHeader, formTypeModal, buttonColor}) => {
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                <form onSubmit={handleSubmit}> 
-                                    <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <input type="text" name="Description" onChange={handleInput} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <input type="text" name="Abreviature" onChange={handleInput} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <textarea type="textarea" name="Details" onChange={handleInput} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="danger" variant="light" onPress={onClose}>
-                                            Fechar
-                                        </Button>
-                                        <Button color="primary" type="submit">
-                                            Enviar
-                                        </Button>
-                                    </ModalFooter>
+                                    <form onSubmit={handleSubmit}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <div className='flex flex-row items-center mr-5'>
+                                            <Button color="transparent" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onPress={onClose}><RxExit size={25} /></Button>
+                                        </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <input type="text" name="Description" onChange={handleInput} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <input type="text" name="Abreviature" onChange={handleInput} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <textarea type="textarea" name="Details" onChange={handleInput} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                        </ModalBody>
                                     </form>
 
                                 </>
