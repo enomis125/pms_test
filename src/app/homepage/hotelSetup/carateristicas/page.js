@@ -14,7 +14,7 @@ import {
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { IoMdSearch } from "react-icons/io";
+import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 
 //imports de componentes
@@ -119,10 +119,10 @@ export default function Characteristics() {
             <div className="flex flex-wrap md:flex-nowrap gap-4">
               <Input
                 className="mt-4 w-80"
-                placeholder="Pesquisa por ID ou Descrição"
+                placeholder="Procurar..."
                 labelPlacement="outside"
                 startContent={
-                  <IoMdSearch className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 value={searchValue}
                 onChange={(e) => handleSearchChange(e.target.value)}
@@ -141,6 +141,7 @@ export default function Characteristics() {
       </div>
       <div className="mx-5">
       <Table
+        layout={"fixed"}
         removeWrapper
         classNames={{
           wrapper: "min-h-[222px]",
@@ -169,7 +170,7 @@ export default function Characteristics() {
               <TableCell>{caracteristic.idCarateristics}</TableCell>
               <TableCell>{caracteristic.Description}</TableCell>
               <TableCell>{caracteristic.Abreviature}</TableCell>
-              <TableCell>{caracteristic.Details}</TableCell>
+              <TableCell><p className="truncate ">{caracteristic.Details}</p></TableCell>
               <TableCell className="flex justify-center">
                 <Dropdown>
                   <DropdownTrigger>
