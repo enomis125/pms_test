@@ -65,7 +65,7 @@ export default function Roooms() {
       <Button color="primary">Inserir</Button>
         </div>
     </div>
-    <Table removeWrapper isStriped
+    <Table removeWrapper
      bottomContent={
       <div className="flex w-full justify-center">
         <Pagination

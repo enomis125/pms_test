@@ -72,27 +72,27 @@ export default function Characteristics() {
         return (
           <div className="flex flex-row gap-4 justify-center">
             <Dropdown>
-                  <DropdownTrigger>
-                    <Button
-                      variant="light"
-                      className="flex flex-row justify-center"
-                    >
-                      <BsThreeDotsVertical size={20} className="text-gray-400" />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="edit">
-                      <FormModals
-                        buttonName={"Editar"}
-                        buttonColor={"transparent"}
-                        modalHeader={"Inserir Caraterísticas"}
-                        formTypeModal={31}
-                      ></FormModals>
-                    </DropdownItem>
-                    <DropdownItem key="delete">Remover</DropdownItem>
-                    <DropdownItem key="delete">Ver</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
+              <DropdownTrigger>
+                <Button
+                  variant="light"
+                  className="flex flex-row justify-center"
+                >
+                  <BsThreeDotsVertical size={20} className="text-gray-400" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                <DropdownItem key="edit">
+                  <FormModals
+                    buttonName={"Editar"}
+                    buttonColor={"transparent"}
+                    modalHeader={"Inserir Caraterísticas"}
+                    formTypeModal={31}
+                  ></FormModals>
+                </DropdownItem>
+                <DropdownItem key="delete">Remover</DropdownItem>
+                <DropdownItem key="delete">Ver</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         );
       default:
@@ -111,10 +111,10 @@ export default function Characteristics() {
   };
 
   return (
-    <main className="mx-5">
-      <div className="flex flex-col my-10 py-3">
+    <main>
+      <div className="flex flex-col mt-5 py-3">
         <p className="text-xs px-6">Caraterísticas</p>
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
               <Input
@@ -139,58 +139,27 @@ export default function Characteristics() {
           ></FormModals>
         </div>
       </div>
+      <div className="mx-5">
       <Table
         removeWrapper
-        isStriped
-        bottomContent={
-          <div className="flex w-full justify-between items-center">
-            <div className="flex items-center text-sm text-default-400">
-              Mostrando {items.length} de {filteredItems.length} resultados
-            </div>
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color="primary"
-              page={page}
-              total={pages}
-              onChange={(page) => setPage(page)}
-            />
-            <div>
-              <span className="text-sm text-default-400">
-                Resultados por página:
-              </span>
-              <select
-                value={rowsPerPage}
-                onChange={handleChangeRowsPerPage}
-                className="ml-2 py-1 px-2 border rounded bg-transparent text-sm text-default-400"
-              >
-                <option value={15}>15</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-              </select>
-            </div>
-          </div>
-        }
         classNames={{
           wrapper: "min-h-[222px]",
         }}
-        className='-mt-4'
       >
         <TableHeader>
-          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold">
             ID
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">
-            DESCRIÇÃO
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Descrição
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">
-            ABREVIATURA
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Abreviatura
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">
-            DETALHE
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Detalhe
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-[var(--white)] flex justify-center items-center">
+          <TableColumn className="bg-primary-600 text-white flex justify-center items-center">
             <GoGear size={20} />
           </TableColumn>
         </TableHeader>
@@ -202,7 +171,7 @@ export default function Characteristics() {
               <TableCell>{caracteristic.Abreviature}</TableCell>
               <TableCell>{caracteristic.Details}</TableCell>
               <TableCell className="flex justify-center">
-              <Dropdown>
+                <Dropdown>
                   <DropdownTrigger>
                     <Button
                       variant="light"
@@ -229,6 +198,43 @@ export default function Characteristics() {
           ))}
         </TableBody>
       </Table>
+      </div>
+     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-20 fixed bottom-0 right-0 z-20 text-sm text-default-400">
+  <div className="flex flex-row items-center">
+  <Pagination
+      isCompact
+      showControls
+      color="primary"
+      variant="flat"
+      page={page}
+      total={pages}
+      onChange={(page) => setPage(page)}
+      className="mx-5"
+    />
+        <div>
+      <span className="text-sm text-black">
+        Items por página:
+      </span>
+      <select
+        value={rowsPerPage}
+        onChange={handleChangeRowsPerPage}
+        className="ml-2 py-1 px-2 border rounded bg-transparent text-sm text-default-600 mx-5"
+      >
+        <option value={15}>15</option>
+        <option value={25}>25</option>
+        <option value={50}>50</option>
+      </select>
+    </div>
+    <div className="ml-5 mr-10 text-black">
+    {items.length > 0
+              ? `${(page - 1) * rowsPerPage + 1}-${Math.min(
+                  page * rowsPerPage,
+                  filteredItems.length
+                )} de ${filteredItems.length}`
+              : "0 resultados"}
+    </div>
+  </div>
+</div>
     </main>
   );
 }
