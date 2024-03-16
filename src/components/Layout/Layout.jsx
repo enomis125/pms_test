@@ -25,7 +25,7 @@ const Layout = ({ children, name }) => {
                 <button onClick={() => setShowModal(true)} className="py-2 px-3 mr-2 rounded-md text-slate-800 hover:bg-slate-100">Filtros</button>
             </Navbar>
 
-            <div className="flex absolute flex-col h-fit min-h-screen w-full lg:pl-72 bg-gray-100 top-0 pt-16">
+            <div className="flex absolute flex-col h-fit min-h-screen w-full lg:pl-72 bg-white-800 top-0 pt-16">
                 <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} name={name} />
                 {children}
             </div>
