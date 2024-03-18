@@ -9,10 +9,8 @@ import {
   Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
   //imports de inputs
   Input
-}
-  from "@nextui-org/react";
-//imports de dados
-import { typologys, actions, users } from "../../../data/data";
+} from "@nextui-org/react";
+
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -76,55 +74,43 @@ export default function Characteristics() {
 
   return (
     <main>
-      <div className="flex flex-col my-10 py-3">
-        <p className="text-xs px-6">Quartos</p>
-        <div className="flex flex-row justify-between items-center mx-5">
-          <div className="flex flex-row">
-            <div className="flex flex-wrap md:flex-nowrap gap-4">
-              <Input
-                className="mt-4 w-80"
-                placeholder="Procurar..."
-                labelPlacement="outside"
-                startContent={
-                  <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                }
-                value={searchValue}
-                onChange={(e) => handleSearchChange(e.target.value)}
-              />
-            </div>
-            <Autocomplete
-              variant="underlined"
-              label="Selecione a opção"
-              className="max-w-xs"
-            >
-              {typologys.map((typology) => (
-                <AutocompleteItem key={typology.value} value={typology.value}>
-                  {typology.label}
-                </AutocompleteItem>
-              ))}
-            </Autocomplete>
-            </div>
+    <div className="flex flex-col mt-5 py-3">
+      <p className="text-xs px-6">Quartos</p>
+      <div className="flex flex-row justify-between items-center mx-5">
+        <div className="flex flex-row">
+          <div className="flex flex-wrap md:flex-nowrap gap-4">
+            <Input
+              className="mt-4 w-80"
+              placeholder="Procurar..."
+              labelPlacement="outside"
+              startContent={
+                <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+              }
+              value={searchValue}
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
           </div>
-          <FormModals
-            buttonName={"Inserir Quarto"}
-            buttonIcon={<FiPlus size={15} />}
-            buttonColor={"primary"}
-            modalHeader={"Inserir Quarto"}
-            modalIcons={"bg-red"}
-            formTypeModal={21}
-          ></FormModals>
         </div>
+        <FormModals
+          buttonName={"Inserir Quartos"}
+          buttonIcon={<FiPlus size={15} />}
+          buttonColor={"primary"}
+          modalHeader={"Inserir Quartos"}
+          modalIcons={"bg-red"}
+          formTypeModal={21}
+        ></FormModals>
       </div>
-      <div className="mx-5 h-[65vh] min-h-full">
-      <Table
-      isHeaderSticky={"true"}
-        layout={"fixed"}
-        removeWrapper
-        classNames={{
-          wrapper: "min-h-[222px]",
-        }}
-        className="h-full overflow-auto"
-      >
+    </div>
+    <div className="mx-5 h-[65vh] min-h-full">
+    <Table
+    isHeaderSticky={"true"}
+      layout={"fixed"}
+      removeWrapper
+      classNames={{
+        wrapper: "min-h-[222px]",
+      }}
+      className="h-full overflow-auto"
+    >
         <TableHeader>
           <TableColumn className="bg-primary-600 text-white font-bold">
             ID
@@ -178,19 +164,19 @@ export default function Characteristics() {
                         buttonColor={"transparent"}
                         modalHeader={"Editar Quarto"}
                         formTypeModal={21}
-                      ></FormModals>
-                    </DropdownItem>
-                    <DropdownItem key="delete">Remover</DropdownItem>
-                    <DropdownItem key="see">Ver</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                        ></FormModals>
+                        </DropdownItem>
+                     <DropdownItem key="delete">Remover</DropdownItem>
+                     <DropdownItem key="delete">Ver</DropdownItem>
+                   </DropdownMenu>
+                 </Dropdown>
+               </TableCell>
+             </TableRow>
+           ))}
+         </TableBody>
+       </Table>
       </div>
- <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
+     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
   <div className="flex flex-row items-center">
   <Pagination
       isCompact

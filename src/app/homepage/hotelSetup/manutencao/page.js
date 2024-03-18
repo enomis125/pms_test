@@ -74,7 +74,7 @@ export default function Characteristics() {
 
   return (
     <main>
-    <div className="flex flex-col my-10 py-3">
+      <div className="flex flex-col mt-5 py-3">
         <p className="text-xs px-6">Manutenção</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
@@ -89,18 +89,6 @@ export default function Characteristics() {
                 value={searchValue}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
-            </div>
-    <Autocomplete 
-      variant="underlined"
-        label="Selecione a opção" 
-        className="max-w-xs" 
-      >
-        {typologys.map((typology) => (
-          <AutocompleteItem key={typology.value} value={typology.value}>
-            {typology.label}
-          </AutocompleteItem>
-        ))}
-      </Autocomplete>
             </div>
           </div>
           <FormModals

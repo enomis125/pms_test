@@ -74,12 +74,12 @@ export default function Characteristics() {
 
   return (
     <main>
-    <div className="flex flex-col my-10 py-3">
+      <div className="flex flex-col mt-5 py-3">
         <p className="text-xs px-6">Grupo de Tipologias</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
-          <Input
+              <Input
                 className="mt-4 w-80"
                 placeholder="Procurar..."
                 labelPlacement="outside"
@@ -89,33 +89,20 @@ export default function Characteristics() {
                 value={searchValue}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
-    </div>
-    <Autocomplete 
-      variant="underlined"
-        label="Selecione a opção" 
-        className="max-w-xs" 
-      >
-        {typologys.map((typology) => (
-          <AutocompleteItem key={typology.value} value={typology.value}>
-            {typology.label}
-          </AutocompleteItem>
-        ))}
-      </Autocomplete>
             </div>
           </div>
           <FormModals
-            buttonName={"Inserir Grupo de Tipologia"}
+            buttonName={"Inserir Grupo Tipologias"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Inserir Grupo de Tipologia"}
+            modalHeader={"Inserir Grupo de Tipologias"}
             modalIcons={"bg-red"}
             formTypeModal={11}
           ></FormModals>
         </div>
-    </div>
-    <div className="mx-5 h-[65vh] min-h-full">
-    <Table
-
+      </div>
+      <div className="mx-5 h-[65vh] min-h-full">
+      <Table
       isHeaderSticky={"true"}
         layout={"fixed"}
         removeWrapper
@@ -178,17 +165,18 @@ export default function Characteristics() {
                         modalHeader={"Editar Grupo de Tipologias"}
                         formTypeModal={11}
                       ></FormModals>
-                    </DropdownItem>
+                       </DropdownItem>
                     <DropdownItem key="delete">Remover</DropdownItem>
-                    <DropdownItem key="see">Ver</DropdownItem>
+                    <DropdownItem key="delete">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
-                </TableCell>
+              </TableCell>
             </TableRow>
+          ))}
         </TableBody>
-    </Table>
-    </div>
-    <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
+      </Table>
+      </div>
+     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
   <div className="flex flex-row items-center">
   <Pagination
       isCompact
