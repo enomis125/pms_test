@@ -15,9 +15,9 @@ export async function GET(request) {
 
     const id = parts[parts.length - 1];
 
-    const characteristicsRecords = await prisma.carateristics.findUnique({
+    const characteristicsRecords = await prisma.characteristics.findUnique({
         where: {
-            idCarateristics: parseInt(id)
+            characteristicID: parseInt(id)
         }
     })
 
@@ -38,14 +38,14 @@ export async function PATCH(request) {
 
     try {
         const { idCarateristics, Description, Abreviature, Details } = await request.json();
-        const updateRecord = await prisma.carateristics.update({
+        const updateRecord = await prisma.characteristics.update({
             where: {
-                idCarateristics: idCarateristics,
+                characteristicID: idCarateristics,
             },
             data: {
-                Description: Description,
-                Abreviature: Abreviature,
-                Details: Details
+                description: Description,
+                abreviature: Abreviature,
+                details: Details
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));

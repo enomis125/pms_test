@@ -7,7 +7,7 @@ export async function GET(request) {
 
     const prisma = new PrismaClient()
 
-    const characteristicsRecords = await prisma.carateristics.findMany()
+    const characteristicsRecords = await prisma.characteristics.findMany()
 
     const response = characteristicsRecords
 
@@ -21,11 +21,11 @@ export async function PUT(request) {
 
     try {
         const { Description, Abreviature, Details } = await request.json();
-        const newRecord = await prisma.carateristics.create({
+        const newRecord = await prisma.characteristics.create({
             data: {
-                Description,
-                Abreviature,
-                Details
+                description: Description,
+                abreviature: Abreviature,
+                details: Details
             }
         });
 

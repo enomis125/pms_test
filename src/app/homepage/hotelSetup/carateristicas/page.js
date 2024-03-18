@@ -37,10 +37,10 @@ export default function Characteristics() {
 
   const filteredItems = React.useMemo(() => {
     return caracteristics.filter((caracteristic) =>
-      caracteristic.Description.toLowerCase().includes(
+      caracteristic.description.toLowerCase().includes(
         searchValue.toLowerCase()
       ) ||
-      caracteristic.idCarateristics.toString().toLowerCase().includes(
+      caracteristic.characteristicID.toString().toLowerCase().includes(
         searchValue.toLowerCase()
       )
     );
@@ -128,10 +128,10 @@ export default function Characteristics() {
         <TableBody>
           {items.map((caracteristic, index) => (
             <TableRow key={index}>
-              <TableCell>{caracteristic.idCarateristics}</TableCell>
-              <TableCell>{caracteristic.Description}</TableCell>
-              <TableCell>{caracteristic.Abreviature}</TableCell>
-              <TableCell><p className="truncate ">{caracteristic.Details}</p></TableCell>
+              <TableCell>{caracteristic.characteristicID}</TableCell>
+              <TableCell>{caracteristic.description}</TableCell>
+              <TableCell>{caracteristic.abreviature}</TableCell>
+              <TableCell><p className="truncate ">{caracteristic.details}</p></TableCell>
               <TableCell className="flex justify-center">
                 <Dropdown>
                   <DropdownTrigger>
