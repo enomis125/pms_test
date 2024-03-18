@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
 
-export async function GET(req) {
+export async function GET(request) {
 
     const prisma = new PrismaClient()
 
     console.log("1")
 
-    const pathname = new URL(req.url).pathname;
+    const pathname = new URL(request.url).pathname;
 
     const parts = pathname.split('/');
 
@@ -30,6 +30,32 @@ export async function GET(req) {
     prisma.$disconnect()
 
     return new NextResponse(JSON.stringify({response, status: 200 }));
+}
+
+export async function PATCH(request) {
+
+    const prisma = new PrismaClient()
+
+    try {
+        const { idCarateristics, Description, Abreviature, Details } = await request.json();
+        const updateRecord = await prisma.carateristics.update({
+            where: {
+                idCarateristics: idCarateristics,
+            },
+            data: {
+                Description: Description,
+                Abreviature: Abreviature,
+                Details: Details
+            }
+        })
+        return new NextResponse(JSON.stringify({status: 200 }));
+
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
+
 }
 
 
