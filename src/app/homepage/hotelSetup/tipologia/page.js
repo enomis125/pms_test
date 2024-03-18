@@ -96,6 +96,8 @@ export default function Typology() {
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
+                  value={searchValue}
+                onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>
             <Autocomplete
@@ -109,9 +111,6 @@ export default function Typology() {
                 </AutocompleteItem>
               ))}
             </Autocomplete>
-                value={searchValue}
-                onChange={(e) => handleSearchChange(e.target.value)}
-              />
             </div>
           </div>
           <FormModals
