@@ -38,6 +38,31 @@ export async function PUT(request) {
     }
 }
 
+export async function PATCH(request) {
+
+    const prisma = new PrismaClient()
+
+    try {
+        const { idCarateristics, Description, Abreviature, Details } = await request.json();
+        const updateRecord = await prisma.characteristics.update({
+            where: {
+                characteristicID: idCarateristics,
+            },
+            data: {
+                description: Description,
+                abreviature: Abreviature,
+                details: Details
+            }
+        })
+        return new NextResponse(JSON.stringify({status: 200 }));
+
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
+
+}
 
 
 
