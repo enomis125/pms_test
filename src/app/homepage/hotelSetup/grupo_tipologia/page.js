@@ -1,43 +1,77 @@
-"use client"
-
-import React , {useState} from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+//import de axios para BD
+import axios from "axios";
 import {
-  //imports para tabela
-  Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, getKeyValue, 
+  //imports de tabelas
+  Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination,
   //imports de dropdown menu
-  Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button,
-  //imports de autocomplete box 
-  Autocomplete, AutocompleteItem,
+  Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
   //imports de inputs
   Input
-} 
-from "@nextui-org/react";
-//imports de dados
-import {typologys, actions, users } from "../../../data/data";
+} from "@nextui-org/react";
+
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
-//imports de modals
-import FormModals from "@/components/modal/hotelSetup/formModals"
+
+//imports de componentes
+import FormModals from "@/components/modal/hotelSetup/formModals";
+
+//imports de dados
+import { typologys, actions, users } from "../../../data/data";
 
 
-
-
-export default function TypologyGroup() {
+export default function Characteristics() {
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 10;
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [searchValue, setSearchValue] = React.useState("");
+  const [caracteristics, setCaracteristics] = useState([]);
 
-  const pages = Math.ceil(users.length / rowsPerPage);
+  useEffect(() => {
+    const getData = async () => {
+      const res = await axios.get("/api/hotel/caracteristicas");
+      setCaracteristics(res.data.response);
+    };
+    getData();
+  }, []);
+
+  const filteredItems = React.useMemo(() => {
+    return caracteristics.filter((caracteristic) =>
+      caracteristic.Description.toLowerCase().includes(
+        searchValue.toLowerCase()
+      ) ||
+      caracteristic.idCarateristics.toString().toLowerCase().includes(
+        searchValue.toLowerCase()
+      )
+    );
+  }, [caracteristics, searchValue]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return users.slice(start, end);
-  }, [page, users]);
-  
+    return filteredItems.slice(start, end);
+  }, [page, filteredItems, rowsPerPage]);
+
+  const pages = Math.ceil(filteredItems.length / rowsPerPage);
+
+  const renderCell = React.useCallback((caracteristic, columnKey) => {
+    const cellValue = caracteristic[columnKey];
+  }, []);
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
+
+  const handleSearchChange = (value) => {
+    setSearchValue(value);
+    setPage(1);
+  };
+
   return (
     <main>
     <div className="flex flex-col my-10 py-3">
@@ -65,12 +99,16 @@ export default function TypologyGroup() {
           </AutocompleteItem>
         ))}
       </Autocomplete>
+                value={searchValue}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
+            </div>
           </div>
           <FormModals
-            buttonName={"Inserir Grupo Tipologias"}
+            buttonName={"Inserir Grupo de Tipologia"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Inserir Grupo de Tipologias"}
+            modalHeader={"Inserir Grupo de Tipologia"}
             modalIcons={"bg-red"}
             formTypeModal={11}
           ></FormModals>
@@ -78,6 +116,7 @@ export default function TypologyGroup() {
     </div>
     <div className="mx-5 h-[65vh] min-h-full">
     <Table
+
       isHeaderSticky={"true"}
         layout={"fixed"}
         removeWrapper
@@ -87,35 +126,52 @@ export default function TypologyGroup() {
         className="h-full overflow-auto"
       >
         <TableHeader>
-            <TableColumn className="bg-primary-600 text-white">ID</TableColumn>
-            <TableColumn className="bg-primary-600 text-white font-bold">COD.</TableColumn>
-            <TableColumn className="bg-primary-600 text-white font-bold">DESCRIÇÃO</TableColumn>
-            <TableColumn className="bg-primary-600 text-white font-bold">ABREVIATURA</TableColumn>
-            <TableColumn className="bg-primary-600 text-white font-bold">DETALHE</TableColumn>
-            <TableColumn className="bg-primary-600 text-white font-bold">ESTADO</TableColumn>
-            <TableColumn className="bg-primary-600 text-white font-bold">ORDEM</TableColumn>
-            <TableColumn className="bg-primary-600 text-white px-10 flex justify-center items-center"><GoGear size={20}/></TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            ID
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            COD.
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Descrição
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Abreviatura
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Detalhe
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Estado
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold">
+            Ordem
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white flex justify-center items-center">
+            <GoGear size={20} />
+          </TableColumn>
         </TableHeader>
         <TableBody>
-            <TableRow key="1">
-                <TableCell>1</TableCell>
-                <TableCell>1234</TableCell>
-                <TableCell>Quarto Duplo</TableCell>
-                <TableCell>QD</TableCell>
-                <TableCell>Quarto duplo em suite no madagascar</TableCell>
-                <TableCell>Livre</TableCell>
-                <TableCell>PEN</TableCell>
-                <TableCell className="flex flex-row gap-4 justify-center">
+          {items.map((caracteristic, index) => (
+            <TableRow key={index}>
+              <TableCell>Alterar</TableCell>
+              <TableCell>Alterar</TableCell>
+              <TableCell>Alterar</TableCell>
+              <TableCell><p className="truncate ">Alterar</p></TableCell>
+              <TableCell><p className="truncate ">Alterar</p></TableCell>
+              <TableCell><p className="truncate ">Alterar</p></TableCell>
+              <TableCell><p className="truncate ">Alterar</p></TableCell>
+              <TableCell className="flex justify-center">
                 <Dropdown>
-                <DropdownTrigger>
-                    <Button 
-                    variant="light" 
-                    className="flex flex-row justify-center"
+                  <DropdownTrigger>
+                    <Button
+                      variant="light"
+                      className="flex flex-row justify-center"
                     >
-                    <BsThreeDotsVertical size={20} className="text-gray-400"/>
+                      <BsThreeDotsVertical size={20} className="text-gray-400" />
                     </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
                       <FormModals
                         buttonName={"Editar"}
@@ -151,6 +207,7 @@ export default function TypologyGroup() {
       </span>
       <select
         value={rowsPerPage}
+        onChange={handleChangeRowsPerPage}
         className="ml-2 py-1 px-2 border rounded bg-transparent text-sm text-default-600 mx-5"
       >
         <option value={15}>15</option>
@@ -159,10 +216,15 @@ export default function TypologyGroup() {
       </select>
     </div>
     <div className="ml-5 mr-10 text-black">
-      <p>X Resultados</p>
+    {items.length > 0
+              ? `${(page - 1) * rowsPerPage + 1}-${Math.min(
+                  page * rowsPerPage,
+                  filteredItems.length
+                )} de ${filteredItems.length}`
+              : "0 resultados"}
     </div>
   </div>
 </div>
     </main>
-  )
+  );
 }

@@ -57,8 +57,6 @@ export default function Characteristics() {
 
   const renderCell = React.useCallback((caracteristic, columnKey) => {
     const cellValue = caracteristic[columnKey];
-
-
   }, []);
 
   const handleChangeRowsPerPage = (event) => {
