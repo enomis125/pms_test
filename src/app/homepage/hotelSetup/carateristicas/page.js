@@ -18,7 +18,7 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 
 //imports de componentes
-import FormModals from "@/components/modal/formModals";
+import FormModals from "@/components/modal/hotelSetup/formModals";
 
 //imports de dados
 import { typologys, actions, users } from "../../../data/data";
@@ -60,44 +60,6 @@ export default function Characteristics() {
 
   const renderCell = React.useCallback((caracteristic, columnKey) => {
     const cellValue = caracteristic[columnKey];
-
-    switch (columnKey) {
-      case "Description":
-        return cellValue;
-      case "Abreviature":
-        return cellValue;
-      case "Details":
-        return cellValue;
-      case "actions":
-        return (
-          <div className="flex flex-row gap-4 justify-center">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  variant="light"
-                  className="flex flex-row justify-center"
-                >
-                  <BsThreeDotsVertical size={20} className="text-gray-400" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                <DropdownItem key="edit">
-                  <FormModals
-                    buttonName={"Editar"}
-                    buttonColor={"transparent"}
-                    modalHeader={"Inserir Caraterísticas"}
-                    formTypeModal={31}
-                  ></FormModals>
-                </DropdownItem>
-                <DropdownItem key="delete">Remover</DropdownItem>
-                <DropdownItem key="delete">Ver</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
   }, []);
 
   const handleChangeRowsPerPage = (event) => {
@@ -111,7 +73,7 @@ export default function Characteristics() {
   };
 
   return (
-    <main className="">
+    <main>
       <div className="flex flex-col mt-5 py-3">
         <p className="text-xs px-6">Caraterísticas</p>
         <div className="flex flex-row justify-between items-center mx-5">

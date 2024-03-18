@@ -81,7 +81,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
     return (
         <>
 
-            {formTypeModal === 10 && (
+            {formTypeModal === 10 && ( //Grupo de tipologias
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -123,7 +123,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                 </>
             )}
 
-            {formTypeModal === 11 && (
+            {formTypeModal === 11 && ( //Grupo de tipologias
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -172,7 +172,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                 </>
             )}
 
-            {formTypeModal === 20 && (
+            {formTypeModal === 20 && ( //Quartos
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -300,7 +300,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                 </>
             )}
 
-            {formTypeModal === 21 && (
+            {formTypeModal === 21 && ( //Quartos
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -432,7 +432,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
             )}
 
 
-            {formTypeModal === 30 && (
+            {formTypeModal === 30 && ( //Carateristicas
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -463,7 +463,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                 </>
             )}
 
-            {formTypeModal === 31 && (
+            {formTypeModal === 31 && ( //Carateristicas
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -501,7 +501,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                 </>
             )}
 
-            {formTypeModal === 40 && (
+            {formTypeModal === 40 && ( //Tipologias
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -595,7 +595,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                 </>
             )}
 
-            {formTypeModal === 41 && (
+            {formTypeModal === 41 && ( //Tipologias
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -695,7 +695,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                     </Modal>
                 </>
             )}
-            {formTypeModal === 50 && (
+            {formTypeModal === 50 && ( //Manutenção
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -764,7 +764,7 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
             )}
 
 
-            {formTypeModal === 51 && (
+            {formTypeModal === 51 && ( //Manutenção
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" radius="md">
                         {buttonName}
