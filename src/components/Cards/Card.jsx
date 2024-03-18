@@ -13,7 +13,8 @@ import { MdOutlineAddCircleOutline } from "react-icons/md";
 import FormModals from "@/components/modal/hotelSetup/formModals";
 
 
-const Cartao = ({ title, description, counter1, counter2, icon, listType, formType, formTypeCard}) => {
+
+const Cartao = ({ title, description, counter1, counter2, icon, listType, formTypeCard}) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();

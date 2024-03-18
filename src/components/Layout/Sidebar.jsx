@@ -10,6 +10,7 @@ import { FaTruck } from "react-icons/fa";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { FaHotel } from "react-icons/fa";
+import { PiUsersFourFill } from "react-icons/pi";
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
 
@@ -60,10 +61,41 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
         },
 
         "Cardex Setup" :{
+            icon: <PiUsersFourFill size={20}/>,
             active:true,
             items: [
                 {
                     ref: "/homepage/cardex/", label: "Cardex", active: true
+                },
+                {
+                    ref: "/homepage/cardex/saudacao", label: "Saudação", active: true
+                },
+                {
+                    ref: "/homepage/cardex/nacionalidades", label: "Nacionalidades", active: true
+                },
+                {
+                    ref: "/homepage/cardex/metodo_conhecimento", label: "Método de Conhecimento", active: true
+                },
+                {
+                    ref: "/homepage/cardex/profissao", label: "Profissão", active: true
+                },
+                {
+                    ref: "/homepage/cardex/documento_identificacao", label: "Documento de Identificação", active: true
+                },
+                {
+                    ref: "/homepage/cardex/idiomas", label: "Idiomas", active: true
+                },
+                {
+                    ref: "/homepage/cardex/preferencia_cliente", label: "Preferências de Cliente", active: true
+                },
+                {
+                    ref: "/homepage/cardex/membros", label: "Membros", active: true
+                },
+                {
+                    ref: "/homepage/cardex/marketing", label: "Marketing", active: true
+                },
+                {
+                    ref: "/homepage/cardex/tipos_vip", label: "Tipos de VIP", active: true
                 },
             ]
         }
