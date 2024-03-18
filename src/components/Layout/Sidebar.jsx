@@ -98,6 +98,46 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/cardex/tipos_vip", label: "Tipos de VIP", active: true
                 },
             ]
+        },
+
+        "Booking":{
+            icon: <FaCalendarAlt  size={20} />,
+            active: true,
+            items: [
+                {
+                    ref: "/homepage/booking", label: "Booking", active: true
+                },
+                {
+                    ref: "/homepage/booking/estados_de_reservas", label: "Estados de reservas", active: true
+                },
+                {
+                    ref: "/homepage/booking/segmentos_de_mercado", label: "Segmentos de mercado", active: true
+                },
+                {
+                    ref: "/homepage/booking/origens_de_mercado", label: "Origens de mercado", active: true
+                },
+                {
+                    ref: "/homepage/booking/formas_de_conhecimento", label: "Formas de conhecimento", active: true
+                },
+                {
+                    ref: "/homepage/booking/motivos_de_reserva", label: "Motivos de reservas", active: true
+                },
+                {
+                    ref: "/homepage/booking/codigos_de_substituicao", label: " Códigos de substituição", active: true
+                },
+                {
+                    ref: "/homepage/booking/tabela_de_recusa", label: " Tabela de recusas", active: true
+                },
+                {
+                    ref: "/homepage/booking/tabela_de_transfer", label: "Tipos de PickUp", active: true
+                },
+                {
+                    ref: "/homepage/booking/tipos_de_mudanca_de_reservas", label: "T. Mudança de reservas", active: true
+                },
+                {
+                    ref: "/homepage/booking/tipos_de_cancelamento", label: "Tipos de cancelamentos", active: true
+                },
+            ]
         }
     }
     return (
