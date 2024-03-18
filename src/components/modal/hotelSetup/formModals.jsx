@@ -125,22 +125,28 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
 
             {formTypeModal === 11 && (
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
-                        {buttonName}
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
                     </Button>
                     <Modal
                         classNames={{
                             base: "max-h-screen",
-                            wrapper: "lg:pl-72 h-screen w-full",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <div className='flex flex-row items-center mr-5'>
+                                            <Button color="transparent" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onPress={onClose}><RxExit size={25} /></Button>
+                                        </div>
+                                        </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                             <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                             <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
@@ -156,14 +162,6 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                         </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -302,13 +300,13 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
 
             {formTypeModal === 21 && (
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
-                        {buttonName}
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
                     </Button>
                     <Modal
                         classNames={{
                             base: "max-h-screen",
-                            wrapper: "lg:pl-72 h-screen w-full",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
                             body: "h-full",
                         }}
                         size="full"
@@ -317,7 +315,13 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="">{modalHeader}</ModalHeader>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <div className='flex flex-row items-center mr-5'>
+                                            <Button color="transparent" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onPress={onClose}><RxExit size={25} /></Button>
+                                        </div>
+                                        </ModalHeader>
                                     <ModalBody>
                                         <div className="w-full flex flex-col gap-4">
                                             {variants.map((variant) => (
@@ -416,14 +420,6 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                                         </div>
 
                                     </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="danger" variant="light" onPress={onClose}>
-                                            Close
-                                        </Button>
-                                        <Button color="primary" onPress={onClose}>
-                                            Action
-                                        </Button>
-                                    </ModalFooter>
                                 </>
                             )}
                         </ModalContent>
@@ -597,13 +593,13 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
 
             {formTypeModal === 41 && (
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
-                        {buttonName}
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
                     </Button>
                     <Modal
                         classNames={{
                             base: "max-h-screen",
-                            wrapper: "lg:pl-72 h-screen w-full",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
                             body: "h-full",
                         }}
                         size="full"
@@ -611,7 +607,13 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <div className='flex flex-row items-center mr-5'>
+                                            <Button color="transparent" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onPress={onClose}><RxExit size={25} /></Button>
+                                        </div>
+                                        </ModalHeader>
                                     <ModalBody>
                                         <ScrollShadow hideScrollBar className="h-[400px]">
                                             <div className="w-full flex flex-col gap-5 mb-4">
@@ -680,15 +682,6 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                                             </div>
                                         </ScrollShadow>
                                     </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="danger" variant="light" onPress={onClose}>
-                                            Close
-                                        </Button>
-                                        <Button color="primary" onPress={onClose}>
-                                            Action
-                                        </Button>
-                                    </ModalFooter>
-
                                 </>
                             )}
                         </ModalContent>
@@ -766,23 +759,27 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
 
             {formTypeModal === 51 && (
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" radius="md">
-                        {buttonName}
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
                     </Button>
-
                     <Modal
                         classNames={{
                             base: "max-h-screen",
-                            wrapper: "lg:pl-72 h-screen w-full",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}
-                    >
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <div className='flex flex-row items-center mr-5'>
+                                            <Button color="transparent" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onPress={onClose}><RxExit size={25} /></Button>
+                                        </div>
+                                        </ModalHeader>
                                     <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                         <div className="flex flex-row items-center">
                                             <input
@@ -817,15 +814,6 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                                             </label>
                                         </div>
                                     </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="danger" variant="light" onPress={onClose}>
-                                            Close
-                                        </Button>
-                                        <Button color="primary" onPress={onClose}>
-                                            Action
-                                        </Button>
-                                    </ModalFooter>
-
                                 </>
                             )}
                         </ModalContent>

@@ -17,9 +17,10 @@ import {typologys, actions, users } from "../../../data/data";
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { IoMdSearch } from "react-icons/io";
+import { FiSearch } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 //import de modals
-import FormModals from "@/components/modal/formModals"
+import FormModals from "@/components/modal/hotelSetup/formModals"
 
 
 export default function Characteristics() {
@@ -36,22 +37,21 @@ export default function Characteristics() {
   }, [page, users]);
 
   return (
-    <main className="mx-5">
+    <main>
     <div className="flex flex-col my-10 py-3">
         <p className="text-xs px-6">Manutenção</p>
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
-          <div className="flex flex-wrap md:flex-nowrap gap-4">
-        <Input
-        className="mt-4 w-80"
-          placeholder="Pesquisa"
-          labelPlacement="outside"
-          startContent={
-            <IoMdSearch className="text-2xl text-default-400 pointer-events-none flex-shrink-0"/>
-
-          }
-        />
-    </div>
+            <div className="flex flex-wrap md:flex-nowrap gap-4">
+              <Input
+                className="mt-4 w-80"
+                placeholder="Procurar..."
+                labelPlacement="outside"
+                startContent={
+                  <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
+              />
+            </div>
     <Autocomplete 
       variant="underlined"
         label="Selecione a opção" 
@@ -64,32 +64,32 @@ export default function Characteristics() {
         ))}
       </Autocomplete>
           </div>
-      <Button color="primary">Inserir</Button>
+          <FormModals
+            buttonName={"Inserir Manutenção"}
+            buttonIcon={<FiPlus size={15} />}
+            buttonColor={"primary"}
+            modalHeader={"Inserir Manutenção"}
+            modalIcons={"bg-red"}
+            formTypeModal={51}
+          ></FormModals>
         </div>
     </div>
-    <Table removeWrapper
-     bottomContent={
-      <div className="flex w-full justify-center">
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color="var(--dark-green)"
-          page={page}
-          total={pages}
-          onChange={(page) => setPage(page)}
-        />
-      </div>
-    }
-    classNames={{
-      wrapper: "min-h-[222px]",
-    }}>
+    <div className="mx-5 h-[65vh] min-h-full">
+        <Table
+          isHeaderSticky={"true"}
+          layout={"fixed"}
+          removeWrapper
+          classNames={{
+            wrapper: "min-h-[222px]",
+          }}
+          className="h-full overflow-auto"
+        >
         <TableHeader>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">ID</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">DESCRIÇÃO</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">ABREVIATURA</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] font-bold">DETALHE</TableColumn>
-            <TableColumn className="bg-primary-600 text-[var(--white)] flex justify-center items-center"><GoGear size={20}/></TableColumn>
+            <TableColumn className="bg-primary-600 text-white font-bold">ID</TableColumn>
+            <TableColumn className="bg-primary-600 text-white font-bold">DESCRIÇÃO</TableColumn>
+            <TableColumn className="bg-primary-600 text-white font-bold">ABREVIATURA</TableColumn>
+            <TableColumn className="bg-primary-600 text-white font-bold">DETALHE</TableColumn>
+            <TableColumn className="bg-primary-600 text-white flex justify-center items-center"><GoGear size={20}/></TableColumn>
         </TableHeader>
         <TableBody>
             <TableRow key="1">
@@ -108,48 +108,53 @@ export default function Characteristics() {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                <DropdownItem key="edit">
-                      <FormModals 
-                      buttonName={"Editar"} 
-                      modalHeader={"Inserir Manutenção"} 
-                      formTypeModal={51} 
+                    <DropdownItem key="edit">
+                      <FormModals
+                        buttonName={"Editar"}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Manutenção"}
+                        formTypeModal={41}
                       ></FormModals>
-                  </DropdownItem>
-                    <DropdownItem key="copy">Apagar</DropdownItem>
-                </DropdownMenu>
-                </Dropdown>
-                </TableCell>
-            </TableRow>
-            <TableRow key="2">
-                <TableCell>1</TableCell>
-                <TableCell>1234</TableCell>
-                <TableCell>Quarto Duplo</TableCell>
-                <TableCell>QD</TableCell>
-                <TableCell className="flex flex-row gap-4 justify-center">
-                <Dropdown>
-                <DropdownTrigger>
-                    <Button 
-                    variant="light" 
-                    className="flex flex-row justify-center"
-                    >
-                    <BsThreeDotsVertical size={20} className="text-gray-400"/>
-                    </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                <DropdownItem key="edit">
-                      <FormModals 
-                      buttonName={"Editar"} 
-                      modalHeader={"Inserir Manutenção"} 
-                      formTypeModal={51} 
-                      ></FormModals>
-                  </DropdownItem>
-                    <DropdownItem key="copy">Apagar</DropdownItem>
-                </DropdownMenu>
+                    </DropdownItem>
+                    <DropdownItem key="delete">Remover</DropdownItem>
+                    <DropdownItem key="see">Ver</DropdownItem>
+                  </DropdownMenu>
                 </Dropdown>
                 </TableCell>
             </TableRow>
         </TableBody>
     </Table>
+    </div>
+    <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
+        <div className="flex flex-row items-center">
+          <Pagination
+            isCompact
+            showControls
+            color="primary"
+            variant="flat"
+            page={page}
+            total={pages}
+            onChange={(page) => setPage(page)}
+            className="mx-5"
+          />
+          <div>
+            <span className="text-sm text-black">
+              Items por página:
+            </span>
+            <select
+              value={rowsPerPage}
+              className="ml-2 py-1 px-2 border rounded bg-transparent text-sm text-default-600 mx-5"
+            >
+              <option value={15}>15</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
+          <div className="ml-5 mr-10 text-black">
+            <p>X Resultados</p>
+          </div>
+        </div>
+      </div>
     </main>
   )
 }

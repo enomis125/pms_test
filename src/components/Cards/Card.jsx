@@ -10,7 +10,7 @@ import { MdTableRows } from "react-icons/md";
 import { GoPlus } from "react-icons/go";
 import { LuPlus } from "react-icons/lu";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
-import FormModals from "@/components/modal/formModals";
+import FormModals from "@/components/modal/hotelSetup/formModals";
 
 
 const Cartao = ({ title, description, counter1, counter2, icon, listType, formType, formTypeCard}) => {

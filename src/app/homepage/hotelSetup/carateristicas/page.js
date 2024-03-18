@@ -18,10 +18,7 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 
 //imports de componentes
-import FormModals from "@/components/modal/formModals";
-
-//imports de dados
-import { typologys, actions, users } from "../../../data/data";
+import FormModals from "@/components/modal/hotelSetup/formModals";
 
 
 export default function Characteristics() {
@@ -61,43 +58,7 @@ export default function Characteristics() {
   const renderCell = React.useCallback((caracteristic, columnKey) => {
     const cellValue = caracteristic[columnKey];
 
-    switch (columnKey) {
-      case "Description":
-        return cellValue;
-      case "Abreviature":
-        return cellValue;
-      case "Details":
-        return cellValue;
-      case "actions":
-        return (
-          <div className="flex flex-row gap-4 justify-center">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  variant="light"
-                  className="flex flex-row justify-center"
-                >
-                  <BsThreeDotsVertical size={20} className="text-gray-400" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                <DropdownItem key="edit">
-                  <FormModals
-                    buttonName={"Editar"}
-                    buttonColor={"transparent"}
-                    modalHeader={"Inserir Caraterísticas"}
-                    formTypeModal={31}
-                  ></FormModals>
-                </DropdownItem>
-                <DropdownItem key="delete">Remover</DropdownItem>
-                <DropdownItem key="delete">Ver</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
+
   }, []);
 
   const handleChangeRowsPerPage = (event) => {
@@ -111,7 +72,7 @@ export default function Characteristics() {
   };
 
   return (
-    <main className="">
+    <main>
       <div className="flex flex-col mt-5 py-3">
         <p className="text-xs px-6">Caraterísticas</p>
         <div className="flex flex-row justify-between items-center mx-5">
@@ -133,7 +94,7 @@ export default function Characteristics() {
             buttonName={"Inserir Caraterística"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Editar Caraterísticas"}
+            modalHeader={"Inserir Caraterísticas"}
             modalIcons={"bg-red"}
             formTypeModal={31}
           ></FormModals>
@@ -202,7 +163,7 @@ export default function Characteristics() {
         </TableBody>
       </Table>
       </div>
-     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-20 fixed bottom-0 right-0 z-20 text-sm text-default-400">
+     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
   <div className="flex flex-row items-center">
   <Pagination
       isCompact
