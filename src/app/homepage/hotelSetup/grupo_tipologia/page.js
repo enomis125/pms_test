@@ -74,18 +74,31 @@ export default function Characteristics() {
 
   return (
     <main>
-      <div className="flex flex-col mt-5 py-3">
-        <p className="text-xs px-6">Grupo de tipologias</p>
+    <div className="flex flex-col my-10 py-3">
+        <p className="text-xs px-6">Grupo de Tipologias</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
-              <Input
+          <Input
                 className="mt-4 w-80"
                 placeholder="Procurar..."
                 labelPlacement="outside"
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
+              />
+    </div>
+    <Autocomplete 
+      variant="underlined"
+        label="Selecione a opção" 
+        className="max-w-xs" 
+      >
+        {typologys.map((typology) => (
+          <AutocompleteItem key={typology.value} value={typology.value}>
+            {typology.label}
+          </AutocompleteItem>
+        ))}
+      </Autocomplete>
                 value={searchValue}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
@@ -100,9 +113,10 @@ export default function Characteristics() {
             formTypeModal={11}
           ></FormModals>
         </div>
-      </div>
-      <div className="mx-5 h-[65vh] min-h-full">
-      <Table
+    </div>
+    <div className="mx-5 h-[65vh] min-h-full">
+    <Table
+
       isHeaderSticky={"true"}
         layout={"fixed"}
         removeWrapper
@@ -116,7 +130,7 @@ export default function Characteristics() {
             ID
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold">
-            Cod.
+            COD.
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold">
             Descrição
@@ -162,21 +176,20 @@ export default function Characteristics() {
                       <FormModals
                         buttonName={"Editar"}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Grupo de Tipologia"}
+                        modalHeader={"Editar Grupo de Tipologias"}
                         formTypeModal={11}
                       ></FormModals>
                     </DropdownItem>
                     <DropdownItem key="delete">Remover</DropdownItem>
-                    <DropdownItem key="delete">Ver</DropdownItem>
+                    <DropdownItem key="see">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
-              </TableCell>
+                </TableCell>
             </TableRow>
-          ))}
         </TableBody>
-      </Table>
-      </div>
-     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-20 fixed bottom-0 right-0 z-20 text-sm text-default-400">
+    </Table>
+    </div>
+    <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
   <div className="flex flex-row items-center">
   <Pagination
       isCompact

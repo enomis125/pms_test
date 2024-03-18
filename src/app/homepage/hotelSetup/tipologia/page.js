@@ -9,20 +9,17 @@ import {
   Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
   //imports de inputs
   Input
-} from "@nextui-org/react";
-
+}
+  from "@nextui-org/react";
+//imports de dados
+import { typologys, actions, users } from "../../../data/data";
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
-
-//imports de componentes
-import FormModals from "@/components/modal/hotelSetup/formModals";
-
-//imports de dados
-import { typologys, actions, users } from "../../../data/data";
-
+//import de modal de tipologia
+import FormModals from "@/components/modal/hotelSetup/formModals"
 
 export default function Characteristics() {
   const [page, setPage] = React.useState(1);
@@ -72,9 +69,22 @@ export default function Characteristics() {
     setPage(1);
   };
 
+
+export default function Typology() {
+  const [page, setPage] = React.useState(1);
+  const rowsPerPage = 10;
+
+  const pages = Math.ceil(users.length / rowsPerPage);
+
+  const items = React.useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    return users.slice(start, end);
+  }, [page, users]);
   return (
     <main>
-      <div className="flex flex-col mt-5 py-3">
+      <div className="flex flex-col my-10 py-3">
         <p className="text-xs px-6">Tipologias</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
@@ -86,6 +96,19 @@ export default function Characteristics() {
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
+              />
+            </div>
+            <Autocomplete
+              variant="underlined"
+              label="Selecione a opção"
+              className="max-w-xs"
+            >
+              {typologys.map((typology) => (
+                <AutocompleteItem key={typology.value} value={typology.value}>
+                  {typology.label}
+                </AutocompleteItem>
+              ))}
+            </Autocomplete>
                 value={searchValue}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
@@ -171,7 +194,7 @@ export default function Characteristics() {
                       ></FormModals>
                     </DropdownItem>
                     <DropdownItem key="delete">Remover</DropdownItem>
-                    <DropdownItem key="delete">Ver</DropdownItem>
+                    <DropdownItem key="see">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </TableCell>
@@ -180,7 +203,7 @@ export default function Characteristics() {
         </TableBody>
       </Table>
       </div>
-     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-20 fixed bottom-0 right-0 z-20 text-sm text-default-400">
+     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
   <div className="flex flex-row items-center">
   <Pagination
       isCompact

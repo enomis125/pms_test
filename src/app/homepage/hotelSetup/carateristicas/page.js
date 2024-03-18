@@ -20,9 +20,6 @@ import { FiPlus } from "react-icons/fi";
 //imports de componentes
 import FormModals from "@/components/modal/hotelSetup/formModals";
 
-//imports de dados
-import { typologys, actions, users } from "../../../data/data";
-
 
 export default function Characteristics() {
   const [page, setPage] = React.useState(1);
@@ -95,7 +92,7 @@ export default function Characteristics() {
             buttonName={"Inserir Caraterística"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Editar Caraterísticas"}
+            modalHeader={"Inserir Caraterísticas"}
             modalIcons={"bg-red"}
             formTypeModal={31}
           ></FormModals>
@@ -164,7 +161,7 @@ export default function Characteristics() {
         </TableBody>
       </Table>
       </div>
-     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-20 fixed bottom-0 right-0 z-20 text-sm text-default-400">
+     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
   <div className="flex flex-row items-center">
   <Pagination
       isCompact

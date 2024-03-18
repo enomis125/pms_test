@@ -9,8 +9,10 @@ import {
   Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
   //imports de inputs
   Input
-} from "@nextui-org/react";
-
+}
+  from "@nextui-org/react";
+//imports de dados
+import { typologys, actions, users } from "../../../data/data";
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -74,7 +76,7 @@ export default function Characteristics() {
 
   return (
     <main>
-      <div className="flex flex-col mt-5 py-3">
+      <div className="flex flex-col my-10 py-3">
         <p className="text-xs px-6">Quartos</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
@@ -86,6 +88,19 @@ export default function Characteristics() {
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
+              />
+            </div>
+            <Autocomplete
+              variant="underlined"
+              label="Selecione a opção"
+              className="max-w-xs"
+            >
+              {typologys.map((typology) => (
+                <AutocompleteItem key={typology.value} value={typology.value}>
+                  {typology.label}
+                </AutocompleteItem>
+              ))}
+            </Autocomplete>
                 value={searchValue}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
@@ -154,7 +169,7 @@ export default function Characteristics() {
                       variant="light"
                       className="flex flex-row justify-center"
                     >
-                      <BsThreeDotsVertical size={20} className="text-gray-400" />
+                      <BsThreeDotsVertical size={20} className="text-gray-500" />
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
@@ -167,7 +182,7 @@ export default function Characteristics() {
                       ></FormModals>
                     </DropdownItem>
                     <DropdownItem key="delete">Remover</DropdownItem>
-                    <DropdownItem key="delete">Ver</DropdownItem>
+                    <DropdownItem key="see">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </TableCell>
@@ -176,7 +191,7 @@ export default function Characteristics() {
         </TableBody>
       </Table>
       </div>
-     <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-20 fixed bottom-0 right-0 z-20 text-sm text-default-400">
+ <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
   <div className="flex flex-row items-center">
   <Pagination
       isCompact
