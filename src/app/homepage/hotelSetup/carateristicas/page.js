@@ -111,7 +111,7 @@ export default function Characteristics() {
   };
 
   return (
-    <main>
+    <main className="">
       <div className="flex flex-col mt-5 py-3">
         <p className="text-xs px-6">Caraterísticas</p>
         <div className="flex flex-row justify-between items-center mx-5">
@@ -139,13 +139,15 @@ export default function Characteristics() {
           ></FormModals>
         </div>
       </div>
-      <div className="mx-5">
+      <div className="mx-5 h-[65vh] min-h-full">
       <Table
+      isHeaderSticky={"true"}
         layout={"fixed"}
         removeWrapper
         classNames={{
           wrapper: "min-h-[222px]",
         }}
+        className="h-full overflow-auto"
       >
         <TableHeader>
           <TableColumn className="bg-primary-600 text-white font-bold">
