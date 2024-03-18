@@ -69,19 +69,6 @@ export default function Characteristics() {
     setPage(1);
   };
 
-
-export default function Typology() {
-  const [page, setPage] = React.useState(1);
-  const rowsPerPage = 10;
-
-  const pages = Math.ceil(users.length / rowsPerPage);
-
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return users.slice(start, end);
-  }, [page, users]);
   return (
     <main>
       <div className="flex flex-col my-10 py-3">
@@ -89,28 +76,16 @@ export default function Typology() {
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
-              <Input
+            <Input
                 className="mt-4 w-80"
                 placeholder="Procurar..."
                 labelPlacement="outside"
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
-                  value={searchValue}
+                value={searchValue}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
-            </div>
-            <Autocomplete
-              variant="underlined"
-              label="Selecione a opção"
-              className="max-w-xs"
-            >
-              {typologys.map((typology) => (
-                <AutocompleteItem key={typology.value} value={typology.value}>
-                  {typology.label}
-                </AutocompleteItem>
-              ))}
-            </Autocomplete>
             </div>
           </div>
           <FormModals
