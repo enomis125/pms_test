@@ -64,5 +64,26 @@ export async function PATCH(request) {
 
 }
 
+export async function DELETE(request) {
+
+    const prisma = new PrismaClient()
+
+    try {
+        const { idCarateristics } = await request.json();
+        const deleteRecord = await prisma.characteristics.delete({
+            where: {
+                characteristicID: idCarateristics,
+            }
+        })
+        return new NextResponse(JSON.stringify({status: 200 }));
+
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
+
+}
+
 
 
