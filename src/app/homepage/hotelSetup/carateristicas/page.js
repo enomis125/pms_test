@@ -16,14 +16,16 @@ import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
+import { FiEdit3 } from "react-icons/fi";
+import { BsArrowRight } from "react-icons/bs";
 
 //imports de componentes
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import CaracteristicasForm from "@/components/modal/hotelSetup/caracteristicasForm";
 
 
 export default function Characteristics() {
   const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [caracteristics, setCaracteristics] = useState([]);
 
@@ -69,9 +71,22 @@ export default function Characteristics() {
     setPage(1);
   };
 
+  const handleDelete = async (idCarateristics) => {
+    try {
+      const response = await axios.delete(`/api/hotel/caracteristicas`, {
+        data: {
+          idCarateristics: idCarateristics
+        }
+    });
+      alert("Característica removida com sucesso!");
+    } catch (error) {
+      console.error("Erro ao remover característica:", error.message);
+    }
+  };
+
   return (
     <main>
-      <div className="flex flex-col mt-5 py-3">
+      <div className="flex flex-col mt-3 py-3">
         <p className="text-xs px-6">Caraterísticas</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
@@ -88,20 +103,21 @@ export default function Characteristics() {
               />
             </div>
           </div>
-          <FormModals
-            buttonName={"Inserir Caraterística"}
+          <CaracteristicasForm
+            buttonName={"Novo"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
             modalHeader={"Inserir Caraterísticas"}
             modalIcons={"bg-red"}
             formTypeModal={31}
-          ></FormModals>
+          ></CaracteristicasForm>
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
       <Table
       isHeaderSticky={"true"}
         layout={"fixed"}
+        isCompact={"true"}
         removeWrapper
         classNames={{
           wrapper: "min-h-[222px]",
@@ -109,49 +125,56 @@ export default function Characteristics() {
         className="h-full overflow-auto"
       >
         <TableHeader>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold w-[2%] uppercase">
             ID
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold">
-            Descrição
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
             Abreviatura
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
             Detalhe
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white flex justify-center items-center">
+          <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">
+            Descrição
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
             <GoGear size={20} />
           </TableColumn>
         </TableHeader>
         <TableBody>
           {items.map((caracteristic, index) => (
             <TableRow key={index}>
-              <TableCell>{caracteristic.characteristicID}</TableCell>
+              <TableCell className="text-right">{caracteristic.characteristicID}</TableCell>
+              <TableCell className="px-40">{caracteristic.abreviature}</TableCell>
+              <TableCell className="px-20">{caracteristic.details}</TableCell>
               <TableCell>{caracteristic.description}</TableCell>
-              <TableCell>{caracteristic.abreviature}</TableCell>
-              <TableCell><p className="truncate ">{caracteristic.details}</p></TableCell>
-              <TableCell className="flex justify-center">
+              <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
                       variant="light"
-                      className="flex flex-row justify-center"
+                      className="flex flex-row justify-end"
                     >
                       <BsThreeDotsVertical size={20} className="text-gray-400" />
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <CaracteristicasForm
                         buttonName={"Editar"}
+                        editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Caraterísticas"}
-                        formTypeModal={31}
-                      ></FormModals>
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${caracteristic.characteristicID}`}
+                        formTypeModal={32}
+                        idCarateristics={caracteristic.characteristicID}
+                        criado={caracteristic.createdAt}
+                        editado={caracteristic.updatedAt}
+                        editor={"teste"}
+                      ></CaracteristicasForm>
                     </DropdownItem>
-                    <DropdownItem key="delete">Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
                     <DropdownItem key="delete">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
@@ -182,9 +205,10 @@ export default function Characteristics() {
         onChange={handleChangeRowsPerPage}
         className="ml-2 py-1 px-2 border rounded bg-transparent text-sm text-default-600 mx-5"
       >
-        <option value={15}>15</option>
         <option value={25}>25</option>
         <option value={50}>50</option>
+        <option value={150}>150</option>
+        <option value={250}>250</option>
       </select>
     </div>
     <div className="ml-5 mr-10 text-black">

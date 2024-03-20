@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
@@ -43,15 +42,15 @@ export async function PATCH(request) {
     const prisma = new PrismaClient()
 
     try {
-        const { idCarateristics, Description, Abreviature, Details } = await request.json();
+        const { idCarateristics, data } = await request.json();
         const updateRecord = await prisma.characteristics.update({
             where: {
                 characteristicID: idCarateristics,
             },
             data: {
-                description: Description,
-                abreviature: Abreviature,
-                details: Details
+                description: data.Description,
+                abreviature: data.Abreviature,
+                details: data.Details
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));
@@ -70,6 +69,7 @@ export async function DELETE(request) {
 
     try {
         const { idCarateristics } = await request.json();
+
         const deleteRecord = await prisma.characteristics.delete({
             where: {
                 characteristicID: idCarateristics,
@@ -84,6 +84,3 @@ export async function DELETE(request) {
     }
 
 }
-
-
-

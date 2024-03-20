@@ -142,7 +142,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
     }
     return (
         <>
-            <aside className={(showSidebar ? "" : "hidden ") + "h-screen border-r border-bg-primary  overflow-hidden w-72 flex shrink-0 fixed top-0 z-40 inset-0 lg:block"} aria-label="Sidebar">
+            <aside className={(showSidebar ? "" : "hidden ") + "bg-white h-screen border-r border-bg-primary overflow-auto w-72 flex shrink-0 fixed top-0 z-40 inset-0 lg:block z-100"} aria-label="Sidebar">
                 <div className="h-full w-full no-scrollbar px-3 pb-4  bg-white text-bg-primary">
                     <Link href="/dashboard">
                         <div className="flex justify-center">

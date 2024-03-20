@@ -1,12 +1,15 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import axios from 'axios';
-
+import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import { usePathname } from "next/navigation";
+//imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
+import { MdClose } from "react-icons/md";
 
 
 /*
@@ -16,9 +19,12 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, buttonColor }) => {
+const formModals = ({ characteristicId, buttonName, buttonIcon, modalHeader, editIcon, modalEditArrow, modalEdit,formTypeModal, buttonColor }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const variants = ["underlined"];
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
 
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
@@ -42,10 +48,10 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
     ]
 
     //inserção na tabela carateristicas
-    const [caracteristica, setCaracteristica] = useState({
-        Description: '',
-        Abreviature: '',
-        Details: ''
+    /*const [caracteristica, setCaracteristica] = useState({
+        description: '',
+        abreviature: '',
+        details: ''
     })
 
     const handleInput = (event) => {
@@ -53,30 +59,46 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
     }
     function handleSubmit(event) {
         event.preventDefault()
-        if (!caracteristica.Description || !caracteristica.Abreviature || !caracteristica.Details) {
+        if (!caracteristica.description || !caracteristica.abreviature || !caracteristica.details) {
             alert("Preencha os campos corretamente");
             return;
         }
         axios.put('/api/hotel/caracteristicas', caracteristica)
             .then(response => console.log(response))
             .catch(err => console.log(err))
-        /*const newcara = res.response.caracteristica;
-        setCaracteristica([
-            ...caracteristica,
-            {
-                Description: newcara.Description,
-                Abreviature: newcara.Abreviature,
-                Details: newcara.Details,
-            },
-        ]);*/
-    }
+    }*/
     //final da inserção na tabela carateristicas
+
+
+
+   /*const [values, setValues] = useState({
+    id: characteristicId,
+    description: '',
+    abreviature: '',
+    details: ''
+   })
+
+    useEffect(() => {
+        axios.get("/api/hotel/caracteristicas/" + characteristicId)
+        .then(res => {
+            setValues({...values, description: res.data.response.description, abreviature: res.data.response.abreviature, details: res.data.response.details})
+        })
+        .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdate(e){
+        e.preventDefault()
+        axios.post('/api/hotel/caracteristicas/' + characteristicId, values)
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }*/
 
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
     };
+    
 
     return (
         <>
@@ -469,22 +491,25 @@ const formModals = ({ buttonName, buttonIcon, modalHeader, formTypeModal, button
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <form onSubmit={handleSubmit}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                            {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
                                         <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><RxExit size={25} /></Button>
+                                            <Button color="transparent" className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                         </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Description" onChange={handleInput} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" onChange={handleInput} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" name="Details" onChange={handleInput} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <input type="text" name="description" value={values.description} onChange={handleInput} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <input type="text" name="abreviature" value={values.abreviature} onChange={handleInput} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <textarea type="textarea" name="details" value={values.details} onChange={handleInput} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                         </ModalBody>
                                     </form>
 
