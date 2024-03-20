@@ -191,7 +191,7 @@ export default function caracteristicasForm({
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
                                             </div>
                                             <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
@@ -202,12 +202,15 @@ export default function caracteristicasForm({
                                             <textarea type="textarea" value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col">
-                                        <p>Criado em: {criado}</p>
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row bg-tableFooter border border-tableFooterBorder w-full text-gray-600">
+                                        <div className="flex flex-col">
+                                        <p>Criado por: teste</p>
+                                        <p>Criado em {`${new Date(criado).toLocaleDateString()} às ${new Date(criado).toLocaleTimeString()}`}</p>
+                                        </div>
                                         {criado !== editado && (
-                                            <div>
-                                                <p>Editado em: {editado}</p>
+                                            <div className="ml-5">
                                                 <p>Editado por: {editor}</p>
+                                                <p>Editado em {`${new Date(editado).toLocaleDateString()} às ${new Date(editado).toLocaleTimeString()}`}</p>
                                             </div>
                                         )}
                                     </ModalFooter>
