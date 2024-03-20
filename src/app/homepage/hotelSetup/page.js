@@ -24,7 +24,7 @@ const Card = () => {
                 <Cartao title={"CARACTERÍSTICAS"} description={"Inserir lista com as várias características para cada quarto"} listType={"carateristicas"} icon={<FaPencilRuler size={35}/>} formTypeCard={30}/>
             </div>
             <div className="">
-                <Cartao title={"MANUTENÇÃO"} description={""} listType={"manutencao"} icon={<FaWrench size={35}/>} formTypeCard={50} />
+                <Cartao title={"MANUTENÇÃO"} description={"Inserir motivos que podem existir para colocar os quartos em manutenção"} listType={"manutencao"} icon={<FaWrench size={35}/>} formTypeCard={50} />
             </div>
 
         </div>

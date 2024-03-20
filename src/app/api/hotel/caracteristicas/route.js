@@ -69,10 +69,11 @@ export async function DELETE(request) {
     const prisma = new PrismaClient()
 
     try {
-        const { idCarateristics } = await request.json();
+        const { idCarateristica } = await request.json();
+
         const deleteRecord = await prisma.characteristics.delete({
             where: {
-                characteristicID: idCarateristics,
+                characteristicID: idCarateristica,
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));

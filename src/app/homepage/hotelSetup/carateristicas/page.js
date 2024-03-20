@@ -23,7 +23,7 @@ import FormModals from "@/components/modal/hotelSetup/formModals";
 
 export default function Characteristics() {
   const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [caracteristics, setCaracteristics] = useState([]);
 
@@ -40,9 +40,9 @@ export default function Characteristics() {
       caracteristic.description.toLowerCase().includes(
         searchValue.toLowerCase()
       ) ||
-      caracteristic.characteristicID.toString().toLowerCase().includes(
+      caracteristic.characteristicID.toString().toLowerCase() ===
         searchValue.toLowerCase()
-      )
+      
     );
   }, [caracteristics, searchValue]);
 
@@ -69,9 +69,22 @@ export default function Characteristics() {
     setPage(1);
   };
 
+  const handleDelete = async (idCaracteristica) => {
+    try {
+      const response = await axios.delete(`/api/hotel/caracteristicas`, {idCaracteristica});
+      
+      console.log("Característica removida com sucesso!");
+      
+      // Faça qualquer ação necessária após a exclusão, como recarregar a lista de características
+    } catch (error) {
+      console.error("Erro ao remover característica:", error.message);
+    }
+  };
+  
+
   return (
     <main>
-      <div className="flex flex-col mt-5 py-3">
+      <div className="flex flex-col mt-3 py-3">
         <p className="text-xs px-6">Caraterísticas</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
@@ -89,7 +102,7 @@ export default function Characteristics() {
             </div>
           </div>
           <FormModals
-            buttonName={"Inserir Caraterística"}
+            buttonName={"Novo"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
             modalHeader={"Inserir Caraterísticas"}
@@ -100,7 +113,8 @@ export default function Characteristics() {
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
       <Table
-      isHeaderSticky={"true"}
+        isHeaderSticky={"true"}
+        isCompact={"true"}
         layout={"fixed"}
         removeWrapper
         classNames={{
@@ -109,16 +123,16 @@ export default function Characteristics() {
         className="h-full overflow-auto"
       >
         <TableHeader>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
             ID
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
             Descrição
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
             Abreviatura
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
             Detalhe
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-center items-center">
@@ -149,10 +163,13 @@ export default function Characteristics() {
                         buttonColor={"transparent"}
                         modalHeader={"Editar Caraterísticas"}
                         formTypeModal={31}
+                        criado={caracteristic.createdAt}
+                        editado={caracteristic.updatedAt}
+                        editor={"teste"}
                       ></FormModals>
                     </DropdownItem>
-                    <DropdownItem key="delete">Remover</DropdownItem>
-                    <DropdownItem key="delete">Ver</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
+                    <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </TableCell>
@@ -168,6 +185,7 @@ export default function Characteristics() {
       showControls
       color="primary"
       variant="flat"
+      initialPage={1}
       page={page}
       total={pages}
       onChange={(page) => setPage(page)}
@@ -181,10 +199,12 @@ export default function Characteristics() {
         value={rowsPerPage}
         onChange={handleChangeRowsPerPage}
         className="ml-2 py-1 px-2 border rounded bg-transparent text-sm text-default-600 mx-5"
+        style={{ fontFamily: 'Open Sans, sans-serif' }}
       >
-        <option value={15}>15</option>
         <option value={25}>25</option>
         <option value={50}>50</option>
+        <option value={150}>150</option>
+        <option value={250}>250</option>
       </select>
     </div>
     <div className="ml-5 mr-10 text-black">
