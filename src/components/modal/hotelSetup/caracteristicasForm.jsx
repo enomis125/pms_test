@@ -171,7 +171,7 @@ export default function caracteristicasForm({
 
             {formTypeModal === 32 && ( //Carateristicas
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
