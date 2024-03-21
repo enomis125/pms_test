@@ -680,7 +680,7 @@ export default function formModals({
                         </ModalContent>
                     </Modal>
                 </>
-                            )*/}
+                            )}
 
             {formTypeModal === 32 && ( //characteristics  edit 
                 <>
