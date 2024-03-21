@@ -171,7 +171,7 @@ export default function Characteristics() {
                       ></CaracteristicasForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
-                    <DropdownItem key="see">Ver</DropdownItem>
+                    <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </TableCell>
