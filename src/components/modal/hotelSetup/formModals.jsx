@@ -714,8 +714,9 @@ export default function formModals({
                                             <input type="text" value={values.Description} onChange={e => setValues({ ...values, Description: e.target.value })} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                             <input type="text" value={values.Abreviature} onChange={e => setValues({ ...values, Abreviature: e.target.value })} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                             <textarea type="textarea" value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                        </ModalBody>
-                                    </form>
+ 
+                                            </ModalBody>
+                                            </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
@@ -724,7 +725,6 @@ export default function formModals({
                                             </div>
                                         )}
                                     </ModalFooter>
-
                                 </>
                             )}
                         </ModalContent>
