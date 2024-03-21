@@ -613,7 +613,6 @@ export default function formModals({
             )}
 
 
-
             {formTypeModal === 30 && ( //characteristics modal
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
@@ -681,7 +680,7 @@ export default function formModals({
                         </ModalContent>
                     </Modal>
                 </>
-            )}
+                            )*/}
 
             {formTypeModal === 32 && ( //characteristics  edit 
                 <>

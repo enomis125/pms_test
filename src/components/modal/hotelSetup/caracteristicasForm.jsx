@@ -25,7 +25,7 @@ export default function caracteristicasForm({
     buttonColor,
     criado,
     editado,
-    editor 
+    editor
 }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -44,7 +44,13 @@ export default function caracteristicasForm({
             alert("Preencha os campos corretamente");
             return;
         }
-        axios.put('/api/hotel/caracteristicas', caracteristica)
+        axios.put('/api/v1/hotel/caracteristicas', {
+            data: {
+                description: caracteristica.Description,
+                abreviature: caracteristica.Abreviature,
+                details: caracteristica.Details
+            }
+        })
             .then(response => console.log(response))
             .catch(err => console.log(err))
         /*const newcara = res.response.caracteristica;
@@ -67,7 +73,7 @@ export default function caracteristicasForm({
     })
 
     useEffect(() => {
-        axios.get("/api/hotel/caracteristicas/" + idCarateristics)
+        axios.get("/api/v1/hotel/caracteristicas/" + idCarateristics)
             .then(res => {
                 setValues({ ...values, Description: res.data.response.description, Abreviature: res.data.response.abreviature, Details: res.data.response.details })
             })
@@ -76,12 +82,11 @@ export default function caracteristicasForm({
 
     function handleUpdate(e) {
         e.preventDefault()
-        axios.patch(`/api/hotel/caracteristicas/`, {
-            idCarateristics: idCarateristics,
+        axios.patch(`/api/v1/hotel/caracteristicas/` + idCarateristics, {
             data: {
-                Description: values.Description,
-                Abreviature: values.Abreviature,
-                Details: values.Details
+                description: values.Description,
+                abreviature: values.Abreviature,
+                details: values.Details
             }
         })
             .catch(err => console.log(err))
@@ -156,9 +161,9 @@ export default function caracteristicasForm({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Description" onChange={handleInput} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" onChange={handleInput} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" name="Details" onChange={handleInput} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <Input type="text" name="Abreviature" onChange={handleInput} variant="underlined" label="Abreviatura" />
+                                            <Input type="text" name="Description" onChange={handleInput} variant="underlined" label="Descrição" />
+                                            <Input type="textarea" name="Details" onChange={handleInput} variant="underlined" label="Detalhe" />
                                         </ModalBody>
                                     </form>
 
@@ -202,15 +207,11 @@ export default function caracteristicasForm({
                                             <textarea type="textarea" value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row bg-tableFooter border border-tableFooterBorder w-full text-gray-600">
-                                        <div className="flex flex-col">
-                                        <p>Criado por: teste</p>
-                                        <p>Criado em {`${new Date(criado).toLocaleDateString()} às ${new Date(criado).toLocaleTimeString()}`}</p>
-                                        </div>
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
-                                            <div className="ml-5">
-                                                <p>Editado por: {editor}</p>
-                                                <p>Editado em {`${new Date(editado).toLocaleDateString()} às ${new Date(editado).toLocaleTimeString()}`}</p>
+                                            <div>
+                                                <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
                                             </div>
                                         )}
                                     </ModalFooter>
