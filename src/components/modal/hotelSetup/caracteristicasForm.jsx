@@ -25,7 +25,7 @@ export default function caracteristicasForm({
     buttonColor,
     criado,
     editado,
-    editor 
+    editor
 }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -156,9 +156,9 @@ export default function caracteristicasForm({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Description" onChange={handleInput} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" onChange={handleInput} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" name="Details" onChange={handleInput} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <Input type="text" name="Abreviature" onChange={handleInput} variant="underlined" label="Abreviatura" />
+                                            <Input type="text" name="Description" onChange={handleInput} variant="underlined" label="Descrição" />
+                                            <Input type="textarea" name="Details" onChange={handleInput} variant="underlined" label="Detalhe" />
                                         </ModalBody>
                                     </form>
 
@@ -171,7 +171,7 @@ export default function caracteristicasForm({
 
             {formTypeModal === 32 && ( //Carateristicas
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
