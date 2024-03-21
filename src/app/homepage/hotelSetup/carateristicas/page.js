@@ -131,11 +131,11 @@ export default function Characteristics() {
           <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
             Abreviatura
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
-            Detalhe
-          </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">
             Descrição
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
+            Detalhe
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
             <GoGear size={20} />
@@ -146,8 +146,8 @@ export default function Characteristics() {
             <TableRow key={index}>
               <TableCell className="text-right">{caracteristic.characteristicID}</TableCell>
               <TableCell className="px-40">{caracteristic.abreviature}</TableCell>
-              <TableCell className="px-20">{caracteristic.details}</TableCell>
               <TableCell>{caracteristic.description}</TableCell>
+              <TableCell className="px-20">{caracteristic.details}</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -175,7 +175,7 @@ export default function Characteristics() {
                       ></CaracteristicasForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
-                    <DropdownItem key="delete">Ver</DropdownItem>
+                    <DropdownItem key="see">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </TableCell>
