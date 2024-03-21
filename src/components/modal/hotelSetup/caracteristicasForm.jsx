@@ -44,7 +44,13 @@ export default function caracteristicasForm({
             alert("Preencha os campos corretamente");
             return;
         }
-        axios.put('/api/hotel/caracteristicas', caracteristica)
+        axios.put('/api/v1/hotel/caracteristicas', {
+            data: {
+                description: caracteristica.Description,
+                abreviature: caracteristica.Abreviature,
+                details: caracteristica.Details
+            }
+        })
             .then(response => console.log(response))
             .catch(err => console.log(err))
         /*const newcara = res.response.caracteristica;
@@ -67,7 +73,7 @@ export default function caracteristicasForm({
     })
 
     useEffect(() => {
-        axios.get("/api/hotel/caracteristicas/" + idCarateristics)
+        axios.get("/api/v1/hotel/caracteristicas/" + idCarateristics)
             .then(res => {
                 setValues({ ...values, Description: res.data.response.description, Abreviature: res.data.response.abreviature, Details: res.data.response.details })
             })
@@ -76,12 +82,11 @@ export default function caracteristicasForm({
 
     function handleUpdate(e) {
         e.preventDefault()
-        axios.patch(`/api/hotel/caracteristicas/`, {
-            idCarateristics: idCarateristics,
+        axios.patch(`/api/v1/hotel/caracteristicas/` + idCarateristics, {
             data: {
-                Description: values.Description,
-                Abreviature: values.Abreviature,
-                Details: values.Details
+                description: values.Description,
+                abreviature: values.Abreviature,
+                details: values.Details
             }
         })
             .catch(err => console.log(err))

@@ -31,7 +31,7 @@ export default function Characteristics() {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/hotel/caracteristicas");
+      const res = await axios.get("/api/v1/hotel/caracteristicas");
       setCaracteristics(res.data.response);
     };
     getData();
@@ -73,11 +73,7 @@ export default function Characteristics() {
 
   const handleDelete = async (idCarateristics) => {
     try {
-      const response = await axios.delete(`/api/hotel/caracteristicas`, {
-        data: {
-          idCarateristics: idCarateristics
-        }
-    });
+      const response = await axios.delete(`/api/v1/hotel/caracteristicas/` + idCarateristics);
       alert("Característica removida com sucesso!");
     } catch (error) {
       console.error("Erro ao remover característica:", error.message);
