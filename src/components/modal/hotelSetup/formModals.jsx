@@ -448,7 +448,7 @@ const formModals = ({ characteristicId, buttonName, buttonIcon, modalHeader, edi
             )}
 
 
-            {formTypeModal === 30 && ( //Carateristicas
+            {/*formTypeModal === 30 && ( //Carateristicas
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
@@ -518,7 +518,7 @@ const formModals = ({ characteristicId, buttonName, buttonIcon, modalHeader, edi
                         </ModalContent>
                     </Modal>
                 </>
-            )}
+                            )*/}
 
             {formTypeModal === 40 && ( //Tipologias
                 <>
