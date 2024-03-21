@@ -623,7 +623,6 @@ export default function formModals({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <>
                                         <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                             <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
@@ -638,7 +637,6 @@ export default function formModals({
                                                 Teste
                                             </Button>
                                         </ModalFooter>
-                                    </>
                                 </>
 
                             )}
