@@ -6,9 +6,9 @@ export async function GET(request) {
 
     const prisma = new PrismaClient()
 
-    const roomtypesgroupRecords = await prisma.roomtypesgroups.findMany()
+    const cancelRecords = await prisma.cancelationsreasons.findMany()
 
-    const response = roomtypesgroupRecords
+    const response = cancelRecords
 
     prisma.$disconnect()
 
@@ -20,10 +20,11 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
-        const newRecord = await prisma.roomtypesgroups.create({
+        const newRecord = await prisma.cancelationsreasons.create({
             data: {
-                label: data.label,
-                pmsHotel: 1
+                shortName: data.Abreviature,
+                name: data.Description,
+                class: parseInt(data.Details),
             }
         });
 

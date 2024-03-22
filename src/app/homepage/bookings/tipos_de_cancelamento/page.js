@@ -18,7 +18,7 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 
 //imports de componentes
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import FormModals from "@/components/modal/bookings/formModals";
 
 //imports de dados
 import { typologys, actions, users } from "../../../data/data";
@@ -28,26 +28,26 @@ export default function Characteristics() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
   const [searchValue, setSearchValue] = React.useState("");
-  const [caracteristics, setCaracteristics] = useState([]);
+  const [cancelation, setCancelation] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/hotel/caracteristicas");
-      setCaracteristics(res.data.response);
+      const res = await axios.get("/api/v1/bookings/cancelationType");
+      setCancelation(res.data.response);
     };
     getData();
   }, []);
 
   const filteredItems = React.useMemo(() => {
-    return caracteristics.filter((caracteristic) =>
-      caracteristic.Description.toLowerCase().includes(
+    return cancelation.filter((cancelation) =>
+    cancelation.Description.toLowerCase().includes(
         searchValue.toLowerCase()
       ) ||
-      caracteristic.idCarateristics.toString().toLowerCase().includes(
+      cancelation.cancelReasonID.toString().toLowerCase().includes(
         searchValue.toLowerCase()
       )
     );
-  }, [caracteristics, searchValue]);
+  }, [cancelation, searchValue]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -58,8 +58,8 @@ export default function Characteristics() {
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
-  const renderCell = React.useCallback((caracteristic, columnKey) => {
-    const cellValue = caracteristic[columnKey];
+  const renderCell = React.useCallback((cancelation, columnKey) => {
+    const cellValue = cancelation[columnKey];
   }, []);
 
   const handleChangeRowsPerPage = (event) => {
@@ -97,7 +97,7 @@ export default function Characteristics() {
             buttonColor={"primary"}
             modalHeader={"Inserir Tipo de Cancelamento"}
             modalIcons={"bg-red"}
-            formTypeModal={0}
+            formTypeModal={11}
           ></FormModals>
         </div>
       </div>
@@ -129,12 +129,12 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((caracteristic, index) => (
+          {items.map((cancelation, index) => (
             <TableRow key={index}>
-              <TableCell>Alterar</TableCell>
-              <TableCell>Alterar</TableCell>
-              <TableCell>Alterar</TableCell>
-              <TableCell><p className="truncate ">Alterar</p></TableCell>
+              <TableCell>{cancelation.cancelReasonID}</TableCell>
+              <TableCell>{cancelation.shortName}</TableCell>
+              <TableCell>{cancelation.name}</TableCell>
+              <TableCell><p className="truncate ">{cancelation.class}</p></TableCell>
               <TableCell className="flex justify-center">
                 <Dropdown>
                   <DropdownTrigger>

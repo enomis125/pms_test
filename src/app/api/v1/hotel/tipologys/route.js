@@ -25,6 +25,7 @@ export async function PUT(request) {
                 name: data.name,
                 desc: data.desc,
                 roomFeaturesDesc: data.roomFeaturesDesc,
+                groupID: 1
             }
         });
 
