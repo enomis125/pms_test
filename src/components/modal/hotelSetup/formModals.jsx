@@ -20,7 +20,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idCarateristics,
+const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idRoom,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -33,7 +33,6 @@ const formModals = ({ idCarateristics,
     editado,
     editor }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const variants = ["underlined"];
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -114,13 +113,176 @@ const formModals = ({ idCarateristics,
             .catch(err => console.log(err))
     }
 
+
+    //inserção na tabela roomtypes
+    const [roomtype, setRoomtype] = useState({
+        Desc: '',
+        Name: '',
+        RoomFeaturesDesc: ''
+    })
+
+    const handleInputRoomtype = (event) => {
+        setRoomtype({ ...roomtype, [event.target.name]: event.target.value })
+    }
+    function handleSubmitRoomtype(event) {
+        event.preventDefault()
+        if (!roomtype.Desc || !roomtype.Name || !roomtype.RoomFeaturesDesc ) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/hotel/tipologys', {
+            data: {
+                name: roomtype.Name,
+                desc: roomtype.Desc,
+                roomFeaturesDesc: roomtype.RoomFeaturesDesc,
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+
+    //edição na tabela roomtypes
+    const [valuesRoomtype, setValuesRoomtype] = useState({
+        id: idRoomtype,
+        Desc: '',
+        Name: '',
+        RoomFeaturesDesc: '',
+        GroupID: '',
+        RoomTypePlan: ''
+    })
+
     useEffect(() => {
-        axios.get("/api/v1/hotel/caracteristicas/" + idCarateristics)
+        axios.get("/api/v1/hotel/tipologys/" + idRoomtype)
             .then(res => {
-                setValues({ ...values, Description: res.data.response.description, Abreviature: res.data.response.abreviature, Details: res.data.response.details })
+                setValuesRoomtype({ ...valuesRoomtype, Desc: res.data.response.desc, Name: res.data.response.name, RoomFeaturesDesc: res.data.response.roomFeaturesDesc, GroupID: res.data.response.groupID, RoomTypePlan: res.data.response.roomTypePlan })
             })
             .catch(err => console.log(err))
     }, [])
+
+    function handleUpdateRoomtype(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/hotel/tipologys/` + idRoomtype, {
+            data: {
+                desc: values.Desc,
+                name: values.Name,
+                roomFeaturesDesc: values.RoomFeaturesDesc,
+                groupID: values.GroupID,
+                roomTypePlan: values.RoomTypePlan
+            }
+        })
+            .catch(err => console.log(err))
+    }
+
+    //inserção na tabela maintenance
+    const [maintenance, setMaintenance] = useState({
+        Abreviature: '',
+        Details: '',
+        Description: ''
+    })
+
+    const handleInputMaintenance = (event) => {
+        setMaintenance({ ...maintenance, [event.target.name]: event.target.value })
+    }
+    function handleSubmitMaintenance(event) {
+        event.preventDefault()
+        if (!maintenance.Abreviature || !maintenance.Details || !maintenance.Description ) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/hotel/maintenance', {
+            data: {
+                abreviature: maintenance.Abreviature,
+                details: maintenance.Details,
+                description: maintenance.Description,
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+
+    //edição na tabela maintenance
+    const [valuesMaintenance, setValuesMaintenance] = useState({
+        id: idMaintenance,
+        Abreviature: '',
+        Details: '',
+        Description: ''
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/hotel/maintenance/" + idMaintenance)
+            .then(res => {
+                setValuesMaintenance({ ...valuesMaintenance, Abreviature: res.data.response.abreviature, Details: res.data.response.details, Description: res.data.response.description})
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateMaintenance(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/hotel/maintenance/` + idMaintenance, {
+            data: {
+                abreviature: valuesMaintenance.Abreviature,
+                details: valuesMaintenance.Details,
+                description: valuesMaintenance.Description
+            }
+        })
+            .catch(err => console.log(err))
+    }
+
+
+    //inserção na tabela rooms
+    const [room, setRoom] = useState({
+        Label: '',
+        RoomType: '',
+        Description: ''
+    })
+
+    const handleInputRoom = (event) => {
+        setRoom({ ...room, [event.target.name]: event.target.value })
+    }
+    function handleSubmitRoom(event) {
+        event.preventDefault()
+        if (!room.Label || !room.RoomType || !room.Description) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/hotel/rooms', {
+            data: {
+                Label: room.Label,
+                RoomType: room.RoomType,
+                Description: room.Description
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+            console.log(room.Label)
+    }
+    //edição na tabela rooms
+    const [valuesRoom, setValuesRoom] = useState({
+        id: idRoom,
+        Label: '',
+        RoomType: '',
+        Description: ''
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/hotel/rooms/" + idRoom)
+            .then(res => {
+                setValuesRoom({ ...valuesRoom, Label: res.data.response.label, RoomType: res.data.response.roomType, Description: res.data.response.description })
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateRoom(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/hotel/rooms/` + idRoom, {
+            data: {
+                label: valuesRoom.Label,
+                roomType: valuesRoom.RoomType,
+                description: valuesRoom.Description
+            }
+        })
+            .catch(err => console.log(err))
+    }
 
 
     //expanção do ecra no form
@@ -397,7 +559,7 @@ const formModals = ({ idCarateristics,
                 </>
             )}
 
-            {formTypeModal === 21 && ( //rooms insert
+{formTypeModal === 21 && ( //rooms insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -413,53 +575,53 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                            >
-                                                <Input type="Descrição" variant="underlined" label="Descrição" />
-                                            </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                            >
-                                                <Input type="Abreviatura" variant="underlined" label="Abreviatura" />
-                                            </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                            >
-                                                <Textarea
-                                                    label="Detalhe"
-                                                    disableAnimation
-                                                    disableAutosize
-                                                    className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
-                                                    variant="underlined"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Autocomplete
-                                                    variant="underlined"
-                                                    defaultItems={Tipologia}
-                                                    label="Tipologia"
-                                                    className="w-full"
-                                                >
-                                                    {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                </Autocomplete>
-                                            </div>
-                                        </div>
+                                <form onSubmit={handleSubmitRoom}>
+                                <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+        <div className='flex flex-row items-center mr-5'>
+            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+        </div>
+    </ModalHeader>
+    <ModalBody>
+        <div className="w-full flex flex-col gap-4">
+            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                <Input type="text" name="Description" onChange={handleInputRoom} variant="underlined" label="Descrição" />
+            </div>
+        </div>
+        <div className="w-full flex flex-col gap-4">
+            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                <Input type="text" name="Label" onChange={handleInputRoom} variant="underlined" label="Abreviatura" />
+            </div>
+        </div>
+        <div className="w-full flex flex-col gap-4">
+            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                <Textarea
+                    label="Detalhe"
+                    name="RoomType"
+                    onChange={handleInputRoom}
+                    disableAnimation
+                    disableAutosize
+                    className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
+                    variant="underlined"
+                />
+            </div>
+        </div>
+        {/* Adjusting the field name to match the expected name in handleInputRoom */}
+        <div className="w-full flex flex-col gap-4">
+            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                <Autocomplete
+                    variant="underlined"
+                    defaultItems={Tipologia}
+                    label="Tipologia"
+                    // Adjusting the name to match the expected name in handleInputRoom
+                    name="Tipologia"
+                    className="w-full"
+                >
+                    {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                </Autocomplete>
+            </div>
+        </div>
                                         <div className="flex flex-col md:flex-row justify-between">
                                             <div className="flex flex-col w-1/2">
                                                 <p className="text-sm">Ocupação Máxima</p>
@@ -501,6 +663,7 @@ const formModals = ({ idCarateristics,
                                             </div>
                                         </div>
                                     </ModalBody>
+                                    </form>
                                 </>
                             )}
                         </ModalContent>
@@ -524,6 +687,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={(e) => handleUpdateRoom(e)}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                         <div className="flex flex-row justify-start gap-4">
                                             {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -539,14 +703,14 @@ const formModals = ({ idCarateristics,
                                             <div
                                                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                             >
-                                                <Input type="text" variant="underlined" label="Descrição" />
+                                                <Input type="text" value={valuesRoom.Description} onChange={e => setValuesRoom({ ...valuesRoom, Description: e.target.value })} variant="underlined" label="Descrição" />
                                             </div>
                                         </div>
                                         <div className="w-full flex flex-col gap-4">
                                             <div
                                                 className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                             >
-                                                <Input type="text" variant="underlined" label="Abreviatura" />
+                                                <Input type="text" value={valuesRoom.Label} onChange={e => setValuesRoom({ ...valuesRoom, Label: e.target.value })}  variant="underlined" label="Abreviatura" />
                                             </div>
                                         </div>
                                         <div className="w-full flex flex-col gap-4">
@@ -555,6 +719,8 @@ const formModals = ({ idCarateristics,
                                             >
                                                 <Textarea
                                                     label="Detalhe"
+                                                    value={valuesRoom.RoomType}
+                                                    onChange={e => setValuesRoom({ ...valuesRoom, RoomType: e.target.value })} 
                                                     disableAnimation
                                                     disableAutosize
                                                     className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
@@ -616,6 +782,7 @@ const formModals = ({ idCarateristics,
                                             </div>
                                         </div>
                                     </ModalBody>
+                                    </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
@@ -849,6 +1016,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={handleSubmitRoomtype}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                         <div className='flex flex-row items-center mr-5'>
                                             <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -862,14 +1030,14 @@ const formModals = ({ idCarateristics,
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Descrição" />
+                                                    <Input type="text" variant="underlined" name="Desc" onChange={handleInputRoomtype} label="Descrição" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Abreviatura" />
+                                                    <Input type="text" variant="underlined" name="Name" onChange={handleInputRoomtype} label="Abreviatura" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
@@ -882,6 +1050,7 @@ const formModals = ({ idCarateristics,
                                                         disableAutosize
                                                         className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
                                                         variant="underlined"
+                                                        name="RoomFeaturesDesc" onChange={handleInputRoomtype}
                                                     />
                                                 </div>
                                             </div>
@@ -911,6 +1080,7 @@ const formModals = ({ idCarateristics,
                                             </div>
                                         </ScrollShadow>
                                     </ModalBody>
+                                    </form>
                                 </>
                             )}
                         </ModalContent>
@@ -934,6 +1104,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={(e) => handleUpdateRoomtype(e)}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                         <div className="flex flex-row justify-start gap-4">
                                             {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -950,14 +1121,14 @@ const formModals = ({ idCarateristics,
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Descrição" />
+                                                    <Input type="text" value={values.Desc} onChange={e => setValuesRoomtype({ ...values, Desc: e.target.value })} variant="underlined" label="Descrição" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Abreviatura" />
+                                                    <Input type="text" value={values.Name} onChange={e => setValuesRoomtype({ ...values, Name: e.target.value })} variant="underlined" label="Abreviatura" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
@@ -970,6 +1141,7 @@ const formModals = ({ idCarateristics,
                                                         disableAutosize
                                                         className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
                                                         variant="underlined"
+                                                        value={values.RoomFeaturesDesc} onChange={e => setValuesRoomtype({ ...values, RoomFeaturesDesc: e.target.value })}
                                                     />
                                                 </div>
                                             </div>
@@ -980,6 +1152,7 @@ const formModals = ({ idCarateristics,
                                                         defaultItems={Tipologia}
                                                         label=" Grupo Tipologia"
                                                         className="w-full"
+                                                        value={values.GroupID} onChange={e => setValuesRoomtype({ ...values, GroupID: e.target.value })}
                                                     >
                                                         {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                                                     </Autocomplete>
@@ -992,6 +1165,7 @@ const formModals = ({ idCarateristics,
                                                         defaultItems={Caracteristicas}
                                                         label="Função"
                                                         className="w-full"
+                                                        value={values.RoomTypePlan} onChange={e => setValuesRoomtype({ ...values, RoomTypePlan: e.target.value })}
                                                     >
                                                         {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                                                     </Autocomplete>
@@ -999,6 +1173,7 @@ const formModals = ({ idCarateristics,
                                             </div>
                                         </ScrollShadow>
                                     </ModalBody>
+                                    </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
@@ -1099,6 +1274,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={handleSubmitMaintenance}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                         <div className='flex flex-row items-center mr-5'>
                                             <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -1112,6 +1288,7 @@ const formModals = ({ idCarateristics,
                                                 type="text"
                                                 placeholder="Descrição"
                                                 className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                                name="Description" onChange={handleInputMaintenance}
                                             />
                                             <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                         </div>
@@ -1119,11 +1296,13 @@ const formModals = ({ idCarateristics,
                                             type="text"
                                             placeholder="Abreviatura"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                            name="Abreviature" onChange={handleInputMaintenance}
                                         />
                                         <textarea
                                             type="textarea"
                                             placeholder="Detalhe"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
+                                            name="Details" onChange={handleInputMaintenance}
                                         ></textarea>
                                         <div>
                                             <input
@@ -1140,6 +1319,7 @@ const formModals = ({ idCarateristics,
                                             </label>
                                         </div>
                                     </ModalBody>
+                                    </form>
                                 </>
                             )}
                         </ModalContent>
@@ -1164,6 +1344,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={(e) => handleUpdateMaintenance(e)}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                         <div className='flex flex-row items-center mr-5'>
                                             <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -1177,6 +1358,7 @@ const formModals = ({ idCarateristics,
                                                 type="text"
                                                 placeholder="Descrição"
                                                 className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                                value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}
                                             />
                                             <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                         </div>
@@ -1184,11 +1366,13 @@ const formModals = ({ idCarateristics,
                                             type="text"
                                             placeholder="Abreviatura"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                            value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}
                                         />
                                         <textarea
                                             type="textarea"
                                             placeholder="Detalhe"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
+                                            value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}
                                         ></textarea>
                                         <div>
                                             <input
@@ -1205,6 +1389,7 @@ const formModals = ({ idCarateristics,
                                             </label>
                                         </div>
                                     </ModalBody>
+                                    </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
@@ -1225,3 +1410,4 @@ const formModals = ({ idCarateristics,
 };
 
 export default formModals;
+
