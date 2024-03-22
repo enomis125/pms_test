@@ -32,7 +32,7 @@ export default function Characteristics() {
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/hotel/caracteristicas");
+      const res = await axios.get("/api/v1/hotel/caracteristicas");
       setCaracteristics(res.data.response);
     };
     getData();

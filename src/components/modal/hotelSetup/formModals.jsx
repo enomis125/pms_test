@@ -20,7 +20,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idCarateristics,
+const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -33,7 +33,6 @@ const formModals = ({ idCarateristics,
     editado,
     editor }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const variants = ["underlined"];
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -114,13 +113,168 @@ const formModals = ({ idCarateristics,
             .catch(err => console.log(err))
     }
 
+
+    //inserção na tabela roomtypes
+    const [roomTypeState, setRoomTypeState] = useState({
+        Name: '',
+        Desc: '',
+        RoomFeaturesDesc: ''
+    })
+
+    const handleInputRoomtype = (event) => {
+        setRoomTypeState({ ...roomTypeState, [event.target.name]: event.target.value })
+    }
+    function handleSubmitRoomtype(event) {
+        event.preventDefault()
+        if (!roomTypeState.Name || !roomTypeState.Desc || !roomTypeState.RoomFeaturesDesc ) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/hotel/tipologys', {
+            data: {
+                name: roomTypeState.Name,
+                desc: roomTypeState.Desc,
+                roomFeaturesDesc: roomTypeState.RoomFeaturesDesc
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+
+    //edição na tabela roomtypes
+    const [valuesRoomtype, setValuesRoomtype] = useState({
+        id: idRoomtype,
+        Desc: '',
+        Name: '',
+        RoomFeaturesDesc: '',
+        GroupID: '',
+        RoomTypePlan: ''
+    })
+
     useEffect(() => {
-        axios.get("/api/v1/hotel/caracteristicas/" + idCarateristics)
+        axios.get("/api/v1/hotel/tipologys/" + idRoomtype)
             .then(res => {
-                setValues({ ...values, Description: res.data.response.description, Abreviature: res.data.response.abreviature, Details: res.data.response.details })
+                setValuesRoomtype({ ...valuesRoomtype, Desc: res.data.response.desc, Name: res.data.response.name, RoomFeaturesDesc: res.data.response.roomFeaturesDesc, GroupID: res.data.response.groupID, RoomTypePlan: res.data.response.roomTypePlan })
             })
             .catch(err => console.log(err))
     }, [])
+
+    function handleUpdateRoomtype(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/hotel/tipologys/` + idRoomtype, {
+            data: {
+                desc: valuesRoomtype.Desc,
+                name: valuesRoomtype.Name,
+                roomFeaturesDesc: valuesRoomtype.RoomFeaturesDesc,
+                groupID: valuesRoomtype.GroupID,
+                roomTypePlan: valuesRoomtype.RoomTypePlan
+            }
+        })
+            .catch(err => console.log(err))
+    }
+
+    //inserção na tabela maintenance
+    const [maintenance, setMaintenance] = useState({
+        Abreviature: '',
+        Details: '',
+        Description: ''
+    })
+
+    const handleInputMaintenance = (event) => {
+        setMaintenance({ ...maintenance, [event.target.name]: event.target.value })
+    }
+    function handleSubmitMaintenance(event) {
+        event.preventDefault()
+        if (!maintenance.Abreviature || !maintenance.Details || !maintenance.Description ) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/hotel/maintenance', {
+            data: {
+                abreviature: maintenance.Abreviature,
+                details: maintenance.Details,
+                description: maintenance.Description,
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+
+    //edição na tabela maintenance
+    const [valuesMaintenance, setValuesMaintenance] = useState({
+        id: idMaintenance,
+        Abreviature: '',
+        Details: '',
+        Description: ''
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/hotel/maintenance/" + idMaintenance)
+            .then(res => {
+                setValuesMaintenance({ ...valuesMaintenance, Abreviature: res.data.response.abreviature, Details: res.data.response.details, Description: res.data.response.description})
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateMaintenance(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/hotel/maintenance/` + idMaintenance, {
+            data: {
+                abreviature: valuesMaintenance.Abreviature,
+                details: valuesMaintenance.Details,
+                description: valuesMaintenance.Description
+            }
+        })
+            .catch(err => console.log(err))
+    }
+
+
+    //inserção na tabela tipology group
+    const [roomtypesgroups, setRoomtypesgroups] = useState({
+        Label: '',
+    })
+
+    const handleInputTypesgroups = (event) => {
+        setRoomtypesgroups({ ...roomtypesgroups, [event.target.name]: event.target.value })
+    }
+    function handleSubmitTypesgroups(event) {
+        event.preventDefault()
+        if (!roomtypesgroups.Label ) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/hotel/tipologyGroup', {
+            data: {
+                label: roomtypesgroups.Label,
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+
+    //edição na tabela tipology group
+    const [valuesTypesgroups, setValuesTypesGroups] = useState({
+        id: idTypesgroups,
+        Label: '',
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/hotel/tipologyGroup/" + idTypesgroups)
+            .then(res => {
+                setValuesTypesGroups({ ...valuesTypesgroups, Label: res.data.response.label})
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateTypesgroups(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/hotel/tipologyGroup/` + idTypesgroups, {
+            data: {
+                label: valuesTypesgroups.Label,
+            }
+        })
+            .catch(err => console.log(err))
+    }
 
 
     //expanção do ecra no form
@@ -192,6 +346,7 @@ const formModals = ({ idCarateristics,
                             {(onClose) => (
                                 <>
                                     <>
+                                    <form onSubmit={handleSubmitTypesgroups}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -201,7 +356,7 @@ const formModals = ({ idCarateristics,
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                             <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <input type="text" name="Label" onChange={handleInputTypesgroups} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                             <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                             <div>
                                                 <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
@@ -214,6 +369,7 @@ const formModals = ({ idCarateristics,
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                         </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -238,6 +394,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={(e) => handleUpdateTypesgroups(e)}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                         <div className="flex flex-row justify-start gap-4">
                                             {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -250,7 +407,7 @@ const formModals = ({ idCarateristics,
                                     </ModalHeader>
                                     <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                         <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                        <input type="text" value={valuesTypesgroups.Label} onChange={e => setValuesTypesGroups({ ...valuesTypesgroups, Label: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                         <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                         <div>
                                             <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
@@ -263,6 +420,7 @@ const formModals = ({ idCarateristics,
                                             <option value="2">Teste de opções</option>
                                         </select>
                                     </ModalBody>
+                                    </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
@@ -849,6 +1007,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={handleSubmitRoomtype}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                         <div className='flex flex-row items-center mr-5'>
                                             <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -862,14 +1021,14 @@ const formModals = ({ idCarateristics,
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Descrição" />
+                                                    <Input type="text" variant="underlined" name="Desc" onChange={handleInputRoomtype} label="Descrição" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Abreviatura" />
+                                                    <Input type="text" variant="underlined" name="Name" onChange={handleInputRoomtype} label="Abreviatura" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
@@ -882,6 +1041,7 @@ const formModals = ({ idCarateristics,
                                                         disableAutosize
                                                         className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
                                                         variant="underlined"
+                                                        name="RoomFeaturesDesc" onChange={handleInputRoomtype}
                                                     />
                                                 </div>
                                             </div>
@@ -911,6 +1071,7 @@ const formModals = ({ idCarateristics,
                                             </div>
                                         </ScrollShadow>
                                     </ModalBody>
+                                    </form>
                                 </>
                             )}
                         </ModalContent>
@@ -934,6 +1095,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={(e) => handleUpdateRoomtype(e)}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                         <div className="flex flex-row justify-start gap-4">
                                             {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -950,14 +1112,14 @@ const formModals = ({ idCarateristics,
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Descrição" />
+                                                    <Input type="text" value={valuesRoomtype.Desc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })} variant="underlined" label="Descrição" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
                                                 <div
                                                     className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    <Input type="text" variant="underlined" label="Abreviatura" />
+                                                    <Input type="text" value={valuesRoomtype.Name} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })} variant="underlined" label="Abreviatura" />
                                                 </div>
                                             </div>
                                             <div className="w-full flex flex-col gap-4 mb-4">
@@ -970,6 +1132,7 @@ const formModals = ({ idCarateristics,
                                                         disableAutosize
                                                         className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
                                                         variant="underlined"
+                                                        value={valuesRoomtype.RoomFeaturesDesc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })}
                                                     />
                                                 </div>
                                             </div>
@@ -980,6 +1143,7 @@ const formModals = ({ idCarateristics,
                                                         defaultItems={Tipologia}
                                                         label=" Grupo Tipologia"
                                                         className="w-full"
+                                                        value={valuesRoomtype.GroupID} onChange={e => setValuesRoomtype({ ...valuesRoomtype, GroupID: e.target.value })}
                                                     >
                                                         {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                                                     </Autocomplete>
@@ -992,6 +1156,7 @@ const formModals = ({ idCarateristics,
                                                         defaultItems={Caracteristicas}
                                                         label="Função"
                                                         className="w-full"
+                                                        value={valuesRoomtype.RoomTypePlan} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomTypePlan: e.target.value })}
                                                     >
                                                         {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                                                     </Autocomplete>
@@ -999,6 +1164,7 @@ const formModals = ({ idCarateristics,
                                             </div>
                                         </ScrollShadow>
                                     </ModalBody>
+                                    </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
@@ -1099,6 +1265,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={handleSubmitMaintenance}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                         <div className='flex flex-row items-center mr-5'>
                                             <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -1112,6 +1279,7 @@ const formModals = ({ idCarateristics,
                                                 type="text"
                                                 placeholder="Descrição"
                                                 className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                                name="Description" onChange={handleInputMaintenance}
                                             />
                                             <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                         </div>
@@ -1119,11 +1287,13 @@ const formModals = ({ idCarateristics,
                                             type="text"
                                             placeholder="Abreviatura"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                            name="Abreviature" onChange={handleInputMaintenance}
                                         />
                                         <textarea
                                             type="textarea"
                                             placeholder="Detalhe"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
+                                            name="Details" onChange={handleInputMaintenance}
                                         ></textarea>
                                         <div>
                                             <input
@@ -1140,6 +1310,7 @@ const formModals = ({ idCarateristics,
                                             </label>
                                         </div>
                                     </ModalBody>
+                                    </form>
                                 </>
                             )}
                         </ModalContent>
@@ -1164,6 +1335,7 @@ const formModals = ({ idCarateristics,
                         <ModalContent>
                             {(onClose) => (
                                 <>
+                                <form onSubmit={(e) => handleUpdateMaintenance(e)}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                         <div className='flex flex-row items-center mr-5'>
                                             <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -1177,6 +1349,7 @@ const formModals = ({ idCarateristics,
                                                 type="text"
                                                 placeholder="Descrição"
                                                 className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                                value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}
                                             />
                                             <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                         </div>
@@ -1184,11 +1357,13 @@ const formModals = ({ idCarateristics,
                                             type="text"
                                             placeholder="Abreviatura"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                            value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}
                                         />
                                         <textarea
                                             type="textarea"
                                             placeholder="Detalhe"
                                             className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
+                                            value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}
                                         ></textarea>
                                         <div>
                                             <input
@@ -1205,6 +1380,7 @@ const formModals = ({ idCarateristics,
                                             </label>
                                         </div>
                                     </ModalBody>
+                                    </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
