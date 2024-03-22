@@ -28,26 +28,23 @@ export default function Characteristics() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [caracteristics, setCaracteristics] = useState([]);
+  const [roomtypesgroups, setRoomtypesgroups] = useState([]);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/hotel/caracteristicas");
-      setCaracteristics(res.data.response);
+      const res = await axios.get("/api/v1/hotel/tipologyGroup");
+      setRoomtypesgroups(res.data.response);
     };
     getData();
   }, []);
  
   const filteredItems = React.useMemo(() => {
-    return caracteristics.filter((caracteristic) =>
-      caracteristic.description.toLowerCase().includes(
-        searchValue.toLowerCase()
-      ) ||
-      caracteristic.characteristicID.toString().toLowerCase().includes(
+    return roomtypesgroups.filter((roomtypesgroups) =>
+      roomtypesgroups.roomTypeGroupID.toString().toLowerCase().includes(
         searchValue.toLowerCase()
       )
     );
-  }, [caracteristics, searchValue]);
+  }, [roomtypesgroups, searchValue]);
  
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -58,8 +55,8 @@ export default function Characteristics() {
  
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
  
-  const renderCell = React.useCallback((caracteristic, columnKey) => {
-    const cellValue = caracteristic[columnKey];
+  const renderCell = React.useCallback((roomtypesgroups, columnKey) => {
+    const cellValue = roomtypesgroups[columnKey];
   }, []);
  
   const handleChangeRowsPerPage = (event) => {
@@ -71,17 +68,13 @@ export default function Characteristics() {
     setSearchValue(value);
     setPage(1);
   };
- 
-  const handleDelete = async (idCarateristics) => {
+
+  const handleDelete = async (idTypesgroups) => {
     try {
-      const response = await axios.delete(`/api/hotel/caracteristicas`, {
-        data: {
-          idCarateristics: idCarateristics
-        }
-    });
-      alert("Característica removida com sucesso!");
+      const response = await axios.delete(`/api/v1/hotel/tipologyGroup/` + idTypesgroups)
+      alert("Grupo de Tipologia removida com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover característica:", error.message);
+      console.error("Erro ao remover grupo de tipologia:", error.message);
     }
   };
  
@@ -160,10 +153,10 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((caracteristic, index) => (
+          {items.map((roomtypesgroups, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left">alterar</TableCell>
-              <TableCell >alterar</TableCell>
+              <TableCell className="text-left">{roomtypesgroups.roomTypeGroupID}</TableCell>
+              <TableCell >{roomtypesgroups.label}</TableCell>
               <TableCell >alterar</TableCell>
               <TableCell className="px-10">alterar</TableCell>
               <TableCell>alterar</TableCell>
@@ -187,15 +180,15 @@ export default function Characteristics() {
                         buttonColor={"transparent"}
                         modalHeader={"Editar Grupo de Tipologia"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${caracteristic.characteristicID}`}
+                        modalEdit={`ID: ${roomtypesgroups.roomTypeGroupID}`}
                         formTypeModal={12}
-                        idCarateristics={caracteristic.characteristicID}
-                        criado={caracteristic.createdAt}
-                        editado={caracteristic.updatedAt}
+                        idTypesgroups={roomtypesgroups.roomTypeGroupID}
+                        criado={roomtypesgroups.createdAt}
+                        editado={roomtypesgroups.updatedAt}
                         editor={"teste"}
                       ></FormModals>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(roomtypesgroups.roomTypeGroupID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>

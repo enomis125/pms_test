@@ -28,26 +28,26 @@ export default function Characteristics() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [caracteristics, setCaracteristics] = useState([]);
+  const [maintenance, setMaintenance] = useState([]);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/hotel/caracteristicas");
-      setCaracteristics(res.data.response);
+      const res = await axios.get("/api/v1/hotel/maintenance");
+      setMaintenance(res.data.response);
     };
     getData();
   }, []);
  
   const filteredItems = React.useMemo(() => {
-    return caracteristics.filter((caracteristic) =>
-      caracteristic.description.toLowerCase().includes(
+    return maintenance.filter((maintenance) =>
+    maintenance.description.toLowerCase().includes(
         searchValue.toLowerCase()
       ) ||
-      caracteristic.characteristicID.toString().toLowerCase().includes(
+      maintenance.maintenanceID.toString().toLowerCase().includes(
         searchValue.toLowerCase()
       )
     );
-  }, [caracteristics, searchValue]);
+  }, [maintenance, searchValue]);
  
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -58,8 +58,8 @@ export default function Characteristics() {
  
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
  
-  const renderCell = React.useCallback((caracteristic, columnKey) => {
-    const cellValue = caracteristic[columnKey];
+  const renderCell = React.useCallback((maintenance, columnKey) => {
+    const cellValue = maintenance[columnKey];
   }, []);
  
   const handleChangeRowsPerPage = (event) => {
@@ -72,16 +72,12 @@ export default function Characteristics() {
     setPage(1);
   };
  
-  const handleDelete = async (idCarateristics) => {
+  const handleDelete = async (idMaintenance) => {
     try {
-      const response = await axios.delete(`/api/hotel/caracteristicas`, {
-        data: {
-          idCarateristics: idCarateristics
-        }
-    });
-      alert("Característica removida com sucesso!");
+      const response = await axios.delete(`/api/v1/hotel/maintenance/` + idMaintenance)
+      alert("Manutenção removida com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover característica:", error.message);
+      console.error("Erro ao remover manutenção:", error.message);
     }
   };
  
@@ -154,13 +150,13 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((caracteristic, index) => (
+          {items.map((maintenance, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">Alterar</TableCell>
-              <TableCell className="px-40">Alterar</TableCell>
-              <TableCell className="px-20">Alterar</TableCell>
-              <TableCell>Alterar</TableCell>
-              <TableCell>Alterar</TableCell>
+              <TableCell className="text-right">{maintenance.maintenanceID}</TableCell>
+              <TableCell className="px-40">{maintenance.abreviature}</TableCell>
+              <TableCell className="px-20">{maintenance.details}</TableCell>
+              <TableCell>{maintenance.description}</TableCell>
+              <TableCell>{maintenance.active}</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -179,15 +175,15 @@ export default function Characteristics() {
                         buttonColor={"transparent"}
                         modalHeader={"Editar Manutenção"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${caracteristic.characteristicID}`}
+                        modalEdit={`ID: ${maintenance.maintenanceID}`}
                         formTypeModal={52}
-                        idCarateristics={caracteristic.characteristicID}
-                        criado={caracteristic.createdAt}
-                        editado={caracteristic.updatedAt}
+                        idMaintenance={maintenance.maintenanceID}
+                        criado={maintenance.createdAt}
+                        editado={maintenance.updatedAt}
                         editor={"teste"}
                       ></FormModals>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(maintenance.maintenanceID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
