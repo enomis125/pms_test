@@ -118,7 +118,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idRoom,
     const [roomtype, setRoomtype] = useState({
         Desc: '',
         Name: '',
-        RoomFeaturesDesc: ''
+        RoomFeaturesDesc: '',
+        groupID: ''
     })
 
     const handleInputRoomtype = (event) => {
@@ -130,11 +131,12 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idRoom,
             alert("Preencha os campos corretamente");
             return;
         }
-        axios.put('/api/v1/hotel/tipologys', {
+        axios.put('/api/v1/hotel/typologys', {
             data: {
                 name: roomtype.Name,
                 desc: roomtype.Desc,
                 roomFeaturesDesc: roomtype.RoomFeaturesDesc,
+                groupID: roomtype.groupID
             }
         })
             .then(response => console.log(response))
@@ -166,8 +168,6 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idRoom,
                 desc: values.Desc,
                 name: values.Name,
                 roomFeaturesDesc: values.RoomFeaturesDesc,
-                groupID: values.GroupID,
-                roomTypePlan: values.RoomTypePlan
             }
         })
             .catch(err => console.log(err))
@@ -597,7 +597,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idRoom,
         <div className="w-full flex flex-col gap-4">
             <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                 <Textarea
-                    label="Detalhe"
+                    label="RoomType"
                     name="RoomType"
                     onChange={handleInputRoom}
                     disableAnimation
@@ -1000,7 +1000,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idRoom,
                 </>
             )}
 
-            {formTypeModal === 41 && ( //tipology insert
+{formTypeModal === 41 && ( //tipology insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -1050,7 +1050,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idRoom,
                                                         disableAutosize
                                                         className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
                                                         variant="underlined"
-                                                        name="RoomFeaturesDesc" onChange={handleInputRoomtype}
+                                                        name="RoomFeaturesDesc"
+                                                        onChange={handleInputRoomtype}
                                                     />
                                                 </div>
                                             </div>

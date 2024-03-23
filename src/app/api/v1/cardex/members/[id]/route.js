@@ -19,9 +19,9 @@ export async function GET(request, context) {
 
     console.log(id)
 
-    const response = await prisma.rooms.findUnique({
+    const response = await prisma.member.findUnique({
         where: {
-            roomID: parseInt(id)
+            memberID: parseInt(id)
         }
     })
 
@@ -42,14 +42,13 @@ export async function PATCH(request, context) {
         const { id } = context.params;
         const { data } = await request.json();
 
-        const updateRecord = await prisma.rooms.update({
+        const updateRecord = await prisma.member.update({
             where: {
-                roomID: parseInt(id),
+                memberID: parseInt(id),
             },
             data: {
-                label: data.label,
-                roomType: parseInt(data.roomType),
-                description: data.description
+                description: data.description,
+                abreviature: data.abreviature,
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));
@@ -71,9 +70,9 @@ export async function DELETE(request, context) {
 
         console.log(id)
 
-        const deleteRecord = await prisma.rooms.delete({
+        const deleteRecord = await prisma.members.delete({
             where: {
-                roomID: parseInt(id),
+                memberID: parseInt(id),
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));

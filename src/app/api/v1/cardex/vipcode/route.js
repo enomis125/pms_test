@@ -6,9 +6,8 @@ export async function GET(request) {
 
     const prisma = new PrismaClient()
 
-    const roomsRecords = await prisma.rooms.findMany()
+    const response = await prisma.vipcode.findMany()
 
-    const response = roomsRecords
 
     prisma.$disconnect()
 
@@ -21,11 +20,9 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data.Label)
-        const newRecord = await prisma.rooms.create({
+        const newRecord = await prisma.vipcode.create({
             data: {
-                label: data.Label,
-                roomType: parseInt(data.RoomType),
-                description: data.Description,
+                description: data.description,
             }
         });
 
