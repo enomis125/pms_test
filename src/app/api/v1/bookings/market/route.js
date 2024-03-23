@@ -6,9 +6,9 @@ export async function GET(request) {
 
     const prisma = new PrismaClient()
 
-    const cancelRecords = await prisma.cancelationsreasons.findMany()
+    const marketRecords = await prisma.market.findMany()
 
-    const response = cancelRecords
+    const response = marketRecords
 
     prisma.$disconnect()
 
@@ -20,11 +20,11 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
-        const newRecord = await prisma.cancelationsreasons.create({
+        const newRecord = await prisma.market.create({
             data: {
-                shortName: data.Abreviature,
-                name: data.Description,
-                class: parseInt(data.Details),
+                name: data.abreviature,
+                anzahi: parseInt(data.description),
+                group: data.ordenation,
             }
         });
 

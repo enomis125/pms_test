@@ -19,9 +19,9 @@ export async function GET(request, context) {
 
     console.log(id)
 
-    const response = await prisma.cancelationsreasons.findUnique({
+    const response = await prisma.market.findUnique({
         where: {
-            cancelReasonID: parseInt(id)
+            marketNR: parseInt(id)
         }
     })
 
@@ -42,14 +42,14 @@ export async function PATCH(request, context) {
         const { id } = context.params;
         const { data } = await request.json();
 
-        const updateRecord = await prisma.cancelationsreasons.update({
+        const updateRecord = await prisma.market.update({
             where: {
-                cancelReasonID: parseInt(id),
+                marketNR: parseInt(id),
             },
             data: {
-                shortName: data.Abreviature,
-                name: data.Description,
-                class: data.Details,
+                name: data.name,
+                anzahi: parseInt(data.anzahi),
+                group: data.group,
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));
@@ -71,9 +71,9 @@ export async function DELETE(request, context) {
 
         console.log(id)
 
-        const deleteRecord = await prisma.cancelationsreasons.delete({
+        const deleteRecord = await prisma.market.delete({
             where: {
-                cancelReasonID: parseInt(id),
+                marketNR: parseInt(id),
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));
