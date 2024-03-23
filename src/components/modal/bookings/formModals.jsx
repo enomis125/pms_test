@@ -20,7 +20,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChange, idReplaceCode, idKnowledge, idMarket, idMarketSegment,
+const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChange, idReplaceCode, idKnowledge, idMarket, idMarketSegment, idReservStatus,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -57,6 +57,61 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
         { label: "Caracteristicas3", value: "Caracteristicas3", description: "" },
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
+
+    //inserção na tabela reservation status
+    const [reservStatus, setReservStatus] = useState({
+        Abreviature: '',
+        Description: '',
+        Ordenation: ''
+    })
+
+    const handleInputReservStatus = (event) => {
+        setReservStatus({ ...reservStatus, [event.target.name]: event.target.value })
+    }
+    function handleSubmitReservStatus(event) {
+        event.preventDefault()
+        if (!reservStatus.Abreviature || !reservStatus.Description || !reservStatus.Ordenation) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/bookings/reservationStatus', {
+            data: {
+                resbez: reservStatus.Abreviature,
+                resmark: reservStatus.Description,
+                reschar: reservStatus.Ordenation,
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+
+    //edição na tabela reservation status
+    const [valuesReservStatus, setValuesReservStatus] = useState({
+        id: idReservStatus,
+        Abreviature: '',
+        Description: '',
+        Ordenation: ''
+    })
+
+    useEffect(() => {
+        axios.get('/api/v1/bookings/reservationStatus/' + idReservStatus)
+            .then(res => {
+                setValuesReservStatus({ ...valuesReservStatus, Abreviature: res.data.response.resbez, Description: res.data.response.resmark, Ordenation: res.data.response.reschar, })
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateReservStatus(e) {
+        e.preventDefault()
+        axios.patch('/api/v1/bookings/reservationStatus/' + idReservStatus, {
+            data: {
+                resbez: valuesReservStatus.Abreviature,
+                resmark: valuesReservStatus.Description,
+                reschar: valuesReservStatus.Ordenation,
+            }
+        })
+            .catch(err => console.log(err))
+    }
 
 
     //inserção na tabela market segments
@@ -512,7 +567,184 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
     return (
         <>
 
-{formTypeModal === 20 && ( //origens mercado modal
+            {formTypeModal === 10 && ( //reservation status modal
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <div>
+                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
+                                            </div>
+                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
+                                                <option value="0">------------</option>
+                                                <option value="1">Teste de opções</option>
+                                                <option value="2">Teste de opções</option>
+                                            </select>
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onPress={onClose}>
+                                                Fechar
+                                            </Button>
+                                            <Button color="primary" onPress={onClose}>
+                                                Teste
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+            {formTypeModal === 11 && ( //reservation status insert
+                <>
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <form onSubmit={handleSubmitReservStatus}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputReservStatus} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputReservStatus}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReservStatus} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+            {formTypeModal === 12 && ( //reservation status edit
+                <>
+                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <form onSubmit={(e) => handleUpdateReservStatus(e)}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                <div className="flex flex-row justify-start gap-4">
+                                                    {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                                </div>
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" value={valuesReservStatus.Abreviature} onChange={e => setValuesReservStatus({ ...valuesReservStatus, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        value={valuesReservStatus.Description}
+                                                        onChange={e => setValuesReservStatus({ ...valuesReservStatus, Description: e.target.value })}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" value={valuesReservStatus.Ordenation} onChange={e => setValuesReservStatus({ ...valuesReservStatus, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+
+
+            {formTypeModal === 20 && ( //origens mercado modal
                 <>
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}

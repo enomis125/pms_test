@@ -733,7 +733,6 @@ model marketing {
   marketingID Int    @id @default(autoincrement())
   abreviature String @default("") @db.VarChar(250)
   description String @default("") @db.VarChar(250)
-  ordenation  String @default("") @db.VarChar(250)
 }
 
 model marketsegments {
@@ -745,4 +744,20 @@ model marketsegments {
   createdBy        String?  @default("") @db.VarChar(50)
   updatedAt        DateTime @default(now()) @db.Timestamp(0)
   updatedBy        String?  @default("") @db.VarChar(50)
+}
+
+model member {
+  memberID    Int    @id @default(autoincrement())
+  abreviature String @default("") @db.VarChar(250)
+  description String @default("") @db.VarChar(250)
+}
+
+model statustype {
+  statustypeID Int      @id @default(autoincrement())
+  abreviature  String   @default("") @db.VarChar(200)
+  description  String   @default("") @db.VarChar(250)
+  createdAt    DateTime @default(now()) @db.Timestamp(0)
+  createdBy    String   @default("") @db.VarChar(50)
+  updatedAt    DateTime @default(now()) @db.Timestamp(0)
+  updatedBy    String   @default("") @db.VarChar(50)
 }
