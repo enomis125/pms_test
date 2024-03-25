@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
@@ -6,9 +7,8 @@ export async function GET(request) {
 
     const prisma = new PrismaClient()
 
-    const cancelRecords = await prisma.cancelationsreasons.findMany()
+    const response = await prisma.customerPreferences.findMany()
 
-    const response = cancelRecords
 
     prisma.$disconnect()
 
@@ -20,11 +20,11 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
-        const newRecord = await prisma.cancelationsreasons.create({
+        console.log(data.description)
+        const newRecord = await prisma.customerPreferences.create({
             data: {
-                shortName: data.Abreviature,
-                name: data.Description,
-                class: parseInt(data.Details),
+                description: data.description,
+                abreviature: data.abreviature,
             }
         });
 

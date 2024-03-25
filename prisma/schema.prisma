@@ -474,9 +474,9 @@ model source {
 }
 
 model transfers {
-  RefID     Int      @id @default(autoincrement())
+  refID     Int      @id @default(autoincrement())
   class     Int      @default(-1)
-  Name      String   @default("") @db.VarChar(250)
+  name      String   @default("") @db.VarChar(250)
   shortName String   @default("") @db.VarChar(50)
   para      String   @default("") @db.VarChar(100)
   para2     String   @default("") @db.VarChar(100)
@@ -683,4 +683,102 @@ model maintenance {
   details       String @default("") @db.VarChar(250)
   description   String @default("") @db.VarChar(250)
   active        Int    @default(1)
+}
+
+model cancelationtypes {
+  cancelationTypeID Int      @id @default(autoincrement())
+  abreviature       String   @default("") @db.VarChar(250)
+  description       String   @default("") @db.VarChar(250)
+  ordenation        String   @default("") @db.VarChar(250)
+  createdAt         DateTime @default(now()) @db.Timestamp(0)
+  createdBy         String?  @default("") @db.VarChar(50)
+  updatedAt         DateTime @default(now()) @db.Timestamp(0)
+  updatedBy         String?  @default("") @db.VarChar(50)
+}
+
+model reservationchange {
+  reservationchangeID Int      @id @default(autoincrement())
+  abreviature         String   @default("") @db.VarChar(250)
+  description         String   @default("") @db.VarChar(250)
+  ordenation          String   @default("") @db.VarChar(250)
+  createdAt           DateTime @default(now()) @db.Timestamp(0)
+  createdBy           String?  @default("") @db.VarChar(50)
+  updatedAt           DateTime @default(now()) @db.Timestamp(0)
+  updatedBy           String?  @default("") @db.VarChar(50)
+}
+
+model replacementcode {
+  replacementcodeID Int      @id @default(autoincrement())
+  abreviature       String   @default("") @db.VarChar(250)
+  description       String   @default("") @db.VarChar(250)
+  ordenation        String   @default("") @db.VarChar(250)
+  createdAt         DateTime @default(now()) @db.Timestamp(0)
+  createdBy         String?  @default("") @db.VarChar(50)
+  updatedAt         DateTime @default(now()) @db.Timestamp(0)
+  updatedBy         String?  @default("") @db.VarChar(50)
+}
+
+model formsofknowledge {
+  formsknowledgeID Int      @id @default(autoincrement())
+  abreviature      String   @default("") @db.VarChar(250)
+  description      String   @default("") @db.VarChar(250)
+  ordenation       String   @default("") @db.VarChar(250)
+  createdAt        DateTime @default(now()) @db.Timestamp(0)
+  createdBy        String?  @default("") @db.VarChar(50)
+  updatedAt        DateTime @default(now()) @db.Timestamp(0)
+  updatedBy        String?  @default("") @db.VarChar(50)
+}
+
+model marketing {
+  marketingID Int    @id @default(autoincrement())
+  abreviature String @default("") @db.VarChar(250)
+  description String @default("") @db.VarChar(250)
+}
+
+model marketsegments {
+  marketsegmentsID Int      @id @default(autoincrement())
+  abreviature      String   @default("") @db.VarChar(250)
+  description      String   @default("") @db.VarChar(250)
+  ordenation       String   @default("") @db.VarChar(250)
+  createdAt        DateTime @default(now()) @db.Timestamp(0)
+  createdBy        String?  @default("") @db.VarChar(50)
+  updatedAt        DateTime @default(now()) @db.Timestamp(0)
+  updatedBy        String?  @default("") @db.VarChar(50)
+}
+
+model member {
+  memberID    Int    @id @default(autoincrement())
+  abreviature String @default("") @db.VarChar(250)
+  description String @default("") @db.VarChar(250)
+}
+
+model statustype {
+  statustypeID Int      @id @default(autoincrement())
+  abreviature  String   @default("") @db.VarChar(200)
+  description  String   @default("") @db.VarChar(250)
+  createdAt    DateTime @default(now()) @db.Timestamp(0)
+  createdBy    String   @default("") @db.VarChar(50)
+  updatedAt    DateTime @default(now()) @db.Timestamp(0)
+  updatedBy    String   @default("") @db.VarChar(50)
+}
+
+model customerPreferences {
+  customerPreferencesID Int    @id @default(autoincrement())
+  abreviature           String @default("") @db.VarChar(250)
+  description           String @default("") @db.VarChar(250)
+}
+
+model knowledgemethod {
+  knowledgeMethodID Int    @id @default(autoincrement())
+  abreviature       String @default("") @db.VarChar(250)
+  description       String @default("") @db.VarChar(250)
+}
+
+model profession {
+  professionID Int    @id @default(autoincrement())
+  gruppe       Int    @default(-1)
+  abreviature  String @default("") @db.VarChar(50)
+  description  String @default("") @db.VarChar(250)
+  ordenation   Int    @default(-1)
+  property     Int    @default(-1)
 }
