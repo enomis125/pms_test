@@ -1,35 +1,17 @@
-export const typologys = [
-    { value: 'TD', label: 'All' },
-    { value: 'QI', label: 'Quarto Individual' },
-    { value: 'QD', label: 'Quarto Duplo' },
-    { value: 'ST', label: 'Suite' },
-];
+import React, {useEffect, useState} from 'react';
 
-export const actions = [
-    { value: 'edit', label: 'Editar' },
-    { value: 'delete', label: 'Apagar' },
-]
+export const caracteristicaOption = () => {
+    const [caracteristicas, setCaracteristicas] = useState([]);
 
-export const users = [
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
-    { value: 'teste', label: 'teste' },
+    useEffect(() => {
+        axios.get('/api/v1/hotel/caracteristicas')
+            .then(res => {
+                const caracteristicaOption = res.data.response.map(item => ({ value: item.characteristicID, label: item.description }));
+                setCaracteristicas(data);
+                console.log(caracteristicaOption)
+            })
+            .catch(err => console.log(err));
+    }, []);
 
-]
+    return caracteristicas;
+}

@@ -940,13 +940,13 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 <div>
                                                     <input
                                                         type="text"
-                                                        name="Abreviature"
+                                                        name="abreviature"
                                                         onChange={handleInputKnowledgeMethod}
-                                                        placeholder="Abreviatura"
+                                                        placeholder="abreviatura"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Description" onChange={handleInputKnowledgeMethod} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" name="description" onChange={handleInputKnowledgeMethod} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"

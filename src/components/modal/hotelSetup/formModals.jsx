@@ -10,6 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
+import {CaracteristicaOption} from "../../../app/data/data";
 
 
 /*
@@ -58,8 +59,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
 
-     //inserção na tabela rooms
-     const [room, setRoom] = useState({
+    //inserção na tabela rooms
+    const [room, setRoom] = useState({
         Label: '',
         RoomType: '',
         Description: ''
@@ -83,7 +84,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         })
             .then(response => console.log(response))
             .catch(err => console.log(err))
-            console.log(room.Label)
+        console.log(room.Label)
     }
     //edição na tabela rooms
     const [valuesRoom, setValuesRoom] = useState({
@@ -665,7 +666,6 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                         variant="underlined"
                                                         defaultItems={Tipologia}
                                                         label="Tipologia"
-                                                        // Adjusting the name to match the expected name in handleInputRoom
                                                         name="Tipologia"
                                                         className="w-full"
                                                     >
@@ -705,11 +705,14 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
                                                         variant="underlined"
-                                                        defaultItems={Caracteristicas}
-                                                        label="Caracteristicas"
+                                                        label="Características"
                                                         className="w-full"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        {CaracteristicaOption && CaracteristicaOption.map(item => (
+                                                            <AutocompleteItem key={item.value} value={item.value}>
+                                                                {item.label}
+                                                            </AutocompleteItem>
+                                                        ))}
                                                     </Autocomplete>
                                                 </div>
                                             </div>
