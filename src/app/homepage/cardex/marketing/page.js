@@ -85,7 +85,7 @@ export default function Marketing() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Códigos de Marketing</p>
+          <p className="text-xs px-6">Marketing</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -105,7 +105,7 @@ export default function Marketing() {
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Quarto"}
+              modalHeader={"Inserir Marketing"}
               modalIcons={"bg-red"}
               formTypeModal={81}
             ></FormModals>
@@ -160,9 +160,9 @@ export default function Marketing() {
               <TableCell className="text-left">{marketing.marketingID}</TableCell>
               <TableCell >{marketing.description}</TableCell>
               <TableCell className="px-10">{marketing.abreviature}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -179,7 +179,7 @@ export default function Marketing() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Quartos"}
+                        modalHeader={"Editar Marketing"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${marketing.marketingID}`}
                         formTypeModal={82}

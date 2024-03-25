@@ -85,7 +85,7 @@ export default function Knowledgemethod() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Tipos de Metodos de conhecimento</p>
+          <p className="text-xs px-6">Métodos de Conhecimento</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -105,7 +105,7 @@ export default function Knowledgemethod() {
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Metodo"}
+              modalHeader={"Inserir Método"}
               modalIcons={"bg-red"}
               formTypeModal={31}
             ></FormModals>
@@ -157,8 +157,8 @@ export default function Knowledgemethod() {
               <TableCell className="text-left">{knowledgemethod.knowledgeMethodID}</TableCell>
               <TableCell >{knowledgemethod.abreviature}</TableCell>
               <TableCell className="px-10">{knowledgemethod.description}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -175,7 +175,7 @@ export default function Knowledgemethod() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Quartos"}
+                        modalHeader={"Editar Método"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${knowledgemethod.knowledgeMethodID}`}
                         formTypeModal={32}

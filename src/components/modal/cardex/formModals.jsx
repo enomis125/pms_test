@@ -249,8 +249,8 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
     //inserção na tabela knowledge method
     const [knowledgeMethod, setKnowledgeMethod] = useState({
-        description: '',
-        abreviature: '',
+        Description: '',
+        Abreviature: '',
     })
 
     const handleInputKnowledgeMethod = (event) => {
@@ -299,8 +299,8 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
     //inserção na tabela doctypes
     const [doctypes, setDoctypes] = useState({
-        name: '',
-        shortName: '',
+        Name: '',
+        ShortName: '',
     })
 
     const handleInputDoctypes = (event) => {
@@ -351,8 +351,8 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
     //inserção na tabela client preference
     const [customerPreferences, setCustomerPreferences] = useState({
-        description: '',
-        abreviature: '',
+        Description: '',
+        Abreviature: '',
     })
 
     const handleInputCustomerPreferences = (event) => {
@@ -402,8 +402,8 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
     //inserção na tabela members
     const [member, setMember] = useState({
-        description: '',
-        abreviature: '',
+        Description: '',
+        Abreviature: '',
     })
 
     const handleInputMember = (event) => {
@@ -453,8 +453,8 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
     //inserção na tabela marketing
     const [marketing, setMarketing] = useState({
-        description: '',
-        abreviature: '',
+        Description: '',
+        Abreviature: '',
     })
 
     const handleInputMarketing = (event) => {
@@ -503,7 +503,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
     //inserção na tabela vipcode
     const [vipcode, setVipcode] = useState({
-        description: '',
+        Description: '',
     })
 
     const handleInputVipcode = (event) => {
@@ -605,12 +605,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
+                        
                         isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
                         <ModalContent>
                             {(onClose) => (
@@ -908,7 +903,59 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
             )}
 
 
-            {/*form de knowledge method modal nrm 30*/}
+            {formTypeModal === 30 && ( //knowledge modal
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Abreviature"
+                                                        onChange={handleInputKnowledgeMethod}
+                                                        placeholder="Abreviatura"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Description" onChange={handleInputKnowledgeMethod} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onPress={onClose}>
+                                                Fechar
+                                            </Button>
+                                            <Button color="primary" onPress={onClose}>
+                                                Teste
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 31 && ( //knowledge method insert
                 <>
@@ -989,7 +1036,10 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                 <>
                                     <>
                                         <form onSubmit={(e) => handleUpdateKnowledgeMethod(e)}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                <div className="flex flex-row justify-start gap-4">
+                                                    {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                                </div>
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
@@ -1025,6 +1075,14 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -1153,7 +1211,60 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                 </>
             )}
 
-            {/*form modal 50 doctypes */}
+            {formTypeModal === 50 && ( //doctypes modal
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="ShortName"
+                                                        onChange={handleInputDoctypes}
+                                                        placeholder="Abreviatura"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Name" onChange={handleInputDoctypes} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onPress={onClose}>
+                                                Fechar
+                                            </Button>
+                                            <Button color="primary" onPress={onClose}>
+                                                Teste
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                </>
+
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 51 && ( //doctypes insert 
                 <>
@@ -1218,7 +1329,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 52 && ( //doctypes edit
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -1233,14 +1344,17 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleUpdateDoctypes}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
+                                        <form onSubmit={(e) => handleUpdateDoctypes(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                                 <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
@@ -1270,6 +1384,14 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -1278,7 +1400,60 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                 </>
             )}
 
-            {/*form modal 60 client preference  */}
+            {formTypeModal === 60 && ( //client preference modal
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Abreviature"
+                                                        onChange={handleInputCustomerPreferences}
+                                                        placeholder="Abreviatura"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Description" onChange={handleInputCustomerPreferences} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onPress={onClose}>
+                                                Fechar
+                                            </Button>
+                                            <Button color="primary" onPress={onClose}>
+                                                Teste
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                </>
+
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 61 && ( //client preference insert
                 <>
@@ -1306,7 +1481,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*name="ShortName" onChange={handleInputVipcode}*/ placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1343,7 +1518,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 62 && ( //client preference edit
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -1358,16 +1533,19 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleUpdateCustomerPreferences}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
+                                        <form onSubmit={(e) => handleUpdateCustomerPreferences(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName"*/ placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1395,6 +1573,14 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -1403,7 +1589,60 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                 </>
             )}
 
-            {/*form modal 70 members */}
+            {formTypeModal === 70 && ( //members modal
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Abreviature"
+                                                        onChange={handleInputMember}
+                                                        placeholder="Abreviatura"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Description" onChange={handleInputMember} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onPress={onClose}>
+                                                Fechar
+                                            </Button>
+                                            <Button color="primary" onPress={onClose}>
+                                                Teste
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                </>
+
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 71 && ( //members insert
                 <>
@@ -1431,7 +1670,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*name="ShortName" onChange={handleInputVipcode}*/ placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1468,7 +1707,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 72 && ( //members edit
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -1483,16 +1722,19 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleUpdateMember}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
+                                        <form onSubmit={(e) => handleUpdateMember(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName"*/ placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1520,6 +1762,14 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -1528,7 +1778,60 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                 </>
             )}
 
-            {/*form modal 80 marketing */}
+            {formTypeModal === 80 && ( //marketing modal
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Abreviature"
+                                                        onChange={handleInputMarketing}
+                                                        placeholder="Abreviatura"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Description" onChange={handleInputMarketing} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onPress={onClose}>
+                                                Fechar
+                                            </Button>
+                                            <Button color="primary" onPress={onClose}>
+                                                Teste
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                </>
+
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 81 && ( //marketing insert
                 <>
@@ -1556,7 +1859,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*name="ShortName" onChange={handleInputVipcode}*/ placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1593,7 +1896,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 82 && ( //marketing edit
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -1608,16 +1911,19 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleUpdateMarketing}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
+                                        <form onSubmit={(e) => handleUpdateMarketing(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName"*/ placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1645,6 +1951,14 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -1653,7 +1967,60 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                 </>
             )}
 
-            {/*form modal 90 vip code */}
+            {formTypeModal === 90 && ( //vip code modal
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputVipcode}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onPress={onClose}>
+                                                Fechar
+                                            </Button>
+                                            <Button color="primary" onPress={onClose}>
+                                                Teste
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                </>
+
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 91 && ( //vip code insert
                 <>
@@ -1681,7 +2048,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*name="ShortName" onChange={handleInputVipcode}*/ placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1691,7 +2058,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" /*name="Class" onChange={handleInputTransfer}*/ placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -1718,7 +2085,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 92 && ( //vip code edit
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -1733,16 +2100,19 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleUpdateVipcode}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
+                                        <form onSubmit={(e) => handleUpdateVipcode(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" /*value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName"*/ placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
@@ -1753,7 +2123,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" /*name="Class" value={valuesTransfer.Class} onChange={e => setValuesTransfer({ ...valuesTransfer, Class: e.target.value })}*/ placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -1770,6 +2140,14 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
                                     </>
                                 </>
                             )}

@@ -85,7 +85,7 @@ export default function Members() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Códigos de Members</p>
+          <p className="text-xs px-6">Membros</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -105,7 +105,7 @@ export default function Members() {
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Quarto"}
+              modalHeader={"Inserir Membro"}
               modalIcons={"bg-red"}
               formTypeModal={71}
             ></FormModals>
@@ -160,9 +160,9 @@ export default function Members() {
               <TableCell className="text-left">{member.memberID}</TableCell>
               <TableCell >{member.description}</TableCell>
               <TableCell className="px-10">{member.abreviature}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -179,7 +179,7 @@ export default function Members() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Quartos"}
+                        modalHeader={"Editar Membro"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${member.memberID}`}
                         formTypeModal={72}

@@ -105,7 +105,7 @@ export default function Vipcode() {
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Quarto"}
+              modalHeader={"Inserir Tipo de VIP"}
               modalIcons={"bg-red"}
               formTypeModal={91}
             ></FormModals>
@@ -156,9 +156,9 @@ export default function Vipcode() {
             <TableRow key={index}>
               <TableCell className="text-left">{vipcode.customerCode}</TableCell>
               <TableCell >{vipcode.description}</TableCell>
-              <TableCell className="px-10">{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
+              <TableCell className="px-10"></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -175,7 +175,7 @@ export default function Vipcode() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Quartos"}
+                        modalHeader={"Editar Tipo de VIP"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${vipcode.customerCode}`}
                         formTypeModal={92}

@@ -178,7 +178,7 @@ export default function Salutation() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Saudação"}
+                        modalHeader={"Editar Profissão"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${profession.professionID}`}
                         formTypeModal={42}

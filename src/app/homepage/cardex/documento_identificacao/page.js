@@ -86,7 +86,7 @@ export default function Knowledgemethod() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Tipos de Documentos</p>
+          <p className="text-xs px-6">Documentos de Identificação</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -158,8 +158,8 @@ export default function Knowledgemethod() {
               <TableCell className="text-left">{doctypes.refID}</TableCell>
               <TableCell >{doctypes.shortName}</TableCell>
               <TableCell className="px-10">{doctypes.name}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
-              <TableCell>{/*vipcode.shortName*/}</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -176,7 +176,7 @@ export default function Knowledgemethod() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Quartos"}
+                        modalHeader={"Editar Documento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${doctypes.refID}`}
                         formTypeModal={52}
