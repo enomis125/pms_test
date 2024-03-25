@@ -20,7 +20,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idVipcode, idMarketing, idMember, idCustomerPreferences,
+const formModals = ({ idVipcode, idMarketing, idMember, idCustomerPreferences, idKnowledgeMethod, idDoctypes,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -257,6 +257,110 @@ const formModals = ({ idVipcode, idMarketing, idMember, idCustomerPreferences,
     }
 
 
+
+     //inserção na tabela customerPreferences
+     const [knowledgeMethod, setKnowledgeMethod] = useState({
+        description: '',
+        abreviature: '',
+    })
+
+    const handleInputKnowledgeMethod = (event) => {
+        setKnowledgeMethod({ ...knowledgeMethod, [event.target.name]: event.target.value })
+    }
+    function handleSubmitKnowledgeMethod(event) {
+        event.preventDefault()
+        if (!knowledgeMethod.Description || !knowledgeMethod.Abreviature) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/cardex/knowledgeMethod', {
+            data: {
+                description: knowledgeMethod.Description,
+                abreviature: knowledgeMethod.Abreviature,
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+    //edição na tabela members
+    const [valuesKnowledgeMethod, setValuesKnowledgeMethod] = useState({
+        id: idKnowledgeMethod,
+        Descrition: '',
+        Abreviature: '',
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/cardex/knowledgeMethod/" + idKnowledgeMethod)
+            .then(res => {
+                setValuesKnowledgeMethod({ ...valuesKnowledgeMethod, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateKnowledgeMethod(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/cardex/knowledgeMethod/` + idKnowledgeMethod, {
+            data: {
+                description: valuesKnowledgeMethod.Descrition,
+                abreviature: valuesKnowledgeMethod.Abreviature,
+            }
+        })
+            .catch(err => console.log(err))
+    }
+
+
+
+
+
+    //inserção na tabela doctypes
+    const [doctypes, setDoctypes] = useState({
+        name: '',
+        shortName: '',
+    })
+
+    const handleInputDoctypes = (event) => {
+        setDoctypes({ ...doctypes, [event.target.name]: event.target.value })
+    }
+    function handleSubmitDoctypes(event) {
+        event.preventDefault()
+        if (!doctypes.Name || !doctypes.ShortName) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/cardex/doctypes', {
+            data: {
+                name: doctypes.Name,
+                shortName: doctypes.ShortName,
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+    //edição na tabela members
+    const [valuesDoctypes, setValuesDoctypes] = useState({
+        id: idDoctypes,
+        Name: '',
+        ShortName: '',
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/cardex/doctypes/" + idDoctypes)
+            .then(res => {
+                setValuesDoctypes({ ...valuesDoctypes, Name: res.data.response.name, ShortName: res.data.response.shortName })
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateDoctypes(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/cardex/doctypes/` + idDoctypes, {
+            data: {
+                name: valuesDoctypes.Name,
+                shortName: valuesDoctypes.ShortName,
+            }
+        })
+            .catch(err => console.log(err))
+    }
 
 
 
@@ -744,6 +848,256 @@ const formModals = ({ idVipcode, idMarketing, idMember, idCustomerPreferences,
                                             <AiOutlineGlobal className="ml-auto text-xl" />
                                             </div>
                                             <textarea type="textarea" name="Description" value={valuesCustomerPreferences.Descrition} onChange={e => setValuesCustomerPreferences({ ...valuesCustomerPreferences, Descrition: e.target.value })} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <div>
+                                            <input
+                                                id="link-checkbox"
+                                                type="checkbox"
+                                                value=""
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            ></input>
+                                            <label
+                                                for="link-checkbox"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Estado
+                                            </label>
+                                        </div>
+                                        </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+
+
+{formTypeModal === 51 && ( //tipo cancelamento
+                <>
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                    <form onSubmit={handleSubmitKnowledgeMethod}>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <input type="text" /*name="ShortName" onChange={handleInputVipcode}*/ placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <div>
+                                            <input 
+                                            type="text" 
+                                            name="Abreviature" 
+                                            onChange={handleInputKnowledgeMethod} 
+                                            placeholder="Abreviatura" 
+                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                            <AiOutlineGlobal className="ml-auto text-xl" />
+                                            </div>
+                                            <textarea type="textarea" name="Description" onChange={handleInputKnowledgeMethod} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <div>
+                                            <input
+                                                id="link-checkbox"
+                                                type="checkbox"
+                                                value=""
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            ></input>
+                                            <label
+                                                for="link-checkbox"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Estado
+                                            </label>
+                                        </div>
+                                        </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+{formTypeModal === 52 && ( //tipo cancelamento
+                <>
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                    <form onSubmit={handleUpdateKnowledgeMethod}>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <input type="text" /*value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName"*/ placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <div>
+                                            <input 
+                                            type="text" 
+                                            name="Abreviature" 
+                                            value={valuesKnowledgeMethod.Abreviature}
+                                            onChange={e => setValuesKnowledgeMethod({ ...valuesKnowledgeMethod, Abreviature: e.target.value })}
+                                            placeholder="Abreviatura" 
+                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                            <AiOutlineGlobal className="ml-auto text-xl" />
+                                            </div>
+                                            <textarea type="textarea" name="Description" value={valuesKnowledgeMethod.Descrition} onChange={e => setValuesKnowledgeMethod({ ...valuesKnowledgeMethod, Descrition: e.target.value })} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <div>
+                                            <input
+                                                id="link-checkbox"
+                                                type="checkbox"
+                                                value=""
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            ></input>
+                                            <label
+                                                for="link-checkbox"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Estado
+                                            </label>
+                                        </div>
+                                        </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+
+
+{formTypeModal === 61 && ( //tipo cancelamento
+                <>
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                    <form onSubmit={handleSubmitDoctypes}>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <input type="text" /*name="ShortName" onChange={handleInputVipcode}*/ placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <div>
+                                            <input 
+                                            type="text" 
+                                            name="ShortName" 
+                                            onChange={handleInputDoctypes} 
+                                            placeholder="Abreviatura" 
+                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                            <AiOutlineGlobal className="ml-auto text-xl" />
+                                            </div>
+                                            <textarea type="textarea" name="Name" onChange={handleInputDoctypes} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <div>
+                                            <input
+                                                id="link-checkbox"
+                                                type="checkbox"
+                                                value=""
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            ></input>
+                                            <label
+                                                for="link-checkbox"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Estado
+                                            </label>
+                                        </div>
+                                        </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+{formTypeModal === 62 && ( //tipo cancelamento
+                <>
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                    <form onSubmit={handleUpdateDoctypes}>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <input type="text" /*value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName"*/ placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <div>
+                                            <input 
+                                            type="text" 
+                                            name="ShortName" 
+                                            value={valuesDoctypes.ShortName}
+                                            onChange={e => setValuesDoctypes({ ...valuesDoctypes, ShortName: e.target.value })}
+                                            placeholder="Abreviatura" 
+                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                            <AiOutlineGlobal className="ml-auto text-xl" />
+                                            </div>
+                                            <textarea type="textarea" name="Name" value={valuesDoctypes.Name} onChange={e => setValuesDoctypes({ ...valuesDoctypes, Name: e.target.value })} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                             <div>
                                             <input
                                                 id="link-checkbox"

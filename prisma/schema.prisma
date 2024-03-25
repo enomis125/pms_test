@@ -767,3 +767,9 @@ model customerPreferences {
   abreviature           String @default("") @db.VarChar(250)
   description           String @default("") @db.VarChar(250)
 }
+
+model knowledgemethod {
+  knowledgeMethodID Int    @id @default(autoincrement())
+  abreviature       String @default("") @db.VarChar(250)
+  description       String @default("") @db.VarChar(250)
+}
