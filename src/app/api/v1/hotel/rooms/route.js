@@ -1,15 +1,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma"
 
 export async function GET(request) {
 
-    const prisma = new PrismaClient()
-
-    const roomsRecords = await prisma.rooms.findMany()
-
-    const response = roomsRecords
+    const response = await prisma.rooms.findMany()
 
     prisma.$disconnect()
 
@@ -17,12 +13,10 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
-    const prisma = new PrismaClient();
 
     try {
         const { data } = await request.json();
-        console.log(data.Label)
-        const newRecord = await prisma.rooms.create({
+        const response = await prisma.rooms.create({
             data: {
                 label: data.Label,
                 roomType: parseInt(data.RoomType),
@@ -30,7 +24,7 @@ export async function PUT(request) {
             }
         });
 
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({ response, status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });

@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma"
 
 export async function GET(request) {
 
-    const prisma = new PrismaClient()
-
-    const marketRecords = await prisma.market.findMany()
-
-    const response = marketRecords
+    const response = await prisma.market.findMany()
 
     prisma.$disconnect()
 
@@ -16,11 +12,10 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
-    const prisma = new PrismaClient();
 
     try {
         const { data } = await request.json();
-        const newRecord = await prisma.market.create({
+        const response = await prisma.market.create({
             data: {
                 name: data.abreviature,
                 anzahi: parseInt(data.description),
@@ -28,7 +23,7 @@ export async function PUT(request) {
             }
         });
 
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({ response, status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });

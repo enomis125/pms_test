@@ -1,23 +1,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma"
 
 export async function GET(request, context) {
 
-    const prisma = new PrismaClient()
-
-    // console.log("1")
-
-    // const pathname = new URL(request.url).pathname;
-
-    // const parts = pathname.split('/');
-
-    // const id = parts[parts.length - 1];
-
     const { id } = context.params;
-
-    console.log(id)
 
     const response = await prisma.hear.findUnique({
         where: {
@@ -26,23 +14,21 @@ export async function GET(request, context) {
     })
 
     if (!response) {
-        return new NextResponse(JSON.stringify({status: 404 }));
+        return new NextResponse(JSON.stringify({ status: 404 }));
     }
 
     prisma.$disconnect()
 
-    return new NextResponse(JSON.stringify({response, status: 200 }));
+    return new NextResponse(JSON.stringify({ response, status: 200 }));
 }
 
 export async function PATCH(request, context) {
-
-    const prisma = new PrismaClient()
 
     try {
         const { id } = context.params;
         const { data } = await request.json();
 
-        const updateRecord = await prisma.hear.update({
+        const response = await prisma.hear.update({
             where: {
                 refID: parseInt(id),
             },
@@ -52,7 +38,7 @@ export async function PATCH(request, context) {
                 className: parseInt(data.className),
             }
         })
-        return new NextResponse(JSON.stringify({status: 200 }));
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
@@ -64,19 +50,15 @@ export async function PATCH(request, context) {
 
 export async function DELETE(request, context) {
 
-    const prisma = new PrismaClient()
-
     try {
         const { id } = context.params;
 
-        console.log(id)
-
-        const deleteRecord = await prisma.hear.delete({
+        const response = await prisma.hear.delete({
             where: {
                 refID: parseInt(id),
             }
         })
-        return new NextResponse(JSON.stringify({status: 200 }));
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
