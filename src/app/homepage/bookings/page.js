@@ -13,7 +13,7 @@ const Card = () => {
         <>
         <div className="border grid grid-cols-4 gap-4 justify-between py-5 px-5">
             <div className="">
-                <Cartao title={"ESTADOS DE RESERVAS"} description={""} listType={"estado_de_reservas"} icon={<PiListPlus size={35} />}/>
+                <Cartao title={"ESTADOS DE RESERVAS"} description={""} listType={"estados_de_reservas"} icon={<PiListPlus size={35} />}/>
             </div>
             <div className="">
                 <Cartao title={"SEGMENTOS DE MERCADO"} description={""}  listType={"segmentos_de_mercado"} icon={<FaBoxesStacked size={35}/>}/>
