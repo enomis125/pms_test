@@ -761,3 +761,24 @@ model statustype {
   updatedAt    DateTime @default(now()) @db.Timestamp(0)
   updatedBy    String   @default("") @db.VarChar(50)
 }
+
+model customerPreferences {
+  customerPreferencesID Int    @id @default(autoincrement())
+  abreviature           String @default("") @db.VarChar(250)
+  description           String @default("") @db.VarChar(250)
+}
+
+model knowledgemethod {
+  knowledgeMethodID Int    @id @default(autoincrement())
+  abreviature       String @default("") @db.VarChar(250)
+  description       String @default("") @db.VarChar(250)
+}
+
+model profession {
+  professionID Int    @id @default(autoincrement())
+  gruppe       Int    @default(-1)
+  abreviature  String @default("") @db.VarChar(50)
+  description  String @default("") @db.VarChar(250)
+  ordenation   Int    @default(-1)
+  property     Int    @default(-1)
+}
