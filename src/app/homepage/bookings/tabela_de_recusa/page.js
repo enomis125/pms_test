@@ -105,7 +105,7 @@ export default function Characteristics() {
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Tipos de Cancelamento"}
+              modalHeader={"Inserir Tipos de Recusa"}
               modalIcons={"bg-red"}
               formTypeModal={71}
             ></FormModals>
@@ -170,7 +170,7 @@ export default function Characteristics() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Rescusa"}
+                        modalHeader={"Editar Recusa"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${cancelReason.cancelReasonID}`}
                         formTypeModal={72}

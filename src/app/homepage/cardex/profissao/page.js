@@ -107,7 +107,7 @@ export default function Salutation() {
               buttonColor={"primary"}
               modalHeader={"Inserir Profissão"}
               modalIcons={"bg-red"}
-              formTypeModal={31}
+              formTypeModal={41}
             ></FormModals>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function Salutation() {
                         modalHeader={"Editar Saudação"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${profession.professionID}`}
-                        formTypeModal={32}
+                        formTypeModal={42}
                         idProfession={profession.professionID}
                         criado={profession.createdAt}
                         editado={profession.updatedAt}

@@ -20,7 +20,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChange, idReplaceCode, idKnowledge, idMarket, idMarketSegment, idReservStatus,
+const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChange, idReplaceCode, idKnowledge, idMarket, idMarketSegment, idReservStatus, idTransfer,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -556,6 +556,61 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
         })
             .catch(err => console.log(err))
     }
+
+    //inserção na tabela transfers
+    const [transfer, setTransfer] = useState({
+        class: '',
+        name: '',
+        shortName: ''
+    })
+
+    const handleInputTransfer = (event) => {
+        setTransfer({ ...transfer, [event.target.name]: event.target.value })
+    }
+    function handleSubmitTransfer(event) {
+        event.preventDefault()
+        if (!transfer.class || !transfer.name || !transfer.shortName) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/bookings/transfers', {
+            data: {
+                class: transfer.class,
+                name: transfer.name,
+                shortName: transfer.shortName
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+    }
+    //edição na tabela rooms
+    const [valuesTransfer, setValuesTransfer] = useState({
+        id: idTransfer,
+        Class: '',
+        Name: '',
+        ShortName: ''
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/bookings/transfers/" + idTransfer)
+            .then(res => {
+                setValuesTransfer({ ...valuesTransfer, Class: res.data.response.class, Name: res.data.response.name, ShortName: res.data.response.shortName })
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateTransfer(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/bookings/transfers/` + idTransfer, {
+            data: {
+                class: valuesTransfer.Class,
+                name: valuesTransfer.Name,
+                shortName: valuesTransfer.ShortName
+            }
+        })
+            .catch(err => console.log(err))
+    }
+
 
     //expansão de ecra form
     const [isExpanded, setIsExpanded] = useState(false);
@@ -1798,6 +1853,130 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                 </>
             )}
 
+            {/*form modal 80 transfers */}
+
+            {formTypeModal === 81 && ( //tipo cancelamento
+                <>
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <form onSubmit={handleSubmitTransfer}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="shortName" onChange={handleInputTransfer} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="name"
+                                                        onChange={handleInputTransfer}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="class" onChange={handleInputTransfer} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
+
+            {formTypeModal === 82 && ( //tipo cancelamento
+                <>
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                        <form onSubmit={handleUpdateTransfer}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Name"
+                                                        value={valuesTransfer.Name}
+                                                        onChange={e => setValuesTransfer({ ...valuesTransfer, Name: e.target.value })}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Class" value={valuesTransfer.Class} onChange={e => setValuesTransfer({ ...valuesTransfer, Class: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 90 && ( //reservation change modal
                 <>

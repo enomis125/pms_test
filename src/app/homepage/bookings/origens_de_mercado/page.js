@@ -170,7 +170,7 @@ export default function Characteristics() {
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Forma de Conhecimento"}
+                        modalHeader={"Editar Origem de Mercado"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${market.marketNR}`}
                         formTypeModal={32}

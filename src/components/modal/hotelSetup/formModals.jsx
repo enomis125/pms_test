@@ -20,7 +20,7 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
+const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups, idRoom,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -57,6 +57,61 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         { label: "Caracteristicas3", value: "Caracteristicas3", description: "" },
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
+
+     //inserção na tabela rooms
+     const [room, setRoom] = useState({
+        Label: '',
+        RoomType: '',
+        Description: ''
+    })
+
+    const handleInputRoom = (event) => {
+        setRoom({ ...room, [event.target.name]: event.target.value })
+    }
+    function handleSubmitRoom(event) {
+        event.preventDefault()
+        if (!room.Label || !room.RoomType || !room.Description) {
+            alert("Preencha os campos corretamente");
+            return;
+        }
+        axios.put('/api/v1/hotel/rooms', {
+            data: {
+                Label: room.Label,
+                RoomType: room.RoomType,
+                Description: room.Description
+            }
+        })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+            console.log(room.Label)
+    }
+    //edição na tabela rooms
+    const [valuesRoom, setValuesRoom] = useState({
+        id: idRoom,
+        Label: '',
+        RoomType: '',
+        Description: ''
+    })
+
+    useEffect(() => {
+        axios.get("/api/v1/hotel/rooms/" + idRoom)
+            .then(res => {
+                setValuesRoom({ ...valuesRoom, Label: res.data.response.label, RoomType: res.data.response.roomType, Description: res.data.response.description })
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    function handleUpdateRoom(e) {
+        e.preventDefault()
+        axios.patch(`/api/v1/hotel/rooms/` + idRoom, {
+            data: {
+                label: valuesRoom.Label,
+                roomType: valuesRoom.RoomType,
+                description: valuesRoom.Description
+            }
+        })
+            .catch(err => console.log(err))
+    }
 
     //inserção na tabela carateristicas
     const [caracteristica, setCaracteristica] = useState({
@@ -126,7 +181,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     }
     function handleSubmitRoomtype(event) {
         event.preventDefault()
-        if (!roomTypeState.Name || !roomTypeState.Desc || !roomTypeState.RoomFeaturesDesc ) {
+        if (!roomTypeState.Name || !roomTypeState.Desc || !roomTypeState.RoomFeaturesDesc) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -185,7 +240,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     }
     function handleSubmitMaintenance(event) {
         event.preventDefault()
-        if (!maintenance.Abreviature || !maintenance.Details || !maintenance.Description ) {
+        if (!maintenance.Abreviature || !maintenance.Details || !maintenance.Description) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -211,7 +266,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     useEffect(() => {
         axios.get("/api/v1/hotel/maintenance/" + idMaintenance)
             .then(res => {
-                setValuesMaintenance({ ...valuesMaintenance, Abreviature: res.data.response.abreviature, Details: res.data.response.details, Description: res.data.response.description})
+                setValuesMaintenance({ ...valuesMaintenance, Abreviature: res.data.response.abreviature, Details: res.data.response.details, Description: res.data.response.description })
             })
             .catch(err => console.log(err))
     }, [])
@@ -239,7 +294,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     }
     function handleSubmitTypesgroups(event) {
         event.preventDefault()
-        if (!roomtypesgroups.Label ) {
+        if (!roomtypesgroups.Label) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -261,7 +316,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     useEffect(() => {
         axios.get("/api/v1/hotel/tipologyGroup/" + idTypesgroups)
             .then(res => {
-                setValuesTypesGroups({ ...valuesTypesgroups, Label: res.data.response.label})
+                setValuesTypesGroups({ ...valuesTypesgroups, Label: res.data.response.label })
             })
             .catch(err => console.log(err))
     }, [])
@@ -346,29 +401,29 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitTypesgroups}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                            <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                            </div>
-                                        </ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Label" onChange={handleInputTypesgroups} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
+                                        <form onSubmit={handleSubmitTypesgroups}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" name="Label" onChange={handleInputTypesgroups} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
+                                                </div>
+                                                <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
+                                                    <option value="0">------------</option>
+                                                    <option value="1">Teste de opções</option>
+                                                    <option value="2">Teste de opções</option>
+                                                </select>
+                                            </ModalBody>
                                         </form>
                                     </>
                                 </>
@@ -394,32 +449,32 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                <form onSubmit={(e) => handleUpdateTypesgroups(e)}>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                        <div className="flex flex-row justify-start gap-4">
-                                            {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                        </div>
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <input type="text" value={valuesTypesgroups.Label} onChange={e => setValuesTypesGroups({ ...valuesTypesgroups, Label: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                        <div>
-                                            <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                            <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                        </div>
-                                        <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                            <option value="0">------------</option>
-                                            <option value="1">Teste de opções</option>
-                                            <option value="2">Teste de opções</option>
-                                        </select>
-                                    </ModalBody>
+                                    <form onSubmit={(e) => handleUpdateTypesgroups(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <input type="text" value={valuesTypesgroups.Label} onChange={e => setValuesTypesGroups({ ...valuesTypesgroups, Label: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                            <div>
+                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
+                                            </div>
+                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
+                                                <option value="0">------------</option>
+                                                <option value="1">Teste de opções</option>
+                                                <option value="2">Teste de opções</option>
+                                            </select>
+                                        </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
@@ -571,94 +626,95 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                            >
-                                                <Input type="Descrição" variant="underlined" label="Descrição" />
+                                    <form onSubmit={handleSubmitRoom}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                            >
-                                                <Input type="Abreviatura" variant="underlined" label="Abreviatura" />
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                    <Input type="text" name="Description" onChange={handleInputRoom} variant="underlined" label="Descrição" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                            >
-                                                <Textarea
-                                                    label="Detalhe"
-                                                    disableAnimation
-                                                    disableAutosize
-                                                    className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
-                                                    variant="underlined"
-                                                />
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                    <Input type="text" name="Label" onChange={handleInputRoom} variant="underlined" label="Abreviatura" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Autocomplete
-                                                    variant="underlined"
-                                                    defaultItems={Tipologia}
-                                                    label="Tipologia"
-                                                    className="w-full"
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                    <Textarea
+                                                        label="RoomType"
+                                                        name="RoomType"
+                                                        onChange={handleInputRoom}
+                                                        disableAnimation
+                                                        disableAutosize
+                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
+                                                        variant="underlined"
+                                                    />
+                                                </div>
+                                            </div>
+                                            {/* Adjusting the field name to match the expected name in handleInputRoom */}
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                    <Autocomplete
+                                                        variant="underlined"
+                                                        defaultItems={Tipologia}
+                                                        label="Tipologia"
+                                                        // Adjusting the name to match the expected name in handleInputRoom
+                                                        name="Tipologia"
+                                                        className="w-full"
+                                                    >
+                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                    </Autocomplete>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col md:flex-row justify-between">
+                                                <div className="flex flex-col w-1/2">
+                                                    <p className="text-sm">Ocupação Máxima</p>
+                                                    <p className="text-xl">1</p>
+                                                </div>
+                                                <div className="flex flex-col w-1/2">
+                                                    <p className="text-sm">Ordem</p>
+                                                    <p className="text-xl">1</p>
+                                                </div>
+                                            </div>
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div
+                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
                                                 >
-                                                    {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                </Autocomplete>
+                                                    <Textarea
+                                                        label="DEP. DE HOUSEKEEPING"
+                                                        disableAnimation
+                                                        disableAutosize
+                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[10px]" }}
+                                                        variant="underlined"
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex flex-col md:flex-row justify-between">
-                                            <div className="flex flex-col w-1/2">
-                                                <p className="text-sm">Ocupação Máxima</p>
-                                                <p className="text-xl">1</p>
+                                            <div className="flex gap-4 items-center max-w-xs">
+                                                <Button size="md">
+                                                    Configuração de interfaces
+                                                </Button>
                                             </div>
-                                            <div className="flex flex-col w-1/2">
-                                                <p className="text-sm">Ordem</p>
-                                                <p className="text-xl">1</p>
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                    <Autocomplete
+                                                        variant="underlined"
+                                                        defaultItems={Caracteristicas}
+                                                        label="Caracteristicas"
+                                                        className="w-full"
+                                                    >
+                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                    </Autocomplete>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                            >
-                                                <Textarea
-                                                    label="DEP. DE HOUSEKEEPING"
-                                                    disableAnimation
-                                                    disableAutosize
-                                                    className={{ base: "max-w-xs", input: "resize-y min-h-[10px]" }}
-                                                    variant="underlined"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="flex gap-4 items-center max-w-xs">
-                                            <Button size="md">
-                                                Configuração de interfaces
-                                            </Button>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Autocomplete
-                                                    variant="underlined"
-                                                    defaultItems={Caracteristicas}
-                                                    label="Caracteristicas"
-                                                    className="w-full"
-                                                >
-                                                    {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                </Autocomplete>
-                                            </div>
-                                        </div>
-                                    </ModalBody>
+                                        </ModalBody>
+                                    </form>
                                 </>
                             )}
                         </ModalContent>
@@ -682,98 +738,102 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                        <div className="flex flex-row justify-start gap-4">
-                                            {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                        </div>
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                            >
-                                                <Input type="text" variant="underlined" label="Descrição" />
+                                    <form onSubmit={(e) => handleUpdateRoom(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
                                             </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                            >
-                                                <Input type="text" variant="underlined" label="Abreviatura" />
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                            >
-                                                <Textarea
-                                                    label="Detalhe"
-                                                    disableAnimation
-                                                    disableAutosize
-                                                    className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
-                                                    variant="underlined"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Autocomplete
-
-                                                    defaultItems={Tipologia}
-                                                    label="Tipologia"
-                                                    className="w-full"
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div
+                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                </Autocomplete>
+                                                    <Input type="text" value={valuesRoom.Description} onChange={e => setValuesRoom({ ...valuesRoom, Description: e.target.value })} variant="underlined" label="Descrição" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex flex-col md:flex-row justify-between">
-                                            <div className="flex flex-col w-1/2">
-                                                <p className="text-sm">Ocupação Máxima</p>
-                                                <p className="text-xl">1</p>
-                                            </div>
-                                            <div className="flex flex-col w-1/2">
-                                                <p className="text-sm">Ordem</p>
-                                                <p className="text-xl">1</p>
-                                            </div>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-                                            <div
-                                                className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                            >
-                                                <Textarea
-                                                    label="DEP. DE HOUSEKEEPING"
-                                                    disableAnimation
-                                                    disableAutosize
-                                                    className={{ base: "max-w-xs", input: "resize-y min-h-[10px]" }}
-                                                    variant="underlined"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="flex gap-4 items-center max-w-xs">
-                                            <Button size="md">
-                                                Configuração de interfaces
-                                            </Button>
-                                        </div>
-                                        <div className="w-full flex flex-col gap-4">
-
-                                            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Autocomplete
-                                                    variant="underlined"
-                                                    defaultItems={Caracteristicas}
-                                                    label="Caracteristicas"
-                                                    className="w-full"
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div
+                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                 >
-                                                    {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                </Autocomplete>
+                                                    <Input type="text" value={valuesRoom.Label} onChange={e => setValuesRoom({ ...valuesRoom, Label: e.target.value })} variant="underlined" label="Abreviatura" />
+                                                </div>
                                             </div>
-                                        </div>
-                                    </ModalBody>
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div
+                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
+                                                >
+                                                    <Textarea
+                                                        label="Detalhe"
+                                                        value={valuesRoom.RoomType}
+                                                        onChange={e => setValuesRoom({ ...valuesRoom, RoomType: e.target.value })}
+                                                        disableAnimation
+                                                        disableAutosize
+                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
+                                                        variant="underlined"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                    <Autocomplete
+
+                                                        defaultItems={Tipologia}
+                                                        label="Tipologia"
+                                                        className="w-full"
+                                                    >
+                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                    </Autocomplete>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col md:flex-row justify-between">
+                                                <div className="flex flex-col w-1/2">
+                                                    <p className="text-sm">Ocupação Máxima</p>
+                                                    <p className="text-xl">1</p>
+                                                </div>
+                                                <div className="flex flex-col w-1/2">
+                                                    <p className="text-sm">Ordem</p>
+                                                    <p className="text-xl">1</p>
+                                                </div>
+                                            </div>
+                                            <div className="w-full flex flex-col gap-4">
+                                                <div
+                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
+                                                >
+                                                    <Textarea
+                                                        label="DEP. DE HOUSEKEEPING"
+                                                        disableAnimation
+                                                        disableAutosize
+                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[10px]" }}
+                                                        variant="underlined"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-4 items-center max-w-xs">
+                                                <Button size="md">
+                                                    Configuração de interfaces
+                                                </Button>
+                                            </div>
+                                            <div className="w-full flex flex-col gap-4">
+
+                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                    <Autocomplete
+                                                        variant="underlined"
+                                                        defaultItems={Caracteristicas}
+                                                        label="Caracteristicas"
+                                                        className="w-full"
+                                                    >
+                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                    </Autocomplete>
+                                                </div>
+                                            </div>
+                                        </ModalBody>
+                                    </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
@@ -1007,70 +1067,70 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                <form onSubmit={handleSubmitRoomtype}>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <ScrollShadow hideScrollBar className="h-[400px]">
-                                            <div className="w-full flex flex-col gap-5 mb-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                >
-                                                    <Input type="text" variant="underlined" name="Desc" onChange={handleInputRoomtype} label="Descrição" />
-                                                </div>
+                                    <form onSubmit={handleSubmitRoomtype}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                >
-                                                    <Input type="text" variant="underlined" name="Name" onChange={handleInputRoomtype} label="Abreviatura" />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 bg-gray-200 "
-                                                >
-                                                    <Textarea
-                                                        label="Detalhe"
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
-                                                        variant="underlined"
-                                                        name="RoomFeaturesDesc" onChange={handleInputRoomtype}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Tipologia}
-                                                        label=" Grupo Tipologia"
-                                                        className="w-full"
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <ScrollShadow hideScrollBar className="h-[400px]">
+                                                <div className="w-full flex flex-col gap-5 mb-4">
+                                                    <div
+                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                    </Autocomplete>
+                                                        <Input type="text" variant="underlined" name="Desc" onChange={handleInputRoomtype} label="Descrição" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Caracteristicas}
-                                                        label="Função"
-                                                        className="w-full"
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div
+                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                    </Autocomplete>
+                                                        <Input type="text" variant="underlined" name="Name" onChange={handleInputRoomtype} label="Abreviatura" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </ScrollShadow>
-                                    </ModalBody>
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div
+                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 bg-gray-200 "
+                                                    >
+                                                        <Textarea
+                                                            label="Detalhe"
+                                                            disableAnimation
+                                                            disableAutosize
+                                                            className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
+                                                            variant="underlined"
+                                                            name="RoomFeaturesDesc" onChange={handleInputRoomtype}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                        <Autocomplete
+                                                            variant="underlined"
+                                                            defaultItems={Tipologia}
+                                                            label=" Grupo Tipologia"
+                                                            className="w-full"
+                                                        >
+                                                            {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        </Autocomplete>
+                                                    </div>
+                                                </div>
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                        <Autocomplete
+                                                            variant="underlined"
+                                                            defaultItems={Caracteristicas}
+                                                            label="Função"
+                                                            className="w-full"
+                                                        >
+                                                            {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        </Autocomplete>
+                                                    </div>
+                                                </div>
+                                            </ScrollShadow>
+                                        </ModalBody>
                                     </form>
                                 </>
                             )}
@@ -1095,75 +1155,75 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                <form onSubmit={(e) => handleUpdateRoomtype(e)}>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                        <div className="flex flex-row justify-start gap-4">
-                                            {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                        </div>
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <ScrollShadow hideScrollBar className="h-[400px]">
-                                            <div className="w-full flex flex-col gap-5 mb-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                >
-                                                    <Input type="text" value={valuesRoomtype.Desc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })} variant="underlined" label="Descrição" />
-                                                </div>
+                                    <form onSubmit={(e) => handleUpdateRoomtype(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
                                             </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                >
-                                                    <Input type="text" value={valuesRoomtype.Name} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })} variant="underlined" label="Abreviatura" />
-                                                </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 bg-gray-200 "
-                                                >
-                                                    <Textarea
-                                                        label="Detalhe"
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
-                                                        variant="underlined"
-                                                        value={valuesRoomtype.RoomFeaturesDesc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Tipologia}
-                                                        label=" Grupo Tipologia"
-                                                        className="w-full"
-                                                        value={valuesRoomtype.GroupID} onChange={e => setValuesRoomtype({ ...valuesRoomtype, GroupID: e.target.value })}
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <ScrollShadow hideScrollBar className="h-[400px]">
+                                                <div className="w-full flex flex-col gap-5 mb-4">
+                                                    <div
+                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                    </Autocomplete>
+                                                        <Input type="text" value={valuesRoomtype.Desc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })} variant="underlined" label="Descrição" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4 mb-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Caracteristicas}
-                                                        label="Função"
-                                                        className="w-full"
-                                                        value={valuesRoomtype.RoomTypePlan} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomTypePlan: e.target.value })}
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div
+                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                                    </Autocomplete>
+                                                        <Input type="text" value={valuesRoomtype.Name} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })} variant="underlined" label="Abreviatura" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </ScrollShadow>
-                                    </ModalBody>
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div
+                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 bg-gray-200 "
+                                                    >
+                                                        <Textarea
+                                                            label="Detalhe"
+                                                            disableAnimation
+                                                            disableAutosize
+                                                            className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
+                                                            variant="underlined"
+                                                            value={valuesRoomtype.RoomFeaturesDesc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                        <Autocomplete
+                                                            variant="underlined"
+                                                            defaultItems={Tipologia}
+                                                            label=" Grupo Tipologia"
+                                                            className="w-full"
+                                                            value={valuesRoomtype.GroupID} onChange={e => setValuesRoomtype({ ...valuesRoomtype, GroupID: e.target.value })}
+                                                        >
+                                                            {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        </Autocomplete>
+                                                    </div>
+                                                </div>
+                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                                    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                                                        <Autocomplete
+                                                            variant="underlined"
+                                                            defaultItems={Caracteristicas}
+                                                            label="Função"
+                                                            className="w-full"
+                                                            value={valuesRoomtype.RoomTypePlan} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomTypePlan: e.target.value })}
+                                                        >
+                                                            {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        </Autocomplete>
+                                                    </div>
+                                                </div>
+                                            </ScrollShadow>
+                                        </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
@@ -1265,51 +1325,51 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                <form onSubmit={handleSubmitMaintenance}>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <div className="flex flex-row items-center">
+                                    <form onSubmit={handleSubmitMaintenance}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <div className="flex flex-row items-center">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Descrição"
+                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                                    name="Description" onChange={handleInputMaintenance}
+                                                />
+                                                <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                            </div>
                                             <input
                                                 type="text"
-                                                placeholder="Descrição"
+                                                placeholder="Abreviatura"
                                                 className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                name="Description" onChange={handleInputMaintenance}
+                                                name="Abreviature" onChange={handleInputMaintenance}
                                             />
-                                            <AiOutlineGlobal className="ml-auto text-xl" />{" "}
-                                        </div>
-                                        <input
-                                            type="text"
-                                            placeholder="Abreviatura"
-                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                            name="Abreviature" onChange={handleInputMaintenance}
-                                        />
-                                        <textarea
-                                            type="textarea"
-                                            placeholder="Detalhe"
-                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
-                                            name="Details" onChange={handleInputMaintenance}
-                                        ></textarea>
-                                        <div>
-                                            <input
-                                                id="link-checkbox"
-                                                type="checkbox"
-                                                value=""
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            ></input>
-                                            <label
-                                                for="link-checkbox"
-                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                            >
-                                                Estado
-                                            </label>
-                                        </div>
-                                    </ModalBody>
+                                            <textarea
+                                                type="textarea"
+                                                placeholder="Detalhe"
+                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
+                                                name="Details" onChange={handleInputMaintenance}
+                                            ></textarea>
+                                            <div>
+                                                <input
+                                                    id="link-checkbox"
+                                                    type="checkbox"
+                                                    value=""
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                ></input>
+                                                <label
+                                                    for="link-checkbox"
+                                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                >
+                                                    Estado
+                                                </label>
+                                            </div>
+                                        </ModalBody>
                                     </form>
                                 </>
                             )}
@@ -1335,51 +1395,51 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                <form onSubmit={(e) => handleUpdateMaintenance(e)}>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                        <div className='flex flex-row items-center mr-5'>
-                                            <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                            <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                        </div>
-                                    </ModalHeader>
-                                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <div className="flex flex-row items-center">
+                                    <form onSubmit={(e) => handleUpdateMaintenance(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <div className="flex flex-row items-center">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Descrição"
+                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
+                                                    value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}
+                                                />
+                                                <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                            </div>
                                             <input
                                                 type="text"
-                                                placeholder="Descrição"
+                                                placeholder="Abreviatura"
                                                 className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}
+                                                value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}
                                             />
-                                            <AiOutlineGlobal className="ml-auto text-xl" />{" "}
-                                        </div>
-                                        <input
-                                            type="text"
-                                            placeholder="Abreviatura"
-                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                            value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}
-                                        />
-                                        <textarea
-                                            type="textarea"
-                                            placeholder="Detalhe"
-                                            className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
-                                            value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}
-                                        ></textarea>
-                                        <div>
-                                            <input
-                                                id="link-checkbox"
-                                                type="checkbox"
-                                                value=""
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            ></input>
-                                            <label
-                                                for="link-checkbox"
-                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                            >
-                                                Estado
-                                            </label>
-                                        </div>
-                                    </ModalBody>
+                                            <textarea
+                                                type="textarea"
+                                                placeholder="Detalhe"
+                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
+                                                value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}
+                                            ></textarea>
+                                            <div>
+                                                <input
+                                                    id="link-checkbox"
+                                                    type="checkbox"
+                                                    value=""
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                ></input>
+                                                <label
+                                                    for="link-checkbox"
+                                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                >
+                                                    Estado
+                                                </label>
+                                            </div>
+                                        </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
