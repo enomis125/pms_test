@@ -17,13 +17,13 @@ const Card = () => {
                 <Cartao title={"TABELA DE SAUDAÇÕES"} description={""} listType={"saudacao"} icon={<PiListPlus size={35} />} formTypeCard={10}/>
             </div>
             <div className="">
-                <Cartao title={"TABELA DE NACIONALIDADES"} description={""} listType={"nacionalidades"} formType={"/quartos/bedrooms"} formName={"Bedrooms"} icon={<FaBoxesStacked size={35}/>} formTypeCard={40}/>
+                <Cartao title={"TABELA DE NACIONALIDADES"} description={""} listType={"nacionalidades"} formType={"/quartos/bedrooms"} formName={"Bedrooms"} icon={<FaBoxesStacked size={35}/>} formTypeCard={20}/>
             </div>
             <div className="">
-                <Cartao title={"MÉTODOS DE CONHECIMENTO"} listType={"metodo_conhecimento"} formTypeCard={20}/>
+                <Cartao title={"MÉTODOS DE CONHECIMENTO"} listType={"metodo_conhecimento"} formTypeCard={30}/>
             </div>
             <div className="">
-                <Cartao title={"TABELA DE PROFISSÕES"} description={""} listType={"profissao"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={30}/>
+                <Cartao title={"TABELA DE PROFISSÕES"} description={""} listType={"profissao"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={40}/>
             </div>
             <div className="">
                 <Cartao title={"TIPOS DOCUMENTOS DE IDENTIFICAÇÃO"} description={""} listType={"documento_identificacao"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={50} />
@@ -32,16 +32,16 @@ const Card = () => {
                 <Cartao title={"TABELA DE IDIOMAS"} description={""} listType={"idiomas"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={50} />
             </div>
             <div className="">
-                <Cartao title={"PREFERÊNCIAS DE CLIENTES"} description={""} listType={"preferencia_cliente"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={50} />
+                <Cartao title={"PREFERÊNCIAS DE CLIENTES"} description={""} listType={"preferencia_cliente"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={60} />
             </div>
             <div className="">
-                <Cartao title={"TABELA DE MEMBROS"} description={""} listType={"membros"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={50} />
+                <Cartao title={"TABELA DE MEMBROS"} description={""} listType={"membros"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={70} />
             </div>
             <div className="">
-                <Cartao title={"TABELA DE MARKETING"} description={""} listType={"marketing"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={50} />
+                <Cartao title={"TABELA DE MARKETING"} description={""} listType={"marketing"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={80} />
             </div>
             <div className="">
-                <Cartao title={"TIPOS DE VIP"} description={""} listType={"tipos_vip"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={50} />
+                <Cartao title={"TIPOS DE VIP"} description={""} listType={"tipos_vip"} icon={<RiPlayList2Fill size={35}/>} formTypeCard={90} />
             </div>
         </div>
         </>
