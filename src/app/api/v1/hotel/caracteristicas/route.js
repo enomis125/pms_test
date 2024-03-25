@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma"
 
 export async function GET(request) {
 
-    const prisma = new PrismaClient()
-
-    const characteristicsRecords = await prisma.characteristics.findMany()
-
-    const response = characteristicsRecords
+    const response = await prisma.characteristics.findMany()
 
     prisma.$disconnect()
 
@@ -16,11 +12,10 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
-    const prisma = new PrismaClient();
 
     try {
         const { data } = await request.json();
-        const newRecord = await prisma.characteristics.create({
+        const response = await prisma.characteristics.create({
             data: {
                 description: data.description,
                 abreviature: data.abreviature,
@@ -28,7 +23,7 @@ export async function PUT(request) {
             }
         });
 
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
