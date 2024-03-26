@@ -59,5 +59,5 @@ export function cancelReason(idCancelReason) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputCancelReason, handleSubmitCancelReason, handleUpdateCancelReason, setValuesCancelReason, valuesCancelReason };
+    return { handleInputCancelReason, handleSubmitCancelReason, handleUpdateCancelReason, valuesCancelReason };
 }
