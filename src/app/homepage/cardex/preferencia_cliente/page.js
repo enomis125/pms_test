@@ -157,7 +157,19 @@ export default function customerPreferences() {
           {items.map((customerPreferences, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{customerPreferences.customerPreferencesID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={customerPreferences.customerPreferencesID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Preferências"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${customerPreferences.customerPreferencesID}`}
+                        formTypeModal={62}
+                        idCustomerPreferences={customerPreferences.customerPreferencesID}
+                        criado={customerPreferences.createdAt}
+                        editado={customerPreferences.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{customerPreferences.description}</TableCell>
               <TableCell className="px-10">{customerPreferences.abreviature}</TableCell>
               <TableCell></TableCell>

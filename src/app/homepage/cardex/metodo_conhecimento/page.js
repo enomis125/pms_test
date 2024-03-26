@@ -154,7 +154,19 @@ export default function Knowledgemethod() {
           {items.map((knowledgemethod, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{knowledgemethod.knowledgeMethodID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={knowledgemethod.knowledgeMethodID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Método"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${knowledgemethod.knowledgeMethodID}`}
+                        formTypeModal={32}
+                        idKnowledgeMethod={knowledgemethod.knowledgeMethodID}
+                        criado={knowledgemethod.createdAt}
+                        editado={knowledgemethod.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{knowledgemethod.abreviature}</TableCell>
               <TableCell className="px-10">{knowledgemethod.description}</TableCell>
               <TableCell></TableCell>

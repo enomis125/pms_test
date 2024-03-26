@@ -152,7 +152,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((maintenance, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{maintenance.maintenanceID}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={maintenance.maintenanceID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Manutenção"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${maintenance.maintenanceID}`}
+                        formTypeModal={52}
+                        idMaintenance={maintenance.maintenanceID}
+                        criado={maintenance.createdAt}
+                        editado={maintenance.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{maintenance.abreviature}</TableCell>
               <TableCell className="px-20">{maintenance.details}</TableCell>
               <TableCell>{maintenance.description}</TableCell>

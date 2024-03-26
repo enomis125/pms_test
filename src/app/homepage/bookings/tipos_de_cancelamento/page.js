@@ -150,7 +150,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((cancelType, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{cancelType.cancelationTypeID}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={cancelType.cancelationTypeID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Tipos de cancelamento"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${cancelType.cancelationTypeID}`}
+                        formTypeModal={102}
+                        idCancelType={cancelType.cancelationTypeID}
+                        criado={cancelType.createdAt}
+                        editado={cancelType.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{cancelType.abreviature}</TableCell>
               <TableCell>{cancelType.description}</TableCell>
               <TableCell className="px-20">{cancelType.ordenation}</TableCell>

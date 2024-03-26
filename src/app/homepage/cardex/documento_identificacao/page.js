@@ -155,7 +155,19 @@ export default function Knowledgemethod() {
           {items.map((doctypes, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{doctypes.refID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={doctypes.refID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Documento"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${doctypes.refID}`}
+                        formTypeModal={52}
+                        idDoctypes={doctypes.refID}
+                        criado={doctypes.createdAt}
+                        editado={doctypes.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{doctypes.shortName}</TableCell>
               <TableCell className="px-10">{doctypes.name}</TableCell>
               <TableCell></TableCell>

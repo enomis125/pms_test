@@ -150,7 +150,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((market, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{market.marketNR}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={market.marketNR}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Origem de Mercado"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${market.marketNR}`}
+                        formTypeModal={32}
+                        idMarket={market.marketNR}
+                        criado={market.createdAt}
+                        editado={market.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{market.name}</TableCell>
               <TableCell>{market.anzahi}</TableCell>
               <TableCell className="px-20">{market.group}</TableCell>

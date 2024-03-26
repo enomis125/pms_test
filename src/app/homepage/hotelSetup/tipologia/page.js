@@ -161,7 +161,19 @@ export default function Tipologys() {
         <TableBody>
           {items.map((roomTypeState, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left">{roomTypeState.roomTypeID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={roomTypeState.roomTypeID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Tipologia"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${roomTypeState.roomTypeID}`}
+                        formTypeModal={42}
+                        idRoomtype={roomTypeState.roomTypeID}
+                        criado={roomTypeState.createdAt}
+                        editado={roomTypeState.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{roomTypeState.active}</TableCell>
               <TableCell >{roomTypeState.name}</TableCell>
               <TableCell className="px-10">{roomTypeState.desc}</TableCell>

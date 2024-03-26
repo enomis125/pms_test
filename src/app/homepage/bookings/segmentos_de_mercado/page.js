@@ -150,7 +150,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((marketSegment, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{marketSegment.marketsegmentsID}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={marketSegment.marketsegmentsID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Segmento de Mercado"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${marketSegment.marketsegmentsID}`}
+                        formTypeModal={22}
+                        idMarketSegment={marketSegment.marketsegmentsID}
+                        criado={marketSegment.createdAt}
+                        editado={marketSegment.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{marketSegment.abreviature}</TableCell>
               <TableCell>{marketSegment.description}</TableCell>
               <TableCell className="px-20">{marketSegment.ordenation}</TableCell>

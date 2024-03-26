@@ -150,7 +150,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((reservMotive, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{reservMotive.refID}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={reservMotive.refID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Motivos de Reservas"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${reservMotive.refID}`}
+                        formTypeModal={52}
+                        idReservMotive={reservMotive.refID}
+                        criado={reservMotive.createdAt}
+                        editado={reservMotive.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{reservMotive.shortName}</TableCell>
               <TableCell>{reservMotive.name}</TableCell>
               <TableCell className="px-20">{reservMotive.className}</TableCell>

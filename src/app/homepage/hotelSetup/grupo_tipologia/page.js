@@ -155,7 +155,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((roomtypesgroups, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left">{roomtypesgroups.roomTypeGroupID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={roomtypesgroups.roomTypeGroupID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Grupo de Tipologia"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${roomtypesgroups.roomTypeGroupID}`}
+                        formTypeModal={12}
+                        idTypesgroups={roomtypesgroups.roomTypeGroupID}
+                        criado={roomtypesgroups.createdAt}
+                        editado={roomtypesgroups.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{roomtypesgroups.label}</TableCell>
               <TableCell >alterar</TableCell>
               <TableCell className="px-10">alterar</TableCell>

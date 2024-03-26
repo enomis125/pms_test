@@ -149,7 +149,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((caracteristic, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{caracteristic.characteristicID}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={caracteristic.characteristicID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Caraterísticas"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${caracteristic.characteristicID}`}
+                        formTypeModal={32}
+                        idCarateristics={caracteristic.characteristicID}
+                        criado={caracteristic.createdAt}
+                        editado={caracteristic.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{caracteristic.abreviature}</TableCell>
               <TableCell>{caracteristic.description}</TableCell>
               <TableCell className="px-20">{caracteristic.details}</TableCell>

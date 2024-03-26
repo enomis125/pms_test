@@ -159,7 +159,19 @@ export default function Rooms() {
           {items.map((rooms, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{rooms.roomID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={rooms.roomID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Quartos"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${rooms.roomID}`}
+                        formTypeModal={22}
+                        idRoom={rooms.roomID}
+                        criado={rooms.createdAt}
+                        editado={rooms.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{rooms.label}</TableCell>
               <TableCell className="px-10">{rooms.roomType}</TableCell>
               <TableCell>{rooms.pmsHotel}</TableCell>
