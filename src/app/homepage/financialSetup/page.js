@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 //import do componente cartão
-import Cartao from "@/components/Cards/Card";
+import Cartao from "@/components/Cards/hotelSetup/Card";
 //import de icons
 import { PiListPlus, PiListDashesBold } from "react-icons/pi";
 import { FaBoxesStacked } from "react-icons/fa6";
