@@ -81,6 +81,7 @@ export default function Vipcode() {
       console.error("Erro ao remover PickUp:", error.message);
     }
   };
+  
  
     return (
       <main>
@@ -154,7 +155,19 @@ export default function Vipcode() {
           {items.map((vipcode, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{vipcode.customerCode}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={vipcode.customerCode}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Tipo de VIP"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${vipcode.customerCode}`}
+                        formTypeModal={92}
+                        idVipcode={vipcode.customerCode}
+                        criado={vipcode.createdAt}
+                        editado={vipcode.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{vipcode.description}</TableCell>
               <TableCell className="px-10"></TableCell>
               <TableCell></TableCell>
@@ -169,7 +182,7 @@ export default function Vipcode() {
                       <BsThreeDotsVertical size={20} className="text-gray-400" />
                     </Button>
                   </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                  <DropdownMenu aria-label="Static Actions" closeOnSelect={true} isOpen={true}>
                     <DropdownItem key="edit">
                       <FormModals
                         buttonName={"Editar"}

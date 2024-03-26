@@ -157,7 +157,19 @@ export default function Marketing() {
           {items.map((marketing, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{marketing.marketingID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={marketing.marketingID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Marketing"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${marketing.marketingID}`}
+                        formTypeModal={82}
+                        idMarketing={marketing.marketingID}
+                        criado={marketing.createdAt}
+                        editado={marketing.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{marketing.description}</TableCell>
               <TableCell className="px-10">{marketing.abreviature}</TableCell>
               <TableCell></TableCell>

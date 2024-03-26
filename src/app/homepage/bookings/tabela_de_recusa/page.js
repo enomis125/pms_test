@@ -150,7 +150,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((cancelReason, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{cancelReason.cancelReasonID}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={cancelReason.cancelReasonID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Recusa"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${cancelReason.cancelReasonID}`}
+                        formTypeModal={72}
+                        idCancelReason={cancelReason.cancelReasonID}
+                        criado={cancelReason.createdAt}
+                        editado={cancelReason.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{cancelReason.class}</TableCell>
               <TableCell>{cancelReason.name}</TableCell>
               <TableCell className="px-20">{cancelReason.shortName}</TableCell>

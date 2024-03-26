@@ -156,7 +156,19 @@ export default function Salutation() {
         <TableBody>
           {items.map((salutation, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left">{salutation.salutationID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={salutation.salutationID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Saudação"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${salutation.salutationID}`}
+                        formTypeModal={12}
+                        idSalutation={salutation.salutationID}
+                        criado={salutation.createdAt}
+                        editado={salutation.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="">{salutation.suffix}</TableCell>
               <TableCell className="">{salutation.salutationCode}</TableCell>
               <TableCell className="">{salutation.salutation}</TableCell>

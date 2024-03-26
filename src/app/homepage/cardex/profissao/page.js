@@ -156,7 +156,19 @@ export default function Salutation() {
         <TableBody>
           {items.map((profession, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left">{profession.professionID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={profession.professionID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Profissão"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${profession.professionID}`}
+                        formTypeModal={42}
+                        idProfession={profession.professionID}
+                        criado={profession.createdAt}
+                        editado={profession.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="">{profession.gruppe}</TableCell>
               <TableCell className="">{profession.abreviature}</TableCell>
               <TableCell className="">{profession.description}</TableCell>

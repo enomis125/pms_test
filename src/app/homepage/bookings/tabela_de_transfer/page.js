@@ -151,7 +151,19 @@ export default function Transfers() {
           {items.map((transfers, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{transfers.refID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={transfers.refID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Quartos"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${transfers.refID}`}
+                        formTypeModal={82}
+                        idTransfer={transfers.refID}
+                        criado={transfers.createdAt}
+                        editado={transfers.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{transfers.shortName}</TableCell>
               <TableCell className="px-10">{transfers.name}</TableCell>
               <TableCell>{transfers.class}</TableCell>

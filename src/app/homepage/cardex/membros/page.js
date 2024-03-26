@@ -157,7 +157,19 @@ export default function Members() {
           {items.map((member, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left">{member.memberID}</TableCell>
+              <TableCell className="text-left underline text-blue-600"><FormModals
+                        buttonName={member.memberID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Membro"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${member.memberID}`}
+                        formTypeModal={72}
+                        idMember={member.memberID}
+                        criado={member.createdAt}
+                        editado={member.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell >{member.description}</TableCell>
               <TableCell className="px-10">{member.abreviature}</TableCell>
               <TableCell></TableCell>

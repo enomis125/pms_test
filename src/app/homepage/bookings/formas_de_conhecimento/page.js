@@ -150,7 +150,19 @@ export default function Characteristics() {
         <TableBody>
           {items.map((formsKnowledge, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right">{formsKnowledge.formsknowledgeID}</TableCell>
+              <TableCell className="text-right underline text-blue-600"><FormModals
+                        buttonName={formsKnowledge.formsknowledgeID}
+                        editIcon={<FiEdit3 size={25}/>}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Forma de Conhecimento"}
+                        modalEditArrow={<BsArrowRight size={25}/>}
+                        modalEdit={`ID: ${formsKnowledge.formsknowledgeID}`}
+                        formTypeModal={42}
+                        idKnowledge={formsKnowledge.formsknowledgeID}
+                        criado={formsKnowledge.createdAt}
+                        editado={formsKnowledge.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
               <TableCell className="px-40">{formsKnowledge.abreviature}</TableCell>
               <TableCell>{formsKnowledge.description}</TableCell>
               <TableCell className="px-20">{formsKnowledge.ordenation}</TableCell>

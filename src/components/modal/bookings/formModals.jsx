@@ -627,35 +627,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitReservStatus}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputReservStatus} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputReservStatus}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReservStatus} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -804,35 +815,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitMarketSegment}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputMarketSegment} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputMarketSegment}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputMarketSegment} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -980,35 +1002,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitMarket}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputMarket} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputMarket}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputMarket} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -1156,35 +1189,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitKnowledge}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputKnowledge} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputKnowledge}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputKnowledge} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -1332,35 +1376,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitReservMotive}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputReservMotive} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputReservMotive}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Details" onChange={handleInputReservMotive} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -1508,35 +1563,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitReplaceCode}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputReplaceCode} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputReplaceCode}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReplaceCode} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -1683,35 +1749,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitCancelReason}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputCancelReason} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputCancelReason}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Details" onChange={handleInputCancelReason} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -1853,7 +1930,58 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                 </>
             )}
 
-            {/*form modal 80 transfers */}
+            {formTypeModal === 80 && ( //razao cancelamento
+                <>
+                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                        {buttonName}
+                    </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <>
+                                    <form onSubmit={handleSubmitTransfer}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="shortName" onChange={handleInputTransfer} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="name"
+                                                        onChange={handleInputTransfer}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="class" onChange={handleInputTransfer} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
+                                    </>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
 
             {formTypeModal === 81 && ( //tipo cancelamento
                 <>
@@ -1983,35 +2111,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitReservChange}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputReservChange} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputReservChange}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReservChange} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}
@@ -2160,35 +2299,46 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                     <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1 uppercase">{modalHeader}</ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
-                                            <div>
-                                                <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
-                                            </div>
-                                            <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">------------</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" variant="light" onPress={onClose}>
-                                                Fechar
-                                            </Button>
-                                            <Button color="primary" onPress={onClose}>
-                                                Teste
-                                            </Button>
-                                        </ModalFooter>
+                                    <form onSubmit={handleSubmitCancelType}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <input type="text" name="Abreviature" onChange={handleInputCancelType} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="Description"
+                                                        onChange={handleInputCancelType}
+                                                        placeholder="Descrição"
+                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                    <AiOutlineGlobal className="ml-auto text-xl" />
+                                                </div>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputCancelType} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <div>
+                                                    <input
+                                                        id="link-checkbox"
+                                                        type="checkbox"
+                                                        value=""
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    ></input>
+                                                    <label
+                                                        for="link-checkbox"
+                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                    >
+                                                        Estado
+                                                    </label>
+                                                </div>
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
                             )}

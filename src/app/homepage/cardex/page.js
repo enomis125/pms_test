@@ -2,7 +2,7 @@
 
 import React from "react";
 //import do componente cartão
-import Cartao from "@/components/Cards/Card";
+import Cartao from "@/components/Cards/cardex/Card";
 //import de icons
 import { PiListPlus } from "react-icons/pi";
 import { FaBoxesStacked } from "react-icons/fa6";
