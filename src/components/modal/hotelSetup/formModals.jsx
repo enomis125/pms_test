@@ -10,6 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
+import { insertRoom } from "../../../app/functions/hotel/characteristics/insert"
 
 
 /*
@@ -37,6 +38,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     const pathname = usePathname();
     const router = useRouter();
 
+
+    const { handleSubmitTypesgroups , handleInputTypesgroups } = insertRoom();
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
 
@@ -285,7 +288,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
 
     //inserção na tabela tipology group
-    const [roomtypesgroups, setRoomtypesgroups] = useState({
+    /*const [roomtypesgroups, setRoomtypesgroups] = useState({
         Label: '',
     })
 
@@ -305,7 +308,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         })
             .then(response => console.log(response))
             .catch(err => console.log(err))
-    }
+    }*/
 
     //edição na tabela tipology group
     const [valuesTypesgroups, setValuesTypesGroups] = useState({
