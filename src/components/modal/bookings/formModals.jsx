@@ -10,16 +10,16 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { reservationStatus } from "@/app/functions/bookings/reservationStatus/page";
-import { marketSegments } from "@/app/functions/bookings/marketSegments/page";
-import { market } from "@/app/functions/bookings/market/page";
-import { formsKnowledge } from "@/app/functions/bookings/formsKnowledge/page";
-import { reserveMotive } from "@/app/functions/bookings/reserveMotive/page";
-import { replacementCode } from "@/app/functions/bookings/replacementCode/page";
-import { cancelReason } from "@/app/functions/bookings/cancelReason/page";
-import { reserveChange } from "@/app/functions/bookings/reserveChange/page";
-import { cancelType } from "@/app/functions/bookings/cancelType/page";
-import { transfer } from "@/app/functions/bookings/transfers/page";
+import { reservationStatus } from "../../../app/functions/bookings/reservationStatus/page";
+import { marketSegments } from "../../../app/functions/bookings/marketSegments/page";
+import { market } from "../../../app/functions/bookings/market/page";
+import { formsKnowledge } from "../../../app/functions/bookings/formsKnowledge/page";
+import { reserveMotive } from "../../../app/functions/bookings/reserveMotive/page";
+import { replacementCode } from "../../../app/functions/bookings/replacementCode/page";
+import { cancelReason } from "../../../app/functions/bookings/cancelReason/page";
+import { reserveChange } from "../../../app/functions/bookings/reserveChange/page";
+import { cancelType } from "../../../app/functions/bookings/cancelType/page";
+import { transfer } from "../../../app/functions/bookings/transfers/page";
 
 
 /*

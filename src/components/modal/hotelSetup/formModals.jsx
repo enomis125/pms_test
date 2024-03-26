@@ -11,10 +11,10 @@ import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import { typesGroups } from "../../../app/functions/hotel/tipologyGroup/page"
-import { maintenance } from "@/app/functions/hotel/maintenace/page";
-import { tipology } from "@/app/functions/hotel/tipology/page";
-import { characteristics } from "@/app/functions/hotel/characteristics/page";
-import { rooms } from "@/app/functions/hotel/rooms/page";
+import { maintenance } from "../../../app/functions/hotel/maintenace/page";
+import { tipology } from "../../../app/functions/hotel/tipology/page";
+import { characteristics } from "../../../app/functions/hotel/characteristics/page";
+import { rooms } from "../../../app/functions/hotel/rooms/page";
 
 
 /*

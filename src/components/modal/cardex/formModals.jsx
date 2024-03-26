@@ -10,15 +10,15 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { salutation } from "@/app/functions/cardex/salutation/page";
-import { nationality } from "@/app/functions/cardex/nationality/page";
-import { profession } from "@/app/functions/cardex/profession/page";
-import { knowledgeMethod } from "@/app/functions/cardex/knowledgeMethod/page";
-import { doctypes } from "@/app/functions/cardex/doctypes/page";
-import { clientPreferences } from "@/app/functions/cardex/clientPreferences/page";
-import { members } from "@/app/functions/cardex/members/page";
-import { marketing } from "@/app/functions/cardex/marketing/page";
-import { vipCode } from "@/app/functions/cardex/vipCode/page";
+import { salutation } from "../../../app/functions/cardex/salutation/page";
+import { nationality } from "../../../app/functions/cardex/nationality/page";
+import { profession } from "../../../app/functions/cardex/profession/page";
+import { knowledgeMethod } from "../../../app/functions/cardex/knowledgeMethod/page";
+import { doctypes } from "../../../app/functions/cardex/doctypes/page";
+import { clientPreferences } from "../../../app/functions/cardex/clientPreferences/page";
+import { members } from "../../../app/functions/cardex/members/page";
+import { marketing } from "../../../app/functions/cardex/marketing/page";
+import { vipCode } from "../../../app/functions/cardex/vipCode/page";
 
 
 /*
