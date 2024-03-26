@@ -65,7 +65,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active:true,
             items: [
                 {
-                    ref: "/homepage/cardex/", label: "Cardex", active: true
+                    ref: "/homepage/cardex", label: "Cardex", active: true
                 },
                 {
                     ref: "/homepage/cardex/saudacao", label: "Saudação", active: true
@@ -136,6 +136,36 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 },
                 {
                     ref: "/homepage/bookings/tipos_de_cancelamento", label: "Tipos de cancelamentos", active: true
+                },
+            ]
+        },
+
+        "Financial Setup":{
+            active: true,
+            items: [
+                {
+                    ref: "/homepage/financialSetup", label: "Financial Setup", active: true
+                },
+                {
+                    ref: "/homepage/financialSetup/departments", label: "Departamentos", active: true
+                },
+                {
+                    ref: "/homepage/financialSetup/accountsGroups", label: "Grupo de Contas", active: true
+                },
+                {
+                    ref: "/homepage/financialSetup/revenue_accounts", label: "Contas de Revenue", active: true
+                },
+                {
+                    ref: "/homepage/financialSetup/payment_accounts", label: "Contas de Pagamento", active: true
+                },
+                {
+                    ref: "/homepage/financialSetup/taxes", label: "Impostos", active: true
+                },
+                {
+                    ref: "/homepage/financialSetup/cashiers", label: "Caixas", active: true
+                },
+                {
+                    ref: "/homepage/financialSetup/void_charges", label: "Anulação de Cobranças", active: true
                 },
             ]
         }
