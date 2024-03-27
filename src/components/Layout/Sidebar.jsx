@@ -172,45 +172,46 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
     }
     return (
         <>
-            <aside className={(showSidebar ? "" : "hidden ") + "bg-white h-screen border-r border-bg-primary overflow-auto w-72 flex shrink-0 fixed top-0 z-40 inset-0 lg:block z-100"} aria-label="Sidebar">
-                <div className="h-full w-full no-scrollbar px-3 pb-4  bg-white text-bg-primary">
-                    <Link href="/dashboard">
-                        <div className="flex justify-center">
-                            <div className="w-30 h-30 mt-8">
-                                <Image src="/images/logo.png" alt="Logotipo" width={150} height={150} />
-                            </div>
-                        </div>
-                    </Link>
-
-                    <hr className="border-t border-primary-800 my-4" />
-
-                    <br />
-
-                    <div className="flex items-center space-x-2">
-                        <Link href="/dashboard" className='flex space-x-4 align-middle ml-3'>
-                            <FaUser className="text-2xl text-primary-800" />
-                            <span className="text-sm text-primary-800 font-semibold">Sujeito Teste</span>
-                        </Link>
-                    </div>
-
-                    <br />
-
-                    <hr className="border-t border-primary-800 my-4" />
-
-                    <ul className="space-y-2">
-                        {
-                            children
-                        }
-                        {
-                            Object.entries(listItems).map(([k, { icon, items, active }], i) =>
-                                <li key={i}>
-                                    <Dropdown title={k} labels={items} icon={icon} active={active} />
-                                </li>
-                            )
-                        }
-                    </ul>
+            <aside className={(showSidebar ? "" : "hidden ") + "bg-white h-screen border-r border-bg-primary overflow-hidden w-72 flex shrink-0 fixed top-0 z-40 inset-0 lg:block z-100"} aria-label="Sidebar">
+    <div className="h-full w-full no-scrollbar px-3 pb-4 bg-white text-bg-primary">
+        <Link href="/dashboard">
+            <div className="flex justify-center">
+                <div className="w-30 h-30 mt-8">
+                    <Image src="/images/logo.png" alt="Logotipo" width={150} height={150} />
                 </div>
-            </aside>
+            </div>
+        </Link>
+
+        <hr className="border-t border-primary-800 my-4" />
+
+        <br />
+
+        <div className="flex items-center space-x-2">
+            <Link href="/dashboard" className='flex space-x-4 align-middle ml-3'>
+                <FaUser className="text-2xl text-primary-800" />
+                <span className="text-sm text-primary-800 font-semibold">Sujeito Teste</span>
+            </Link>
+        </div>
+
+        <br />
+
+        <hr className="border-t border-primary-800 my-4" />
+
+        <ul className="space-y-2 max-h-[calc(100vh-330px)] overflow-y-auto">
+            {
+                children
+            }
+            {
+                Object.entries(listItems).map(([k, { icon, items, active }], i) =>
+                    <li key={i}>
+                        <Dropdown title={k} labels={items} icon={icon} active={active} />
+                    </li>
+                )
+            }
+        </ul>
+    </div>
+</aside>
+
             <div
                 className={(showSidebar ? "" : "hidden ") + "fixed inset-0 z-10 bg-gray-900/50 lg:hidden"}
                 onClick={() => setShowSidebar(false)}

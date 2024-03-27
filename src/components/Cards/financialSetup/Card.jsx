@@ -10,7 +10,7 @@ import { MdTableRows } from "react-icons/md";
 import { GoPlus } from "react-icons/go";
 import { LuPlus } from "react-icons/lu";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import FormModals from "@/components/modal/financialSetup/formModals";
 
 
 
