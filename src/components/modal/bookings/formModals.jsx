@@ -11,16 +11,17 @@ import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 //imports de funções
-import { transfer } from "@/components/functionsForm/bookings/transfers/page";
-import { cancelType } from "@/components/functionsForm/bookings/cancelType/page";
-import { reserveChange } from "@/components/functionsForm/bookings/reserveChange/page";
-import { cancelReason } from "@/components/functionsForm/bookings/cancelReason/page";
-import { replacementCode } from "@/components/functionsForm/bookings/replacementCode/page";
-import { reserveMotive } from "@/components/functionsForm/bookings/reserveMotive/page";
-import { formsKnowledge } from "@/components/functionsForm/bookings/formsKnowledge/page";
-import { market } from "@/components/functionsForm/bookings/market/page";
-import { marketSegments } from "@/components/functionsForm/bookings/marketSegments/page";
-import { reservationStatus } from "@/components/functionsForm/bookings/reservationStatus/page";
+import { transfer } from "@/components/functionsForm/CRUD/bookings/transfers/page";
+import { cancelType } from "@/components/functionsForm/CRUD/bookings/cancelType/page";
+import { reserveChange } from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
+import { cancelReason } from "@/components/functionsForm/CRUD/bookings/cancelReason/page";
+import { replacementCode } from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
+import { reserveMotive } from "@/components/functionsForm/CRUD/bookings/reserveMotive/page";
+import { formsKnowledge } from "@/components/functionsForm/CRUD/bookings/formsKnowledge/page";
+import { market } from "@/components/functionsForm/CRUD/bookings/market/page";
+import { marketSegments } from "@/components/functionsForm/CRUD/bookings/marketSegments/page";
+import { reservationStatus } from "@/components/functionsForm/CRUD/bookings/reservationStatus/page";
+import { expansion } from "@/components/functionsForm/expansion/page";
 
 
 /*
@@ -69,6 +70,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
 
+    //funções de inserir e editar
     const { handleInputReservStatus, handleSubmitReservStatus, handleUpdateReservStatus, setValuesReservStatus, valuesReservStatus } = reservationStatus(idReservStatus);
     const { handleInputMarketSegment, handleSubmitMarketSegment, handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment } = marketSegments(idMarketSegment);
     const { handleInputMarket, handleSubmitMarket, handleUpdateMarket, setValuesMarket, valuesMarket } = market(idMarket);
@@ -81,11 +83,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
     const { handleInputTransfer, handleSubmitTransfer, handleUpdateTransfer, setValuesTransfer, valuesTransfer } = transfer(idTransfer);
 
     //expansão de ecra form
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
+    const { toggleExpand , setIsExpanded, isExpanded } = expansion();
 
     return (
         <>

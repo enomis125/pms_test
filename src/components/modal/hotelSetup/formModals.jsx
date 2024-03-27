@@ -10,11 +10,12 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { characteristics } from "@/components/functionsForm/hotel/characteristics/page";
-import { rooms } from "@/components/functionsForm/hotel/rooms/page";
-import { tipologys } from "@/components/functionsForm/hotel/tipology/page";
-import { maintenance } from "@/components/functionsForm/hotel/maintenance/page";
-import { typesGroups } from "@/components/functionsForm/hotel/tipologyGroup/page";
+import { characteristics } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
+import { rooms } from "@/components/functionsForm/CRUD/hotel/rooms/page";
+import { tipologys } from "@/components/functionsForm/CRUD/hotel/tipology/page";
+import { maintenance } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
+import { typesGroups } from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
+import { expansion } from "@/components/functionsForm/expansion/page";
 
 
 
@@ -48,6 +49,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     const { handleInputRoomtype, handleSubmitRoomtype, handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologys(idRoomtype);
     const { handleInput , handleSubmit, handleUpdate, setValues, values } = characteristics(idCarateristics);
     const { handleInputRoom , handleSubmitRoom, handleUpdateRoom, setValuesRoom, valuesRoom } = rooms(idRoom);
+    const { toggleExpand , setIsExpanded, isExpanded } = expansion();
 
     const [caracteristics, setCaracteristics] = useState([]);
 
@@ -99,15 +101,6 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         { label: "Caracteristicas3", value: "Caracteristicas3", description: "" },
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
-
-
-
-    //expanção do ecra no form
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
 
 
     return (

@@ -35,7 +35,7 @@ export function reserveMotive(idReservMotive) {
 
     //edição na tabela motivo de reserva
     const [valuesReservMotive, setValuesReservMotive] = useState({
-        id: idCancelReason,
+        id: idReservMotive,
         Abreviature: '',
         Description: '',
         Details: ''

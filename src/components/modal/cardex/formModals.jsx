@@ -10,15 +10,16 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { vipCode } from "@/components/functionsForm/cardex/vipCode/page";
-import { marketing } from "@/components/functionsForm/cardex/marketing/page";
-import { members } from "@/components/functionsForm/cardex/members/page";
-import { doctypes } from "@/components/functionsForm/cardex/doctypes/page";
-import { clientPreferences } from "@/components/functionsForm/cardex/clientPreferences/page";
-import { knowledgeMethod } from "@/components/functionsForm/cardex/knowledgeMethod/page";
-import { profession } from "@/components/functionsForm/cardex/profession/page";
-import { nationality } from "@/components/functionsForm/cardex/nationality/page";
-import { salutation } from "@/components/functionsForm/cardex/salutation/page";
+import { vipCode } from "@/components/functionsForm/CRUD/cardex/vipCode/page";
+import { marketing } from "@/components/functionsForm/CRUD/cardex/marketing/page";
+import { members } from "@/components/functionsForm/CRUD/cardex/members/page";
+import { doctypes } from "@/components/functionsForm/CRUD/cardex/doctypes/page";
+import { clientPreferences } from "@/components/functionsForm/CRUD/cardex/clientPreferences/page";
+import { knowledgeMethod } from "@/components/functionsForm/CRUD/cardex/knowledgeMethod/page";
+import { profession } from "@/components/functionsForm/CRUD/cardex/profession/page";
+import { nationality } from "@/components/functionsForm/CRUD/cardex/nationality/page";
+import { salutation } from "@/components/functionsForm/CRUD/cardex/salutation/page";
+import { expansion } from "@/components/functionsForm/expansion/page";
 
 
 /*
@@ -67,6 +68,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
 
+    //funções de inserir e editar
     const { handleInputSalutation , handleSubmitSalutation, handleUpdateSalutation, setValuesSalutation, valuesSalutation } = salutation(idSalutation);
     const { handleInputNacionality, handleSubmitNacionality, handleUpdateNationality, setValuesNationality, valuesNacionality } = nationality(idNacionality);
     const { handleInputProfession, handleSubmitProfession, handleUpdateProfession, setValuesProffesion, valuesProfession } = profession(idProfession);
@@ -76,14 +78,9 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
     const { handleInputMember, handleSubmitMember, handleUpdateMember, setValuesMember, valuesMember } = members(idMember);
     const { handleInputMarketing, handleSubmitMarketing, handleUpdateMarketing, setValuesMarketing, valuesMarketing } = marketing(idMarketing);
     const { handleInputVipcode, handleSubmitVipcode, handleUpdateVipcode, setValuesVipcode, valuesVipcode } = vipCode(idVipcode);
-
-    //expansão de ecra form
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
-
+    //função de expanção
+    const { toggleExpand , setIsExpanded, isExpanded } = expansion();
+    
     return (
         <>
 
