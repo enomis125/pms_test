@@ -10,7 +10,6 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { insertRoom } from "../../../app/functions/hotel/characteristics/insert"
 
 
 /*
@@ -38,8 +37,36 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     const pathname = usePathname();
     const router = useRouter();
 
+    const [caracteristics, setCaracteristics] = useState([]);
 
-    const { handleSubmitTypesgroups , handleInputTypesgroups } = insertRoom();
+    useEffect(() => {
+        const getData = () => {
+          axios.get('/api/v1/hotel/caracteristicas')
+            .then(res => {
+              setCaracteristics(res.data.response);
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        };
+        getData();
+      }, []);
+
+
+      const [tipology, setTipology] = useState([]);
+
+      useEffect(() => {
+          const getData = () => {
+            axios.get('/api/v1/hotel/tipologys')
+              .then(res => {
+                setTipology(res.data.response);
+              })
+              .catch(error => {
+                console.error('Error fetching data:', error);
+              });
+          };
+          getData();
+        }, []);
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
 
@@ -61,8 +88,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
 
-     //inserção na tabela rooms
-     const [room, setRoom] = useState({
+    //inserção na tabela rooms
+    const [room, setRoom] = useState({
         Label: '',
         RoomType: '',
         Description: ''
@@ -86,7 +113,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         })
             .then(response => console.log(response))
             .catch(err => console.log(err))
-            console.log(room.Label)
+        console.log(room.Label)
     }
     //edição na tabela rooms
     const [valuesRoom, setValuesRoom] = useState({
@@ -288,7 +315,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
 
     //inserção na tabela tipology group
-    /*const [roomtypesgroups, setRoomtypesgroups] = useState({
+    const [roomtypesgroups, setRoomtypesgroups] = useState({
         Label: '',
     })
 
@@ -308,7 +335,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         })
             .then(response => console.log(response))
             .catch(err => console.log(err))
-    }*/
+    }
 
     //edição na tabela tipology group
     const [valuesTypesgroups, setValuesTypesGroups] = useState({
@@ -356,7 +383,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitTypesgroups}>
+                                        <form onSubmit={handleSubmitTypesgroups}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -372,12 +399,12 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                     <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                                 </div>
                                                 <div className="flex flex-row gap-5">
-                                                <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">------------</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
+                                                    <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                    <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
+                                                        <option value="0">------------</option>
+                                                        <option value="1">Teste de opções</option>
+                                                        <option value="2">Teste de opções</option>
+                                                    </select>
                                                 </div>
                                             </ModalBody>
                                         </form>
@@ -656,15 +683,15 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             {/* Adjusting the field name to match the expected name in handleInputRoom */}
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Tipologia}
-                                                        label="Tipologia"
-                                                        // Adjusting the name to match the expected name in handleInputRoom
-                                                        name="Tipologia"
-                                                        className="w-full"
+                                                <Autocomplete
+                                                        label="Selecione uma tipologia"
+                                                        className="max-w-xs"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        {tipology.map((tipology) => (
+                                                            <AutocompleteItem key={tipology.roomTypeID} value={tipology.desc}>
+                                                                {tipology.desc}
+                                                            </AutocompleteItem>
+                                                        ))}
                                                     </Autocomplete>
                                                 </div>
                                             </div>
@@ -698,13 +725,15 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </div>
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Caracteristicas}
-                                                        label="Caracteristicas"
-                                                        className="w-full"
+                                                <Autocomplete
+                                                        label="Selecione uma caracteristica"
+                                                        className="max-w-xs"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        {caracteristics.map((caracteristic) => (
+                                                            <AutocompleteItem key={caracteristic.characteristicID} value={caracteristic.description}>
+                                                                {caracteristic.description}
+                                                            </AutocompleteItem>
+                                                        ))}
                                                     </Autocomplete>
                                                 </div>
                                             </div>
@@ -776,13 +805,15 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </div>
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-
-                                                        defaultItems={Tipologia}
-                                                        label="Tipologia"
-                                                        className="w-full"
+                                                <Autocomplete
+                                                        label="Selecione uma tipologia"
+                                                        className="max-w-xs"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        {tipology.map((tipology) => (
+                                                            <AutocompleteItem key={tipology.roomTypeID} value={tipology.desc}>
+                                                                {tipology.desc}
+                                                            </AutocompleteItem>
+                                                        ))}
                                                     </Autocomplete>
                                                 </div>
                                             </div>
@@ -818,12 +849,14 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Caracteristicas}
-                                                        label="Caracteristicas"
-                                                        className="w-full"
+                                                        label="Selecione uma caracteristica"
+                                                        className="max-w-xs"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        {caracteristics.map((caracteristic) => (
+                                                            <AutocompleteItem key={caracteristic.characteristicID} value={caracteristic.description}>
+                                                                {caracteristic.description}
+                                                            </AutocompleteItem>
+                                                        ))}
                                                     </Autocomplete>
                                                 </div>
                                             </div>
@@ -855,19 +888,19 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmit}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                            <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                            </div>
-                                        </ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <Input type="text" name="Abreviature" onChange={handleInput} variant="underlined" label="Abreviatura" />
-                                            <Input type="text" name="Description" onChange={handleInput} variant="underlined" label="Descrição" />
-                                            <Input type="textarea" name="Details" onChange={handleInput} variant="underlined" label="Detalhe" />
-                                        </ModalBody>
-                                    </form>
+                                        <form onSubmit={handleSubmit}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <Input type="text" name="Abreviature" onChange={handleInput} variant="underlined" label="Abreviatura" />
+                                                <Input type="text" name="Description" onChange={handleInput} variant="underlined" label="Descrição" />
+                                                <Input type="textarea" name="Details" onChange={handleInput} variant="underlined" label="Detalhe" />
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
 
