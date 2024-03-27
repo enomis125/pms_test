@@ -10,11 +10,11 @@ import { MdTableRows } from "react-icons/md";
 import { GoPlus } from "react-icons/go";
 import { LuPlus } from "react-icons/lu";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import FormModals from "@/components/modal/hotelSetup/cardModal/formModals";
 
 
 
-const Cartao = ({ title, description, counter1, counter2, icon, listType, formTypeCard}) => {
+const Cartao = ({ title, description, counter1, counter2, icon, listType, formTypeCard,}) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -29,7 +29,6 @@ const Cartao = ({ title, description, counter1, counter2, icon, listType, formTy
   const handleCardClick = () => {
     router.push(pathname + "/" + ('listType', listType))
   };
-
 
   return (
     <div className="w-full h-full" data-listType={listType}

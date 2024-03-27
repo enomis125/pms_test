@@ -17,7 +17,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 //import de modal de tipologia
-import FormModals from "@/components/modal/hotelSetup/formModals"
+import FormModals from "@/components/modal/hotelSetup/cardModal/formModals"
 
 export default function Characteristics() {
   const [page, setPage] = React.useState(1);
