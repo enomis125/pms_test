@@ -133,13 +133,13 @@ export default function Characteristics() {
           <TableColumn className="bg-primary-600 text-white font-bold w-[2%] uppercase">
             ID
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
+          <TableColumn className="bg-primary-600 text-white font-bold w-50 px-20 uppercase">
             Abreviatura
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">
+          <TableColumn className="bg-primary-600 text-white font-bold w-1/3 px-10 uppercase">
             Descrição
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
+          <TableColumn className="bg-primary-600 text-white font-bold w-1/3 px-10 uppercase">
             Detalhe
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
@@ -162,9 +162,9 @@ export default function Characteristics() {
                         editado={caracteristic.updatedAt}
                         editor={"teste"}
                       /></TableCell>
-              <TableCell className="px-40">{caracteristic.abreviature}</TableCell>
-              <TableCell>{caracteristic.description}</TableCell>
-              <TableCell className="px-20">{caracteristic.details}</TableCell>
+              <TableCell className="px-20">{caracteristic.abreviature}</TableCell>
+              <TableCell className="px-10">{caracteristic.description}</TableCell>
+              <TableCell className="px-10">{caracteristic.details}</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
