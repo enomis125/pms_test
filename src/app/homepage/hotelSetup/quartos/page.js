@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import RoomForm from "@/components/modal/hotelSetup/rooms/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -100,14 +100,14 @@ export default function Rooms() {
                 />
               </div>
             </div>
-            <FormModals
+            <RoomForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Quarto"}
               modalIcons={"bg-red"}
-              formTypeModal={21}
-            ></FormModals>
+              formTypeModal={11}
+            ></RoomForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -159,14 +159,14 @@ export default function Rooms() {
           {items.map((rooms, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><RoomForm
                         buttonName={rooms.roomID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Quartos"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${rooms.roomID}`}
-                        formTypeModal={22}
+                        formTypeModal={12}
                         idRoom={rooms.roomID}
                         criado={rooms.createdAt}
                         editado={rooms.updatedAt}
@@ -190,19 +190,19 @@ export default function Rooms() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <RoomForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Quartos"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${rooms.roomID}`}
-                        formTypeModal={22}
+                        formTypeModal={12}
                         idRoom={rooms.roomID}
                         criado={rooms.createdAt}
                         editado={rooms.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></RoomForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(rooms.roomID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

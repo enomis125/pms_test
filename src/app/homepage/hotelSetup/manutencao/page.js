@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import MaintenanceForm from "@/components/modal/hotelSetup/maintenance/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -100,14 +100,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <MaintenanceForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Manutenção"}
               modalIcons={"bg-red"}
-              formTypeModal={51}
-            ></FormModals>
+              formTypeModal={11}
+            ></MaintenanceForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -152,14 +152,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((maintenance, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><MaintenanceForm
                         buttonName={maintenance.maintenanceID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Manutenção"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${maintenance.maintenanceID}`}
-                        formTypeModal={52}
+                        formTypeModal={12}
                         idMaintenance={maintenance.maintenanceID}
                         criado={maintenance.createdAt}
                         editado={maintenance.updatedAt}
@@ -181,19 +181,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <MaintenanceForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Manutenção"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${maintenance.maintenanceID}`}
-                        formTypeModal={52}
+                        formTypeModal={12}
                         idMaintenance={maintenance.maintenanceID}
                         criado={maintenance.createdAt}
                         editado={maintenance.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></MaintenanceForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(maintenance.maintenanceID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

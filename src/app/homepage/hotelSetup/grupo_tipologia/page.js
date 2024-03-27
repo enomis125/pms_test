@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import TipologyGroupForm from "@/components/modal/hotelSetup/tipologyGroup/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -97,14 +97,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <TipologyGroupForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Grupo de Tipologia"}
               modalIcons={"bg-red"}
               formTypeModal={11}
-            ></FormModals>
+            ></TipologyGroupForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -155,7 +155,7 @@ export default function Characteristics() {
         <TableBody>
           {items.map((roomtypesgroups, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><TipologyGroupForm
                         buttonName={roomtypesgroups.roomTypeGroupID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
@@ -186,7 +186,7 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <TipologyGroupForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
@@ -198,7 +198,7 @@ export default function Characteristics() {
                         criado={roomtypesgroups.createdAt}
                         editado={roomtypesgroups.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></TipologyGroupForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(roomtypesgroups.roomTypeGroupID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

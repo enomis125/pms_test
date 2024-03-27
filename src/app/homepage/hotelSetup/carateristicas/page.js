@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/hotelSetup/formModals";
+import CharacteristicForm from "@/components/modal/hotelSetup/characteristics/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -100,14 +100,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <CharacteristicForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Caraterísticas"}
               modalIcons={"bg-red"}
-              formTypeModal={31}
-            ></FormModals>
+              formTypeModal={11}
+            ></CharacteristicForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -149,14 +149,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((caracteristic, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><CharacteristicForm
                         buttonName={caracteristic.characteristicID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Caraterísticas"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${caracteristic.characteristicID}`}
-                        formTypeModal={32}
+                        formTypeModal={12}
                         idCarateristics={caracteristic.characteristicID}
                         criado={caracteristic.createdAt}
                         editado={caracteristic.updatedAt}
@@ -177,19 +177,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <CharacteristicForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Caraterísticas"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${caracteristic.characteristicID}`}
-                        formTypeModal={32}
+                        formTypeModal={12}
                         idCarateristics={caracteristic.characteristicID}
                         criado={caracteristic.createdAt}
                         editado={caracteristic.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></CharacteristicForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
