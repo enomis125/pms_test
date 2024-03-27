@@ -71,7 +71,7 @@ const Cartao = ({ title, description, counter1, counter2, icon, listType, formTy
                     className="bg-primary-100   -mt"
 
                   >
-                  <FormModals buttonName = {<LuPlus size={20} />} modalHeader={"Inserir " + title} formTypeModal={formTypeCard}/>
+                  <FormModals buttonName = {<LuPlus size={20} />} modalHeader={"Inserir " + title.toLowerCase()} formTypeModal={formTypeCard}/>
                   </Button>
                 {/* </Tooltip> */}
 
