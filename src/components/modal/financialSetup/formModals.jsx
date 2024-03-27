@@ -12,6 +12,7 @@ import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import { LuPlus } from "react-icons/lu";
 import { BsArrowReturnRight } from "react-icons/bs";
+import { expansion } from "@/components/functionsForm/expansion/page";
 
 /*
 os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:
@@ -38,6 +39,8 @@ const formModals = ({ idDepartment,
     const pathname = usePathname();
     const router = useRouter();
 
+    const { toggleExpand , setIsExpanded, isExpanded } = expansion();
+    
     //inserção na tabela departments
     const [department, setDepartment] = useState({
         Abreviature: '',
@@ -91,14 +94,6 @@ const formModals = ({ idDepartment,
             .catch(err => console.log(err))
     }
 
-
-
-    //expanção do ecra no form
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
 
     return (
         <>
