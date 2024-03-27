@@ -10,6 +10,15 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
+import { vipCode } from "@/components/functionsForm/cardex/vipCode/page";
+import { marketing } from "@/components/functionsForm/cardex/marketing/page";
+import { members } from "@/components/functionsForm/cardex/members/page";
+import { doctypes } from "@/components/functionsForm/cardex/doctypes/page";
+import { clientPreferences } from "@/components/functionsForm/cardex/clientPreferences/page";
+import { knowledgeMethod } from "@/components/functionsForm/cardex/knowledgeMethod/page";
+import { profession } from "@/components/functionsForm/cardex/profession/page";
+import { nationality } from "@/components/functionsForm/cardex/nationality/page";
+import { salutation } from "@/components/functionsForm/cardex/salutation/page";
 
 
 /*
@@ -58,494 +67,15 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
 
-    //inserção na tabela reservation status
-    const [salutation, setSalutation] = useState({
-        Abreviature: '',
-        Description: '',
-        Title: '',
-        Ordenation: '',
-        Gender: '',
-    })
-
-    const handleInputSalutation = (event) => {
-        setSalutation({ ...salutation, [event.target.name]: event.target.value })
-    }
-    function handleSubmitSalutation(event) {
-        event.preventDefault()
-        if (!salutation.Abreviature || !salutation.Description || !salutation.Title || !salutation.Ordenation || !salutation.Gender) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/salutation', {
-            data: {
-                abreviature: salutation.Abreviature,
-                description: salutation.Description,
-                title: salutation.Title,
-                ordenation: salutation.Ordenation,
-                gender: salutation.Gender,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela reservation status
-    const [valuesSalutation, setValuesSalutation] = useState({
-        id: idSalutation,
-        Abreviature: '',
-        Description: '',
-        Title: '',
-        Ordenation: '',
-        Gender: '',
-    })
-
-    useEffect(() => {
-        axios.get('/api/v1/cardex/salutation/' + idSalutation)
-            .then(res => {
-                setValuesSalutation({ ...valuesSalutation, Abreviature: res.data.response.suffix, Description: res.data.response.salutationCode, Title: res.data.response.salutation, Ordenation: res.data.response.type, Gender: res.data.response.inet, })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateSalutation(e) {
-        e.preventDefault()
-        axios.patch('/api/v1/cardex/salutation/' + idSalutation, {
-            data: {
-                abreviature: valuesSalutation.Abreviature,
-                description: valuesSalutation.Description,
-                title: valuesSalutation.Title,
-                ordenation: valuesSalutation.Ordenation,
-                gender: valuesSalutation.Gender,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela nationality
-    const [nacionality, setNacionality] = useState({
-        Nation: '',
-        Statnr: '',
-        Ordenation: '',
-        Group: '',
-        Isocode: '',
-        Fo: '',
-        Nationality: '',
-    })
-
-    const handleInputNacionality = (event) => {
-        setNacionality({ ...nacionality, [event.target.name]: event.target.value })
-    }
-    function handleSubmitNacionality(event) {
-        event.preventDefault()
-        if (!nacionality.Nation.trim() || !nacionality.Statnr.trim() || !nacionality.Ordenation.trim() || !nacionality.Group.trim() || !nacionality.Isocode.trim() || !nacionality.Fo.trim() || !nacionality.Nationality.trim()) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/nationalities', {
-            data: {
-                nation: nacionality.Nation,
-                statnr: nacionality.Statnr,
-                ordenation: nacionality.Ordenation,
-                group: nacionality.Group,
-                isocode: nacionality.Isocode,
-                fo: nacionality.Fo,
-                nationality: nacionality.Nationality,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela nationality
-    const [valuesNacionality, setValuesNationality] = useState({
-        id: idNacionality,
-        Nation: '',
-        Statnr: '',
-        Ordenation: '',
-        Group: '',
-        Isocode: '',
-        Fo: '',
-        Nationality: '',
-    })
-
-    useEffect(() => {
-        axios.get('/api/v1/cardex/nationalities/' + idNacionality)
-            .then(res => {
-                setValuesNationality({ ...valuesNacionality, Nation: res.data.response.land, Statnr: res.data.response.statNr, Ordenation: res.data.response.brkopftyp, Group: res.data.response.gruppe, Isocode: res.data.response.isocode, Fo: res.data.response.showFO, Nationality: res.data.response.nation })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateNationality(e) {
-        e.preventDefault()
-        axios.patch('/api/v1/cardex/nationalities/' + idNacionality, {
-            data: {
-                nation: valuesNacionality.Nation,
-                statnr: valuesNacionality.Statnr,
-                ordenation: valuesNacionality.Ordenation,
-                group: valuesNacionality.Group,
-                isocode: valuesNacionality.Isocode,
-                fo: valuesNacionality.Fo,
-                nationality: valuesNacionality.Nationality,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela profession
-    const [profession, setProfession] = useState({
-        Group: '',
-        Abreviature: '',
-        Description: ''
-    })
-
-    const handleInputProfession = (event) => {
-        setProfession({ ...profession, [event.target.name]: event.target.value })
-    }
-    function handleSubmitProfession(event) {
-        event.preventDefault()
-        if (!profession.Group || !profession.Abreviature || !profession.Description) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/profession', {
-            data: {
-                group: profession.Group,
-                abreviature: profession.Abreviature,
-                description: profession.Description
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela profession
-    const [valuesProfession, setValuesProffesion] = useState({
-        id: idNacionality,
-        Group: '',
-        Abreviature: '',
-        Description: '',
-    })
-
-    useEffect(() => {
-        axios.get('/api/v1/cardex/profession/' + idProfession)
-            .then(res => {
-                setValuesProffesion({ ...valuesProfession, Group: res.data.response.gruppe, Abreviature: res.data.response.abreviature, Description: res.data.response.description })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateProfession(e) {
-        e.preventDefault()
-        axios.patch('/api/v1/cardex/profession/' + idProfession, {
-            data: {
-                group: valuesProfession.Group,
-                abreviature: valuesProfession.Abreviature,
-                description: valuesProfession.Description
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela knowledge method
-    const [knowledgeMethod, setKnowledgeMethod] = useState({
-        Description: '',
-        Abreviature: '',
-    })
-
-    const handleInputKnowledgeMethod = (event) => {
-        setKnowledgeMethod({ ...knowledgeMethod, [event.target.name]: event.target.value })
-    }
-    function handleSubmitKnowledgeMethod(event) {
-        event.preventDefault()
-        if (!knowledgeMethod.description || !knowledgeMethod.abreviature) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/knowledgeMethod', {
-            data: {
-                description: knowledgeMethod.description,
-                abreviature: knowledgeMethod.abreviature,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-    //edição na tabela knowledge method
-    const [valuesKnowledgeMethod, setValuesKnowledgeMethod] = useState({
-        id: idKnowledgeMethod,
-        Descrition: '',
-        Abreviature: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/cardex/knowledgeMethod/" + idKnowledgeMethod)
-            .then(res => {
-                setValuesKnowledgeMethod({ ...valuesKnowledgeMethod, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateKnowledgeMethod(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/cardex/knowledgeMethod/` + idKnowledgeMethod, {
-            data: {
-                description: valuesKnowledgeMethod.Descrition,
-                abreviature: valuesKnowledgeMethod.Abreviature,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela doctypes
-    const [doctypes, setDoctypes] = useState({
-        Name: '',
-        ShortName: '',
-    })
-
-    const handleInputDoctypes = (event) => {
-        setDoctypes({ ...doctypes, [event.target.name]: event.target.value })
-    }
-    function handleSubmitDoctypes(event) {
-        event.preventDefault()
-        if (!doctypes.name || !doctypes.shortName) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/doctypes', {
-            data: {
-                name: doctypes.name,
-                shortName: doctypes.shortName,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela doctypes
-    const [valuesDoctypes, setValuesDoctypes] = useState({
-        id: idDoctypes,
-        Name: '',
-        ShortName: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/cardex/doctypes/" + idDoctypes)
-            .then(res => {
-                setValuesDoctypes({ ...valuesDoctypes, Name: res.data.response.name, ShortName: res.data.response.shortName })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateDoctypes(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/cardex/doctypes/` + idDoctypes, {
-            data: {
-                name: valuesDoctypes.Name,
-                shortName: valuesDoctypes.ShortName,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-
-    //inserção na tabela client preference
-    const [customerPreferences, setCustomerPreferences] = useState({
-        Description: '',
-        Abreviature: '',
-    })
-
-    const handleInputCustomerPreferences = (event) => {
-        setCustomerPreferences({ ...customerPreferences, [event.target.name]: event.target.value })
-    }
-    function handleSubmitCustomerPreferences(event) {
-        event.preventDefault()
-        if (!customerPreferences.Description || !customerPreferences.Abreviature) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/customerPreferences', {
-            data: {
-                description: customerPreferences.Description,
-                abreviature: customerPreferences.Abreviature,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela client preference
-    const [valuesCustomerPreferences, setValuesCustomerPreferences] = useState({
-        id: idCustomerPreferences,
-        Descrition: '',
-        Abreviature: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/cardex/customerPreferences/" + idCustomerPreferences)
-            .then(res => {
-                setValuesCustomerPreferences({ ...valuesCustomerPreferences, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateCustomerPreferences(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/cardex/customerPreferences/` + idCustomerPreferences, {
-            data: {
-                description: valuesCustomerPreferences.Descrition,
-                abreviature: valuesCustomerPreferences.Abreviature,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela members
-    const [member, setMember] = useState({
-        Description: '',
-        Abreviature: '',
-    })
-
-    const handleInputMember = (event) => {
-        setMember({ ...member, [event.target.name]: event.target.value })
-    }
-    function handleSubmitMember(event) {
-        event.preventDefault()
-        if (!member.Description || !member.Abreviature) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/members', {
-            data: {
-                description: member.Description,
-                abreviature: member.Abreviature,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela members
-    const [valuesMember, setValuesMember] = useState({
-        id: idMember,
-        Descrition: '',
-        Abreviature: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/cardex/members/" + idMember)
-            .then(res => {
-                setValuesMember({ ...valuesMember, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateMember(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/cardex/members/` + idMember, {
-            data: {
-                description: valuesMember.Descrition,
-                abreviature: valuesMember.Abreviature,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela marketing
-    const [marketing, setMarketing] = useState({
-        Description: '',
-        Abreviature: '',
-    })
-
-    const handleInputMarketing = (event) => {
-        setMarketing({ ...marketing, [event.target.name]: event.target.value })
-    }
-    function handleSubmitMarketing(event) {
-        event.preventDefault()
-        if (!marketing.Description || !marketing.Abreviature) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/marketing', {
-            data: {
-                description: marketing.Description,
-                abreviature: marketing.Abreviature,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-    //edição na tabela marketing
-    const [valuesMarketing, setValuesMarketing] = useState({
-        id: idMarketing,
-        Descrition: '',
-        Abreviature: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/cardex/marketing/" + idMarketing)
-            .then(res => {
-                setValuesMarketing({ ...valuesMarketing, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateMarketing(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/cardex/marketing/` + idMarketing, {
-            data: {
-                description: valuesMarketing.Descrition,
-                abreviature: valuesMarketing.Abreviature,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela vipcode
-    const [vipcode, setVipcode] = useState({
-        Description: '',
-    })
-
-    const handleInputVipcode = (event) => {
-        setVipcode({ ...vipcode, [event.target.name]: event.target.value })
-    }
-    function handleSubmitVipcode(event) {
-        event.preventDefault()
-        if (!vipcode.Description) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/cardex/vipcode', {
-            data: {
-                description: vipcode.Description,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-    //edição na tabela vipcode
-    const [valuesVipcode, setValuesVipcode] = useState({
-        id: idVipcode,
-        Descrition: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/cardex/vipcode/" + idVipcode)
-            .then(res => {
-                setValuesVipcode({ ...valuesVipcode, Descrition: res.data.response.description })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateVipcode(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/cardex/vipcode/` + idVipcode, {
-            data: {
-                description: valuesVipcode.Descrition,
-            }
-        })
-            .catch(err => console.log(err))
-    }
+    const { handleInputSalutation , handleSubmitSalutation, handleUpdateSalutation, setValuesSalutation, valuesSalutation } = salutation(idSalutation);
+    const { handleInputNacionality, handleSubmitNacionality, handleUpdateNationality, setValuesNationality, valuesNacionality } = nationality(idNacionality);
+    const { handleInputProfession, handleSubmitProfession, handleUpdateProfession, setValuesProffesion, valuesProfession } = profession(idProfession);
+    const { handleInputKnowledgeMethod, handleSubmitKnowledgeMethod, handleUpdateKnowledgeMethod, setValuesKnowledgeMethod, valuesKnowledgeMethod } = knowledgeMethod(idKnowledgeMethod);
+    const { handleInputDoctypes, handleSubmitDoctypes, handleUpdateDoctypes, setValuesDoctypes, valuesDoctypes } = doctypes(idDoctypes);
+    const { handleInputCustomerPreferences, handleSubmitCustomerPreferences, handleUpdateCustomerPreferences, setValuesCustomerPreferences, valuesCustomerPreferences } = clientPreferences(idCustomerPreferences);
+    const { handleInputMember, handleSubmitMember, handleUpdateMember, setValuesMember, valuesMember } = members(idMember);
+    const { handleInputMarketing, handleSubmitMarketing, handleUpdateMarketing, setValuesMarketing, valuesMarketing } = marketing(idMarketing);
+    const { handleInputVipcode, handleSubmitVipcode, handleUpdateVipcode, setValuesVipcode, valuesVipcode } = vipCode(idVipcode);
 
     //expansão de ecra form
     const [isExpanded, setIsExpanded] = useState(false);
@@ -559,7 +89,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 10 && ( //salutation status modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -741,7 +271,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -759,7 +289,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 20 && ( //Nationality modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -903,7 +433,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                     onChange={e => setValuesNationality({ ...valuesNacionality, Isocode: e.target.value })} placeholder="Código ISO" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -922,7 +452,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 30 && ( //knowledge modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1091,7 +621,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1109,7 +639,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 40 && ( //profession modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1210,7 +740,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                             <input type="text" value={valuesProfession.Description} onChange={e => setValuesProffesion({ ...valuesProfession, Description: e.target.value })} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></input>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -1228,7 +758,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 50 && ( //doctypes modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1398,7 +928,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1416,7 +946,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 60 && ( //client preference modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1586,7 +1116,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1604,7 +1134,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 70 && ( //members modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                   <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1774,7 +1304,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1792,7 +1322,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 80 && ( //marketing modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1962,7 +1492,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1980,7 +1510,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 90 && ( //vip code modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -2150,7 +1680,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>

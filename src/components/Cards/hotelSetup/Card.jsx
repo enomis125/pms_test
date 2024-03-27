@@ -43,7 +43,7 @@ const Cartao = ({ title, description, counter1, counter2, icon, listType, formTy
               <label className="text-xl font-semibold">{title}</label>
             </div>
 
-            <div  className="flex gap-3 items-center">
+            <div  className="flex justify-end items-center">
 
 
                   <Button
@@ -63,16 +63,10 @@ const Cartao = ({ title, description, counter1, counter2, icon, listType, formTy
                   content="Inserir"
                   delay={500}> */}
 
-
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    variant="light"
-                    className="bg-primary-100   -mt"
-
-                  >
-                  <FormModals buttonName = {<LuPlus size={20} />} modalHeader={"Inserir " + title.toLowerCase()} formTypeModal={formTypeCard}/>
-                  </Button>
+                  <FormModals 
+                  buttonName = {<LuPlus size={20} />} 
+                  modalHeader={"Inserir " + title.toLowerCase()} 
+                  formTypeModal={formTypeCard}/>
                 {/* </Tooltip> */}
 
 

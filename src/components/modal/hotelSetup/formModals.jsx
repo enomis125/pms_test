@@ -10,6 +10,12 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
+import { characteristics } from "@/components/functionsForm/hotel/characteristics/page";
+import { rooms } from "@/components/functionsForm/hotel/rooms/page";
+import { tipologys } from "@/components/functionsForm/hotel/tipology/page";
+import { maintenance } from "@/components/functionsForm/hotel/maintenance/page";
+import { typesGroups } from "@/components/functionsForm/hotel/tipologyGroup/page";
+
 
 
 /*
@@ -36,6 +42,12 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const { handleSubmitTypesgroups , handleInputTypesgroups , handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroups(idTypesgroups);
+    const { handleInputMaintenance, handleSubmitMaintenance, handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenance(idMaintenance);
+    const { handleInputRoomtype, handleSubmitRoomtype, handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologys(idRoomtype);
+    const { handleInput , handleSubmit, handleUpdate, setValues, values } = characteristics(idCarateristics);
+    const { handleInputRoom , handleSubmitRoom, handleUpdateRoom, setValuesRoom, valuesRoom } = rooms(idRoom);
 
     const [caracteristics, setCaracteristics] = useState([]);
 
@@ -88,278 +100,6 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
     ]
 
-    //inserção na tabela rooms
-    const [room, setRoom] = useState({
-        Label: '',
-        RoomType: '',
-        Description: ''
-    })
-
-    const handleInputRoom = (event) => {
-        setRoom({ ...room, [event.target.name]: event.target.value })
-    }
-    function handleSubmitRoom(event) {
-        event.preventDefault()
-        if (!room.Label || !room.RoomType || !room.Description) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/hotel/rooms', {
-            data: {
-                Label: room.Label,
-                RoomType: room.RoomType,
-                Description: room.Description
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-        console.log(room.Label)
-    }
-    //edição na tabela rooms
-    const [valuesRoom, setValuesRoom] = useState({
-        id: idRoom,
-        Label: '',
-        RoomType: '',
-        Description: ''
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/hotel/rooms/" + idRoom)
-            .then(res => {
-                setValuesRoom({ ...valuesRoom, Label: res.data.response.label, RoomType: res.data.response.roomType, Description: res.data.response.description })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateRoom(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/hotel/rooms/` + idRoom, {
-            data: {
-                label: valuesRoom.Label,
-                roomType: valuesRoom.RoomType,
-                description: valuesRoom.Description
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela carateristicas
-    const [caracteristica, setCaracteristica] = useState({
-        Description: '',
-        Abreviature: '',
-        Details: ''
-    })
-
-    const handleInput = (event) => {
-        setCaracteristica({ ...caracteristica, [event.target.name]: event.target.value })
-    }
-    function handleSubmit(event) {
-        event.preventDefault()
-        if (!caracteristica.Description || !caracteristica.Abreviature || !caracteristica.Details) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/hotel/caracteristicas', {
-            data: {
-                description: caracteristica.Description,
-                abreviature: caracteristica.Abreviature,
-                details: caracteristica.Details
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela carateristicas
-    const [values, setValues] = useState({
-        id: idCarateristics,
-        Description: '',
-        Abreviature: '',
-        Details: ''
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/hotel/caracteristicas/" + idCarateristics)
-            .then(res => {
-                setValues({ ...values, Description: res.data.response.description, Abreviature: res.data.response.abreviature, Details: res.data.response.details })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdate(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/hotel/caracteristicas/` + idCarateristics, {
-            data: {
-                description: values.Description,
-                abreviature: values.Abreviature,
-                details: values.Details
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-
-    //inserção na tabela roomtypes
-    const [roomTypeState, setRoomTypeState] = useState({
-        Name: '',
-        Desc: '',
-        RoomFeaturesDesc: ''
-    })
-
-    const handleInputRoomtype = (event) => {
-        setRoomTypeState({ ...roomTypeState, [event.target.name]: event.target.value })
-    }
-    function handleSubmitRoomtype(event) {
-        event.preventDefault()
-        if (!roomTypeState.Name || !roomTypeState.Desc || !roomTypeState.RoomFeaturesDesc) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/hotel/tipologys', {
-            data: {
-                name: roomTypeState.Name,
-                desc: roomTypeState.Desc,
-                roomFeaturesDesc: roomTypeState.RoomFeaturesDesc
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela roomtypes
-    const [valuesRoomtype, setValuesRoomtype] = useState({
-        id: idRoomtype,
-        Desc: '',
-        Name: '',
-        RoomFeaturesDesc: '',
-        GroupID: '',
-        RoomTypePlan: ''
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/hotel/tipologys/" + idRoomtype)
-            .then(res => {
-                setValuesRoomtype({ ...valuesRoomtype, Desc: res.data.response.desc, Name: res.data.response.name, RoomFeaturesDesc: res.data.response.roomFeaturesDesc, GroupID: res.data.response.groupID, RoomTypePlan: res.data.response.roomTypePlan })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateRoomtype(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/hotel/tipologys/` + idRoomtype, {
-            data: {
-                desc: valuesRoomtype.Desc,
-                name: valuesRoomtype.Name,
-                roomFeaturesDesc: valuesRoomtype.RoomFeaturesDesc,
-                groupID: valuesRoomtype.GroupID,
-                roomTypePlan: valuesRoomtype.RoomTypePlan
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-    //inserção na tabela maintenance
-    const [maintenance, setMaintenance] = useState({
-        Abreviature: '',
-        Details: '',
-        Description: ''
-    })
-
-    const handleInputMaintenance = (event) => {
-        setMaintenance({ ...maintenance, [event.target.name]: event.target.value })
-    }
-    function handleSubmitMaintenance(event) {
-        event.preventDefault()
-        if (!maintenance.Abreviature || !maintenance.Details || !maintenance.Description) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/hotel/maintenance', {
-            data: {
-                abreviature: maintenance.Abreviature,
-                details: maintenance.Details,
-                description: maintenance.Description,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela maintenance
-    const [valuesMaintenance, setValuesMaintenance] = useState({
-        id: idMaintenance,
-        Abreviature: '',
-        Details: '',
-        Description: ''
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/hotel/maintenance/" + idMaintenance)
-            .then(res => {
-                setValuesMaintenance({ ...valuesMaintenance, Abreviature: res.data.response.abreviature, Details: res.data.response.details, Description: res.data.response.description })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateMaintenance(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/hotel/maintenance/` + idMaintenance, {
-            data: {
-                abreviature: valuesMaintenance.Abreviature,
-                details: valuesMaintenance.Details,
-                description: valuesMaintenance.Description
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-
-    //inserção na tabela tipology group
-    const [roomtypesgroups, setRoomtypesgroups] = useState({
-        Label: '',
-    })
-
-    const handleInputTypesgroups = (event) => {
-        setRoomtypesgroups({ ...roomtypesgroups, [event.target.name]: event.target.value })
-    }
-    function handleSubmitTypesgroups(event) {
-        event.preventDefault()
-        if (!roomtypesgroups.Label) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/hotel/tipologyGroup', {
-            data: {
-                label: roomtypesgroups.Label,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
-
-    //edição na tabela tipology group
-    const [valuesTypesgroups, setValuesTypesGroups] = useState({
-        id: idTypesgroups,
-        Label: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/hotel/tipologyGroup/" + idTypesgroups)
-            .then(res => {
-                setValuesTypesGroups({ ...valuesTypesgroups, Label: res.data.response.label })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateTypesgroups(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/hotel/tipologyGroup/` + idTypesgroups, {
-            data: {
-                label: valuesTypesgroups.Label,
-            }
-        })
-            .catch(err => console.log(err))
-    }
 
 
     //expanção do ecra no form
@@ -375,8 +115,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 10 && ( //tipology group modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
-                        {buttonName}
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
+                        {buttonName} {buttonIcon}
                     </Button>
                     <Modal isOpen={isOpen} hideCloseButton={true} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
                         <ModalContent>
@@ -507,7 +247,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </select>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -524,7 +264,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 20 && ( //rooms modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal
@@ -862,7 +602,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </div>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -880,7 +620,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 30 && ( //characteristics modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -981,7 +721,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             <textarea type="textarea" value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -999,7 +739,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 40 && ( //tipology modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1252,7 +992,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </ScrollShadow>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -1269,7 +1009,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 50 && ( //Maintenance modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                   <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
 
@@ -1469,7 +1209,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </div>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mui/material": "^5.15.14",
     "@nextui-org/react": "^2.2.10",
     "@prisma/client": "^5.11.0",
     "@prisma/extension-pulse": "^1.0.1",
