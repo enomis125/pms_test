@@ -105,7 +105,7 @@ const formModals = ({ idDepartment,
 
             {formTypeModal === 10 && ( //department modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -234,7 +234,7 @@ const formModals = ({ idDepartment,
 
             {formTypeModal === 20 && ( //account groups modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -354,7 +354,7 @@ const formModals = ({ idDepartment,
 
             {formTypeModal === 30 && ( //revenue account modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}  hideCloseButton={true} className="z-50">
@@ -549,7 +549,7 @@ const formModals = ({ idDepartment,
 
             {formTypeModal === 40 && ( //payment account modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}  className="z-50">
@@ -727,7 +727,7 @@ const formModals = ({ idDepartment,
 
 {formTypeModal === 50 && ( //taxes modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -905,7 +905,7 @@ const formModals = ({ idDepartment,
 
 {formTypeModal === 60 && ( //cashiers modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1028,7 +1028,7 @@ const formModals = ({ idDepartment,
 
 {formTypeModal === 70 && ( //void charges modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">

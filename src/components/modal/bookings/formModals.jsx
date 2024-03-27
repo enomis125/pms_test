@@ -624,7 +624,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 10 && ( //reservation status modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -792,7 +792,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -812,7 +812,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 20 && ( //origens mercado modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -980,7 +980,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -999,7 +999,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 30 && ( //origens mercado modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1167,7 +1167,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1186,7 +1186,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 40 && ( //forms of knowledge modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1354,7 +1354,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1373,7 +1373,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 50 && ( //reservation motive
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1541,7 +1541,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1560,7 +1560,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 60 && ( //replacement code modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1728,7 +1728,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1746,7 +1746,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 70 && ( //razao cancelamento
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1914,7 +1914,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1932,7 +1932,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 80 && ( //razao cancelamento
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -2108,7 +2108,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 90 && ( //reservation change modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -2276,7 +2276,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -2296,7 +2296,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
 
             {formTypeModal === 100 && ( //tipo cancelamento
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -2464,7 +2464,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>

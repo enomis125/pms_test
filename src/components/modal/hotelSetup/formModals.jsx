@@ -10,6 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
+import { characteristics } from "@/components/functionsForm/hotel/characteristics/page";
 
 
 /*
@@ -36,6 +37,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const { handleInput , handleSubmit, handleUpdate, setValues, values } = characteristics(idCarateristics);
 
     const [caracteristics, setCaracteristics] = useState([]);
 
@@ -144,7 +147,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     }
 
     //inserção na tabela carateristicas
-    const [caracteristica, setCaracteristica] = useState({
+    /*const [caracteristica, setCaracteristica] = useState({
         Description: '',
         Abreviature: '',
         Details: ''
@@ -196,7 +199,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
             }
         })
             .catch(err => console.log(err))
-    }
+    }*/
 
 
     //inserção na tabela roomtypes
@@ -375,8 +378,8 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 10 && ( //tipology group modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
-                        {buttonName}
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
+                        {buttonName} {buttonIcon}
                     </Button>
                     <Modal isOpen={isOpen} hideCloseButton={true} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
                         <ModalContent>
@@ -507,7 +510,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </select>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -524,7 +527,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 20 && ( //rooms modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal
@@ -862,7 +865,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </div>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -880,7 +883,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 30 && ( //characteristics modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -981,7 +984,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             <textarea type="textarea" value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -999,7 +1002,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 40 && ( //tipology modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1252,7 +1255,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </ScrollShadow>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -1269,7 +1272,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 50 && ( //Maintenance modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                   <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
 
@@ -1469,7 +1472,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             </div>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>

@@ -559,7 +559,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 10 && ( //salutation status modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -741,7 +741,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -759,7 +759,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 20 && ( //Nationality modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -903,7 +903,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                     onChange={e => setValuesNationality({ ...valuesNacionality, Isocode: e.target.value })} placeholder="Código ISO" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -922,7 +922,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 30 && ( //knowledge modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -1091,7 +1091,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1109,7 +1109,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 40 && ( //profession modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1210,7 +1210,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                             <input type="text" value={valuesProfession.Description} onChange={e => setValuesProffesion({ ...valuesProfession, Description: e.target.value })} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></input>
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                         <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                         {criado !== editado && (
                                             <div>
@@ -1228,7 +1228,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 50 && ( //doctypes modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1398,7 +1398,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1416,7 +1416,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 60 && ( //client preference modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1586,7 +1586,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1604,7 +1604,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 70 && ( //members modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                   <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1774,7 +1774,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1792,7 +1792,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 80 && ( //marketing modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -1962,7 +1962,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
@@ -1980,7 +1980,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 90 && ( //vip code modal
                 <>
-                    <Button onPress={onOpen} color="bg-primary-100" className="w-fit">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -2150,7 +2150,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
                                             <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
                                             {criado !== editado && (
                                                 <div>
