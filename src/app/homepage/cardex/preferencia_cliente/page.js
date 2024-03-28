@@ -21,7 +21,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import ClientPreferenceForm from "@/components/modal/cardex/clientPreference/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function customerPreferences() {
                 />
               </div>
             </div>
-            <FormModals
+            <ClientPreferenceForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Preferências"}
               modalIcons={"bg-red"}
-              formTypeModal={61}
-            ></FormModals>
+              formTypeModal={11}
+            ></ClientPreferenceForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -157,14 +157,14 @@ export default function customerPreferences() {
           {items.map((customerPreferences, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><ClientPreferenceForm
                         buttonName={customerPreferences.customerPreferencesID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Preferências"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${customerPreferences.customerPreferencesID}`}
-                        formTypeModal={62}
+                        formTypeModal={12}
                         idCustomerPreferences={customerPreferences.customerPreferencesID}
                         criado={customerPreferences.createdAt}
                         editado={customerPreferences.updatedAt}
@@ -187,19 +187,19 @@ export default function customerPreferences() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <ClientPreferenceForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Preferências"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${customerPreferences.customerPreferencesID}`}
-                        formTypeModal={62}
+                        formTypeModal={12}
                         idCustomerPreferences={customerPreferences.customerPreferencesID}
                         criado={customerPreferences.createdAt}
                         editado={customerPreferences.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></ClientPreferenceForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(customerPreferences.customerPreferencesID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

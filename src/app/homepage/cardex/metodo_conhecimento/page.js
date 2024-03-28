@@ -21,7 +21,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import KnowledgeForm from "@/components/modal/cardex/knowledge/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Knowledgemethod() {
                 />
               </div>
             </div>
-            <FormModals
+            <KnowledgeForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Método"}
               modalIcons={"bg-red"}
-              formTypeModal={31}
-            ></FormModals>
+              formTypeModal={11}
+            ></KnowledgeForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -154,7 +154,7 @@ export default function Knowledgemethod() {
           {items.map((knowledgemethod, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><KnowledgeForm
                         buttonName={knowledgemethod.knowledgeMethodID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
@@ -183,19 +183,19 @@ export default function Knowledgemethod() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <KnowledgeForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Método"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${knowledgemethod.knowledgeMethodID}`}
-                        formTypeModal={32}
+                        formTypeModal={12}
                         idKnowledgeMethod={knowledgemethod.knowledgeMethodID}
                         criado={knowledgemethod.createdAt}
                         editado={knowledgemethod.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></KnowledgeForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(knowledgemethod.knowledgeMethodID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

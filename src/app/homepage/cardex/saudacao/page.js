@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import SalutationForm from "@/components/modal/cardex/salutation/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Salutation() {
                 />
               </div>
             </div>
-            <FormModals
+            <SalutationForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Saudação"}
               modalIcons={"bg-red"}
               formTypeModal={11}
-            ></FormModals>
+            ></SalutationForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -156,7 +156,7 @@ export default function Salutation() {
         <TableBody>
           {items.map((salutation, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><SalutationForm
                         buttonName={salutation.salutationID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
@@ -186,7 +186,7 @@ export default function Salutation() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <SalutationForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
@@ -198,7 +198,7 @@ export default function Salutation() {
                         criado={salutation.createdAt}
                         editado={salutation.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></SalutationForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(salutation.salutationID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

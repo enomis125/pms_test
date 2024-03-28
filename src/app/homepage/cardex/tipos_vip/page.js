@@ -21,7 +21,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import VipCodeForm from "@/components/modal/cardex/vipCode/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -102,14 +102,14 @@ export default function Vipcode() {
                 />
               </div>
             </div>
-            <FormModals
+            <VipCodeForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Tipo de VIP"}
               modalIcons={"bg-red"}
-              formTypeModal={91}
-            ></FormModals>
+              formTypeModal={11}
+            ></VipCodeForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -155,14 +155,14 @@ export default function Vipcode() {
           {items.map((vipcode, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><VipCodeForm
                         buttonName={vipcode.customerCode}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Tipo de VIP"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${vipcode.customerCode}`}
-                        formTypeModal={92}
+                        formTypeModal={12}
                         idVipcode={vipcode.customerCode}
                         criado={vipcode.createdAt}
                         editado={vipcode.updatedAt}
@@ -184,19 +184,19 @@ export default function Vipcode() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={true} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <VipCodeForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Tipo de VIP"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${vipcode.customerCode}`}
-                        formTypeModal={92}
+                        formTypeModal={12}
                         idVipcode={vipcode.customerCode}
                         criado={vipcode.createdAt}
                         editado={vipcode.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></VipCodeForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(vipcode.customerCode)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

@@ -21,7 +21,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import DoctypeForm from "@/components/modal/cardex/doctypes/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -102,14 +102,14 @@ export default function Knowledgemethod() {
                 />
               </div>
             </div>
-            <FormModals
+            <DoctypeForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Documento"}
               modalIcons={"bg-red"}
-              formTypeModal={51}
-            ></FormModals>
+              formTypeModal={11}
+            ></DoctypeForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -155,14 +155,14 @@ export default function Knowledgemethod() {
           {items.map((doctypes, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><DoctypeForm
                         buttonName={doctypes.refID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Documento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${doctypes.refID}`}
-                        formTypeModal={52}
+                        formTypeModal={12}
                         idDoctypes={doctypes.refID}
                         criado={doctypes.createdAt}
                         editado={doctypes.updatedAt}
@@ -184,19 +184,19 @@ export default function Knowledgemethod() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <DoctypeForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Documento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${doctypes.refID}`}
-                        formTypeModal={52}
+                        formTypeModal={12}
                         idDoctypes={doctypes.refID}
                         criado={doctypes.createdAt}
                         editado={doctypes.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></DoctypeForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(doctypes.refID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

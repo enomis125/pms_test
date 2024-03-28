@@ -21,7 +21,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import MembersForm from "@/components/modal/cardex/members/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Members() {
                 />
               </div>
             </div>
-            <FormModals
+            <MembersForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Membro"}
               modalIcons={"bg-red"}
-              formTypeModal={71}
-            ></FormModals>
+              formTypeModal={11}
+            ></MembersForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -157,14 +157,14 @@ export default function Members() {
           {items.map((member, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><MembersForm
                         buttonName={member.memberID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Membro"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${member.memberID}`}
-                        formTypeModal={72}
+                        formTypeModal={12}
                         idMember={member.memberID}
                         criado={member.createdAt}
                         editado={member.updatedAt}
@@ -187,19 +187,19 @@ export default function Members() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <MembersForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Membro"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${member.memberID}`}
-                        formTypeModal={72}
+                        formTypeModal={12}
                         idMember={member.memberID}
                         criado={member.createdAt}
                         editado={member.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></MembersForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(member.memberID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
