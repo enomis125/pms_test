@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/bookings/formModals";
+import MarketSegmentForm from "@/components/modal/bookings/marketSegment/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <MarketSegmentForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Segmento de Mercado"}
               modalIcons={"bg-red"}
-              formTypeModal={21}
-            ></FormModals>
+              formTypeModal={11}
+            ></MarketSegmentForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -150,14 +150,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((marketSegment, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><MarketSegmentForm
                         buttonName={marketSegment.marketsegmentsID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Segmento de Mercado"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${marketSegment.marketsegmentsID}`}
-                        formTypeModal={22}
+                        formTypeModal={12}
                         idMarketSegment={marketSegment.marketsegmentsID}
                         criado={marketSegment.createdAt}
                         editado={marketSegment.updatedAt}
@@ -178,19 +178,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <MarketSegmentForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Segmento de Mercado"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${marketSegment.marketsegmentsID}`}
-                        formTypeModal={22}
+                        formTypeModal={12}
                         idMarketSegment={marketSegment.marketsegmentsID}
                         criado={marketSegment.createdAt}
                         editado={marketSegment.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></MarketSegmentForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(marketSegment.marketsegmentsID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

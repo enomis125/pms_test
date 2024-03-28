@@ -21,7 +21,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/bookings/formModals";
+import TransferForm from "@/components/modal/bookings/transfers/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Transfers() {
                 />
               </div>
             </div>
-            <FormModals
+            <TransferForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Quarto"}
               modalIcons={"bg-red"}
-              formTypeModal={81}
-            ></FormModals>
+              formTypeModal={11}
+            ></TransferForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -151,14 +151,14 @@ export default function Transfers() {
           {items.map((transfers, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><TransferForm
                         buttonName={transfers.refID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Quartos"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${transfers.refID}`}
-                        formTypeModal={82}
+                        formTypeModal={12}
                         idTransfer={transfers.refID}
                         criado={transfers.createdAt}
                         editado={transfers.updatedAt}
@@ -179,19 +179,19 @@ export default function Transfers() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <TransferForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Quartos"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${transfers.refID}`}
-                        formTypeModal={82}
+                        formTypeModal={12}
                         idTransfer={transfers.refID}
                         criado={transfers.createdAt}
                         editado={transfers.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></TransferForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(transfers.refID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
