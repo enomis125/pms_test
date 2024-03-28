@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { knowledgeMethod } from "@/components/functionsForm/CRUD/cardex/knowledgeMethod/page";
+import knowledgeMethodInsert, { knowledgeMethodEdit } from "@/components/functionsForm/CRUD/cardex/knowledgeMethod/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const knowledgeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputKnowledgeMethod, handleSubmitKnowledgeMethod, handleUpdateKnowledgeMethod, setValuesKnowledgeMethod, valuesKnowledgeMethod } = knowledgeMethod(idKnowledgeMethod);
+    const { handleInputKnowledgeMethod, handleSubmitKnowledgeMethod } = knowledgeMethodInsert();
+    const { handleUpdateKnowledgeMethod, setValuesKnowledgeMethod, valuesKnowledgeMethod } = knowledgeMethodEdit(idKnowledgeMethod);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

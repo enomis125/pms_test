@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { clientPreferences } from "@/components/functionsForm/CRUD/cardex/clientPreferences/page";
+import clientPreferencesInsert, { clientPreferencesEdits } from "@/components/functionsForm/CRUD/cardex/clientPreferences/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const clientPreferenceForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputCustomerPreferences, handleSubmitCustomerPreferences, handleUpdateCustomerPreferences, setValuesCustomerPreferences, valuesCustomerPreferences } = clientPreferences(idCustomerPreferences);
+    const { handleInputCustomerPreferences, handleSubmitCustomerPreferences } = clientPreferencesInsert();
+    const { handleUpdateCustomerPreferences, setValuesCustomerPreferences, valuesCustomerPreferences } = clientPreferencesEdits(idCustomerPreferences);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

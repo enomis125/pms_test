@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { doctypes } from "@/components/functionsForm/CRUD/cardex/doctypes/page";
+import doctypesInsert, { doctypesEdit } from "@/components/functionsForm/CRUD/cardex/doctypes/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const doctypeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputDoctypes, handleSubmitDoctypes, handleUpdateDoctypes, setValuesDoctypes, valuesDoctypes } = doctypes(idDoctypes);
+    const { handleInputDoctypes, handleSubmitDoctypes } = doctypesInsert();
+    const { handleUpdateDoctypes, setValuesDoctypes, valuesDoctypes } = doctypesEdit(idDoctypes);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

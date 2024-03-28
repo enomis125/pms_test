@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { reserveChange } from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
+import reservationStatusInsert, { reservationStatusEdit } from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const reserveChangeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputReservChange, handleSubmitReservChange, handleUpdateReservChange, setValuesReservChang, valuesReservChange } = reserveChange(idReservChange);
+    const { handleInputReservChange, handleSubmitReservChange } = reservationStatusInsert();
+    const { handleUpdateReservChange, setValuesReservChang, valuesReservChange } = reservationStatusEdit(idReservChange);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

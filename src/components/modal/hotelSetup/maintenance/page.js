@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { maintenance } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
+import maintenanceInsert, { maintenanceEdit } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const maintenanceForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputMaintenance, handleSubmitMaintenance, handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenance(idMaintenance);
+    const { handleInputMaintenance, handleSubmitMaintenance } = maintenanceInsert();
+    const { handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenanceEdit(idMaintenance);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
         

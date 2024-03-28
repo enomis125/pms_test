@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 
-export function tipologys(idRoomtype) {
+export default function tipologysInsert() {
 
     //inserção na tabela roomtypes
     const [roomTypeState, setRoomTypeState] = useState({
@@ -32,6 +32,12 @@ export function tipologys(idRoomtype) {
             .catch(err => console.log(err))
     }
 
+    return { 
+        handleInputRoomtype, handleSubmitRoomtype
+    };
+}
+
+export function tipologysEdit(idRoomtype) {
     //edição na tabela roomtypes
     const [valuesRoomtype, setValuesRoomtype] = useState({
         id: idRoomtype,
@@ -64,5 +70,7 @@ export function tipologys(idRoomtype) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputRoomtype, handleSubmitRoomtype, handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype };
+    return { 
+        handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype 
+    };
 }

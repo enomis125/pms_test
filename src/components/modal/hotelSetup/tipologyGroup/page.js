@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { typesGroups } from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
+import typesGroupsInsert, { typesGroupsEdit } from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const tipologyGroupForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleSubmitTypesgroups, handleInputTypesgroups, handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroups(idTypesgroups);
+    const { handleSubmitTypesgroups, handleInputTypesgroups } = typesGroupsInsert();
+    const { handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroupsEdit(idTypesgroups);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

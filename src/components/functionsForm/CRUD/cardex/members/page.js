@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function members(idMember) {
+export default function membersInsert() {
 
     //inserção na tabela members
     const [member, setMember] = useState({
@@ -28,6 +28,13 @@ export function members(idMember) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputMember, handleSubmitMember
+    };
+
+}
+
+export function membersEdit(idMember) {
 
     //edição na tabela members
     const [valuesMember, setValuesMember] = useState({
@@ -55,5 +62,7 @@ export function members(idMember) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputMember, handleSubmitMember, handleUpdateMember, setValuesMember, valuesMember };
+    return { 
+        handleUpdateMember, setValuesMember, valuesMember 
+    };
 }

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function reservationStatus(idReservStatus) {
+export default function reservationStatusInsert() {
 
      //inserção na tabela reservation status
      const [reservStatus, setReservStatus] = useState({
@@ -30,6 +30,12 @@ export function reservationStatus(idReservStatus) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputReservStatus, handleSubmitReservStatus
+    };
+}
+
+export function reservationStatusEdit(idReservStatus) {
 
     //edição na tabela reservation status
     const [valuesReservStatus, setValuesReservStatus] = useState({
@@ -59,5 +65,7 @@ export function reservationStatus(idReservStatus) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputReservStatus, handleSubmitReservStatus, handleUpdateReservStatus, setValuesReservStatus, valuesReservStatus };
+    return { 
+        handleUpdateReservStatus, setValuesReservStatus, valuesReservStatus 
+    };
 }

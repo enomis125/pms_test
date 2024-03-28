@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function reserveMotive(idReservMotive) {
+export default function reserveMotiveInsert(idReservMotive) {
 
      //inserção na tabela motivo reserva
     const [reservMotive, setReservMotive] = useState({
@@ -31,7 +31,12 @@ export function reserveMotive(idReservMotive) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputReservMotive, handleSubmitReservMotive
+    };
+}
 
+export function reserveMotiveEdit(idReservMotive) {
 
     //edição na tabela motivo de reserva
     const [valuesReservMotive, setValuesReservMotive] = useState({
@@ -61,5 +66,7 @@ export function reserveMotive(idReservMotive) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputReservMotive, handleSubmitReservMotive, handleUpdateReservMotive, setValuesReservMotive, valuesReservMotive };
+    return { 
+        handleUpdateReservMotive, setValuesReservMotive, valuesReservMotive 
+    };
 }

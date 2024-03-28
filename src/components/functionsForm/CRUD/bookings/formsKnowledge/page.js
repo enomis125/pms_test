@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function formsKnowledge(idKnowledge) {
+export default function formsKnowledgeInsert() {
 
      //inserção na tabela forms of knowledge
     const [knowledge, setKnowledge] = useState({
@@ -30,6 +30,12 @@ export function formsKnowledge(idKnowledge) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputKnowledge, handleSubmitKnowledge
+    };
+}
+
+export function formsKnowledgeEdit(idKnowledge) {
 
     //edição na tabela forms of knowledge
     const [valuesKnowledge, setValuesKnowledge] = useState({
@@ -59,5 +65,7 @@ export function formsKnowledge(idKnowledge) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputKnowledge, handleSubmitKnowledge, handleUpdateKnowledge, setValuesKnowledge, valuesKnowledge };
+    return { 
+        handleUpdateKnowledge, setValuesKnowledge, valuesKnowledge 
+    };
 }

@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { salutation } from "@/components/functionsForm/CRUD/cardex/salutation/page";
+import salutationInsert, { salutationEdit } from "@/components/functionsForm/CRUD/cardex/salutation/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const salutationForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputSalutation , handleSubmitSalutation, handleUpdateSalutation, setValuesSalutation, valuesSalutation } = salutation(idSalutation);
+    const { handleInputSalutation , handleSubmitSalutation } = salutationInsert();
+    const { handleUpdateSalutation, setValuesSalutation, valuesSalutation } = salutationEdit(idSalutation);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

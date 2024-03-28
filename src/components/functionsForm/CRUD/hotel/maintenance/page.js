@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 
-export function maintenance(idMaintenance) {
+export default function maintenanceInsert() {
 
     //inserção na tabela maintenance
     const [maintenance, setMaintenance] = useState({
@@ -31,7 +31,12 @@ export function maintenance(idMaintenance) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputMaintenance, handleSubmitMaintenance
+    };
+}
 
+export function maintenanceEdit(idMaintenance){
     //edição na tabela maintenance
     const [valuesMaintenance, setValuesMaintenance] = useState({
         id: idMaintenance,
@@ -60,5 +65,7 @@ export function maintenance(idMaintenance) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputMaintenance, handleSubmitMaintenance, handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance };
+    return { 
+        handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance 
+    };
 }

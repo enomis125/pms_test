@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function marketing(idMarketing) {
+export default function marketingInsert() {
 
     //inserção na tabela marketing
     const [marketing, setMarketing] = useState({
@@ -28,6 +28,13 @@ export function marketing(idMarketing) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputMarketing, handleSubmitMarketing
+    };
+
+}
+
+export function marketingEdit(idMarketing) {
     //edição na tabela marketing
     const [valuesMarketing, setValuesMarketing] = useState({
         id: idMarketing,
@@ -54,5 +61,7 @@ export function marketing(idMarketing) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputMarketing, handleSubmitMarketing, handleUpdateMarketing, setValuesMarketing, valuesMarketing };
+    return { 
+        handleUpdateMarketing, setValuesMarketing, valuesMarketing 
+    };
 }

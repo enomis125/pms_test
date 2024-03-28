@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { transfer } from "@/components/functionsForm/CRUD/bookings/transfers/page";
+import transferInsert, { transferEdit } from "@/components/functionsForm/CRUD/bookings/transfers/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const transferForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputTransfer, handleSubmitTransfer, handleUpdateTransfer, setValuesTransfer, valuesTransfer } = transfer(idTransfer);
+    const { handleInputTransfer, handleSubmitTransfer } = transferInsert();
+    const { handleUpdateTransfer, setValuesTransfer, valuesTransfer } = transferEdit(idTransfer);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

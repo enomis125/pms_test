@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { cancelType } from "@/components/functionsForm/CRUD/bookings/cancelType/page";
+import cancelTypeInsert, { cancelTypeEdit } from "@/components/functionsForm/CRUD/bookings/cancelType/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const cancelTypeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputCancelType, handleSubmitCancelType, handleUpdateCancelType, setValuesCancelType, valuesCancelType } = cancelType(idCancelType);
+    const { handleInputCancelType, handleSubmitCancelType } = cancelTypeInsert();
+    const { handleUpdateCancelType, setValuesCancelType, valuesCancelType } = cancelTypeEdit(idCancelType);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

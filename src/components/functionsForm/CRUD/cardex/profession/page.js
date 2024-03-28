@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function profession(idProfession) {
+export default function professionInsert() {
 
     //inserção na tabela profession
     const [profession, setProfession] = useState({
@@ -30,7 +30,12 @@ export function profession(idProfession) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputProfession, handleSubmitProfession
+    };
+}
 
+export function professionEdit(idProfession) {
     //edição na tabela profession
     const [valuesProfession, setValuesProffesion] = useState({
         id: idNacionality,
@@ -59,5 +64,7 @@ export function profession(idProfession) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputProfession, handleSubmitProfession, handleUpdateProfession, setValuesProffesion, valuesProfession };
+    return { 
+        handleUpdateProfession, setValuesProffesion, valuesProfession 
+    };
 }

@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { formsKnowledge } from "@/components/functionsForm/CRUD/bookings/formsKnowledge/page";
+import formsKnowledgeInsert, { formsKnowledgeEdit } from "@/components/functionsForm/CRUD/bookings/formsKnowledge/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const formsKnowledgeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputKnowledge, handleSubmitKnowledge, handleUpdateKnowledge, setValuesKnowledge, valuesKnowledge } = formsKnowledge(idKnowledge);
+    const { handleInputKnowledge, handleSubmitKnowledge } = formsKnowledgeInsert();
+    const { handleUpdateKnowledge, setValuesKnowledge, valuesKnowledge } = formsKnowledgeEdit(idKnowledge);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

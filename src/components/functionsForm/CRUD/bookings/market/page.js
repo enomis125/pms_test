@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function market(idMarket) {
+export default function marketInsert() {
 
      //inserção na tabela market
     const [market, setMarket] = useState({
@@ -30,7 +30,12 @@ export function market(idMarket) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputMarket, handleSubmitMarket
+    };
+}
 
+export function marketEdit(idMarket) {
     //edição na tabela market
     const [valuesMarket, setValuesMarket] = useState({
         id: idMarket,
@@ -59,5 +64,7 @@ export function market(idMarket) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputMarket, handleSubmitMarket, handleUpdateMarket, setValuesMarket, valuesMarket };
+    return { 
+        handleUpdateMarket, setValuesMarket, valuesMarket 
+    };
 }

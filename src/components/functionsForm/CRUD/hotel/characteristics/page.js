@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function characteristics(idCarateristics){
+export default function characteristicsInsert(){
 
     //inserção na tabela carateristicas
     const [caracteristica, setCaracteristica] = useState({
@@ -30,7 +30,12 @@ export function characteristics(idCarateristics){
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInput , handleSubmit
+    };
+}
 
+export function characteristicsEdit(idCarateristics){
     //edição na tabela carateristicas
     const [values, setValues] = useState({
         id: idCarateristics,
@@ -59,5 +64,7 @@ export function characteristics(idCarateristics){
             .catch(err => console.log(err))
     }
 
-    return { handleInput , handleSubmit, handleUpdate, setValues, values };
+    return { 
+        handleUpdate, setValues, values 
+    };
 }

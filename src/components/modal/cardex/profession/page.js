@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { profession } from "@/components/functionsForm/CRUD/cardex/profession/page";
+import professionInsert, { professionEdit } from "@/components/functionsForm/CRUD/cardex/profession/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const professionForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputProfession, handleSubmitProfession, handleUpdateProfession, setValuesProffesion, valuesProfession } = profession(idProfession);
+    const { handleInputProfession, handleSubmitProfession } = professionInsert();
+    const { handleUpdateProfession, setValuesProffesion, valuesProfession } = professionEdit(idProfession);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

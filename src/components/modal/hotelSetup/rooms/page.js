@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { rooms } from "@/components/functionsForm/CRUD/hotel/rooms/page";
+import roomsInsert, { roomsEdit } from "@/components/functionsForm/CRUD/hotel/rooms/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const roomForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputRoom, handleSubmitRoom, handleUpdateRoom, setValuesRoom, valuesRoom } = rooms(idRoom);
+    const { handleInputRoom, handleSubmitRoom } = roomsInsert();
+    const { handleUpdateRoom, setValuesRoom, valuesRoom } = roomsEdit(idRoom);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

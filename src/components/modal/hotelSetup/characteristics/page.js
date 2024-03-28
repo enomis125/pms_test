@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { characteristics } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
+import characteristicsInsert, { characteristicsEdit } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const characteristicForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInput, handleSubmit, handleUpdate, setValues, values } = characteristics(idCarateristics);
+    const { handleInput, handleSubmit } = characteristicsInsert();
+    const { handleUpdate, setValues, values } = characteristicsEdit(idCarateristics);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
