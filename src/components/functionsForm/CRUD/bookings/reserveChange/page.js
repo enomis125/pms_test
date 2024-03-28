@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function reserveChange(idReservChange) {
+export default function reserveChangeInsert() {
 
     //inserção na tabela reservation change
     const [reservChange, setReservChange] = useState({
@@ -30,7 +30,13 @@ export function reserveChange(idReservChange) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputReservChange, handleSubmitReservChange
+    };
 
+}
+
+export function reserveChangeEdit(idReservChange) {
     //edição na tabela reservation change
     const [valuesReservChange, setValuesReservChang] = useState({
         id: idReservChange,
@@ -59,5 +65,7 @@ export function reserveChange(idReservChange) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputReservChange, handleSubmitReservChange, handleUpdateReservChange, setValuesReservChang, valuesReservChange };
+    return { 
+        handleUpdateReservChange, setValuesReservChang, valuesReservChange 
+    };
 }

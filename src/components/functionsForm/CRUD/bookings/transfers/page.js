@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function transfer(idTransfer) {
+export default function transferInsert() {
 
     //inserção na tabela transfers
     const [transfer, setTransfer] = useState({
@@ -30,6 +30,13 @@ export function transfer(idTransfer) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputTransfer, handleSubmitTransfer
+    };
+}
+
+export function transferEdit(idTransfer) {
+
     //edição na tabela transfers
     const [valuesTransfer, setValuesTransfer] = useState({
         id: idTransfer,
@@ -58,5 +65,7 @@ export function transfer(idTransfer) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputTransfer, handleSubmitTransfer, handleUpdateTransfer, setValuesTransfer, valuesTransfer };
+    return { 
+        handleUpdateTransfer, setValuesTransfer, valuesTransfer 
+    };
 }

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function rooms(idRoom){
+export default function roomsInsert(){
 
     //inserção na tabela rooms
     const [room, setRoom] = useState({
@@ -32,6 +32,13 @@ export function rooms(idRoom){
             .catch(err => console.log(err))
             console.log(room.Label)
     }
+
+    return { 
+        handleInputRoom , handleSubmitRoom
+    };
+}
+
+export function roomsEdit(idRoom) {
     //edição na tabela rooms
     const [valuesRoom, setValuesRoom] = useState({
         id: idRoom,
@@ -60,5 +67,8 @@ export function rooms(idRoom){
             .catch(err => console.log(err))
     }
 
-    return { handleInputRoom , handleSubmitRoom, handleUpdateRoom, setValuesRoom, valuesRoom };
+    return { 
+        handleUpdateRoom, setValuesRoom, valuesRoom 
+    };
 }
+

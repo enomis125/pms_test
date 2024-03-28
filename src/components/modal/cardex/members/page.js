@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { members } from "@/components/functionsForm/CRUD/cardex/members/page";
+import membersInsert, { membersEdit } from "@/components/functionsForm/CRUD/cardex/members/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const membersForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputMember, handleSubmitMember, handleUpdateMember, setValuesMember, valuesMember } = members(idMember);
+    const { handleInputMember, handleSubmitMember } = membersInsert();
+    const { handleUpdateMember, setValuesMember, valuesMember } = membersEdit(idMember);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { marketSegments } from "@/components/functionsForm/CRUD/bookings/marketSegments/page";
+import marketSegmentsInsert, { marketSegmentsEdit } from "@/components/functionsForm/CRUD/bookings/marketSegments/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const marketSegmentForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputMarketSegment, handleSubmitMarketSegment, handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment } = marketSegments(idMarketSegment);
+    const { handleInputMarketSegment, handleSubmitMarketSegment } = marketSegmentsInsert();
+    const { handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment } = marketSegmentsEdit(idMarketSegment);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

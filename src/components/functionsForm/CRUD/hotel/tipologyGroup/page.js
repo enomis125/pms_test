@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function typesGroups(idTypesgroups){
+export default function typesGroupsInsert() {
 
     //inserção na tabela tipology group
     const [roomtypesgroups, setRoomtypesgroups] = useState({
@@ -28,6 +28,13 @@ export function typesGroups(idTypesgroups){
             .catch(err => console.log(err))
     }
 
+    return {
+        handleInputTypesgroups, handleSubmitTypesgroups
+    };
+
+}
+
+export function typesGroupsEdit(idTypesgroups) {
     //edição na tabela tipology group
     const [valuesTypesgroups, setValuesTypesGroups] = useState({
         id: idTypesgroups,
@@ -52,5 +59,8 @@ export function typesGroups(idTypesgroups){
             .catch(err => console.log(err))
     }
 
-    return {handleInputTypesgroups , handleSubmitTypesgroups, handleUpdateTypesgroups, setValuesTypesGroups, valuesTypesgroups};
+    return {
+        handleUpdateTypesgroups, setValuesTypesGroups, valuesTypesgroups 
+    };
 }
+

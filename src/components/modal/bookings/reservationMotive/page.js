@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { reserveMotive } from "@/components/functionsForm/CRUD/bookings/reserveMotive/page";
+import reserveMotiveInsert, { reserveMotiveEdit } from "@/components/functionsForm/CRUD/bookings/reserveMotive/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const reservationMotiveForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputReservMotive, handleSubmitReservMotive, handleUpdateReservMotive, setValuesReservMotive, valuesReservMotive } = reserveMotive(idReservMotive);
+    const { handleInputReservMotive, handleSubmitReservMotive } = reserveMotiveInsert();
+    const { handleUpdateReservMotive, setValuesReservMotive, valuesReservMotive } = reserveMotiveEdit(idReservMotive);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

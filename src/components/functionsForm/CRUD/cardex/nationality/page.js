@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function nationality(idNacionality) {
+export default function nationalityInsert() {
 
     //inserção na tabela nationality
     const [nacionality, setNacionality] = useState({
@@ -38,7 +38,12 @@ export function nationality(idNacionality) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputNacionality, handleSubmitNacionality
+    };
+}
 
+export function nationalityEdit(idNacionality) {
     //edição na tabela nationality
     const [valuesNacionality, setValuesNationality] = useState({
         id: idNacionality,
@@ -75,5 +80,7 @@ export function nationality(idNacionality) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputNacionality, handleSubmitNacionality, handleUpdateNationality, setValuesNationality, valuesNacionality };
+    return { 
+        handleUpdateNationality, setValuesNationality, valuesNacionality 
+    };
 }

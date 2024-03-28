@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { marketing } from "@/components/functionsForm/CRUD/cardex/marketing/page";
+import marketingInsert, { marketingEdit } from "@/components/functionsForm/CRUD/cardex/marketing/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const marketingForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputMarketing, handleSubmitMarketing, handleUpdateMarketing, setValuesMarketing, valuesMarketing } = marketing(idMarketing);
+    const { handleInputMarketing, handleSubmitMarketing} = marketingInsert();
+    const { handleUpdateMarketing, setValuesMarketing, valuesMarketing } = marketingEdit(idMarketing);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function doctypes(idDoctypes) {
+export default function doctypesInsert() {
 
      //inserção na tabela doctypes
     const [doctypes, setDoctypes] = useState({
@@ -28,7 +28,13 @@ export function doctypes(idDoctypes) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputDoctypes, handleSubmitDoctypes
+    };
 
+}
+
+export function doctypesEdit(idDoctypes) {
     //edição na tabela doctypes
     const [valuesDoctypes, setValuesDoctypes] = useState({
         id: idDoctypes,
@@ -55,5 +61,7 @@ export function doctypes(idDoctypes) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputDoctypes, handleSubmitDoctypes, handleUpdateDoctypes, setValuesDoctypes, valuesDoctypes };
+    return { 
+        handleUpdateDoctypes, setValuesDoctypes, valuesDoctypes 
+    };
 }

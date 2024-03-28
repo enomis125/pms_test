@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { vipCode } from "@/components/functionsForm/CRUD/cardex/vipCode/page";
+import vipCodeInsert, { vipCodeEdit } from "@/components/functionsForm/CRUD/cardex/vipCode/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const vipCodeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputVipcode, handleSubmitVipcode, handleUpdateVipcode, setValuesVipcode, valuesVipcode } = vipCode(idVipcode);
+    const { handleInputVipcode, handleSubmitVipcode} = vipCodeInsert();
+    const { handleUpdateVipcode, setValuesVipcode, valuesVipcode } = vipCodeEdit(idVipcode);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function cancelType(idCancelType) {
+export default function cancelTypeInsert() {
 
     //inserção na tabela tipo cancelamento
     const [cancelationType, setCancelationtype] = useState({
@@ -30,7 +30,12 @@ export function cancelType(idCancelType) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputCancelType, handleSubmitCancelType
+    };
+}
 
+export function cancelTypeEdit(idCancelType) {
     //edição na tabela tipo de cancelamento
     const [valuesCancelType, setValuesCancelType] = useState({
         id: idCancelType,
@@ -59,5 +64,7 @@ export function cancelType(idCancelType) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputCancelType, handleSubmitCancelType, handleUpdateCancelType, setValuesCancelType, valuesCancelType };
+    return { 
+        handleUpdateCancelType, setValuesCancelType, valuesCancelType 
+    };
 }

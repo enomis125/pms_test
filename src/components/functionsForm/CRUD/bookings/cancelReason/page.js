@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function cancelReason(idCancelReason) {
+export default function cancelReasonInsert() {
 
     //inserção na tabela razao cancelamento
     const [cancelation, setCancelation] = useState({
@@ -30,7 +30,12 @@ export function cancelReason(idCancelReason) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputCancelReason, handleSubmitCancelReason
+    };
+}
 
+export function cancelReasonEdit(idCancelReason) {
     //edição na tabela razão de cancelamento
     const [valuesCancelReason, setValuesCancelReason] = useState({
         id: idCancelReason,
@@ -59,5 +64,7 @@ export function cancelReason(idCancelReason) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputCancelReason, handleSubmitCancelReason, handleUpdateCancelReason, setValuesCancelReason, valuesCancelReason };
+    return { 
+        handleUpdateCancelReason, setValuesCancelReason, valuesCancelReason 
+    };
 }

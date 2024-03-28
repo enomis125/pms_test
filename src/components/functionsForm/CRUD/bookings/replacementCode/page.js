@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function replacementCode(idReplaceCode) {
+export default function replacementCodeInsert() {
 
      //inserção na tabela replacement code
     const [replaceCode, setReplaceCode] = useState({
@@ -30,6 +30,12 @@ export function replacementCode(idReplaceCode) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputReplaceCode, handleSubmitReplaceCode
+    };
+}
+
+export function replacementCodeEdit(idReplaceCode) {
 
     //edição na tabela replacement code
     const [valuesReplaceCode, setValuesReplaceCode] = useState({
@@ -59,5 +65,7 @@ export function replacementCode(idReplaceCode) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputReplaceCode, handleSubmitReplaceCode, handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode };
+    return { 
+        handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode 
+    };
 }

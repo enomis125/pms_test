@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function vipCode(idVipcode) {
+export default function vipCodeInsert() {
 
     //inserção na tabela vipcode
     const [vipcode, setVipcode] = useState({
@@ -26,6 +26,13 @@ export function vipCode(idVipcode) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputVipcode, handleSubmitVipcode
+    };
+
+}
+
+export function vipCodeEdit(idVipcode) {
     //edição na tabela vipcode
     const [valuesVipcode, setValuesVipcode] = useState({
         id: idVipcode,
@@ -49,5 +56,7 @@ export function vipCode(idVipcode) {
         })
             .catch(err => console.log(err))
     }
-    return { handleInputVipcode, handleSubmitVipcode, handleUpdateVipcode, setValuesVipcode, valuesVipcode };
+    return { 
+        handleUpdateVipcode, setValuesVipcode, valuesVipcode 
+    };
 }

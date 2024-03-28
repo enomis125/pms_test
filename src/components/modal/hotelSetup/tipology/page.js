@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { tipologys } from "@/components/functionsForm/CRUD/hotel/tipology/page";
+import tipologysInsert, { tipologysEdit } from "@/components/functionsForm/CRUD/hotel/tipology/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const tipologyForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputRoomtype, handleSubmitRoomtype, handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologys(idRoomtype);
+    const { handleInputRoomtype, handleSubmitRoomtype} = tipologysInsert();
+    const { handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologysEdit(idRoomtype);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

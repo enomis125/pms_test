@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function knowledgeMethod(idKnowledgeMethod) {
+export default function knowledgeMethodInsert() {
 
      //inserção na tabela knowledge method
      const [knowledgeMethod, setKnowledgeMethod] = useState({
@@ -28,6 +28,12 @@ export function knowledgeMethod(idKnowledgeMethod) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputKnowledgeMethod, handleSubmitKnowledgeMethod
+    };
+}
+
+export function knowledgeMethodEdit(idKnowledgeMethod) {
     //edição na tabela knowledge method
     const [valuesKnowledgeMethod, setValuesKnowledgeMethod] = useState({
         id: idKnowledgeMethod,
@@ -54,5 +60,7 @@ export function knowledgeMethod(idKnowledgeMethod) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputKnowledgeMethod, handleSubmitKnowledgeMethod, handleUpdateKnowledgeMethod, setValuesKnowledgeMethod, valuesKnowledgeMethod };
+    return { 
+        handleUpdateKnowledgeMethod, setValuesKnowledgeMethod, valuesKnowledgeMethod 
+    };
 }

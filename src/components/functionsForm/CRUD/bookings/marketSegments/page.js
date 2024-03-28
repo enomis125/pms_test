@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export function marketSegments(idMarketSegment) {
+export default function marketSegmentsInsert() {
 
      //inserção na tabela market segments
     const [marketSegment, setMarketSegment] = useState({
@@ -31,7 +31,12 @@ export function marketSegments(idMarketSegment) {
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
+    return { 
+        handleInputMarketSegment, handleSubmitMarketSegment
+    };
+}
 
+export function marketSegmentsEdit(idMarketSegment) {
     //edição na tabela market segments
     const [valuesMarketSegment, setValuesMarketSegment] = useState({
         id: idMarketSegment,
@@ -60,5 +65,7 @@ export function marketSegments(idMarketSegment) {
             .catch(err => console.log(err))
     }
 
-    return { handleInputMarketSegment, handleSubmitMarketSegment, handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment };
+    return { 
+        handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment 
+    };
 }

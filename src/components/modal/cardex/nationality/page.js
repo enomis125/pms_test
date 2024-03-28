@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { nationality } from "@/components/functionsForm/CRUD/cardex/nationality/page";
+import nationalityInsert, { nationalityEdit } from "@/components/functionsForm/CRUD/cardex/nationality/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,9 @@ const nationalityForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputNacionality, handleSubmitNacionality, handleUpdateNationality, setValuesNationality, valuesNacionality } = nationality(idNacionality);
+    const { handleInputNacionality, handleSubmitNacionality} = nationalityInsert();
+    const { handleUpdateNationality, setValuesNationality, valuesNacionality } = nationalityEdit(idNacionality);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 

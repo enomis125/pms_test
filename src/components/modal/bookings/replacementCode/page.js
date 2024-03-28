@@ -10,7 +10,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { replacementCode } from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
+import replacementCodeInsert, { replacementCodeEdit } from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -34,7 +34,8 @@ const replacementCodeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputReplaceCode, handleSubmitReplaceCode, handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode } = replacementCode(idReplaceCode);
+    const { handleInputReplaceCode, handleSubmitReplaceCode } = replacementCodeInsert();
+    const { handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode } = replacementCodeEdit(idReplaceCode);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
