@@ -20,11 +20,11 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/bookings/formModals";
+import CancelReasonForm from "@/components/modal/bookings/cancelReason/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Characteristics() {
+export default function cancelReason() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <CancelReasonForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Tipos de Recusa"}
               modalIcons={"bg-red"}
-              formTypeModal={71}
-            ></FormModals>
+              formTypeModal={11}
+            ></CancelReasonForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -150,14 +150,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((cancelReason, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><CancelReasonForm
                         buttonName={cancelReason.cancelReasonID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Recusa"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${cancelReason.cancelReasonID}`}
-                        formTypeModal={72}
+                        formTypeModal={12}
                         idCancelReason={cancelReason.cancelReasonID}
                         criado={cancelReason.createdAt}
                         editado={cancelReason.updatedAt}
@@ -178,19 +178,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <CancelReasonForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Recusa"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${cancelReason.cancelReasonID}`}
-                        formTypeModal={72}
+                        formTypeModal={12}
                         idCancelReason={cancelReason.cancelReasonID}
                         criado={cancelReason.createdAt}
                         editado={cancelReason.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></CancelReasonForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(cancelReason.cancelReasonID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

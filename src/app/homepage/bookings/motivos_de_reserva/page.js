@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/bookings/formModals";
+import ReservationMotiveForm from "@/components/modal/bookings/reservationMotive/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <ReservationMotiveForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Motivos de Reserva"}
               modalIcons={"bg-red"}
-              formTypeModal={51}
-            ></FormModals>
+              formTypeModal={11}
+            ></ReservationMotiveForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -150,14 +150,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((reservMotive, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><ReservationMotiveForm
                         buttonName={reservMotive.refID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Motivos de Reservas"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservMotive.refID}`}
-                        formTypeModal={52}
+                        formTypeModal={12}
                         idReservMotive={reservMotive.refID}
                         criado={reservMotive.createdAt}
                         editado={reservMotive.updatedAt}
@@ -178,19 +178,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <ReservationMotiveForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Motivos de Reservas"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservMotive.refID}`}
-                        formTypeModal={52}
+                        formTypeModal={12}
                         idReservMotive={reservMotive.refID}
                         criado={reservMotive.createdAt}
                         editado={reservMotive.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></ReservationMotiveForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(reservMotive.refID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

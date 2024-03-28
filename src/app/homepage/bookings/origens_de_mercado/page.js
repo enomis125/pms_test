@@ -20,11 +20,11 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/bookings/formModals";
+import MarketForm from "@/components/modal/bookings/market/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Characteristics() {
+export default function market() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <MarketForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Origem de Mercado"}
               modalIcons={"bg-red"}
-              formTypeModal={31}
-            ></FormModals>
+              formTypeModal={11}
+            ></MarketForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -150,14 +150,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((market, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><MarketForm
                         buttonName={market.marketNR}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Origem de Mercado"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${market.marketNR}`}
-                        formTypeModal={32}
+                        formTypeModal={12}
                         idMarket={market.marketNR}
                         criado={market.createdAt}
                         editado={market.updatedAt}
@@ -178,19 +178,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <MarketForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Origem de Mercado"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${market.marketNR}`}
-                        formTypeModal={32}
+                        formTypeModal={12}
                         idMarket={market.marketNR}
                         criado={market.createdAt}
                         editado={market.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></MarketForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(market.marketNR)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

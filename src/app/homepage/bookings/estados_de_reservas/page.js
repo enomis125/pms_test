@@ -12,7 +12,8 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
-import FormModals from "@/components/modal/bookings/formModals";
+
+import ReservationStatusForm from "@/components/modal/bookings/resevationStatus/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
 const searchOptions = [
@@ -21,7 +22,7 @@ const searchOptions = [
   // Add more options as needed
 ];
 
-export default function Characteristics() {
+export default function reservationStatus() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -116,14 +117,14 @@ export default function Characteristics() {
               </DropdownMenu>
             </Dropdown>
           </div>
-          <FormModals
+          <ReservationStatusForm
             buttonName={"Novo"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
             modalHeader={"Inserir Estado de Reserva"}
             modalIcons={"bg-red"}
             formTypeModal={11}
-          ></FormModals>
+          ></ReservationStatusForm>
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -158,7 +159,7 @@ export default function Characteristics() {
               {items.map((reservStatus, index) => (
                 <TableRow key={index}>
                   <TableCell className="text-right underline text-blue-600">
-                    <FormModals
+                    <ReservationStatusForm
                       buttonName={reservStatus.resID}
                       editIcon={<FiEdit3 size={25} />}
                       buttonColor={"transparent"}
@@ -184,7 +185,7 @@ export default function Characteristics() {
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                         <DropdownItem key="edit">
-                          <FormModals
+                          <ReservationStatusForm
                             buttonName={"Editar"}
                             editIcon={<FiEdit3 size={25}/>}
                             buttonColor={"transparent"}

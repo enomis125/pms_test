@@ -20,11 +20,11 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/bookings/formModals";
+import FormsKnowledgeForm from "@/components/modal/bookings/formsKnowledge/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Characteristics() {
+export default function formKnowledge() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <FormsKnowledgeForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Forma de Conhecimento"}
               modalIcons={"bg-red"}
-              formTypeModal={41}
-            ></FormModals>
+              formTypeModal={11}
+            ></FormsKnowledgeForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -150,14 +150,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((formsKnowledge, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><FormsKnowledgeForm
                         buttonName={formsKnowledge.formsknowledgeID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Forma de Conhecimento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${formsKnowledge.formsknowledgeID}`}
-                        formTypeModal={42}
+                        formTypeModal={12}
                         idKnowledge={formsKnowledge.formsknowledgeID}
                         criado={formsKnowledge.createdAt}
                         editado={formsKnowledge.updatedAt}
@@ -178,19 +178,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <FormsKnowledgeForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Forma de Conhecimento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${formsKnowledge.formsknowledgeID}`}
-                        formTypeModal={42}
+                        formTypeModal={12}
                         idKnowledge={formsKnowledge.formsknowledgeID}
                         criado={formsKnowledge.createdAt}
                         editado={formsKnowledge.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></FormsKnowledgeForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(formsKnowledge.formsknowledgeID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

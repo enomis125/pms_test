@@ -20,11 +20,11 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/bookings/formModals";
+import CancelTypeForm from "@/components/modal/bookings/cancelType/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Characteristics() {
+export default function cancelType() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <CancelTypeForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Tipos de Cancelamento"}
               modalIcons={"bg-red"}
-              formTypeModal={101}
-            ></FormModals>
+              formTypeModal={11}
+            ></CancelTypeForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -150,14 +150,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((cancelType, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
+              <TableCell className="text-right underline text-blue-600"><CancelTypeForm
                         buttonName={cancelType.cancelationTypeID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Tipos de cancelamento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${cancelType.cancelationTypeID}`}
-                        formTypeModal={102}
+                        formTypeModal={12}
                         idCancelType={cancelType.cancelationTypeID}
                         criado={cancelType.createdAt}
                         editado={cancelType.updatedAt}
@@ -178,19 +178,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <CancelTypeForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Tipos de cancelamento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${cancelType.cancelationTypeID}`}
-                        formTypeModal={102}
+                        formTypeModal={12}
                         idCancelType={cancelType.cancelationTypeID}
                         criado={cancelType.createdAt}
                         editado={cancelType.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></CancelTypeForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(cancelType.cancelationTypeID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
