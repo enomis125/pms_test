@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import NationalityForm from "@/components/modal/cardex/nationality/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Salutation() {
                 />
               </div>
             </div>
-            <FormModals
+            <NationalityForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Nacionalidade"}
               modalIcons={"bg-red"}
               formTypeModal={21}
-            ></FormModals>
+            ></NationalityForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -165,7 +165,7 @@ export default function Salutation() {
         <TableBody>
           {items.map((nationality, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><NationalityForm
                         buttonName={nationality.codeNr}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
@@ -198,7 +198,7 @@ export default function Salutation() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <NationalityForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
@@ -210,7 +210,7 @@ export default function Salutation() {
                         criado={nationality.createdAt}
                         editado={nationality.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></NationalityForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(nationality.codeNr)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

@@ -20,11 +20,11 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import ProfessionForm from "@/components/modal/cardex/profession/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Salutation() {
+export default function Profession() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -101,14 +101,14 @@ export default function Salutation() {
                 />
               </div>
             </div>
-            <FormModals
+            <ProfessionForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Profissão"}
               modalIcons={"bg-red"}
-              formTypeModal={41}
-            ></FormModals>
+              formTypeModal={11}
+            ></ProfessionForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -156,14 +156,14 @@ export default function Salutation() {
         <TableBody>
           {items.map((profession, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><ProfessionForm
                         buttonName={profession.professionID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Profissão"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${profession.professionID}`}
-                        formTypeModal={42}
+                        formTypeModal={12}
                         idProfession={profession.professionID}
                         criado={profession.createdAt}
                         editado={profession.updatedAt}
@@ -186,19 +186,19 @@ export default function Salutation() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <ProfessionForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Profissão"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${profession.professionID}`}
-                        formTypeModal={42}
+                        formTypeModal={12}
                         idProfession={profession.professionID}
                         criado={profession.createdAt}
                         editado={profession.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></ProfessionForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(profession.professionID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

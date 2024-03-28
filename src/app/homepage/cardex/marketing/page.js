@@ -21,7 +21,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/cardex/formModals";
+import MarketingForm from "@/components/modal/cardex/marketing/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -101,14 +101,14 @@ export default function Marketing() {
                 />
               </div>
             </div>
-            <FormModals
+            <MarketingForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Marketing"}
               modalIcons={"bg-red"}
-              formTypeModal={81}
-            ></FormModals>
+              formTypeModal={11}
+            ></MarketingForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -157,14 +157,14 @@ export default function Marketing() {
           {items.map((marketing, index) => (
 
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><FormModals
+              <TableCell className="text-left underline text-blue-600"><MarketingForm
                         buttonName={marketing.marketingID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Marketing"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${marketing.marketingID}`}
-                        formTypeModal={82}
+                        formTypeModal={12}
                         idMarketing={marketing.marketingID}
                         criado={marketing.createdAt}
                         editado={marketing.updatedAt}
@@ -187,19 +187,19 @@ export default function Marketing() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <MarketingForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Marketing"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${marketing.marketingID}`}
-                        formTypeModal={82}
+                        formTypeModal={12}
                         idMarketing={marketing.marketingID}
                         criado={marketing.createdAt}
                         editado={marketing.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></MarketingForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(marketing.marketingID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
