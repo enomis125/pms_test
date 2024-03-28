@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import CharacteristicForm from "@/app/formModals/hotel/page";
+import CharacteristicForm from "@/components/modal/hotelSetup/characteristics/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
