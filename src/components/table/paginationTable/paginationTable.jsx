@@ -1,6 +1,9 @@
 import React from "react";
-import { Pagination } from "@nextui-org/react";
- 
+import { Pagination, Button } from "@nextui-org/react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { CSVLink } from "react-csv";
+
 export default function CustomPagination({
   page,
   pages,
@@ -9,10 +12,33 @@ export default function CustomPagination({
   items,
   setPage,
   children,
+  dataCSVButton,
 }) {
+  const exportToPDF = () => {
+    const pdf = new jsPDF();
+    pdf.autoTable({ html: "#TableToPDF" });
+    pdf.save("ListaEncomendas.pdf");
+  };
   return (
     <>
-      <div className="bg-tableFooter border border-tableFooterBorder flex justify-end items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
+      <div className="bg-tableFooter border border-tableFooterBorder flex justify-between items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
+        <div>
+          {dataCSVButton && dataCSVButton.length > 0 && (
+            <div className="ml-5 space-x-3">
+              <Button onPress={exportToPDF}>PDF</Button>
+              <Button>
+                <CSVLink
+                  data={dataCSVButton}
+                  filename={"estados_de_reservas.csv"}
+                  separator={";"}
+                  enclosingCharacter={""}
+                >
+                  CSV
+                </CSVLink>
+              </Button>
+            </div>
+          )}
+        </div>
         <div className="flex flex-row items-center">
           <Pagination
             isCompact
@@ -25,7 +51,7 @@ export default function CustomPagination({
             className="mx-5"
           />
           <div>
-            <span className="text-sm text-black">Items por página:</span>
+            <span className="text-sm text-black">Linhas por página:</span>
             <select
               value={rowsPerPage}
               onChange={handleChangeRowsPerPage}
@@ -47,7 +73,7 @@ export default function CustomPagination({
           </div>
         </div>
       </div>
- 
+
       {children}
     </>
   );

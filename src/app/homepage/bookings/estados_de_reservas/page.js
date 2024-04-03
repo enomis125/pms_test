@@ -1,14 +1,25 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination,
-  Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
-  Input
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Pagination,
+  Button,
+  DropdownTrigger,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Input,
 } from "@nextui-org/react";
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
+import { FaFilter } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
@@ -17,9 +28,9 @@ import ReservationStatusForm from "@/components/modal/bookings/resevationStatus/
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
 const searchOptions = [
-  { label: "Description", value: "resmark" },
+  { label: "Tudo", value: "all" },
+  { label: "Descrição", value: "resmark" },
   { label: "ID", value: "resID" },
-  // Add more options as needed
 ];
 
 export default function reservationStatus() {
@@ -43,9 +54,22 @@ export default function reservationStatus() {
       return [];
     }
 
+    // Get all available fields from the first object in reservStatus array
+    const availableFields =
+      reservStatus.length > 0 ? Object.keys(reservStatus[0]) : [];
+
     return reservStatus.filter((reserve) => {
-      if (!searchField) {
-        return false;
+      if (!searchField || searchField === "all") {
+        // Search on all available fields when searchField is not set or set to "all"
+        return availableFields.some((field) => {
+          const value = reserve[field];
+          if (typeof value === "string") {
+            return value.toLowerCase().includes(searchValue.toLowerCase());
+          } else if (typeof value === "number" && !isNaN(value)) {
+            return value.toString().includes(searchValue);
+          }
+          return false;
+        });
       }
 
       // Convert ID to string for comparison
@@ -54,7 +78,13 @@ export default function reservationStatus() {
       }
 
       // For other fields, ensure it's a string before performing a case-insensitive search
-      return reserve[searchField] && typeof reserve[searchField] === 'string' && reserve[searchField].toLowerCase().includes(searchValue.toLowerCase());
+      const value = reserve[searchField];
+      if (typeof value === "string") {
+        return value.toLowerCase().includes(searchValue.toLowerCase());
+      } else if (typeof value === "number" && !isNaN(value)) {
+        return value.toString().includes(searchValue);
+      }
+      return false;
     });
   }, [reservStatus, searchValue, searchField]);
 
@@ -79,7 +109,9 @@ export default function reservationStatus() {
 
   const handleDelete = async (idReservStatus) => {
     try {
-      const response = await axios.delete(`/api/v1/bookings/reservationStatus/` + idReservStatus);
+      const response = await axios.delete(
+        `/api/v1/bookings/reservationStatus/` + idReservStatus
+      );
       alert("Estado de Reserva removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover estado de reserva.", error.message);
@@ -91,31 +123,39 @@ export default function reservationStatus() {
       <div className="flex flex-col mt-3 py-3">
         <p className="text-xs px-6">Estados de Reservas</p>
         <div className="flex flex-row justify-between items-center mx-5">
-          <div className="flex flex-row">
-            <div className="flex flex-wrap md:flex-nowrap gap-4">
-              <Input
-                className="mt-4 w-80"
-                placeholder="Procurar..."
-                labelPlacement="outside"
-                startContent={
-                  <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                }
-                value={searchValue}
-                onChange={(e) => handleSearchChange(e.target.value)}
-              />
-            </div>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="light" className="flex flex-row justify-end">
-                  Search by: {searchOptions.find(option => option.value === searchField)?.label}
+          <div className="flex flex-col mt-4">
+            <Input
+              className="w-96"
+              placeholder={`Procurar por ${searchOptions
+                .find((option) => option.value === searchField)
+                ?.label.toLowerCase()}...`}
+              labelPlacement="outside"
+              startContent={
+                <FiSearch
+                  color={"black"}
+                  className="text-2xl text-default-400 pointer-events-none flex-shrink-0"
+                />
+              }
+              value={searchValue}
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
+            <div className="flex gap-2 mt-3">
+              {searchOptions.map((option, index) => (
+                <Button
+                  key={index}
+                  className={`w-28 h-fit ${
+                    searchField === option.value
+                      ? "bg-blue-600 text-white border-2 border-blue-600"
+                      : "bg-slate-200 text-black border-2 border-slate-300"
+                  }`}
+                  onClick={() => setSearchField(option.value)}
+                  size="sm"
+                  radius="full"
+                >
+                  {option.label}
                 </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Search Field">
-                {searchOptions.map((option, index) => (
-                  <DropdownItem key={index} onClick={() => setSearchField(option.value)}>{option.label}</DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+              ))}
+            </div>
           </div>
           <ReservationStatusForm
             buttonName={"Novo"}
@@ -135,8 +175,18 @@ export default function reservationStatus() {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           items={items}
           setPage={setPage}
+          dataCSVButton={
+            items.map((item) => ({
+              ID: item.resID,
+              Abreviatura: item.resbez,
+              Descrição: item.resmark,
+              Ordenação: item.reschar,
+            }))
+          }
         >
+
           <Table
+            id="TableToPDF"
             isHeaderSticky={"true"}
             layout={"fixed"}
             isCompact={"true"}
@@ -147,10 +197,18 @@ export default function reservationStatus() {
             className="h-full overflow-auto"
           >
             <TableHeader>
-              <TableColumn className="bg-primary-600 text-white font-bold w-[2%] uppercase">ID</TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">Abreviatura</TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">Descrição</TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">Ordenação</TableColumn>
+              <TableColumn className="bg-primary-600 text-white font-bold w-[4%] uppercase">
+                ID
+              </TableColumn>
+              <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
+                Abreviatura
+              </TableColumn>
+              <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">
+                Descrição
+              </TableColumn>
+              <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
+                Ordenação
+              </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
                 <GoGear size={20} />
               </TableColumn>
@@ -175,22 +233,34 @@ export default function reservationStatus() {
                   </TableCell>
                   <TableCell className="px-40">{reservStatus.resbez}</TableCell>
                   <TableCell>{reservStatus.resmark}</TableCell>
-                  <TableCell className="px-20">{reservStatus.reschar}</TableCell>
+                  <TableCell className="px-20">
+                    {reservStatus.reschar}
+                  </TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button variant="light" className="flex flex-row justify-end">
-                          <BsThreeDotsVertical size={20} className="text-gray-400" />
+                        <Button
+                          variant="light"
+                          className="flex flex-row justify-end"
+                        >
+                          <BsThreeDotsVertical
+                            size={20}
+                            className="text-gray-400"
+                          />
                         </Button>
                       </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                      <DropdownMenu
+                        aria-label="Static Actions"
+                        closeOnSelect={false}
+                        isOpen={true}
+                      >
                         <DropdownItem key="edit">
                           <ReservationStatusForm
                             buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25}/>}
+                            editIcon={<FiEdit3 size={25} />}
                             buttonColor={"transparent"}
                             modalHeader={"Editar Estado de Reserva"}
-                            modalEditArrow={<BsArrowRight size={25}/>}
+                            modalEditArrow={<BsArrowRight size={25} />}
                             modalEdit={`ID: ${reservStatus.resID}`}
                             formTypeModal={12}
                             idReservStatus={reservStatus.resID}
@@ -199,7 +269,12 @@ export default function reservationStatus() {
                             editor={"teste"}
                           />
                         </DropdownItem>
-                        <DropdownItem key="delete" onClick={() => handleDelete(reservStatus.resID)}>Remover</DropdownItem>
+                        <DropdownItem
+                          key="delete"
+                          onClick={() => handleDelete(reservStatus.resID)}
+                        >
+                          Remover
+                        </DropdownItem>
                         <DropdownItem key="view">Ver</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
