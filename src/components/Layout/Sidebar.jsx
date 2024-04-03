@@ -7,6 +7,7 @@ import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io'
 import { FaLaptopHouse, FaUser } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import { FaTruck } from "react-icons/fa";
+import { IoReceipt } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { FaHotel } from "react-icons/fa";
@@ -141,6 +142,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
         },
 
         "Financial Setup":{
+            icon: <IoReceipt  size={20} />,
             active: true,
             items: [
                 {
@@ -184,20 +186,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
 
         <hr className="border-t border-primary-800 my-4" />
 
-        <br />
-
-        <div className="flex items-center space-x-2">
-            <Link href="/dashboard" className='flex space-x-4 align-middle ml-3'>
-                <FaUser className="text-2xl text-primary-800" />
-                <span className="text-sm text-primary-800 font-semibold">Sujeito Teste</span>
-            </Link>
-        </div>
-
-        <br />
-
-        <hr className="border-t border-primary-800 my-4" />
-
-        <ul className="space-y-2 max-h-[calc(100vh-330px)] overflow-y-auto">
+        <ul className="space-y-2 h-full max-h-[calc(100vh-330px)] overflow-y-auto">
             {
                 children
             }
@@ -209,6 +198,19 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 )
             }
         </ul>
+
+        <hr className="border-t border-primary-800 my-4" />
+
+        <br />
+
+        <div className="flex items-center space-x-2">
+            <Link href="/dashboard" className='flex space-x-4 align-middle ml-3'>
+                <FaUser className="text-2xl text-primary-800" />
+                <span className="text-sm text-primary-800 font-semibold">Sujeito Teste</span>
+            </Link>
+        </div>
+
+        <br />
     </div>
 </aside>
 
