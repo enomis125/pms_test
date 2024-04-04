@@ -20,34 +20,34 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/financialSetup/formModals";
+import AccountGroupsForm from "@/components/modal/financialSetup/accountGroups/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Characteristics() {
+export default function AccountGroups() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [reservChange, setReservChange] = useState([]);
+  const [accountGroup, setAccountGroup] = useState([]);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/reservationChange");
-      setReservChange(res.data.response);
+      const res = await axios.get("/api/v1/financialSetup/accountGroups");
+      setAccountGroup(res.data.response);
     };
     getData();
   }, []);
  
   const filteredItems = React.useMemo(() => {
-    if (!reservChange || !Array.isArray(reservChange)) {
+    if (!accountGroup || !Array.isArray(accountGroup)) {
       return [];
     }
   
-    return reservChange.filter((reserv) =>
-      (reserv.description && reserv.description.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reserv.reservationchangeID && reserv.reservationchangeID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+    return accountGroup.filter((accountGroup) =>
+      (accountGroup.name && accountGroup.name.toLowerCase().includes(searchValue.toLowerCase())) ||
+      (accountGroup.accountGroupsID && accountGroup.accountGroupsID.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
-  }, [reservChange, searchValue]);
+  }, [accountGroup, searchValue]);
   
  
   const items = React.useMemo(() => {
@@ -59,8 +59,8 @@ export default function Characteristics() {
  
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
  
-  const renderCell = React.useCallback((reservChange, columnKey) => {
-    const cellValue = reservChange[columnKey];
+  const renderCell = React.useCallback((accountGroup, columnKey) => {
+    const cellValue = accountGroup[columnKey];
   }, []);
  
   const handleChangeRowsPerPage = (event) => {
@@ -73,9 +73,9 @@ export default function Characteristics() {
     setPage(1);
   };
  
-  const handleDelete = async (idReservChange) => {
+  const handleDelete = async (idAccountGroups) => {
     try {
-      const response = await axios.delete(`/api/v1/bookings/reservationChange/` + idReservChange);
+      const response = await axios.delete(`/api/v1/financialSetup/accountGroups/` + idAccountGroups);
       alert("Departamento removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover departamento.", error.message);
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <AccountGroupsForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Grupo de Conta"}
               modalIcons={"bg-red"}
-              formTypeModal={21}
-            ></FormModals>
+              formTypeModal={11}
+            ></AccountGroupsForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -154,26 +154,26 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((reservChange, index) => (
+          {items.map((accountGroup, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
-                        buttonName={reservChange.reservationchangeID}
+              <TableCell className="text-right underline text-blue-600"><AccountGroupsForm
+                        buttonName={accountGroup.accountsGroupsID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Grupo de Conta"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={22}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        modalEdit={`ID: ${accountGroup.accountsGroupsID}`}
+                        formTypeModal={12}
+                        idAccountGroups={accountGroup.accountsGroupsID}
+                        criado={accountGroup.createdAt}
+                        editado={accountGroup.updatedAt}
                         editor={"teste"}
                       /></TableCell>
-              <TableCell className="px-20">{reservChange.abreviature}</TableCell>
-              <TableCell>{reservChange.description}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
+              <TableCell className="px-20">{accountGroup.ord1}</TableCell>
+              <TableCell>{accountGroup.name}</TableCell>
+              <TableCell className="">{accountGroup.ord2}</TableCell>
+              <TableCell className="px-20">{accountGroup.ord2}</TableCell>
+              <TableCell className="px-20">{accountGroup.dontShow}</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -186,21 +186,21 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <AccountGroupsForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Grupo de Conta"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={22}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        modalEdit={`ID: ${accountGroup.accountsGroupsID}`}
+                        formTypeModal={12}
+                        idAccountGroups={accountGroup.accountsGroupsID}
+                        criado={accountGroup.createdAt}
+                        editado={accountGroup.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></AccountGroupsForm>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(accountGroup.accountsGroupsID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
