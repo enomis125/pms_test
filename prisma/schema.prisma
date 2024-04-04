@@ -793,6 +793,7 @@ model profession {
   property     Int    @default(-1)
 }
 
+
 model accountsGroups {
   accountsGroupsID    Int      @id @default(autoincrement())
   name                String   @default("") @db.VarChar(60)

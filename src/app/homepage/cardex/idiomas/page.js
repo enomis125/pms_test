@@ -98,6 +98,7 @@ export default function Characteristics() {
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
       <Table
+      id="TableToPDF"
       isHeaderSticky={"true"}
         layout={"fixed"}
         removeWrapper
@@ -107,7 +108,7 @@ export default function Characteristics() {
         className="h-full overflow-auto -mt-10"
       >
         <TableHeader>
-          <TableColumn className="bg-primary-600 text-white font-bold">
+          <TableColumn className="bg-primary-600 text-white w-[40px] font-bold">
             ID
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold">

@@ -20,34 +20,34 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import SalutationForm from "@/components/modal/cardex/salutation/page";
+import FormModals from "@/components/modal/financialSetup/formModals";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Salutation() {
+export default function Characteristics() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [salutation, setSalutation] = useState([]);
+  const [reservChange, setReservChange] = useState([]);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/cardex/salutation");
-      setSalutation(res.data.response);
+      const res = await axios.get("/api/v1/bookings/reservationChange");
+      setReservChange(res.data.response);
     };
     getData();
   }, []);
  
   const filteredItems = React.useMemo(() => {
-    if (!salutation || !Array.isArray(salutation)) {
+    if (!reservChange || !Array.isArray(reservChange)) {
       return [];
     }
   
-    return salutation.filter((salu) =>
-      (salu.salutation && salu.salutation.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (salu.salutationID && salu.salutationID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+    return reservChange.filter((reserv) =>
+      (reserv.description && reserv.description.toLowerCase().includes(searchValue.toLowerCase())) ||
+      (reserv.reservationchangeID && reserv.reservationchangeID.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
-  }, [salutation, searchValue]);
+  }, [reservChange, searchValue]);
   
  
   const items = React.useMemo(() => {
@@ -59,8 +59,8 @@ export default function Salutation() {
  
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
  
-  const renderCell = React.useCallback((salutation, columnKey) => {
-    const cellValue = salutation[columnKey];
+  const renderCell = React.useCallback((reservChange, columnKey) => {
+    const cellValue = reservChange[columnKey];
   }, []);
  
   const handleChangeRowsPerPage = (event) => {
@@ -73,19 +73,19 @@ export default function Salutation() {
     setPage(1);
   };
  
-  const handleDelete = async (idSalutation) => {
+  const handleDelete = async (idReservChange) => {
     try {
-      const response = await axios.delete(`/api/v1/cardex/salutation/` + idSalutation);
-      alert("Saudação removida com sucesso!");
+      const response = await axios.delete(`/api/v1/bookings/reservationChange/` + idReservChange);
+      alert("Departamento removido com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover saudação.", error.message);
+      console.error("Erro ao remover departamento.", error.message);
     }
   };
  
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Saudação</p>
+          <p className="text-xs px-6">Anulação de Cobranças</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -101,14 +101,14 @@ export default function Salutation() {
                 />
               </div>
             </div>
-            <SalutationForm
+            <FormModals
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Saudação"}
+              modalHeader={"Inserir Anulação de Cobrança"}
               modalIcons={"bg-red"}
-              formTypeModal={11}
-            ></SalutationForm>
+              formTypeModal={71}
+            ></FormModals>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -135,46 +135,50 @@ export default function Salutation() {
           <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
             ID
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold w-30 uppercase">
-            Abreviatura
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold w-1/4 uppercase">
-            Descrição
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold  uppercase">
-            Título
+          <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
+            Tipo de ficha
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            Tipo
+            Nome
           </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold  uppercase">
-            Genero
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+            Apelido
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+            País
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+            E-mail
+          </TableColumn>
+          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+            Telefone
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
             <GoGear size={20} />
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((salutation, index) => (
+          {items.map((reservChange, index) => (
             <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><SalutationForm
-                        buttonName={salutation.salutationID}
+              <TableCell className="text-right undeline text-blue-600"><FormModals
+                        buttonName={reservChange.reservationchangeID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Saudação"}
+                        modalHeader={"Editar Anulação de Cobrança"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${salutation.salutationID}`}
-                        formTypeModal={12}
-                        idSalutation={salutation.salutationID}
-                        criado={salutation.createdAt}
-                        editado={salutation.updatedAt}
+                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
+                        formTypeModal={72}
+                        idReservChange={reservChange.reservationchangeID}
+                        criado={reservChange.createdAt}
+                        editado={reservChange.updatedAt}
                         editor={"teste"}
                       /></TableCell>
-              <TableCell className="">{salutation.suffix}</TableCell>
-              <TableCell className="">{salutation.salutationCode}</TableCell>
-              <TableCell className="">{salutation.salutation}</TableCell>
-              <TableCell className="">{salutation.type}</TableCell>
-              <TableCell className="">{salutation.inet}</TableCell>
+              <TableCell className="px-20">{reservChange.abreviature}</TableCell>
+              <TableCell className="">{reservChange.ordenation}</TableCell>
+              <TableCell className="">{reservChange.ordenation}</TableCell>
+              <TableCell className="">{reservChange.ordenation}</TableCell>
+              <TableCell className="">{reservChange.ordenation}</TableCell>
+              <TableCell className="">{reservChange.ordenation}</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -187,21 +191,21 @@ export default function Salutation() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <SalutationForm
+                      <FormModals
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Saudação"}
+                        modalHeader={"Editar Anulação de Cobrança"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${salutation.salutationID}`}
-                        formTypeModal={12}
-                        idSalutation={salutation.salutationID}
-                        criado={salutation.createdAt}
-                        editado={salutation.updatedAt}
+                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
+                        formTypeModal={72}
+                        idReservChange={reservChange.reservationchangeID}
+                        criado={reservChange.createdAt}
+                        editado={reservChange.updatedAt}
                         editor={"teste"}
-                      ></SalutationForm>
+                      ></FormModals>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(salutation.salutationID)}>Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
