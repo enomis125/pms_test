@@ -10,11 +10,11 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { characteristics } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
-import { rooms } from "@/components/functionsForm/CRUD/hotel/rooms/page";
-import { tipologys } from "@/components/functionsForm/CRUD/hotel/tipology/page";
-import { maintenance } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
-import { typesGroups } from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
+import characteristicsInsert, { characteristicsEdit } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
+import roomsInsert, { roomsEdit } from "@/components/functionsForm/CRUD/hotel/rooms/page";
+import tipologysInsert, { tipologysEdit } from "@/components/functionsForm/CRUD/hotel/tipology/page";
+import maintenanceInsert, { maintenanceEdit } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
+import typesGroupsInsert, { typesGroupsEdit } from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -44,11 +44,16 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleSubmitTypesgroups , handleInputTypesgroups , handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroups(idTypesgroups);
-    const { handleInputMaintenance, handleSubmitMaintenance, handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenance(idMaintenance);
-    const { handleInputRoomtype, handleSubmitRoomtype, handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologys(idRoomtype);
-    const { handleInput , handleSubmit, handleUpdate, setValues, values } = characteristics(idCarateristics);
-    const { handleInputRoom , handleSubmitRoom, handleUpdateRoom, setValuesRoom, valuesRoom } = rooms(idRoom);
+    const { handleSubmitTypesgroups, handleInputTypesgroups } = typesGroupsInsert();
+    const { handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroupsEdit(idTypesgroups);
+    const { handleInputMaintenance, handleSubmitMaintenance } = maintenanceInsert();
+    const { handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenanceEdit(idMaintenance);
+    const { handleInputRoomtype, handleSubmitRoomtype} = tipologysInsert();
+    const { handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologysEdit(idRoomtype);
+    const { handleInput, handleSubmit } = characteristicsInsert();
+    const { handleUpdate, setValues, values } = characteristicsEdit(idCarateristics);
+    const { handleInputRoom, handleSubmitRoom } = roomsInsert();
+    const { handleUpdateRoom, setValuesRoom, valuesRoom } = roomsEdit(idRoom);
     const { toggleExpand , setIsExpanded, isExpanded } = expansion();
 
     const [caracteristics, setCaracteristics] = useState([]);
