@@ -197,7 +197,7 @@ export default function reservationStatus() {
             className="h-full overflow-auto"
           >
             <TableHeader>
-              <TableColumn className="bg-primary-600 text-white font-bold w-[4%] uppercase">
+              <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
                 ID
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
