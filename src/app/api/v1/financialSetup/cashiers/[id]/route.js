@@ -20,7 +20,7 @@ export async function GET(request, context) {
 
     const response = await prisma.cashiers.findUnique({
         where: {
-            refID: parseInt(id)
+            cashierId: parseInt(id)
         }
     })
 
@@ -46,7 +46,7 @@ export async function PATCH(request, context) {
                 cashierId: parseInt(id),
             },
             data: {
-                extCashierId: data.cod,
+                extCashierId: parseInt(data.cod),
                 password: data.password,
                 cashierName: data.abreviature,
             }
