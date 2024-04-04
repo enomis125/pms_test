@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/financialSetup/formModals";
+import RevenueAccountsForm from "@/components/modal/financialSetup/revenueAccounts/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -28,26 +28,26 @@ export default function Characteristics() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [reservChange, setReservChange] = useState([]);
+  const [revenueAccounts, setRevenueAccounts] = useState([]);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/reservationChange");
-      setReservChange(res.data.response);
+      const res = await axios.get("/api/v1/financialSetup/revenueAccounts");
+      setRevenueAccounts(res.data.response);
     };
     getData();
   }, []);
  
   const filteredItems = React.useMemo(() => {
-    if (!reservChange || !Array.isArray(reservChange)) {
+    if (!revenueAccounts || !Array.isArray(revenueAccounts)) {
       return [];
     }
   
-    return reservChange.filter((reserv) =>
-      (reserv.description && reserv.description.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reserv.reservationchangeID && reserv.reservationchangeID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+    return revenueAccounts.filter((revenueAccounts) =>
+      (revenueAccounts.name && revenueAccounts.name.toLowerCase().includes(searchValue.toLowerCase())) ||
+      (revenueAccounts.revenueAccountID && revenueAccounts.revenueAccountID.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
-  }, [reservChange, searchValue]);
+  }, [revenueAccounts, searchValue]);
   
  
   const items = React.useMemo(() => {
@@ -59,8 +59,8 @@ export default function Characteristics() {
  
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
  
-  const renderCell = React.useCallback((reservChange, columnKey) => {
-    const cellValue = reservChange[columnKey];
+  const renderCell = React.useCallback((revenueAccounts, columnKey) => {
+    const cellValue = revenueAccounts[columnKey];
   }, []);
  
   const handleChangeRowsPerPage = (event) => {
@@ -73,19 +73,19 @@ export default function Characteristics() {
     setPage(1);
   };
  
-  const handleDelete = async (idReservChange) => {
+  const handleDelete = async (idRevenueAccount) => {
     try {
-      const response = await axios.delete(`/api/v1/bookings/reservationChange/` + idReservChange);
-      alert("Departamento removido com sucesso!");
+      const response = await axios.delete(`/api/v1/financialSetup/revenueAccounts/` + idRevenueAccount);
+      alert("Conta de revenue removido com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover departamento.", error.message);
+      console.error("Erro ao remover conta de revenue.", error.message);
     }
   };
  
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Departamentos</p>
+          <p className="text-xs px-6">Contas de Revenue</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -101,14 +101,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <RevenueAccountsForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Conta de Revenue"}
               modalIcons={"bg-red"}
-              formTypeModal={31}
-            ></FormModals>
+              formTypeModal={11}
+            ></RevenueAccountsForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -164,29 +164,30 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((reservChange, index) => (
+          {items.map((revenueAccounts, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
-                        buttonName={reservChange.reservationchangeID}
+              <TableCell className="text-right underline text-blue-600">
+                <RevenueAccountsForm
+                        buttonName={revenueAccounts.revenueAccountID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Conta de Revenue"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={32}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        modalEdit={`ID: ${revenueAccounts.revenueAccountID}`}
+                        formTypeModal={12}
+                        idRevenueAccount={revenueAccounts.revenueAccountID}
+                        criado={revenueAccounts.createdAt}
+                        editado={revenueAccounts.updatedAt}
                         editor={"teste"}
                       /></TableCell>
-              <TableCell className="px-10">{reservChange.abreviature}</TableCell>
-              <TableCell>{reservChange.description}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-10">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-[7vw]">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
+              <TableCell className="px-10">{revenueAccounts.name}</TableCell>
+              <TableCell>{revenueAccounts.details}</TableCell>
+              <TableCell className="">{revenueAccounts.abreviature}</TableCell>
+              <TableCell className="">{revenueAccounts.details}</TableCell>
+              <TableCell className="px-10">{revenueAccounts.details}</TableCell>
+              <TableCell className="px-20">{revenueAccounts.details}</TableCell>
+              <TableCell className="px-[7vw]">{revenueAccounts.details}</TableCell>
+              <TableCell className="px-20">{revenueAccounts.details}</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -199,21 +200,21 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <RevenueAccountsForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Conta de Revenue"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={32}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        modalEdit={`ID: ${revenueAccounts.revenueAccountID}`}
+                        formTypeModal={12}
+                        idRevenueAccount={revenueAccounts.revenueAccountID}
+                        criado={revenueAccounts.createdAt}
+                        editado={revenueAccounts.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></RevenueAccountsForm>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(revenueAccounts.revenueAccountID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
