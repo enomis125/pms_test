@@ -23,7 +23,7 @@ export async function PUT(request) {
         console.log(data.Label)
         const newRecord = await prisma.cashiers.create({
             data: {
-                extCashierId: data.cod,
+                extCashierId: parseInt(data.cod),
                 password: data.password,
                 cashierName: data.abreviature,
             }
