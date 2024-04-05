@@ -119,6 +119,14 @@ export default function formKnowledge() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.formsknowledgeID,
+                Abreviatura: item.abreviature,
+                Descrição: item.description,
+                Ordenação: item.ordenation,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

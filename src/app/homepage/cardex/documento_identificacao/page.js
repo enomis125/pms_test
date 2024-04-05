@@ -120,6 +120,13 @@ export default function Knowledgemethod() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.refID,
+                Abreviatura: item.shortName,
+                Descrição: item.name,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

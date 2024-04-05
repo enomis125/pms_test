@@ -119,6 +119,19 @@ export default function Salutation() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.codeNr,
+                Scut: item.land,
+                StatNr: item.statNr,
+                Ordenação: item.brkopftyp,
+                Grupo: item.gruppe,
+                CódigoISO: item.isocode,
+                State: item.state,
+                FO: item.showFO,
+                Nacionalidade: item.nation,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

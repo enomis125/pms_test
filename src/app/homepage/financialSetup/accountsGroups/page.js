@@ -119,6 +119,16 @@ export default function AccountGroups() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.accountsGroupsID,
+                Cod: item.ord1,
+                Abreviatura: item.name,
+                Descrição: item.ord2,
+                Grupo: item.ord2,
+                Ordem: item.dontShow
+              }))
+            }
           >
             <Table
             id="TableToPDF"

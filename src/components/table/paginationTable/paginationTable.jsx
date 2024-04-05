@@ -1,4 +1,5 @@
 import React from "react";
+import { usePathname } from 'next/navigation'
 import { Pagination, Button } from "@nextui-org/react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -14,10 +15,15 @@ export default function CustomPagination({
   children,
   dataCSVButton,
 }) {
+  const pathname = usePathname();
+  const segments = pathname.split('/');
+  const lastSegment = segments[segments.length - 1];
+  const filename = `${lastSegment}.csv`;
+
   const exportToPDF = () => {
     const pdf = new jsPDF();
     pdf.autoTable({ html: "#TableToPDF" });
-    pdf.save("ListaEncomendas.pdf");
+    pdf.save(`${lastSegment}.pdf`);
   };
   return (
     <>
@@ -29,7 +35,7 @@ export default function CustomPagination({
               <Button>
                 <CSVLink
                   data={dataCSVButton}
-                  filename={"estados_de_reservas.csv"}
+                  filename={filename}
                   separator={";"}
                   enclosingCharacter={""}
                 >

@@ -118,6 +118,17 @@ export default function Tipologys() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.roomTypeID,
+                Cod: item.active,
+                Abreviatura: item.name,
+                Descrição: item.desc,
+                Detalhe: item.roomFeaturesDesc,
+                Função: item.roomTypePlan,
+                GrupoTipologia: item.groupID
+              }))
+            }
           >
             <Table
             id="TableToPDF"

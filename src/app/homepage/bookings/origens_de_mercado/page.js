@@ -119,6 +119,14 @@ export default function market() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.marketNR,
+                Abreviatura: item.name,
+                Descrição: item.anzahi,
+                Ordenação: item.group,
+              }))
+            }
           >
             <Table
             id="TableToPDF"
