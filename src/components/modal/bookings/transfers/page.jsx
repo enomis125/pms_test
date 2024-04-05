@@ -8,25 +8,18 @@ import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import vipCodeInsert, { vipCodeEdit } from "@/components/functionsForm/CRUD/cardex/vipCode/page";
+import transferInsert, { transferEdit } from "@/components/functionsForm/CRUD/bookings/transfers/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
-const vipCodeForm = ({
-    idVipcode,
+const transferForm = ({
+    idTransfer,
     buttonName,
     buttonIcon,
     modalHeader,
-    editIcon,
-    modalEditArrow,
-    modalEdit,
     formTypeModal,
-    buttonColor,
-    criado,
-    editado,
-    editor
+    buttonColor
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -34,9 +27,8 @@ const vipCodeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputVipcode, handleSubmitVipcode} = vipCodeInsert();
-    const { handleUpdateVipcode, setValuesVipcode, valuesVipcode } = vipCodeEdit(idVipcode);
-
+    const { handleInputTransfer, handleSubmitTransfer } = transferInsert();
+    const { handleUpdateTransfer, setValuesTransfer, valuesTransfer } = transferEdit(idTransfer);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
@@ -44,7 +36,7 @@ const vipCodeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //vip code insert
+{formTypeModal === 11 && ( //transfers insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -61,7 +53,7 @@ const vipCodeForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitVipcode}>
+                                        <form onSubmit={handleSubmitTransfer}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -70,17 +62,17 @@ const vipCodeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" name="shortName" onChange={handleInputTransfer} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
-                                                        name="Description"
-                                                        onChange={handleInputVipcode}
+                                                        name="name"
+                                                        onChange={handleInputTransfer}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" name="class" onChange={handleInputTransfer} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -105,9 +97,9 @@ const vipCodeForm = ({
                 </>
             )}
 
-            {formTypeModal === 12 && ( //vip code edit
+            {formTypeModal === 12 && ( //transfers edit
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
+                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -122,30 +114,27 @@ const vipCodeForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={(e) => handleUpdateVipcode(e)}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                            <div className="flex flex-row justify-start gap-4">
-                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                            </div>
-                                            <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                            </div>
-                                        </ModalHeader>
+                                        <form onSubmit={handleUpdateTransfer}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
-                                                        name="Description"
-                                                        value={valuesVipcode.Descrition}
-                                                        onChange={e => setValuesVipcode({ ...valuesVipcode, Descrition: e.target.value })}
+                                                        name="Name"
+                                                        value={valuesTransfer.Name}
+                                                        onChange={e => setValuesTransfer({ ...valuesTransfer, Name: e.target.value })}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" name="Class" value={valuesTransfer.Class} onChange={e => setValuesTransfer({ ...valuesTransfer, Class: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -162,14 +151,6 @@ const vipCodeForm = ({
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
-                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
-                                            {criado !== editado && (
-                                                <div>
-                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
-                                                </div>
-                                            )}
-                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -181,4 +162,4 @@ const vipCodeForm = ({
     );
 };
 
-export default vipCodeForm;
+export default transferForm;

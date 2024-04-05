@@ -107,7 +107,7 @@ export default function Salutation() {
               buttonColor={"primary"}
               modalHeader={"Inserir Nacionalidade"}
               modalIcons={"bg-red"}
-              formTypeModal={21}
+              formTypeModal={11}
             ></NationalityForm>
           </div>
         </div>
@@ -186,7 +186,7 @@ export default function Salutation() {
                         modalHeader={"Editar Nacionalidade"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${nationality.codeNr}`}
-                        formTypeModal={22}
+                        formTypeModal={12}
                         idNacionality={nationality.codeNr}
                         criado={nationality.createdAt}
                         editado={nationality.updatedAt}
@@ -219,7 +219,7 @@ export default function Salutation() {
                         modalHeader={"Editar Nacionalidade"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${nationality.codeNr}`}
-                        formTypeModal={22}
+                        formTypeModal={12}
                         idNacionality={nationality.codeNr}
                         criado={nationality.createdAt}
                         editado={nationality.updatedAt}

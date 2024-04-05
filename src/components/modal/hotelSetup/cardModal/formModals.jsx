@@ -1,91 +1,57 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
-import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import characteristicsInsert, { characteristicsEdit } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
-import roomsInsert, { roomsEdit } from "@/components/functionsForm/CRUD/hotel/rooms/page";
-import tipologysInsert, { tipologysEdit } from "@/components/functionsForm/CRUD/hotel/tipology/page";
-import maintenanceInsert, { maintenanceEdit } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
-import typesGroupsInsert, { typesGroupsEdit } from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
-import { expansion } from "@/components/functionsForm/expansion/page";
+import characteristicsInsert from "@/components/functionsForm/CRUD/hotel/characteristics/page";
+import roomsInsert from "@/components/functionsForm/CRUD/hotel/rooms/page";
+import tipologysInsert from "@/components/functionsForm/CRUD/hotel/tipology/page";
+import maintenanceInsert from "@/components/functionsForm/CRUD/hotel/maintenance/page";
+import typesGroupsInsert from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
-
-
-/*
-os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:
-0 - mmodal
-1 - full screen (inserir)
-2 - full screen (editar)
-(REMOVER AO CONCLUIR O PROJETO)
-*/
-
-const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups, idRoom,
+const formModals = ({
     buttonName,
     buttonIcon,
     modalHeader,
-    editIcon,
-    modalEditArrow,
-    modalEdit,
-    formTypeModal,
-    buttonColor,
-    criado,
-    editado,
-    editor }) => {
+    formTypeModal
+}) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
-    const { handleSubmitTypesgroups, handleInputTypesgroups } = typesGroupsInsert();
-    const { handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroupsEdit(idTypesgroups);
-    const { handleInputMaintenance, handleSubmitMaintenance } = maintenanceInsert();
-    const { handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenanceEdit(idMaintenance);
-    const { handleInputRoomtype, handleSubmitRoomtype} = tipologysInsert();
-    const { handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologysEdit(idRoomtype);
-    const { handleInput, handleSubmit } = characteristicsInsert();
-    const { handleUpdate, setValues, values } = characteristicsEdit(idCarateristics);
-    const { handleInputRoom, handleSubmitRoom } = roomsInsert();
-    const { handleUpdateRoom, setValuesRoom, valuesRoom } = roomsEdit(idRoom);
-    const { toggleExpand , setIsExpanded, isExpanded } = expansion();
 
     const [caracteristics, setCaracteristics] = useState([]);
 
     useEffect(() => {
         const getData = () => {
-          axios.get('/api/v1/hotel/caracteristicas')
-            .then(res => {
-              setCaracteristics(res.data.response);
-            })
-            .catch(error => {
-              console.error('Error fetching data:', error);
-            });
+            axios.get('/api/v1/hotel/caracteristicas')
+                .then(res => {
+                    setCaracteristics(res.data.response);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         };
         getData();
-      }, []);
+    }, []);
 
 
-      const [tipology, setTipology] = useState([]);
+    const [tipology, setTipology] = useState([]);
 
-      useEffect(() => {
-          const getData = () => {
+    useEffect(() => {
+        const getData = () => {
             axios.get('/api/v1/hotel/tipologys')
-              .then(res => {
-                setTipology(res.data.response);
-              })
-              .catch(error => {
-                console.error('Error fetching data:', error);
-              });
-          };
-          getData();
-        }, []);
+                .then(res => {
+                    setTipology(res.data.response);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+        getData();
+    }, []);
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
 
@@ -94,18 +60,11 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
         [selectedKeys]
     );
 
-    const Tipologia = [
-        { label: "Tipologia1", value: "Tipologia1", description: "" },
-        { label: "Tipologia2", value: "Tipologia2", description: "" },
-        { label: "Tipologia3", value: "Tipologia3", description: "" },
-        { label: "Tipologia4", value: "Tipologia4", description: "" }
-    ]
-    const Caracteristicas = [
-        { label: "Caracteristicas1", value: "Caracteristicas1", description: "" },
-        { label: "Caracteristicas2", value: "Caracteristicas2", description: "" },
-        { label: "Caracteristicas3", value: "Caracteristicas3", description: "" },
-        { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
-    ]
+    const { handleInputMaintenance, handleSubmitMaintenance } = maintenanceInsert();
+    const { handleInput, handleSubmit } = characteristicsInsert();
+    const { handleInputRoom, handleSubmitRoom } = roomsInsert();
+    const { handleSubmitTypesgroups, handleInputTypesgroups } = typesGroupsInsert();
+    const { handleInputRoomtype, handleSubmitRoomtype } = tipologysInsert();
 
 
     return (
@@ -129,21 +88,20 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Label" onChange={handleInputTypesgroups} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} />
+                                                <InputFieldControlled type={"text"} id={"abreviature"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputTypesgroups} />
+                                                <InputFieldControlled type={"textarea"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} />
+
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                     <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                                 </div>
-                                                <div className="flex flex-row gap-5">
-                                                    <input type="text" placeholder="Ordem" className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                    <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                        <option value="0">------------</option>
-                                                        <option value="1">Teste de opções</option>
-                                                        <option value="2">Teste de opções</option>
-                                                    </select>
-                                                </div>
+                                                <InputFieldControlled type={"text"} id={"order"} name={"Order"} label={"Ordem"} ariaLabel={"Ordem"} style={"w-1/2"} />
+                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
+                                                    <option value="0">------------</option>
+                                                    <option value="1">Teste de opções</option>
+                                                    <option value="2">Teste de opções</option>
+                                                </select>
                                             </ModalBody>
                                         </form>
                                     </>
@@ -176,42 +134,21 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Input type="text" name="Description" onChange={handleInputRoom} variant="underlined" label="Descrição" />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Input type="text" name="Label" onChange={handleInputRoom} variant="underlined" label="Abreviatura" />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Textarea
-                                                        label="RoomType"
-                                                        name="RoomType"
-                                                        onChange={handleInputRoom}
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
-                                                        variant="underlined"
-                                                    />
-                                                </div>
-                                            </div>
-                                            {/* Adjusting the field name to match the expected name in handleInputRoom */}
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputRoom} />
+                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputRoom} />
+                                            <InputFieldControlled type={"text"} id={"roomType"} name={"RoomType"} label={"Tipo de Quarto"} ariaLabel={"Tipo de Quarto"} onChange={handleInputRoom} />
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Tipologia}
-                                                        label="Tipologia"
-                                                        // Adjusting the name to match the expected name in handleInputRoom
-                                                        name="Tipologia"
-                                                        className="w-full"
+                                                        label="Selecione uma tipologia"
+                                                        className="max-w-xs"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        {tipology.map((tipology) => (
+                                                            <AutocompleteItem key={tipology.roomTypeID} value={tipology.desc}>
+                                                                {tipology.desc}
+                                                            </AutocompleteItem>
+                                                        ))}
                                                     </Autocomplete>
                                                 </div>
                                             </div>
@@ -225,19 +162,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                     <p className="text-xl">1</p>
                                                 </div>
                                             </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                                >
-                                                    <Textarea
-                                                        label="DEP. DE HOUSEKEEPING"
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[10px]" }}
-                                                        variant="underlined"
-                                                    />
-                                                </div>
-                                            </div>
+                                            <InputFieldControlled type={"text"} id={"depHousekeeping"} name={"depHousekeeping"} label={"DEP. DE HOUSEKEEPING"} ariaLabel={"Departamento de limpeza"} />
                                             <div className="flex gap-4 items-center max-w-xs">
                                                 <Button size="md">
                                                     Configuração de interfaces
@@ -246,12 +171,14 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
-                                                        variant="underlined"
-                                                        defaultItems={Caracteristicas}
-                                                        label="Caracteristicas"
-                                                        className="w-full"
+                                                        label="Selecione uma caracteristica"
+                                                        className="max-w-xs"
                                                     >
-                                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+                                                        {caracteristics.map((caracteristic) => (
+                                                            <AutocompleteItem key={caracteristic.characteristicID} value={caracteristic.description}>
+                                                                {caracteristic.description}
+                                                            </AutocompleteItem>
+                                                        ))}
                                                     </Autocomplete>
                                                 </div>
                                             </div>
@@ -283,9 +210,9 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <Input type="text" name="Abreviature" onChange={handleInput} variant="underlined" label="Abreviatura" />
-                                                <Input type="text" name="Description" onChange={handleInput} variant="underlined" label="Descrição" />
-                                                <Input type="textarea" name="Details" onChange={handleInput} variant="underlined" label="Detalhe" />
+                                                <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInput} />
+                                                <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInput} />
+                                                <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInput} />
                                             </ModalBody>
                                         </form>
                                     </>
@@ -313,37 +240,11 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody>
-                                            <ScrollShadow hideScrollBar className="h-[400px]">
-                                                <div className="w-full flex flex-col gap-5 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                    >
-                                                        <Input type="text" variant="underlined" name="Desc" onChange={handleInputRoomtype} label="Descrição" />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                    >
-                                                        <Input type="text" variant="underlined" name="Name" onChange={handleInputRoomtype} label="Abreviatura" />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 bg-gray-200 "
-                                                    >
-                                                        <Textarea
-                                                            label="Detalhe"
-                                                            disableAnimation
-                                                            disableAutosize
-                                                            className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
-                                                            variant="underlined"
-                                                            name="RoomFeaturesDesc" onChange={handleInputRoomtype}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <InputFieldControlled type={"text"} id={"description"} name={"Desc"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputRoomtype} />
+                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Name"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputRoomtype} />
+                                            <InputFieldControlled type={"text"} id={"details"} name={"RoomFeaturesDesc"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputRoomtype} />
+                                            {/*<div className="w-full flex flex-col gap-4 mb-4">
                                                     <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                         <Autocomplete
                                                             variant="underlined"
@@ -366,8 +267,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                                             {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                                                         </Autocomplete>
                                                     </div>
-                                                </div>
-                                            </ScrollShadow>
+                            </div>*/}
                                         </ModalBody>
                                     </form>
 
@@ -380,7 +280,7 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
 
             {formTypeModal === 50 && ( //Maintenance modal
                 <>
-                   <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
 
@@ -403,26 +303,11 @@ const formModals = ({ idCarateristics, idRoomtype, idMaintenance, idTypesgroups,
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                             <div className="flex flex-row items-center">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Descrição"
-                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                    name="Description" onChange={handleInputMaintenance}
-                                                />
-                                                <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputMaintenance}/>
+                                            <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
-                                            <input
-                                                type="text"
-                                                placeholder="Abreviatura"
-                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                name="Abreviature" onChange={handleInputMaintenance}
-                                            />
-                                            <textarea
-                                                type="textarea"
-                                                placeholder="Detalhe"
-                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
-                                                name="Details" onChange={handleInputMaintenance}
-                                            ></textarea>
+                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputMaintenance}/>
+                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputMaintenance}/>
                                             <div>
                                                 <input
                                                     id="link-checkbox"

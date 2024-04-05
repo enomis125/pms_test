@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import axios from 'axios';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
@@ -10,12 +10,12 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import transferInsert, { transferEdit } from "@/components/functionsForm/CRUD/bookings/transfers/page";
+import replacementCodeInsert, { replacementCodeEdit } from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
-const transferForm = ({
-    idTransfer,
+const replacementCodeForm = ({
+    idReplaceCode,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -34,8 +34,8 @@ const transferForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputTransfer, handleSubmitTransfer } = transferInsert();
-    const { handleUpdateTransfer, setValuesTransfer, valuesTransfer } = transferEdit(idTransfer);
+    const { handleInputReplaceCode, handleSubmitReplaceCode } = replacementCodeInsert();
+    const { handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode } = replacementCodeEdit(idReplaceCode);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
@@ -43,7 +43,7 @@ const transferForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //transfers insert
+{formTypeModal === 11 && ( //replacement code insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -60,7 +60,7 @@ const transferForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitTransfer}>
+                                        <form onSubmit={handleSubmitReplaceCode}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -69,17 +69,17 @@ const transferForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="shortName" onChange={handleInputTransfer} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" name="Abreviature" onChange={handleInputReplaceCode} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
-                                                        name="name"
-                                                        onChange={handleInputTransfer}
+                                                        name="Description"
+                                                        onChange={handleInputReplaceCode}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="class" onChange={handleInputTransfer} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReplaceCode} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -104,9 +104,9 @@ const transferForm = ({
                 </>
             )}
 
-            {formTypeModal === 12 && ( //transfers edit
+            {formTypeModal === 12 && ( //replacement code edit
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -121,8 +121,11 @@ const transferForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleUpdateTransfer}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <form onSubmit={(e) => handleUpdateReplaceCode(e)}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                <div className="flex flex-row justify-start gap-4">
+                                                    {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                                </div>
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
@@ -130,18 +133,17 @@ const transferForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" value={valuesTransfer.ShortName} onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} name="ShortName" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" value={valuesReplaceCode.Abreviature} onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
-                                                        name="Name"
-                                                        value={valuesTransfer.Name}
-                                                        onChange={e => setValuesTransfer({ ...valuesTransfer, Name: e.target.value })}
+                                                        value={valuesReplaceCode.Description}
+                                                        onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Description: e.target.value })}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Class" value={valuesTransfer.Class} onChange={e => setValuesTransfer({ ...valuesTransfer, Class: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" value={valuesReplaceCode.Ordenation} onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -158,6 +160,14 @@ const transferForm = ({
                                                 </div>
                                             </ModalBody>
                                         </form>
+                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
+                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
+                                            {criado !== editado && (
+                                                <div>
+                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
+                                                </div>
+                                            )}
+                                        </ModalFooter>
                                     </>
                                 </>
                             )}
@@ -169,4 +179,4 @@ const transferForm = ({
     );
 };
 
-export default transferForm;
+export default replacementCodeForm;

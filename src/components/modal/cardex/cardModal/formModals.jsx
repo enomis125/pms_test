@@ -2,24 +2,22 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
-import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import { vipCode } from "@/components/functionsForm/CRUD/cardex/vipCode/page";
-import { marketing } from "@/components/functionsForm/CRUD/cardex/marketing/page";
-import { members } from "@/components/functionsForm/CRUD/cardex/members/page";
-import { doctypes } from "@/components/functionsForm/CRUD/cardex/doctypes/page";
-import { clientPreferences } from "@/components/functionsForm/CRUD/cardex/clientPreferences/page";
-import { knowledgeMethod } from "@/components/functionsForm/CRUD/cardex/knowledgeMethod/page";
-import { profession } from "@/components/functionsForm/CRUD/cardex/profession/page";
-import { nationality } from "@/components/functionsForm/CRUD/cardex/nationality/page";
-import { salutation } from "@/components/functionsForm/CRUD/cardex/salutation/page";
-import { expansion } from "@/components/functionsForm/expansion/page";
+import clientPreferencesInsert from "@/components/functionsForm/CRUD/cardex/clientPreferences/page";
+import vipCodeInsert from "@/components/functionsForm/CRUD/cardex/vipCode/page";
+import salutationInsert from "@/components/functionsForm/CRUD/cardex/salutation/page";
+import professionInsert from "@/components/functionsForm/CRUD/cardex/profession/page";
+import nationalityInsert from "@/components/functionsForm/CRUD/cardex/nationality/page";
+import membersInsert from "@/components/functionsForm/CRUD/cardex/members/page";
+import knowledgeMethodInsert from "@/components/functionsForm/CRUD/cardex/knowledgeMethod/page";
+import doctypesInsert from "@/components/functionsForm/CRUD/cardex/doctypes/page";
+import marketingInsert from "@/components/functionsForm/CRUD/cardex/marketing/page";
+
+
 
 
 /*
@@ -30,18 +28,11 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMethod, idDoctypes, idCustomerPreferences, idMember, idMarketing, idVipcode,
+const formModals = ({
     buttonName,
-    buttonIcon,
     modalHeader,
-    editIcon,
-    modalEditArrow,
-    modalEdit,
     formTypeModal,
-    buttonColor,
-    criado,
-    editado,
-    editor }) => {
+}) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -55,30 +46,19 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
         [selectedKeys]
     );
 
-    const Tipologia = [
-        { label: "Tipologia1", value: "Tipologia1", description: "" },
-        { label: "Tipologia2", value: "Tipologia2", description: "" },
-        { label: "Tipologia3", value: "Tipologia3", description: "" },
-        { label: "Tipologia4", value: "Tipologia4", description: "" }
-    ]
-    const Caracteristicas = [
-        { label: "Caracteristicas1", value: "Caracteristicas1", description: "" },
-        { label: "Caracteristicas2", value: "Caracteristicas2", description: "" },
-        { label: "Caracteristicas3", value: "Caracteristicas3", description: "" },
-        { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
-    ]
-
     //funções de inserir e editar
-    const { handleInputSalutation , handleSubmitSalutation, handleUpdateSalutation, setValuesSalutation, valuesSalutation } = salutation(idSalutation);
-    const { handleInputNacionality, handleSubmitNacionality, handleUpdateNationality, setValuesNationality, valuesNacionality } = nationality(idNacionality);
-    const { handleInputProfession, handleSubmitProfession, handleUpdateProfession, setValuesProffesion, valuesProfession } = profession(idProfession);
-    const { handleInputKnowledgeMethod, handleSubmitKnowledgeMethod, handleUpdateKnowledgeMethod, setValuesKnowledgeMethod, valuesKnowledgeMethod } = knowledgeMethod(idKnowledgeMethod);
-    const { handleInputDoctypes, handleSubmitDoctypes, handleUpdateDoctypes, setValuesDoctypes, valuesDoctypes } = doctypes(idDoctypes);
-    const { handleInputCustomerPreferences, handleSubmitCustomerPreferences, handleUpdateCustomerPreferences, setValuesCustomerPreferences, valuesCustomerPreferences } = clientPreferences(idCustomerPreferences);
-    const { handleInputMember, handleSubmitMember, handleUpdateMember, setValuesMember, valuesMember } = members(idMember);
-    const { handleInputMarketing, handleSubmitMarketing, handleUpdateMarketing, setValuesMarketing, valuesMarketing } = marketing(idMarketing);
-    const { handleInputVipcode, handleSubmitVipcode, handleUpdateVipcode, setValuesVipcode, valuesVipcode } = vipCode(idVipcode);
-    
+    const { handleInputCustomerPreferences, handleSubmitCustomerPreferences } = clientPreferencesInsert();
+    const { handleInputDoctypes, handleSubmitDoctypes } = doctypesInsert();
+    const { handleInputKnowledgeMethod, handleSubmitKnowledgeMethod } = knowledgeMethodInsert();
+    const { handleInputMarketing, handleSubmitMarketing} = marketingInsert();
+    const { handleInputMember, handleSubmitMember } = membersInsert();
+    const { handleInputNacionality, handleSubmitNacionality} = nationalityInsert();
+    const { handleInputProfession, handleSubmitProfession } = professionInsert();
+    const { handleInputSalutation , handleSubmitSalutation } = salutationInsert();
+    const { handleInputVipcode, handleSubmitVipcode} = vipCodeInsert();
+
+
+
     return (
         <>
 
@@ -92,7 +72,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitSalutation}>
+                                        <form onSubmit={handleSubmitSalutation}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -150,7 +130,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitNacionality}>
+                                        <form onSubmit={handleSubmitNacionality}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -194,7 +174,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitKnowledgeMethod}>
+                                        <form onSubmit={handleSubmitKnowledgeMethod}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -248,19 +228,19 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitProfession}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                            <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                            </div>
-                                        </ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <Input type="text" name="Group" onChange={handleInputProfession} variant="underlined" label="Grupo" />
-                                            <Input type="text" name="Abreviature" onChange={handleInputProfession} variant="underlined" label="Abreviatura" />
-                                            <Input type="textarea" name="Description" onChange={handleInputProfession} variant="underlined" label="Descrição" />
-                                        </ModalBody>
-                                    </form>
+                                        <form onSubmit={handleSubmitProfession}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                                <Input type="text" name="Group" onChange={handleInputProfession} variant="underlined" label="Grupo" />
+                                                <Input type="text" name="Abreviature" onChange={handleInputProfession} variant="underlined" label="Abreviatura" />
+                                                <Input type="textarea" name="Description" onChange={handleInputProfession} variant="underlined" label="Descrição" />
+                                            </ModalBody>
+                                        </form>
                                     </>
                                 </>
 
@@ -280,7 +260,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDoctypes}>
+                                        <form onSubmit={handleSubmitDoctypes}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -335,7 +315,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitCustomerPreferences}>
+                                        <form onSubmit={handleSubmitCustomerPreferences}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -382,7 +362,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
 
             {formTypeModal === 70 && ( //members modal
                 <>
-                   <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
@@ -390,7 +370,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitMember}>
+                                        <form onSubmit={handleSubmitMember}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -445,7 +425,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitMarketing}>
+                                        <form onSubmit={handleSubmitMarketing}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -499,7 +479,7 @@ const formModals = ({ idSalutation, idNacionality, idProfession, idKnowledgeMeth
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitVipcode}>
+                                        <form onSubmit={handleSubmitVipcode}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
