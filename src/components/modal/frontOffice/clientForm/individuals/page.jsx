@@ -17,7 +17,7 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 import CompanyForm from "../companys/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
-import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
+//import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 const individualForm = ({
     buttonName,
@@ -122,7 +122,7 @@ const individualForm = ({
                                                 <input type="text" placeholder="Local de Nascimento" className={inputStyle}></input>
                                                 <input type="text" placeholder="Naturalidade" className={inputStyle}></input>
                                                 <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>
-                                                <GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>
+                                                {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                             </div>
                                             <div className="flex flex-col w-1/5">
                                                 <div className="bg-tableFooter py-1">
