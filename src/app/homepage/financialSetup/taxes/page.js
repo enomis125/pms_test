@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/financialSetup/formModals";
+import FormModals from "@/components/modal/financialSetup/taxes/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -28,26 +28,27 @@ export default function Characteristics() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [reservChange, setReservChange] = useState([]);
+  const [taxesChange, setTaxesChange] = useState([]);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/reservationChange");
-      setReservChange(res.data.response);
+      const res = await axios.get("/api/v1/financialSetup/taxes");
+      setTaxesChange(res.data.response);
     };
     getData();
   }, []);
  
   const filteredItems = React.useMemo(() => {
-    if (!reservChange || !Array.isArray(reservChange)) {
+    if (!taxesChange || !Array.isArray(taxesChange)) {
       return [];
     }
   
-    return reservChange.filter((reserv) =>
-      (reserv.description && reserv.description.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reserv.reservationchangeID && reserv.reservationchangeID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+    return taxesChange.filter((tax) =>
+      (tax.recordName && tax.recordName.toString().toLowerCase().includes(searchValue.toLowerCase())) ||
+      (tax.taxesID && tax.taxesID.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
-  }, [reservChange, searchValue]);
+  }, [taxesChange, searchValue]);
+  
   
  
   const items = React.useMemo(() => {
@@ -58,8 +59,9 @@ export default function Characteristics() {
   }, [page, filteredItems, rowsPerPage]);
  
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
+
  
-  const renderCell = React.useCallback((reservChange, columnKey) => {
+  const renderCell = React.useCallback((taxesChange, columnKey) => {
     const cellValue = reservChange[columnKey];
   }, []);
  
@@ -73,12 +75,12 @@ export default function Characteristics() {
     setPage(1);
   };
  
-  const handleDelete = async (idReservChange) => {
+  const handleDelete = async (idTaxes) => {
     try {
-      const response = await axios.delete(`/api/v1/bookings/reservationChange/` + idReservChange);
-      alert("Departamento removido com sucesso!");
+      const response = await axios.delete(`/api/v1/financialSetup/taxes/` + idTaxes);
+      alert("Impostos removido com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover departamento.", error.message);
+      console.error("Erro ao remover impostos.", error.message);
     }
   };
  
@@ -107,7 +109,7 @@ export default function Characteristics() {
               buttonColor={"primary"}
               modalHeader={"Inserir Imposto"}
               modalIcons={"bg-red"}
-              formTypeModal={51}
+              formTypeModal={11}
             ></FormModals>
           </div>
         </div>
@@ -155,59 +157,60 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((reservChange, index) => (
-            <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
-                        buttonName={reservChange.reservationchangeID}
-                        editIcon={<FiEdit3 size={25}/>}
-                        buttonColor={"transparent"}
-                        modalHeader={"Editar Imposto"}
-                        modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={52}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
-                        editor={"teste"}
-                      /></TableCell>
-              <TableCell className="px-10">{reservChange.abreviature}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-10">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
-              <TableCell className="flex justify-end">
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button
-                      variant="light"
-                      className="flex flex-row justify-end"
-                    >
-                      <BsThreeDotsVertical size={20} className="text-gray-400" />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="edit">
-                      <FormModals
-                        buttonName={"Editar"}
-                        editIcon={<FiEdit3 size={25}/>}
-                        buttonColor={"transparent"}
-                        modalHeader={"Editar Imposto"}
-                        modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={52}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
-                        editor={"teste"}
-                      ></FormModals>
-                    </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
-                    <DropdownItem key="view">Ver</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </TableCell>
-            </TableRow>
-          ))}
+        {items.map((tax, index) => (
+  <TableRow key={index}>
+    <TableCell className="text-right underline text-blue-600"><FormModals
+              buttonName={tax.taxesID}
+              editIcon={<FiEdit3 size={25}/>}
+              buttonColor={"transparent"}
+              modalHeader={"Editar Imposto"}
+              modalEditArrow={<BsArrowRight size={25}/>}
+              modalEdit={`ID: ${tax.taxesID}`}
+              formTypeModal={12}
+              idTaxes={tax.taxesID}
+              criado={tax.createdAt}
+              editado={tax.updatedAt}
+              editor={"teste"}
+            /></TableCell>
+    <TableCell className="px-10">{tax.recordName}</TableCell>
+    <TableCell className="">{tax.recordShortName}</TableCell>
+    <TableCell className="">alterar</TableCell>
+    <TableCell className="px-10">alterar</TableCell>
+    <TableCell className="px-20">alterar</TableCell>
+    <TableCell className="flex justify-end">
+      <Dropdown>
+        <DropdownTrigger>
+          <Button
+            variant="light"
+            className="flex flex-row justify-end"
+          >
+            <BsThreeDotsVertical size={20} className="text-gray-400" />
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+          <DropdownItem key="edit">
+            <FormModals
+              buttonName={"Editar"}
+              editIcon={<FiEdit3 size={25}/>}
+              buttonColor={"transparent"}
+              modalHeader={"Editar Imposto"}
+              modalEditArrow={<BsArrowRight size={25}/>}
+              modalEdit={`ID: ${tax.taxesID}`}
+              formTypeModal={12}
+              idTaxes={tax.taxesID}
+              criado={tax.createdAt}
+              editado={tax.updatedAt}
+              editor={"teste"}
+            ></FormModals>
+          </DropdownItem>
+          <DropdownItem key="delete" onClick={() => handleDelete(tax.taxesID)}>Remover</DropdownItem>
+          <DropdownItem key="view">Ver</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    </TableCell>
+  </TableRow>
+))}
+
         </TableBody>
       </Table>
           </PaginationTable>
