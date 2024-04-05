@@ -119,6 +119,14 @@ export default function Characteristics() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.refID,
+                Abreviatura: item.shortName,
+                Descrição: item.name,
+                Ordenação: item.className,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

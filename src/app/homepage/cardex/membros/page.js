@@ -119,6 +119,13 @@ export default function Members() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.memberID,
+                Abreviatura: item.abreviature,
+                Descrição: item.description,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

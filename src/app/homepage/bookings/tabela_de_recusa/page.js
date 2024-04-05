@@ -119,6 +119,14 @@ export default function cancelReason() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.cancelReasonID,
+                Abreviatura: item.class,
+                Descrição: item.name,
+                Ordenação: item.shortName,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

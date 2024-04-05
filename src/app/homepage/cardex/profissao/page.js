@@ -119,6 +119,16 @@ export default function Profession() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.professionID,
+                Grupo: item.gruppe,
+                Abreviatura: item.abreviature,
+                Descrição: item.description,
+                Ordenação: item.ordenation,
+                Propriedade: item.property
+              }))
+            }
           >
             <Table
             id="TableToPDF"

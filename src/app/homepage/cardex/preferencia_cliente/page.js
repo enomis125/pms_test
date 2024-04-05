@@ -119,6 +119,13 @@ export default function customerPreferences() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.customerPreferencesID,
+                Abreviatura: item.abreviature,
+                Descrição: item.description,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

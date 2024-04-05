@@ -120,6 +120,12 @@ export default function Vipcode() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.customerCode,
+                Descrição: item.description,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

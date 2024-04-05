@@ -121,6 +121,17 @@ export default function Departments() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.departmentID,
+                Cod: item.anzahl,
+                Abreviatura: item.hqref,
+                Descrição: item.description,
+                Detalhe: item.departmentName,
+                Estado: item.gruppe,
+                Ordem: item.showFo,
+              }))
+            }
           >
             <Table
             id="TableToPDF"

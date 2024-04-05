@@ -118,6 +118,17 @@ export default function Rooms() {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             items={items}
             setPage={setPage}
+            dataCSVButton={
+              items.map((item) => ({
+                ID: item.roomID,
+                Ordem: item.label,
+                Abreviatura: item.roomType,
+                Descrição: item.pmsHotel,
+                Detalhe: item.description,
+                Tipologia: item.description2,
+                Função: item.temptext
+              }))
+            }
           >
             <Table
             id="TableToPDF"
