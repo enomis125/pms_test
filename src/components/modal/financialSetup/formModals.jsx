@@ -1,14 +1,12 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import React, { useState } from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import axios from 'axios';
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
-import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
 import { LuPlus } from "react-icons/lu";
 import { BsArrowReturnRight } from "react-icons/bs";
-import { expansion } from "@/components/functionsForm/expansion/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
 /*
@@ -21,20 +19,11 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 
 const formModals = ({ idDepartment,
     buttonName,
-    buttonIcon,
     modalHeader,
-    editIcon,
-    modalEditArrow,
-    modalEdit,
-    formTypeModal,
-    buttonColor,
-    criado,
-    editado,
-    editor }) => {
+    formTypeModal
+}) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const { toggleExpand , setIsExpanded, isExpanded } = expansion();
-    
     //inserção na tabela departments
     const [department, setDepartment] = useState({
         Abreviature: '',
@@ -62,33 +51,6 @@ const formModals = ({ idDepartment,
             .catch(err => console.log(err))
     }
 
-    //edição na tabela tipology group
-    const [valuesDepartments, setValuesDepartments] = useState({
-        id: idDepartment,
-        Label: '',
-    })
-
-    useEffect(() => {
-        axios.get("/api/v1/hotel/tipologyGroup/" + idDepartment)
-            .then(res => {
-                setValuesDepartments({ ...valuesDepartments, Abreviature: res.data.response.abreviature, Description: res.data.response.description, Order: res.data.response.order })
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    function handleUpdateDepartments(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/hotel/tipologyGroup/` + idDepartment, {
-            data: {
-                abreviature: valuesDepartments.Abreviature,
-                description: valuesDepartments.Description,
-                order: valuesDepartments.Order,
-            }
-        })
-            .catch(err => console.log(err))
-    }
-
-
     return (
         <>
 
@@ -102,7 +64,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitDepartments}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -110,13 +72,39 @@ const formModals = ({ idDepartment,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputDepartments} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Description" onChange={handleInputDepartments} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputDepartments}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputDepartments}
+                                                />
+
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                     <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                                 </div>
-                                                <textarea type="textarea" name="Order" onChange={handleInputDepartments} placeholder="Ordem" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"order"}
+                                                    name={"Order"}
+                                                    label={"Ordem"}
+                                                    ariaLabel={"Ordem"}
+                                                    onChange={handleInputDepartments}
+                                                />
+
                                             </ModalBody>
                                         </form>
                                     </>
@@ -137,7 +125,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitDepartments}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -197,12 +185,12 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}  hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitDepartments}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -210,9 +198,34 @@ const formModals = ({ idDepartment,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Description" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"cod"}
+                                                    name={"Cod"}
+                                                    label={"Cod."}
+                                                    ariaLabel={"Cod."}
+                                                    onChange={handleInputRevenueAccounts}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputRevenueAccounts}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"Details"}
+                                                    label={"Detalhes"}
+                                                    ariaLabel={"Detalhes"}
+                                                    onChange={handleInputRevenueAccounts}
+                                                />
+
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Departamento</option>
                                                     <option value="1">Teste de opções</option>
@@ -254,12 +267,12 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}  className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitDepartments}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -267,9 +280,34 @@ const formModals = ({ idDepartment,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Description" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"cod"}
+                                                    name={"Cod"}
+                                                    label={"Cod."}
+                                                    ariaLabel={"Cod."}
+                                                    onChange={handleInputPaymentAccounts}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputPaymentAccounts}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"Description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputPaymentAccounts}
+                                                />
+
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Departamento</option>
                                                     <option value="1">Teste de opções</option>
@@ -299,9 +337,9 @@ const formModals = ({ idDepartment,
                     </Modal>
                 </>
             )}
-            
 
-{formTypeModal === 50 && ( //taxes modal
+
+            {formTypeModal === 50 && ( //taxes modal
                 <>
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
@@ -311,7 +349,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitDepartments}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -319,23 +357,55 @@ const formModals = ({ idDepartment,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Description" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <textarea type="textarea" name="Order" placeholder="Ordem" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"cod"}
+                                                    name={"Cod"}
+                                                    label={"Cod."}
+                                                    ariaLabel={"Cod."}
+                                                    onChange={handleInputTaxes}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputTaxes}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"Description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputTaxes}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"order"}
+                                                    name={"Order"}
+                                                    label={"Ordem"}
+                                                    ariaLabel={"Ordem"}
+                                                />
+
                                                 <div className="w-64 border border-gray-400">
                                                     <div className="flex flex-row justify-between items-center border-b border-gray-400">
-                                                    <label>Percentagem</label>
-                                                    <LuPlus size={20} color="blue"/>
+                                                        <label>Percentagem</label>
+                                                        <LuPlus size={20} color="blue" />
                                                     </div>
                                                     <div className="flex flex-row gap-4">
-                                                    <BsArrowReturnRight size={20} color="gray"/>
-                                                    <p>10%</p>
+                                                        <BsArrowReturnRight size={20} color="gray" />
+                                                        <p>10%</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-row justify-between">
-                                                <input type="text" placeholder="Cod. SAFT"></input>
-                                                <input type="text" placeholder="Desc..SAFT"></input>
+                                                    <input type="text" placeholder="Cod. SAFT"></input>
+                                                    <input type="text" placeholder="Desc..SAFT"></input>
                                                 </div>
                                                 <input type="text" placeholder="Detalhe"></input>
                                                 <div>
@@ -351,7 +421,7 @@ const formModals = ({ idDepartment,
                     </Modal>
                 </>
             )}
-            
+
 
 
             {formTypeModal === 60 && ( //cashiers modal
@@ -364,7 +434,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitDepartments}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -372,11 +442,44 @@ const formModals = ({ idDepartment,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="password" placeholder="Password" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Description" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        </ModalBody>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"cod"}
+                                                    name={"Cod"}
+                                                    label={"Cod."}
+                                                    ariaLabel={"Cod."}
+                                                    onChange={handleInputCashiers}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputCashiers}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"password"}
+                                                    id={"password"}
+                                                    name={"Password"}
+                                                    label={"Password"}
+                                                    ariaLabel={"Password"}
+                                                    onChange={handleInputCashiers}
+                                                />
+
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"Description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                />
+
+                                            </ModalBody>
                                         </form>
                                     </>
                                 </>
@@ -385,10 +488,6 @@ const formModals = ({ idDepartment,
                     </Modal>
                 </>
             )}
-
-
-            
-
 
             {formTypeModal === 70 && ( //void charges modal
                 <>
@@ -400,60 +499,19 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitDepartments}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
-                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Propriedades" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Description" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        </ModalBody>
-                                        </form>
-                                    </>
-                                </>
-                            )}
-                        </ModalContent>
-                    </Modal>
-                </>
-            )}
-
-            
-            {formTypeModal === 71 && ( //void charges insert
-                <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
-                        {buttonName} {buttonIcon}
-                    </Button>
-                    <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
-                        <ModalContent>
-                            {(onClose) => (
-                                <>
-                                    <>
                                         <form onSubmit={handleSubmitDepartments}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Propriedades" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Description" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        </ModalBody>
+                                                <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Propriedades" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" name="Description" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                            </ModalBody>
                                         </form>
                                     </>
                                 </>
@@ -463,54 +521,6 @@ const formModals = ({ idDepartment,
                 </>
             )}
 
-            {formTypeModal === 72 && ( //void charges edit
-                <>
-                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
-                        {buttonName} {buttonIcon}
-                    </Button>
-                    <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
-                        <ModalContent>
-                            {(onClose) => (
-                                <>
-                                    <form onSubmit={(e) => handleUpdateDepartments(e)}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                            <div className="flex flex-row justify-start gap-4">
-                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                            </div>
-                                            <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                            </div>
-                                        </ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" placeholder="Propriedades" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Description" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                        </ModalBody>
-                                    </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
-                                        <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
-                                        {criado !== editado && (
-                                            <div>
-                                                <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
-                                            </div>
-                                        )}
-                                    </ModalFooter>
-                                </>
-                            )}
-                        </ModalContent>
-                    </Modal>
-                </>
-            )}
         </>
     );
 };

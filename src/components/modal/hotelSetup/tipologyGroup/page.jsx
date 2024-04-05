@@ -1,8 +1,6 @@
 "use client"
-import React  from "react";
+import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { useSearchParams, useRouter } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
@@ -28,9 +26,6 @@ const tipologyGroupForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleSubmitTypesgroups, handleInputTypesgroups } = typesGroupsInsert();
     const { handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroupsEdit(idTypesgroups);
@@ -67,15 +62,42 @@ const tipologyGroupForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"}/>
-                                                <InputFieldControlled type={"text"} id={"abreviature"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputTypesgroups}/>
-                                                <InputFieldControlled type={"textarea"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"}/>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Label"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputTypesgroups} />
+
+                                                <InputFieldControlled
+                                                    type={"textarea"}
+                                                    id={"details"}
+                                                    name={"Details"}
+                                                    label={"Detalhes"}
+                                                    ariaLabel={"Detalhes"} />
 
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                     <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                                 </div>
-                                                <InputFieldControlled type={"text"} id={"order"} name={"Order"} label={"Ordem"} ariaLabel={"Ordem"} style={"w-1/2"}/>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"order"}
+                                                    name={"Order"}
+                                                    label={"Ordem"}
+                                                    ariaLabel={"Ordem"}
+                                                    style={"w-1/2"} />
+
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">------------</option>
                                                     <option value="1">Teste de opções</option>
@@ -119,15 +141,37 @@ const tipologyGroupForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"}/>
-                                            <InputFieldControlled type={"text"} id={"label"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={valuesTypesgroups.Label} onChange={e => setValuesTypesGroups({ ...valuesTypesgroups, Label: e.target.value })}/>
-                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"}/>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"label"}
+                                                name={"Label"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={valuesTypesgroups.Label}
+                                                onChange={e => setValuesTypesGroups({ ...valuesTypesgroups, Label: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"Details"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"} />
 
                                             <div>
                                                 <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                 <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                             </div>
-                                            <InputFieldControlled type={"text"} id={"order"} name={"Order"} label={"Ordem"} ariaLabel={"Ordem"}/>
+
+                                            <InputFieldControlled type={"text"} id={"order"} name={"Order"} label={"Ordem"} ariaLabel={"Ordem"} />
+
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                 <option value="0">------------</option>
                                                 <option value="1">Teste de opções</option>

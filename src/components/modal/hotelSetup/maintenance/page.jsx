@@ -1,9 +1,7 @@
 "use client"
-import React  from "react";
+import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import { useSearchParams, useRouter } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
@@ -30,20 +28,17 @@ const maintenanceForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleInputMaintenance, handleSubmitMaintenance } = maintenanceInsert();
     const { handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenanceEdit(idMaintenance);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-        
+
     return (
         <>
 
-{formTypeModal === 11 && ( //Maintenance insert
+            {formTypeModal === 11 && ( //Maintenance insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -68,12 +63,34 @@ const maintenanceForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+
                                             <div className="flex flex-row items-center">
-                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputMaintenance}/>
-                                            <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputMaintenance} />
+                                                <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
-                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputMaintenance}/>
-                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputMaintenance}/>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                onChange={handleInputMaintenance} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"Details"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                onChange={handleInputMaintenance} />
+
                                             <div>
                                                 <input
                                                     id="link-checkbox"
@@ -115,7 +132,10 @@ const maintenanceForm = ({
                             {(onClose) => (
                                 <>
                                     <form onSubmit={(e) => handleUpdateMaintenance(e)}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
@@ -123,12 +143,37 @@ const maintenanceForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+
                                             <div className="flex flex-row items-center">
-                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}/>
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    value={valuesMaintenance.Description}
+                                                    onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })} />
                                                 <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
-                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}/>
-                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}/>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={valuesMaintenance.Abreviature}
+                                                onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"Details"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                value={valuesMaintenance.Details}
+                                                onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })} />
+
                                             <div>
                                                 <input
                                                     id="link-checkbox"

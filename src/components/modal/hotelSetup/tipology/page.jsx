@@ -1,8 +1,6 @@
 "use client"
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { useSearchParams, useRouter } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
@@ -28,11 +26,8 @@ const tipologyForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
-    const { handleInputRoomtype, handleSubmitRoomtype} = tipologysInsert();
+    const { handleInputRoomtype, handleSubmitRoomtype } = tipologysInsert();
     const { handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologysEdit(idRoomtype);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
@@ -41,7 +36,7 @@ const tipologyForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //tipology insert
+            {formTypeModal === 11 && ( //tipology insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -66,10 +61,32 @@ const tipologyForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <InputFieldControlled type={"text"} id={"description"} name={"Desc"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputRoomtype}/>
-                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Name"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputRoomtype}/>
-                                        <InputFieldControlled type={"text"} id={"details"} name={"RoomFeaturesDesc"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputRoomtype}/>
-                                                {/*<div className="w-full flex flex-col gap-4 mb-4">
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Desc"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                onChange={handleInputRoomtype} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Name"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                onChange={handleInputRoomtype} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"RoomFeaturesDesc"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                onChange={handleInputRoomtype} />
+
+                                            {/*<div className="w-full flex flex-col gap-4 mb-4">
                                                     <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                         <Autocomplete
                                                             variant="underlined"
@@ -130,12 +147,36 @@ const tipologyForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <InputFieldControlled type={"text"} id={"description"} name={"Desc"} label={"Descrição"} ariaLabel={"Descrição"} value={valuesRoomtype.Desc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })}/>
-                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Name"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={valuesRoomtype.Name} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })}/>
-                                        <InputFieldControlled type={"text"} id={"details"} name={"RoomFeaturesDesc"} label={"Detalhes"} ariaLabel={"Detalhes"} value={valuesRoomtype.RoomFeaturesDesc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })}/>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Desc"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                value={valuesRoomtype.Desc}
+                                                onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Name"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={valuesRoomtype.Name}
+                                                onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"RoomFeaturesDesc"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                value={valuesRoomtype.RoomFeaturesDesc}
+                                                onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })} />
 
 
-                                                {/*<div className="w-full flex flex-col gap-4 mb-4">
+                                            {/*<div className="w-full flex flex-col gap-4 mb-4">
                                                     <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                         <Autocomplete
                                                             variant="underlined"

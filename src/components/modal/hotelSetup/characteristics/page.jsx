@@ -1,5 +1,5 @@
 "use client"
-import React  from "react";
+import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { usePathname } from "next/navigation";
@@ -67,9 +67,31 @@ const characteristicForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInput}/>
-                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInput}/>
-                                        <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInput}/>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                onChange={handleInput} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                onChange={handleInput} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"Details"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                onChange={handleInput} />
+
                                         </ModalBody>
                                     </form>
 
@@ -108,9 +130,34 @@ const characteristicForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={values.Description} onChange={e => setValues({ ...values, Description: e.target.value })}/>
-                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} value={values.Abreviature} onChange={e => setValues({ ...values, Abreviature: e.target.value })}/>
-                                        <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })}/>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={values.Description}
+                                                onChange={e => setValues({ ...values, Description: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                value={values.Abreviature}
+                                                onChange={e => setValues({ ...values, Abreviature: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"Details"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                value={values.Details}
+                                                onChange={e => setValues({ ...values, Details: e.target.value })} />
+
                                         </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">

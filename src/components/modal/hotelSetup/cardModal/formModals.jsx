@@ -88,15 +88,42 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} />
-                                                <InputFieldControlled type={"text"} id={"abreviature"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputTypesgroups} />
-                                                <InputFieldControlled type={"textarea"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Label"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputTypesgroups} />
+
+                                                <InputFieldControlled
+                                                    type={"textarea"}
+                                                    id={"details"}
+                                                    name={"Details"}
+                                                    label={"Detalhes"}
+                                                    ariaLabel={"Detalhes"} />
 
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                     <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                                 </div>
-                                                <InputFieldControlled type={"text"} id={"order"} name={"Order"} label={"Ordem"} ariaLabel={"Ordem"} style={"w-1/2"} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"order"}
+                                                    name={"Order"}
+                                                    label={"Ordem"}
+                                                    ariaLabel={"Ordem"}
+                                                    style={"w-1/2"} />
+
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">------------</option>
                                                     <option value="1">Teste de opções</option>
@@ -135,9 +162,31 @@ const formModals = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputRoom} />
-                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputRoom} />
-                                            <InputFieldControlled type={"text"} id={"roomType"} name={"RoomType"} label={"Tipo de Quarto"} ariaLabel={"Tipo de Quarto"} onChange={handleInputRoom} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                onChange={handleInputRoom} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Label"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                onChange={handleInputRoom} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"roomType"}
+                                                name={"RoomType"}
+                                                label={"Tipo de Quarto"}
+                                                ariaLabel={"Tipo de Quarto"}
+                                                onChange={handleInputRoom} />
+
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
@@ -152,6 +201,7 @@ const formModals = ({
                                                     </Autocomplete>
                                                 </div>
                                             </div>
+
                                             <div className="flex flex-col md:flex-row justify-between">
                                                 <div className="flex flex-col w-1/2">
                                                     <p className="text-sm">Ocupação Máxima</p>
@@ -162,12 +212,21 @@ const formModals = ({
                                                     <p className="text-xl">1</p>
                                                 </div>
                                             </div>
-                                            <InputFieldControlled type={"text"} id={"depHousekeeping"} name={"depHousekeeping"} label={"DEP. DE HOUSEKEEPING"} ariaLabel={"Departamento de limpeza"} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"depHousekeeping"}
+                                                name={"depHousekeeping"}
+                                                label={"DEP. DE HOUSEKEEPING"}
+
+                                                ariaLabel={"Departamento de limpeza"} />
+
                                             <div className="flex gap-4 items-center max-w-xs">
                                                 <Button size="md">
                                                     Configuração de interfaces
                                                 </Button>
                                             </div>
+
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
@@ -210,9 +269,31 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInput} />
-                                                <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInput} />
-                                                <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInput} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInput} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInput} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"Details"}
+                                                    label={"Detalhes"}
+                                                    ariaLabel={"Detalhes"}
+                                                    onChange={handleInput} />
+
                                             </ModalBody>
                                         </form>
                                     </>
@@ -241,9 +322,31 @@ const formModals = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <InputFieldControlled type={"text"} id={"description"} name={"Desc"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputRoomtype} />
-                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Name"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputRoomtype} />
-                                            <InputFieldControlled type={"text"} id={"details"} name={"RoomFeaturesDesc"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputRoomtype} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Desc"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                onChange={handleInputRoomtype} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Name"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                onChange={handleInputRoomtype} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"RoomFeaturesDesc"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                onChange={handleInputRoomtype} />
+
                                             {/*<div className="w-full flex flex-col gap-4 mb-4">
                                                     <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                         <Autocomplete
@@ -302,12 +405,34 @@ const formModals = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+
                                             <div className="flex flex-row items-center">
-                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputMaintenance}/>
-                                            <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputMaintenance} />
+                                                <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
-                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputMaintenance}/>
-                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputMaintenance}/>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                onChange={handleInputMaintenance} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"Details"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                onChange={handleInputMaintenance} />
+
                                             <div>
                                                 <input
                                                     id="link-checkbox"
