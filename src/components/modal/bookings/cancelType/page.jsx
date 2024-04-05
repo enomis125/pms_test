@@ -1,16 +1,13 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import cancelTypeInsert, { cancelTypeEdit } from "@/components/functionsForm/CRUD/bookings/cancelType/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -30,9 +27,6 @@ const cancelTypeForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleInputCancelType, handleSubmitCancelType } = cancelTypeInsert();
     const { handleUpdateCancelType, setValuesCancelType, valuesCancelType } = cancelTypeEdit(idCancelType);
@@ -44,7 +38,7 @@ const cancelTypeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //cancel type insert 
+            {formTypeModal === 11 && ( //cancel type insert 
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -70,17 +64,34 @@ const cancelTypeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputCancelType} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Description"
-                                                        onChange={handleInputCancelType}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputCancelType} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
+                                                        onChange={handleInputCancelType} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Ordenation" onChange={handleInputCancelType} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    onChange={handleInputCancelType} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -134,17 +145,37 @@ const cancelTypeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" value={valuesCancelType.Abreviature} onChange={e => setValuesCancelType({ ...valuesCancelType, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    value={valuesCancelType.Abreviature}
+                                                    onChange={e => setValuesCancelType({ ...valuesCancelType, Abreviature: e.target.value })} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
                                                         value={valuesCancelType.Description}
-                                                        onChange={e => setValuesCancelType({ ...valuesCancelType, Description: e.target.value })}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                        onChange={e => setValuesCancelType({ ...valuesCancelType, Description: e.target.value })} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" value={valuesCancelType.Ordenation} onChange={e => setValuesCancelType({ ...valuesCancelType, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"Details"}
+                                                    label={"Detalhes"}
+                                                    ariaLabel={"Detalhes"}
+                                                    value={valuesCancelType.Ordenation}
+                                                    onChange={e => setValuesCancelType({ ...valuesCancelType, Ordenation: e.target.value })} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"

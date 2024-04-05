@@ -1,14 +1,13 @@
 "use client"
 import React from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
-import { useSearchParams, useRouter} from 'next/navigation';
-import { usePathname } from "next/navigation";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import accountGroupInsert, { accountGroupsEdit } from "@/components/functionsForm/CRUD/financialSetup/accountGroups/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
 
 const accountGroupsForm = ({
@@ -27,12 +26,10 @@ const accountGroupsForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleInputAccountGroups, handleSubmitAccountGroups } = accountGroupInsert();
     const { handleUpdateAccountGroups, setValuesAccountGroups, valuesAccountGroups } = accountGroupsEdit(idAccountGroups);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
@@ -66,10 +63,43 @@ const accountGroupsForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Cod" onChange={handleInputAccountGroups} placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Abreviature" onChange={handleInputAccountGroups} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Description" onChange={handleInputAccountGroups} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <textarea type="textarea" name="Order" onChange={handleInputAccountGroups} placeholder="Ordem" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"cod"}
+                                                    name={"Cod"}
+                                                    label={"Cod."}
+                                                    ariaLabel={"Cod."}
+                                                    onChange={handleInputAccountGroups}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputAccountGroups}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"Description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputAccountGroups}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"order"}
+                                                    name={"Order"}
+                                                    label={"Ordem"}
+                                                    ariaLabel={"Ordem"}
+                                                    onChange={handleInputAccountGroups}
+                                                />
+
                                             </ModalBody>
                                         </form>
                                     </>
@@ -108,10 +138,47 @@ const accountGroupsForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" value={valuesAccountGroups.Cod} onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Cod: e.target.value })} placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" value={valuesAccountGroups.Abreviature} onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" value={valuesAccountGroups.Description} onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Description: e.target.value })} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" value={valuesAccountGroups.Order} onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Order: e.target.value })} placeholder="Ordem" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></textarea>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"cod"}
+                                                name={"Cod"}
+                                                label={"Cod."}
+                                                ariaLabel={"Cod."}
+                                                value={valuesAccountGroups.Cod}
+                                                onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Cod: e.target.value })}
+                                            />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={valuesAccountGroups.Abreviature}
+                                                onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Abreviature: e.target.value })}
+                                            />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"Description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                value={valuesAccountGroups.Description}
+                                                onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Description: e.target.value })}
+                                            />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"order"}
+                                                name={"Order"}
+                                                label={"Ordem"}
+                                                ariaLabel={"Ordem"}
+                                                value={valuesAccountGroups.Order}
+                                                onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Order: e.target.value })}
+                                            />
+
                                         </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">

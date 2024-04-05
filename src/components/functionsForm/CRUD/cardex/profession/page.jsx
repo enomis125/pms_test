@@ -38,7 +38,7 @@ export default function professionInsert() {
 export function professionEdit(idProfession) {
     //edição na tabela profession
     const [valuesProfession, setValuesProffesion] = useState({
-        id: idNacionality,
+        id: idProfession,
         Group: '',
         Abreviature: '',
         Description: '',

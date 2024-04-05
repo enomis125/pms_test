@@ -1,16 +1,12 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
-import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import professionInsert, { professionEdit } from "@/components/functionsForm/CRUD/cardex/profession/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -30,9 +26,6 @@ const professionForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleInputProfession, handleSubmitProfession } = professionInsert();
     const { handleUpdateProfession, setValuesProffesion, valuesProfession } = professionEdit(idProfession);
@@ -69,9 +62,31 @@ const professionForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <Input type="text" name="Group" onChange={handleInputProfession} variant="underlined" label="Grupo" />
-                                            <Input type="text" name="Abreviature" onChange={handleInputProfession} variant="underlined" label="Abreviatura" />
-                                            <Input type="textarea" name="Description" onChange={handleInputProfession} variant="underlined" label="Descrição" />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"group"}
+                                                name={"Group"}
+                                                label={"Grupo"}
+                                                ariaLabel={"Grupo"}
+                                                onChange={handleInputProfession} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                onChange={handleInputProfession} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                onChange={handleInputProfession} />
+
                                         </ModalBody>
                                     </form>
 
@@ -110,9 +125,34 @@ const professionForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" value={valuesProfession.Group} onChange={e => setValuesProffesion({ ...valuesProfession, Group: e.target.value })} placeholder="Grupo" aria-label="grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" value={valuesProfession.Abreviature} onChange={e => setValuesProffesion({ ...valuesProfession, Abreviature: e.target.value })} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" value={valuesProfession.Description} onChange={e => setValuesProffesion({ ...valuesProfession, Description: e.target.value })} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></input>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"group"}
+                                                name={"Group"}
+                                                label={"Grupo"}
+                                                ariaLabel={"Grupo"}
+                                                value={valuesProfession.Group}
+                                                onChange={e => setValuesProffesion({ ...valuesProfession, Group: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={valuesProfession.Abreviature}
+                                                onChange={e => setValuesProffesion({ ...valuesProfession, Abreviature: e.target.value })} />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                value={valuesProfession.Description}
+                                                onChange={e => setValuesProffesion({ ...valuesProfession, Description: e.target.value })} />
+
                                         </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">

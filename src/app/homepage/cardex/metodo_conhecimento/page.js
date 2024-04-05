@@ -162,7 +162,7 @@ export default function Knowledgemethod() {
                         modalHeader={"Editar Método"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${knowledgemethod.knowledgeMethodID}`}
-                        formTypeModal={32}
+                        formTypeModal={12}
                         idKnowledgeMethod={knowledgemethod.knowledgeMethodID}
                         criado={knowledgemethod.createdAt}
                         editado={knowledgemethod.updatedAt}

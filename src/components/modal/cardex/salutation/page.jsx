@@ -1,16 +1,13 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import salutationInsert, { salutationEdit } from "@/components/functionsForm/CRUD/cardex/salutation/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -30,11 +27,8 @@ const salutationForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
-    const { handleInputSalutation , handleSubmitSalutation } = salutationInsert();
+    const { handleInputSalutation, handleSubmitSalutation } = salutationInsert();
     const { handleUpdateSalutation, setValuesSalutation, valuesSalutation } = salutationEdit(idSalutation);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
@@ -44,13 +38,18 @@ const salutationForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //salutation status insert
+            {formTypeModal === 11 && ( //salutation status insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
                         isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
                         <ModalContent>
                             {(onClose) => (
@@ -65,21 +64,66 @@ const salutationForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <div className="flex flex-row items-center justify-center">
-                                                    <input type="text" name="Abreviature" onChange={handleInputSalutation} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></input>
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputSalutation} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <input
-                                                    type="text"
-                                                    name="Description"
-                                                    onChange={handleInputSalutation}
-                                                    placeholder="Descrição"
-                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4" />
-                                                <input type="text" name="Treat" onChange={handleInputSalutation} placeholder="Tratamento" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Gender" onChange={handleInputSalutation} placeholder="Trat.Pessoal" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Title" onChange={handleInputSalutation} placeholder="Titulo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Ordenation" onChange={handleInputSalutation} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="NameSuff" onChange={handleInputSalutation} placeholder="Nome-Suffix" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"treat"}
+                                                    name={"Treat"}
+                                                    label={"Tratamento"}
+                                                    ariaLabel={"Tratamento"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"gender"}
+                                                    name={"Gender"}
+                                                    label={"Trat.Pessoal"}
+                                                    ariaLabel={"Trat.Pessoal"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"title"}
+                                                    name={"Title"}
+                                                    label={"Titulo"}
+                                                    ariaLabel={"Titulo"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"nameSuff"}
+                                                    name={"NameSuff"}
+                                                    label={"Nome-Suffix"}
+                                                    ariaLabel={"Nome-Suffix"}
+                                                    onChange={handleInputSalutation} />
+
                                                 <div className="flex flex-row justify-left items-center">
                                                     <label className="mr-10">Tipo</label>
                                                     <div className="flex flex-row justify-center items-center mr-10">
@@ -117,7 +161,7 @@ const salutationForm = ({
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -134,25 +178,71 @@ const salutationForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <div className="flex flex-row items-center justify-center">
-                                                    <input type="text" value={valuesSalutation.Abreviature}
-                                                        onChange={e => setValuesSalutation({ ...valuesSalutation, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></input>
+
+                                            <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        value={valuesSalutation.Abreviature}
+                                                        onChange={e => setValuesSalutation({ ...valuesSalutation, Abreviature: e.target.value })} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <input
-                                                    type="text"
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
                                                     value={valuesSalutation.Description}
-                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Description: e.target.value })}
-                                                    placeholder="Descrição"
-                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4" />
-                                                <input type="text" placeholder="Tratamento" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" value={valuesSalutation.Gender}
-                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Gender: e.target.value })} placeholder="Trat.Pessoal" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" value={valuesSalutation.Title}
-                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Title: e.target.value })} placeholder="Titulo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" value={valuesSalutation.Ordenation}
-                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Ordenation: e.target.value })} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" placeholder="Nome-Suffix" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
+                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Description: e.target.value })} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"treat"}
+                                                    name={"Treat"}
+                                                    label={"Tratamento"}
+                                                    ariaLabel={"Tratamento"}
+                                                     />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"gender"}
+                                                    name={"Gender"}
+                                                    label={"Trat.Pessoal"}
+                                                    ariaLabel={"Trat.Pessoal"}
+                                                    value={valuesSalutation.Gender}
+                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Gender: e.target.value })} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"title"}
+                                                    name={"Title"}
+                                                    label={"Titulo"}
+                                                    ariaLabel={"Titulo"}
+                                                    value={valuesSalutation.Title}
+                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Title: e.target.value })} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    value={valuesSalutation.Ordenation}
+                                                    onChange={e => setValuesSalutation({ ...valuesSalutation, Ordenation: e.target.value })} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"nameSuff"}
+                                                    name={"NameSuff"}
+                                                    label={"Nome-Suffix"}
+                                                    ariaLabel={"Nome-Suffix"}
+                                                    onChange={handleInputSalutation} />
+
                                                 <div className="flex flex-row justify-left items-center">
                                                     <label className="mr-10">Tipo</label>
                                                     <div className="flex flex-row justify-center items-center mr-10">

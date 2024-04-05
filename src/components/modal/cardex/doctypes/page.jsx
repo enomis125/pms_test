@@ -1,16 +1,13 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import doctypesInsert, { doctypesEdit } from "@/components/functionsForm/CRUD/cardex/doctypes/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -30,9 +27,6 @@ const doctypeForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleInputDoctypes, handleSubmitDoctypes } = doctypesInsert();
     const { handleUpdateDoctypes, setValuesDoctypes, valuesDoctypes } = doctypesEdit(idDoctypes);
@@ -44,7 +38,7 @@ const doctypeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //doctypes insert 
+            {formTypeModal === 11 && ( //doctypes insert 
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -70,17 +64,33 @@ const doctypeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="ShortName"
-                                                        onChange={handleInputDoctypes}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"shortName"}
+                                                        name={"ShortName"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputDoctypes} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Name" onChange={handleInputDoctypes} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"name"}
+                                                    name={"Name"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputDoctypes} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -123,29 +133,46 @@ const doctypeForm = ({
                                 <>
                                     <>
                                         <form onSubmit={(e) => handleUpdateDoctypes(e)}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                            <div className="flex flex-row justify-start gap-4">
-                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                            </div>
-                                            <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                            </div>
-                                        </ModalHeader>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                <div className="flex flex-row justify-start gap-4">
+                                                    {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                                </div>
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="ShortName"
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"shortName"}
+                                                        name={"ShortName"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
                                                         value={valuesDoctypes.ShortName}
-                                                        onChange={e => setValuesDoctypes({ ...valuesDoctypes, ShortName: e.target.value })}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                        onChange={e => setValuesDoctypes({ ...valuesDoctypes, ShortName: e.target.value })} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Name" value={valuesDoctypes.Name} onChange={e => setValuesDoctypes({ ...valuesDoctypes, Name: e.target.value })} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"name"}
+                                                    name={"Name"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    value={valuesDoctypes.Name}
+                                                    onChange={e => setValuesDoctypes({ ...valuesDoctypes, Name: e.target.value })} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"

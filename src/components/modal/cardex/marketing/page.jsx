@@ -1,16 +1,13 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import marketingInsert, { marketingEdit } from "@/components/functionsForm/CRUD/cardex/marketing/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -30,11 +27,8 @@ const marketingForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
-    const { handleInputMarketing, handleSubmitMarketing} = marketingInsert();
+    const { handleInputMarketing, handleSubmitMarketing } = marketingInsert();
     const { handleUpdateMarketing, setValuesMarketing, valuesMarketing } = marketingEdit(idMarketing);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
@@ -44,7 +38,7 @@ const marketingForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //marketing insert
+            {formTypeModal === 11 && ( //marketing insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -70,17 +64,33 @@ const marketingForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Abreviature"
-                                                        onChange={handleInputMarketing}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputMarketing} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Description" onChange={handleInputMarketing} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputMarketing} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -123,29 +133,46 @@ const marketingForm = ({
                                 <>
                                     <>
                                         <form onSubmit={(e) => handleUpdateMarketing(e)}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                            <div className="flex flex-row justify-start gap-4">
-                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                            </div>
-                                            <div className='flex flex-row items-center mr-5'>
-                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                            </div>
-                                        </ModalHeader>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                <div className="flex flex-row justify-start gap-4">
+                                                    {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                                </div>
+                                                <div className='flex flex-row items-center mr-5'>
+                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                </div>
+                                            </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Abreviature"
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
                                                         value={valuesMarketing.Abreviature}
-                                                        onChange={e => setValuesMarketing({ ...valuesMarketing, Abreviature: e.target.value })}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                        onChange={e => setValuesMarketing({ ...valuesMarketing, Abreviature: e.target.value })} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Description" value={valuesMarketing.Descrition} onChange={e => setValuesMarketing({ ...valuesMarketing, Descrition: e.target.value })} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    value={valuesMarketing.Descrition}
+                                                    onChange={e => setValuesMarketing({ ...valuesMarketing, Descrition: e.target.value })} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
