@@ -11,6 +11,7 @@ import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import tipologysInsert, { tipologysEdit } from "@/components/functionsForm/CRUD/hotel/tipology/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -67,37 +68,11 @@ const tipologyForm = ({
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody>
-                                            <ScrollShadow hideScrollBar className="h-[400px]">
-                                                <div className="w-full flex flex-col gap-5 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                    >
-                                                        <Input type="text" variant="underlined" name="Desc" onChange={handleInputRoomtype} label="Descrição" />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                    >
-                                                        <Input type="text" variant="underlined" name="Name" onChange={handleInputRoomtype} label="Abreviatura" />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 bg-gray-200 "
-                                                    >
-                                                        <Textarea
-                                                            label="Detalhe"
-                                                            disableAnimation
-                                                            disableAutosize
-                                                            className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
-                                                            variant="underlined"
-                                                            name="RoomFeaturesDesc" onChange={handleInputRoomtype}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                        <InputFieldControlled type={"text"} id={"description"} name={"Desc"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputRoomtype}/>
+                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Name"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputRoomtype}/>
+                                        <InputFieldControlled type={"text"} id={"details"} name={"RoomFeaturesDesc"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputRoomtype}/>
+                                                {/*<div className="w-full flex flex-col gap-4 mb-4">
                                                     <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                         <Autocomplete
                                                             variant="underlined"
@@ -120,8 +95,7 @@ const tipologyForm = ({
                                                             {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                                                         </Autocomplete>
                                                     </div>
-                                                </div>
-                                            </ScrollShadow>
+                            </div>*/}
                                         </ModalBody>
                                     </form>
                                 </>
@@ -158,37 +132,13 @@ const tipologyForm = ({
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody>
-                                            <ScrollShadow hideScrollBar className="h-[400px]">
-                                                <div className="w-full flex flex-col gap-5 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                    >
-                                                        <Input type="text" value={valuesRoomtype.Desc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })} variant="underlined" label="Descrição" />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                    >
-                                                        <Input type="text" value={valuesRoomtype.Name} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })} variant="underlined" label="Abreviatura" />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
-                                                    <div
-                                                        className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 bg-gray-200 "
-                                                    >
-                                                        <Textarea
-                                                            label="Detalhe"
-                                                            disableAnimation
-                                                            disableAutosize
-                                                            className={{ base: "max-w-xs ", input: "resize-y min-h-[40px]" }}
-                                                            variant="underlined"
-                                                            value={valuesRoomtype.RoomFeaturesDesc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="w-full flex flex-col gap-4 mb-4">
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                        <InputFieldControlled type={"text"} id={"description"} name={"Desc"} label={"Descrição"} ariaLabel={"Descrição"} value={valuesRoomtype.Desc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })}/>
+                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Name"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={valuesRoomtype.Name} onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })}/>
+                                        <InputFieldControlled type={"text"} id={"details"} name={"RoomFeaturesDesc"} label={"Detalhes"} ariaLabel={"Detalhes"} value={valuesRoomtype.RoomFeaturesDesc} onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })}/>
+
+
+                                                {/*<div className="w-full flex flex-col gap-4 mb-4">
                                                     <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                         <Autocomplete
                                                             variant="underlined"
@@ -213,8 +163,7 @@ const tipologyForm = ({
                                                             {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                                                         </Autocomplete>
                                                     </div>
-                                                </div>
-                                            </ScrollShadow>
+                            </div>*/}
                                         </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">

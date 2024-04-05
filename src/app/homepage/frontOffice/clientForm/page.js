@@ -20,11 +20,11 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/financialSetup/formModals";
+import IndividualForm from "@/components/modal/frontOffice/clientForm/individuals/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
-export default function Characteristics() {
+export default function clientForm() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -85,7 +85,7 @@ export default function Characteristics() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Anulação de Cobranças</p>
+          <p className="text-xs px-6">Fichas de Clientes</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -101,14 +101,16 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <IndividualForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Anulação de Cobrança"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25}/>}
+              modalEdit={"Particular"}
               modalIcons={"bg-red"}
-              formTypeModal={71}
-            ></FormModals>
+              formTypeModal={0}
+            ></IndividualForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -160,14 +162,14 @@ export default function Characteristics() {
         <TableBody>
           {items.map((reservChange, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right undeline text-blue-600"><FormModals
+              <TableCell className="text-right undeline text-blue-600"><IndividualForm
                         buttonName={reservChange.reservationchangeID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Anulação de Cobrança"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={72}
+                        formTypeModal={0}
                         idReservChange={reservChange.reservationchangeID}
                         criado={reservChange.createdAt}
                         editado={reservChange.updatedAt}
@@ -191,19 +193,19 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <IndividualForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Anulação de Cobrança"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={72}
+                        formTypeModal={0}
                         idReservChange={reservChange.reservationchangeID}
                         criado={reservChange.createdAt}
                         editado={reservChange.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></IndividualForm>
                     </DropdownItem>
                     <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>

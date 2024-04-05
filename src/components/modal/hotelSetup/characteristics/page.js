@@ -11,6 +11,8 @@ import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import characteristicsInsert, { characteristicsEdit } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -68,9 +70,9 @@ const characteristicForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <Input type="text" name="Abreviature" onChange={handleInput} variant="underlined" label="Abreviatura" />
-                                            <Input type="text" name="Description" onChange={handleInput} variant="underlined" label="Descrição" />
-                                            <Input type="textarea" name="Details" onChange={handleInput} variant="underlined" label="Detalhe" />
+                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInput}/>
+                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInput}/>
+                                        <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInput}/>
                                         </ModalBody>
                                     </form>
 
@@ -109,9 +111,9 @@ const characteristicForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" value={values.Description} onChange={e => setValues({ ...values, Description: e.target.value })} placeholder="Descrição" aria-label="descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" value={values.Abreviature} onChange={e => setValues({ ...values, Abreviature: e.target.value })} placeholder="Abreviatura" aria-label="abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <textarea type="textarea" value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })} placeholder="Detalhe" aria-label="detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={values.Description} onChange={e => setValues({ ...values, Description: e.target.value })}/>
+                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} value={values.Abreviature} onChange={e => setValues({ ...values, Abreviature: e.target.value })}/>
+                                        <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })}/>
                                         </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">

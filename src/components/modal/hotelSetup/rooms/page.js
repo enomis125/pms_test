@@ -11,6 +11,8 @@ import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import roomsInsert, { roomsEdit } from "@/components/functionsForm/CRUD/hotel/rooms/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -86,43 +88,23 @@ const roomForm = ({
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <form onSubmit={handleSubmitRoom}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            {modalHeader}
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Input type="text" name="Description" onChange={handleInputRoom} variant="underlined" label="Descrição" />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Input type="text" name="Label" onChange={handleInputRoom} variant="underlined" label="Abreviatura" />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Textarea
-                                                        label="RoomType"
-                                                        name="RoomType"
-                                                        onChange={handleInputRoom}
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
-                                                        variant="underlined"
-                                                    />
-                                                </div>
-                                            </div>
-                                            {/* Adjusting the field name to match the expected name in handleInputRoom */}
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputRoom}/>
+                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputRoom}/>
+                                        <InputFieldControlled type={"text"} id={"roomType"} name={"RoomType"} label={"Tipo de Quarto"} ariaLabel={"Tipo de Quarto"} onChange={handleInputRoom}/>
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
@@ -147,19 +129,7 @@ const roomForm = ({
                                                     <p className="text-xl">1</p>
                                                 </div>
                                             </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                                >
-                                                    <Textarea
-                                                        label="DEP. DE HOUSEKEEPING"
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[10px]" }}
-                                                        variant="underlined"
-                                                    />
-                                                </div>
-                                            </div>
+                                        <InputFieldControlled type={"text"} id={"depHousekeeping"} name={"depHousekeeping"} label={"DEP. DE HOUSEKEEPING"} ariaLabel={"Departamento de limpeza"}/>
                                             <div className="flex gap-4 items-center max-w-xs">
                                                 <Button size="md">
                                                     Configuração de interfaces
@@ -215,36 +185,10 @@ const roomForm = ({
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                >
-                                                    <Input type="text" value={valuesRoom.Description} onChange={e => setValuesRoom({ ...valuesRoom, Description: e.target.value })} variant="underlined" label="Descrição" />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
-                                                >
-                                                    <Input type="text" value={valuesRoom.Label} onChange={e => setValuesRoom({ ...valuesRoom, Label: e.target.value })} variant="underlined" label="Abreviatura" />
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                                >
-                                                    <Textarea
-                                                        label="Detalhe"
-                                                        value={valuesRoom.RoomType}
-                                                        onChange={e => setValuesRoom({ ...valuesRoom, RoomType: e.target.value })}
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[40px]" }}
-                                                        variant="underlined"
-                                                    />
-                                                </div>
-                                            </div>
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} value={valuesRoom.Description} onChange={e => setValuesRoom({ ...valuesRoom, Description: e.target.value })}/>
+                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Label"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={valuesRoom.Label} onChange={e => setValuesRoom({ ...valuesRoom, Label: e.target.value })}/>
+                                        <InputFieldControlled type={"text"} id={"roomType"} name={"RoomType"} label={"Tipo de Quarto"} ariaLabel={"Tipo de Quarto"} value={valuesRoom.RoomType} onChange={e => setValuesRoom({ ...valuesRoom, RoomType: e.target.value })}/>
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
@@ -269,19 +213,7 @@ const roomForm = ({
                                                     <p className="text-xl">1</p>
                                                 </div>
                                             </div>
-                                            <div className="w-full flex flex-col gap-4">
-                                                <div
-                                                    className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 "
-                                                >
-                                                    <Textarea
-                                                        label="DEP. DE HOUSEKEEPING"
-                                                        disableAnimation
-                                                        disableAutosize
-                                                        className={{ base: "max-w-xs", input: "resize-y min-h-[10px]" }}
-                                                        variant="underlined"
-                                                    />
-                                                </div>
-                                            </div>
+                                        <InputFieldControlled type={"text"} id={"depHousekeeping"} name={"depHousekeeping"} label={"DEP. DE HOUSEKEEPING"} ariaLabel={"Departamento de limpeza"}/>
                                             <div className="flex gap-4 items-center max-w-xs">
                                                 <Button size="md">
                                                     Configuração de interfaces

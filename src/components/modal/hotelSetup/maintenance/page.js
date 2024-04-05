@@ -11,6 +11,8 @@ import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import maintenanceInsert, { maintenanceEdit } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -69,26 +71,11 @@ const maintenanceForm = ({
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                             <div className="flex flex-row items-center">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Descrição"
-                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                    name="Description" onChange={handleInputMaintenance}
-                                                />
-                                                <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputMaintenance}/>
+                                            <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
-                                            <input
-                                                type="text"
-                                                placeholder="Abreviatura"
-                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                name="Abreviature" onChange={handleInputMaintenance}
-                                            />
-                                            <textarea
-                                                type="textarea"
-                                                placeholder="Detalhe"
-                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
-                                                name="Details" onChange={handleInputMaintenance}
-                                            ></textarea>
+                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputMaintenance}/>
+                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputMaintenance}/>
                                             <div>
                                                 <input
                                                     id="link-checkbox"
@@ -139,26 +126,11 @@ const maintenanceForm = ({
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                             <div className="flex flex-row items-center">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Descrição"
-                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                    value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}
-                                                />
+                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}/>
                                                 <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
-                                            <input
-                                                type="text"
-                                                placeholder="Abreviatura"
-                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"
-                                                value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}
-                                            />
-                                            <textarea
-                                                type="textarea"
-                                                placeholder="Detalhe"
-                                                className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"
-                                                value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}
-                                            ></textarea>
+                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}/>
+                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}/>
                                             <div>
                                                 <input
                                                     id="link-checkbox"

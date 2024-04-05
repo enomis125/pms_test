@@ -20,6 +20,25 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
     const listItems = {
         //"Dashboard": [],
 
+        "Front Office" :{
+            icon: <IoStorefront size={20}/>,
+            active:true,
+            items: [
+                {
+                    ref: "/homepage/frontOffice", label: "Front Office", active: true
+                },
+                {
+                    ref: "/homepage/frontOffice/clientForm", label: "Fichas de clientes", active: true
+                },
+                {
+                    ref: "#", label: "Reservas", active: true
+                },
+                {
+                    ref: "#", label: "Housekeeping", active: true
+                }
+            ]
+        },
+
         "Settings": {
             icon: <IoSettings  size={20} />,
             active: true,
@@ -169,24 +188,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 {
                     ref: "/homepage/financialSetup/void_charges", label: "Anulação de Cobranças", active: true
                 },
-            ]
-        },
-        "Front Office" :{
-            icon: <IoStorefront size={20}/>,
-            active:true,
-            items: [
-                {
-                    ref: "/homepage/frontOffice", label: "Front Office", active: true
-                },
-                {
-                    ref: "#", label: "Fichas de clientes", active: true
-                },
-                {
-                    ref: "#", label: "Reservas", active: true
-                },
-                {
-                    ref: "#", label: "Housekeeping", active: true
-                }
             ]
         }
     }
