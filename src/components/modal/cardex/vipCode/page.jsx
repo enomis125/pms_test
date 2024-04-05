@@ -1,6 +1,6 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import axios from 'axios';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
@@ -8,14 +8,13 @@ import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import reservationStatusInsert, { reservationStatusEdit } from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
+import vipCodeInsert, { vipCodeEdit } from "@/components/functionsForm/CRUD/cardex/vipCode/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
-const reserveChangeForm = ({
-    idReservChange,
+const vipCodeForm = ({
+    idVipcode,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -34,8 +33,9 @@ const reserveChangeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputReservChange, handleSubmitReservChange } = reservationStatusInsert();
-    const { handleUpdateReservChange, setValuesReservChang, valuesReservChange } = reservationStatusEdit(idReservChange);
+    const { handleInputVipcode, handleSubmitVipcode} = vipCodeInsert();
+    const { handleUpdateVipcode, setValuesVipcode, valuesVipcode } = vipCodeEdit(idVipcode);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
@@ -43,7 +43,7 @@ const reserveChangeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //reservation change insert
+{formTypeModal === 11 && ( //vip code insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -60,7 +60,7 @@ const reserveChangeForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitReservChange}>
+                                        <form onSubmit={handleSubmitVipcode}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -69,17 +69,17 @@ const reserveChangeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputReservChange} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
                                                         name="Description"
-                                                        onChange={handleInputReservChange}
+                                                        onChange={handleInputVipcode}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReservChange} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -104,9 +104,9 @@ const reserveChangeForm = ({
                 </>
             )}
 
-            {formTypeModal === 12 && ( //reservation change edit
+            {formTypeModal === 12 && ( //vip code edit
                 <>
-                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
+                    <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -121,29 +121,30 @@ const reserveChangeForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={(e) => handleUpdateReservChange(e)}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                                <div className="flex flex-row justify-start gap-4">
-                                                    {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                                </div>
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
+                                        <form onSubmit={(e) => handleUpdateVipcode(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" value={valuesReservChange.Abreviature} onChange={e => setValuesReservChang({ ...valuesReservChange, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
-                                                        value={valuesReservChange.Description}
-                                                        onChange={e => setValuesReservChang({ ...valuesReservChange, Description: e.target.value })}
+                                                        name="Description"
+                                                        value={valuesVipcode.Descrition}
+                                                        onChange={e => setValuesVipcode({ ...valuesVipcode, Descrition: e.target.value })}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" value={valuesReservChange.Ordenation} onChange={e => setValuesReservChang({ ...valuesReservChange, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -179,4 +180,4 @@ const reserveChangeForm = ({
     );
 };
 
-export default reserveChangeForm;
+export default vipCodeForm;

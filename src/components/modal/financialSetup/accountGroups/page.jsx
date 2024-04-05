@@ -1,14 +1,11 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
-import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { useSearchParams, useRouter} from 'next/navigation';
 import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import accountGroupInsert, { accountGroupsEdit } from "@/components/functionsForm/CRUD/financialSetup/accountGroups/page";

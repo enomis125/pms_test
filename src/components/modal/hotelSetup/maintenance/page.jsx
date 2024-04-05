@@ -1,23 +1,21 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React  from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import characteristicsInsert, { characteristicsEdit } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
+import maintenanceInsert, { maintenanceEdit } from "@/components/functionsForm/CRUD/hotel/maintenance/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
-const characteristicForm = ({
-    idCarateristics,
+const maintenanceForm = ({
+    idMaintenance,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -36,16 +34,16 @@ const characteristicForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInput, handleSubmit } = characteristicsInsert();
-    const { handleUpdate, setValues, values } = characteristicsEdit(idCarateristics);
+    const { handleInputMaintenance, handleSubmitMaintenance } = maintenanceInsert();
+    const { handleUpdateMaintenance, setValuesMaintenance, valuesMaintenance } = maintenanceEdit(idMaintenance);
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-
-
+        
     return (
         <>
 
-            {formTypeModal === 11 && ( //characteristics insert
+{formTypeModal === 11 && ( //Maintenance insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -61,7 +59,7 @@ const characteristicForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form onSubmit={handleSubmit}>
+                                    <form onSubmit={handleSubmitMaintenance}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -70,12 +68,28 @@ const characteristicForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInput}/>
-                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInput}/>
-                                        <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInput}/>
+                                            <div className="flex flex-row items-center">
+                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} onChange={handleInputMaintenance}/>
+                                            <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                            </div>
+                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} onChange={handleInputMaintenance}/>
+                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} onChange={handleInputMaintenance}/>
+                                            <div>
+                                                <input
+                                                    id="link-checkbox"
+                                                    type="checkbox"
+                                                    value=""
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                ></input>
+                                                <label
+                                                    for="link-checkbox"
+                                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                >
+                                                    Estado
+                                                </label>
+                                            </div>
                                         </ModalBody>
                                     </form>
-
                                 </>
                             )}
                         </ModalContent>
@@ -83,7 +97,8 @@ const characteristicForm = ({
                 </>
             )}
 
-            {formTypeModal === 12 && ( //characteristics edit
+
+            {formTypeModal === 12 && ( //Maintenance edit
                 <>
                     <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
@@ -99,11 +114,8 @@ const characteristicForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form onSubmit={(e) => handleUpdate(e)}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                            <div className="flex flex-row justify-start gap-4">
-                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                            </div>
+                                    <form onSubmit={(e) => handleUpdateMaintenance(e)}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
@@ -111,9 +123,26 @@ const characteristicForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                        <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={values.Description} onChange={e => setValues({ ...values, Description: e.target.value })}/>
-                                        <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} value={values.Abreviature} onChange={e => setValues({ ...values, Abreviature: e.target.value })}/>
-                                        <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} value={values.Details} onChange={e => setValues({ ...values, Details: e.target.value })}/>
+                                            <div className="flex flex-row items-center">
+                                            <InputFieldControlled type={"text"} id={"description"} name={"Description"} label={"Descrição"} ariaLabel={"Descrição"} value={valuesMaintenance.Description} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })}/>
+                                                <AiOutlineGlobal className="ml-auto text-xl" />{" "}
+                                            </div>
+                                            <InputFieldControlled type={"text"} id={"abreviature"} name={"Abreviature"} label={"Abreviatura"} ariaLabel={"Abreviatura"} value={valuesMaintenance.Abreviature} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })}/>
+                                            <InputFieldControlled type={"text"} id={"details"} name={"Details"} label={"Detalhes"} ariaLabel={"Detalhes"} value={valuesMaintenance.Details} onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })}/>
+                                            <div>
+                                                <input
+                                                    id="link-checkbox"
+                                                    type="checkbox"
+                                                    value=""
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                ></input>
+                                                <label
+                                                    for="link-checkbox"
+                                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                >
+                                                    Estado
+                                                </label>
+                                            </div>
                                         </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
@@ -124,7 +153,6 @@ const characteristicForm = ({
                                             </div>
                                         )}
                                     </ModalFooter>
-
                                 </>
                             )}
                         </ModalContent>
@@ -135,4 +163,4 @@ const characteristicForm = ({
     );
 };
 
-export default characteristicForm;
+export default maintenanceForm;

@@ -1,10 +1,8 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { MdClose } from "react-icons/md";

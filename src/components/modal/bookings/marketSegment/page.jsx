@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import axios from 'axios';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
@@ -10,12 +10,12 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
-import replacementCodeInsert, { replacementCodeEdit } from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
+import marketSegmentsInsert, { marketSegmentsEdit } from "@/components/functionsForm/CRUD/bookings/marketSegments/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
-const replacementCodeForm = ({
-    idReplaceCode,
+const marketSegmentForm = ({
+    idMarketSegment,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -34,8 +34,8 @@ const replacementCodeForm = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { handleInputReplaceCode, handleSubmitReplaceCode } = replacementCodeInsert();
-    const { handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode } = replacementCodeEdit(idReplaceCode);
+    const { handleInputMarketSegment, handleSubmitMarketSegment } = marketSegmentsInsert();
+    const { handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment } = marketSegmentsEdit(idMarketSegment);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
@@ -43,7 +43,7 @@ const replacementCodeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //replacement code insert
+{formTypeModal === 11 && ( //origens mercado insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -60,7 +60,7 @@ const replacementCodeForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitReplaceCode}>
+                                        <form onSubmit={handleSubmitMarketSegment}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -69,17 +69,17 @@ const replacementCodeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputReplaceCode} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" name="Abreviature" onChange={handleInputMarketSegment} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
                                                         name="Description"
-                                                        onChange={handleInputReplaceCode}
+                                                        onChange={handleInputMarketSegment}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReplaceCode} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" name="Ordenation" onChange={handleInputMarketSegment} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -104,7 +104,7 @@ const replacementCodeForm = ({
                 </>
             )}
 
-            {formTypeModal === 12 && ( //replacement code edit
+            {formTypeModal === 12 && ( //segmentos mercado edit
                 <>
                     <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
@@ -121,7 +121,7 @@ const replacementCodeForm = ({
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={(e) => handleUpdateReplaceCode(e)}>
+                                        <form onSubmit={(e) => handleUpdateMarketSegment(e)}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                                 <div className="flex flex-row justify-start gap-4">
                                                     {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -133,17 +133,17 @@ const replacementCodeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" value={valuesReplaceCode.Abreviature} onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <input type="text" value={valuesMarketSegment.Abreviature} onChange={e => setValuesMarketSegment({ ...valuesMarketSegment, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
                                                 <div>
                                                     <input
                                                         type="text"
-                                                        value={valuesReplaceCode.Description}
-                                                        onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Description: e.target.value })}
+                                                        value={valuesMarketSegment.Description}
+                                                        onChange={e => setValuesMarketSegment({ ...valuesMarketSegment, Description: e.target.value })}
                                                         placeholder="Descrição"
                                                         className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" value={valuesReplaceCode.Ordenation} onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+                                                <textarea type="textarea" value={valuesMarketSegment.Ordenation} onChange={e => setValuesMarketSegment({ ...valuesMarketSegment, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -179,4 +179,4 @@ const replacementCodeForm = ({
     );
 };
 
-export default replacementCodeForm;
+export default marketSegmentForm;

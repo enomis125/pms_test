@@ -1,27 +1,23 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure} from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
-import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 //imports de funções
-import { transfer } from "@/components/functionsForm/CRUD/bookings/transfers/page";
-import { cancelType } from "@/components/functionsForm/CRUD/bookings/cancelType/page";
-import { reserveChange } from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
-import { cancelReason } from "@/components/functionsForm/CRUD/bookings/cancelReason/page";
-import { replacementCode } from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
-import { reserveMotive } from "@/components/functionsForm/CRUD/bookings/reserveMotive/page";
-import { formsKnowledge } from "@/components/functionsForm/CRUD/bookings/formsKnowledge/page";
-import { market } from "@/components/functionsForm/CRUD/bookings/market/page";
-import { marketSegments } from "@/components/functionsForm/CRUD/bookings/marketSegments/page";
-import { reservationStatus } from "@/components/functionsForm/CRUD/bookings/reservationStatus/page";
-import { expansion } from "@/components/functionsForm/expansion/page";
+import transferInsert from "@/components/functionsForm/CRUD/bookings/transfers/page";
+import reservationStatusInsert from "@/components/functionsForm/CRUD/bookings/reservationStatus/page";
+import reserveMotiveInsert from "@/components/functionsForm/CRUD/bookings/reserveMotive/page";
+import replacementCodeInsert from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
+import marketSegmentsInsert from "@/components/functionsForm/CRUD/bookings/marketSegments/page";
+import marketInsert from "@/components/functionsForm/CRUD/bookings/market/page";
+import formsKnowledgeInsert from "@/components/functionsForm/CRUD/bookings/formsKnowledge/page";
+import cancelTypeInsert from "@/components/functionsForm/CRUD/bookings/cancelType/page";
+import cancelReasonInsert from "@/components/functionsForm/CRUD/bookings/cancelReason/page";
+import reserveChangeInsert from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
 
 
 /*
@@ -32,18 +28,11 @@ os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo di
 (REMOVER AO CONCLUIR O PROJETO)
 */
 
-const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChange, idReplaceCode, idKnowledge, idMarket, idMarketSegment, idReservStatus, idTransfer,
+const formModals = ({
     buttonName,
-    buttonIcon,
     modalHeader,
-    editIcon,
-    modalEditArrow,
-    modalEdit,
     formTypeModal,
-    buttonColor,
-    criado,
-    editado,
-    editor }) => {
+}) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -57,33 +46,17 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
         [selectedKeys]
     );
 
-    const Tipologia = [
-        { label: "Tipologia1", value: "Tipologia1", description: "" },
-        { label: "Tipologia2", value: "Tipologia2", description: "" },
-        { label: "Tipologia3", value: "Tipologia3", description: "" },
-        { label: "Tipologia4", value: "Tipologia4", description: "" }
-    ]
-    const Caracteristicas = [
-        { label: "Caracteristicas1", value: "Caracteristicas1", description: "" },
-        { label: "Caracteristicas2", value: "Caracteristicas2", description: "" },
-        { label: "Caracteristicas3", value: "Caracteristicas3", description: "" },
-        { label: "Caracteristicas4", value: "Caracteristicas4", description: "" }
-    ]
-
     //funções de inserir e editar
-    const { handleInputReservStatus, handleSubmitReservStatus, handleUpdateReservStatus, setValuesReservStatus, valuesReservStatus } = reservationStatus(idReservStatus);
-    const { handleInputMarketSegment, handleSubmitMarketSegment, handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment } = marketSegments(idMarketSegment);
-    const { handleInputMarket, handleSubmitMarket, handleUpdateMarket, setValuesMarket, valuesMarket } = market(idMarket);
-    const { handleInputKnowledge, handleSubmitKnowledge, handleUpdateKnowledge, setValuesKnowledge, valuesKnowledge } = formsKnowledge(idKnowledge);
-    const { handleInputReservMotive, handleSubmitReservMotive, handleUpdateReservMotive, setValuesReservMotive, valuesReservMotive } = reserveMotive(idReservMotive);
-    const { handleInputReplaceCode, handleSubmitReplaceCode, handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode } = replacementCode(idReplaceCode);
-    const { handleInputCancelReason, handleSubmitCancelReason, handleUpdateCancelReason, setValuesCancelReason, valuesCancelReason } = cancelReason(idCancelReason);
-    const { handleInputReservChange, handleSubmitReservChange, handleUpdateReservChange, setValuesReservChang, valuesReservChange } = reserveChange(idReservChange);
-    const { handleInputCancelType, handleSubmitCancelType, handleUpdateCancelType, setValuesCancelType, valuesCancelType } = cancelType(idCancelType);
-    const { handleInputTransfer, handleSubmitTransfer, handleUpdateTransfer, setValuesTransfer, valuesTransfer } = transfer(idTransfer);
-
-    //expansão de ecra form
-    const { toggleExpand , setIsExpanded, isExpanded } = expansion();
+    const { handleInputCancelReason, handleSubmitCancelReason } = cancelReasonInsert();
+    const { handleInputCancelType, handleSubmitCancelType } = cancelTypeInsert();
+    const { handleInputKnowledge, handleSubmitKnowledge } = formsKnowledgeInsert();
+    const { handleInputMarket, handleSubmitMarket} = marketInsert();
+    const { handleInputMarketSegment, handleSubmitMarketSegment } = marketSegmentsInsert();
+    const { handleInputReplaceCode, handleSubmitReplaceCode } = replacementCodeInsert();
+    const { handleInputReservChange, handleSubmitReservChange } = reserveChangeInsert();
+    const { handleInputReservMotive, handleSubmitReservMotive } = reserveMotiveInsert();
+    const { handleInputReservStatus, handleSubmitReservStatus } = reservationStatusInsert();
+    const { handleInputTransfer, handleSubmitTransfer } = transferInsert();
 
     return (
         <>
@@ -98,7 +71,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitReservStatus}>
+                                        <form onSubmit={handleSubmitReservStatus}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -153,7 +126,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitMarketSegment}>
+                                        <form onSubmit={handleSubmitMarketSegment}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -207,7 +180,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitMarket}>
+                                        <form onSubmit={handleSubmitMarket}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -261,7 +234,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitKnowledge}>
+                                        <form onSubmit={handleSubmitKnowledge}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -315,7 +288,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitReservMotive}>
+                                        <form onSubmit={handleSubmitReservMotive}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -369,7 +342,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitReplaceCode}>
+                                        <form onSubmit={handleSubmitReplaceCode}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -422,7 +395,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitCancelReason}>
+                                        <form onSubmit={handleSubmitCancelReason}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -475,7 +448,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitTransfer}>
+                                        <form onSubmit={handleSubmitTransfer}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -528,7 +501,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitReservChange}>
+                                        <form onSubmit={handleSubmitReservChange}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -582,7 +555,7 @@ const formModals = ({ idCancelReason, idCancelType, idReservMotive, idReservChan
                             {(onClose) => (
                                 <>
                                     <>
-                                    <form onSubmit={handleSubmitCancelType}>
+                                        <form onSubmit={handleSubmitCancelType}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
