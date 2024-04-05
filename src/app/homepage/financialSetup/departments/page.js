@@ -20,35 +20,36 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/financialSetup/formModals";
+import DepartmentsForm from "@/components/modal/financialSetup/deparments/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
  
  
-export default function Characteristics() {
+export default function Departments() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [reservChange, setReservChange] = useState([]);
+  const [department, setDepartment] = useState([]);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/reservationChange");
-      setReservChange(res.data.response);
+      const res = await axios.get("/api/v1/financialSetup/departments");
+      console.log(res)
+      setDepartment(res.data.response);
     };
     getData();
   }, []);
  
   const filteredItems = React.useMemo(() => {
-    if (!reservChange || !Array.isArray(reservChange)) {
+    if (!department || !Array.isArray(department)) {
       return [];
     }
   
-    return reservChange.filter((reserv) =>
-      (reserv.description && reserv.description.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reserv.reservationchangeID && reserv.reservationchangeID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+    return department.filter((department) =>
+      (department.description && department.description.toLowerCase().includes(searchValue.toLowerCase())) ||
+      (department.departmentID && department.departmentID.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
-  }, [reservChange, searchValue]);
+  }, [department, searchValue]);
   
  
   const items = React.useMemo(() => {
@@ -60,8 +61,8 @@ export default function Characteristics() {
  
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
  
-  const renderCell = React.useCallback((reservChange, columnKey) => {
-    const cellValue = reservChange[columnKey];
+  const renderCell = React.useCallback((department, columnKey) => {
+    const cellValue = department[columnKey];
   }, []);
  
   const handleChangeRowsPerPage = (event) => {
@@ -74,9 +75,9 @@ export default function Characteristics() {
     setPage(1);
   };
  
-  const handleDelete = async (idReservChange) => {
+  const handleDelete = async (idDepartment) => {
     try {
-      const response = await axios.delete(`/api/v1/bookings/reservationChange/` + idReservChange);
+      const response = await axios.delete(`/api/v1/financialSetup/departments/` + idDepartment);
       alert("Departamento removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover departamento.", error.message);
@@ -102,14 +103,14 @@ export default function Characteristics() {
                 />
               </div>
             </div>
-            <FormModals
+            <DepartmentsForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
               modalHeader={"Inserir Departamento"}
               modalIcons={"bg-red"}
               formTypeModal={11}
-            ></FormModals>
+            ></DepartmentsForm>
           </div>
         </div>
         <div className="mx-5 h-[65vh] min-h-full">
@@ -159,27 +160,28 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((reservChange, index) => (
+          {items.map((department, index) => (
             <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
-                        buttonName={reservChange.reservationchangeID}
+              <TableCell className="text-right underline text-blue-600">
+                <DepartmentsForm
+                        buttonName={department.departmentID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Departamento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
+                        modalEdit={`ID: ${department.departmentID}`}
                         formTypeModal={12}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        idDepartment={department.departmentID}
+                        criado={department.createdAt}
+                        editado={department.updatedAt}
                         editor={"teste"}
                       /></TableCell>
-              <TableCell className="px-20">{reservChange.abreviature}</TableCell>
-              <TableCell>{reservChange.description}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
+              <TableCell className="px-20">{department.anzahl}</TableCell>
+              <TableCell>{department.hqref}</TableCell>
+              <TableCell className="">{department.description}</TableCell>
+              <TableCell className="px-20">{department.departmentName}</TableCell>
+              <TableCell className="px-20">{department.gruppe}</TableCell>
+              <TableCell className="px-20">{department.showFo}</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -192,21 +194,21 @@ export default function Characteristics() {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
-                      <FormModals
+                      <DepartmentsForm
                         buttonName={"Editar"}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Departamento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
+                        modalEdit={`ID: ${department.departmentID}`}
                         formTypeModal={12}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        idDepartment={department.departmentID}
+                        criado={department.createdAt}
+                        editado={department.updatedAt}
                         editor={"teste"}
-                      ></FormModals>
+                      ></DepartmentsForm>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(department.departmentID)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>

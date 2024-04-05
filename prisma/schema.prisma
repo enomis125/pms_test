@@ -793,16 +793,6 @@ model profession {
   property     Int    @default(-1)
 }
 
-model rooms_characteristics {
-  roomCharacteristicsID Int             @id @default(autoincrement())
-  roomID                Int             @default(0)
-  characteristicID      Int             @default(0)
-  characteristics       characteristics @relation(fields: [characteristicID], references: [characteristicID], onDelete: NoAction, onUpdate: NoAction, map: "roomsCharacteristics_characteristics")
-  rooms                 rooms           @relation(fields: [roomID], references: [roomID], onDelete: NoAction, onUpdate: NoAction, map: "roomsCharacteristics_rooms")
-
-  @@unique([roomID, characteristicID], map: "roomID_characteristicID")
-  @@index([characteristicID], map: "roomsCharacteristics_characteristics")
-}
 
 model accountsGroups {
   accountsGroupsID    Int      @id @default(autoincrement())
@@ -1157,10 +1147,21 @@ model revenueAccounts {
   updatedBy           String   @default("") @db.VarChar(255)
 }
 
+model rooms_characteristics {
+  roomCharacteristicsID Int             @id @default(autoincrement())
+  roomID                Int             @default(0)
+  characteristicID      Int             @default(0)
+  characteristics       characteristics @relation(fields: [characteristicID], references: [characteristicID], onDelete: NoAction, onUpdate: NoAction, map: "roomsCharacteristics_characteristics")
+  rooms                 rooms           @relation(fields: [roomID], references: [roomID], onDelete: NoAction, onUpdate: NoAction, map: "roomsCharacteristics_rooms")
+
+  @@unique([roomID, characteristicID], map: "roomID_characteristicID")
+  @@index([characteristicID], map: "roomsCharacteristics_characteristics")
+}
+
 model taxes {
   recordShortName  Decimal  @default(-1) @db.Decimal(10, 0)
   recordName       Int      @default(-1)
-  taxesID          Int      @id @default(autoincrement())
+  identifier       Int      @id @default(autoincrement())
   mainGroup        String   @default("\"") @db.VarChar(50)
   paymentType      String   @default("\"") @db.VarChar(15)
   creditLimitCheck Int      @default(-1)
