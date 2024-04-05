@@ -1,16 +1,15 @@
 "use client"
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import replacementCodeInsert, { replacementCodeEdit } from "@/components/functionsForm/CRUD/bookings/replacementCode/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -43,7 +42,7 @@ const replacementCodeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //replacement code insert
+            {formTypeModal === 11 && ( //replacement code insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -69,17 +68,33 @@ const replacementCodeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputReplaceCode} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Description"
-                                                        onChange={handleInputReplaceCode}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputReplaceCode} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
+                                                        onChange={handleInputReplaceCode} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReplaceCode} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    onChange={handleInputReplaceCode} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -133,17 +148,37 @@ const replacementCodeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" value={valuesReplaceCode.Abreviature} onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    value={valuesReplaceCode.Abreviature}
+                                                    onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Abreviature: e.target.value })} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
                                                         value={valuesReplaceCode.Description}
-                                                        onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Description: e.target.value })}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                        onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Description: e.target.value })} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" value={valuesReplaceCode.Ordenation} onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    value={valuesReplaceCode.Ordenation}
+                                                    onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Ordenation: e.target.value })} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"

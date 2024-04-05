@@ -1,14 +1,13 @@
 "use client"
-import React  from "react";
+import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import departmentInsert, { departmentEdit } from "@/components/functionsForm/CRUD/financialSetup/departments/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
 
 const departmentsForm = ({
@@ -27,12 +26,9 @@ const departmentsForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleInputDepartments, handleSubmitDepartments } = departmentInsert();
-    const { handleUpdateDepartments, setValuesDepartment, department} = departmentEdit(idDepartment);
+    const { handleUpdateDepartments, setValuesDepartment, department } = departmentEdit(idDepartment);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
@@ -66,13 +62,39 @@ const departmentsForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputDepartments} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Description" onChange={handleInputDepartments} placeholder="Description" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputDepartments}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputDepartments}
+                                                />
+
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                     <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                                 </div>
-                                                <textarea type="textarea" name="Order" onChange={handleInputDepartments} placeholder="Ordem" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"order"}
+                                                    name={"Order"}
+                                                    label={"Ordem"}
+                                                    ariaLabel={"Ordem"}
+                                                    onChange={handleInputDepartments}
+                                                />
+
                                             </ModalBody>
                                         </form>
                                     </>
@@ -111,13 +133,42 @@ const departmentsForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" value={department.Abreviature} onChange={e => setValuesDepartment({ ...department, Abreviature: e.target.value })} className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" value={department.Description} onChange={e => setValuesDepartment({ ...department, Description: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={department.Abreviature}
+                                                onChange={e => setValuesDepartment({ ...department, Abreviature: e.target.value })}
+                                            />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"description"}
+                                                name={"Description"}
+                                                label={"Descrição"}
+                                                ariaLabel={"Descrição"}
+                                                value={department.Description}
+                                                onChange={e => setValuesDepartment({ ...department, Description: e.target.value })}
+                                            />
+
                                             <div>
                                                 <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                 <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                             </div>
-                                            <textarea type="textarea" value={department.Order} onChange={e => setValuesDepartment({ ...department, Order: e.target.value })} placeholder="Ordem" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></textarea>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"order"}
+                                                name={"Order"}
+                                                label={"Ordem"}
+                                                ariaLabel={"Ordem"}
+                                                value={department.Order}
+                                                onChange={e => setValuesDepartment({ ...department, Order: e.target.value })}
+                                            />
+
                                         </ModalBody>
                                     </form>
                                     <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">

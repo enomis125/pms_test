@@ -1,16 +1,15 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
-import { RxExit } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import formsKnowledgeInsert, { formsKnowledgeEdit } from "@/components/functionsForm/CRUD/bookings/formsKnowledge/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -44,7 +43,7 @@ const formsKnowledgeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //forms of knowledge insert
+            {formTypeModal === 11 && ( //forms of knowledge insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -70,17 +69,34 @@ const formsKnowledgeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputKnowledge} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Description"
-                                                        onChange={handleInputKnowledge}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputKnowledge} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
+                                                        onChange={handleInputKnowledge} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Ordenation" onChange={handleInputKnowledge} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    onChange={handleInputKnowledge} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -134,17 +150,37 @@ const formsKnowledgeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" value={valuesKnowledge.Abreviature} onChange={e => setValuesKnowledge({ ...valuesKnowledge, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    value={valuesKnowledge.Abreviature}
+                                                    onChange={e => setValuesKnowledge({ ...valuesKnowledge, Abreviature: e.target.value })} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
                                                         value={valuesKnowledge.Description}
-                                                        onChange={e => setValuesKnowledge({ ...valuesKnowledge, Description: e.target.value })}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                        onChange={e => setValuesKnowledge({ ...valuesKnowledge, Description: e.target.value })} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" value={valuesKnowledge.Ordenation} onChange={e => setValuesKnowledge({ ...valuesKnowledge, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    value={valuesKnowledge.Ordenation}
+                                                    onChange={e => setValuesKnowledge({ ...valuesKnowledge, Ordenation: e.target.value })} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"

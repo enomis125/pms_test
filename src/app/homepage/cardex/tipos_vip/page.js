@@ -189,7 +189,7 @@ export default function Vipcode() {
                       <BsThreeDotsVertical size={20} className="text-gray-400" />
                     </Button>
                   </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions" closeOnSelect={true} isOpen={true}>
+                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
                       <VipCodeForm
                         buttonName={"Editar"}

@@ -1,14 +1,13 @@
 "use client"
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import revenueAccountInsert, { revenueAccountsEdit } from "@/components/functionsForm/CRUD/financialSetup/revenueAccounts/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
 
 const revenueAccountsForm = ({
@@ -27,12 +26,9 @@ const revenueAccountsForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { handleInputRevenueAccounts, handleSubmitRevenueAccounts } = revenueAccountInsert();
-    const { handleUpdateRevenueAccount, setValuesRevenueAccounts, valuesRevenueAccounts  } = revenueAccountsEdit(idRevenueAccount);
+    const { handleUpdateRevenueAccount, setValuesRevenueAccounts, valuesRevenueAccounts } = revenueAccountsEdit(idRevenueAccount);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
 
@@ -66,9 +62,34 @@ const revenueAccountsForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Cod" onChange={handleInputRevenueAccounts} placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Abreviature" onChange={handleInputRevenueAccounts} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Details" onChange={handleInputRevenueAccounts} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"cod"}
+                                                    name={"Cod"}
+                                                    label={"Cod."}
+                                                    ariaLabel={"Cod."}
+                                                    onChange={handleInputRevenueAccounts}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputRevenueAccounts}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"Details"}
+                                                    label={"Detalhes"}
+                                                    ariaLabel={"Detalhes"}
+                                                    onChange={handleInputRevenueAccounts}
+                                                />
+
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Departamento</option>
                                                     <option value="1">Teste de opções</option>
@@ -133,9 +154,37 @@ const revenueAccountsForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <input type="text" name="Cod" value={valuesRevenueAccounts.Cod} onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Cod: e.target.value })} placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Abreviature" value={valuesRevenueAccounts.Abreviature} onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                            <input type="text" name="Details" value={valuesRevenueAccounts.Details} onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Details: e.target.value })} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"cod"}
+                                                name={"Cod"}
+                                                label={"Cod."}
+                                                ariaLabel={"Cod."}
+                                                value={valuesRevenueAccounts.Cod}
+                                                onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Cod: e.target.value })}
+                                            />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"abreviature"}
+                                                name={"Abreviature"}
+                                                label={"Abreviatura"}
+                                                ariaLabel={"Abreviatura"}
+                                                value={valuesRevenueAccounts.Abreviature}
+                                                onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Abreviature: e.target.value })}
+                                            />
+
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"details"}
+                                                name={"Details"}
+                                                label={"Detalhes"}
+                                                ariaLabel={"Detalhes"}
+                                                value={valuesRevenueAccounts.Details}
+                                                onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Details: e.target.value })}
+                                            />
+
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                 <option value="0">Departamento</option>
                                                 <option value="1">Teste de opções</option>

@@ -2,7 +2,6 @@
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import axios from 'axios';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation";
 //imports de icons
@@ -10,6 +9,7 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
 import reserveChangeInsert, { reserveChangeEdit } from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 
@@ -42,7 +42,7 @@ const reserveChangeForm = ({
     return (
         <>
 
-{formTypeModal === 11 && ( //reservation change insert
+            {formTypeModal === 11 && ( //reservation change insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -68,17 +68,34 @@ const reserveChangeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Abreviature" onChange={handleInputReservChange} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Description"
-                                                        onChange={handleInputReservChange}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputReservChange} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
+                                                        onChange={handleInputReservChange} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Ordenation" onChange={handleInputReservChange} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    onChange={handleInputReservChange} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -132,17 +149,37 @@ const reserveChangeForm = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" value={valuesReservChange.Abreviature} onChange={e => setValuesReservChang({ ...valuesReservChange, Abreviature: e.target.value })} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    value={valuesReservChange.Abreviature}
+                                                    onChange={e => setValuesReservChang({ ...valuesReservChange, Abreviature: e.target.value })} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
                                                         value={valuesReservChange.Description}
-                                                        onChange={e => setValuesReservChang({ ...valuesReservChange, Description: e.target.value })}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+                                                        onChange={e => setValuesReservChang({ ...valuesReservChange, Description: e.target.value })} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" value={valuesReservChange.Ordenation} onChange={e => setValuesReservChang({ ...valuesReservChange, Ordenation: e.target.value })} placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    value={valuesReservChange.Ordenation}
+                                                    onChange={e => setValuesReservChang({ ...valuesReservChange, Ordenation: e.target.value })} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"

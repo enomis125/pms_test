@@ -1,9 +1,7 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Textarea, Autocomplete, Divider, AutocompleteItem, ScrollShadow } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { usePathname } from "next/navigation";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { MdClose } from "react-icons/md";
@@ -16,6 +14,7 @@ import membersInsert from "@/components/functionsForm/CRUD/cardex/members/page";
 import knowledgeMethodInsert from "@/components/functionsForm/CRUD/cardex/knowledgeMethod/page";
 import doctypesInsert from "@/components/functionsForm/CRUD/cardex/doctypes/page";
 import marketingInsert from "@/components/functionsForm/CRUD/cardex/marketing/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
 
 
@@ -34,10 +33,6 @@ const formModals = ({
     formTypeModal,
 }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
-
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
 
@@ -50,12 +45,12 @@ const formModals = ({
     const { handleInputCustomerPreferences, handleSubmitCustomerPreferences } = clientPreferencesInsert();
     const { handleInputDoctypes, handleSubmitDoctypes } = doctypesInsert();
     const { handleInputKnowledgeMethod, handleSubmitKnowledgeMethod } = knowledgeMethodInsert();
-    const { handleInputMarketing, handleSubmitMarketing} = marketingInsert();
+    const { handleInputMarketing, handleSubmitMarketing } = marketingInsert();
     const { handleInputMember, handleSubmitMember } = membersInsert();
-    const { handleInputNacionality, handleSubmitNacionality} = nationalityInsert();
+    const { handleInputNacionality, handleSubmitNacionality } = nationalityInsert();
     const { handleInputProfession, handleSubmitProfession } = professionInsert();
-    const { handleInputSalutation , handleSubmitSalutation } = salutationInsert();
-    const { handleInputVipcode, handleSubmitVipcode} = vipCodeInsert();
+    const { handleInputSalutation, handleSubmitSalutation } = salutationInsert();
+    const { handleInputVipcode, handleSubmitVipcode } = vipCodeInsert();
 
 
 
@@ -80,21 +75,66 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <div className="flex flex-row items-center justify-center">
-                                                    <input type="text" name="Abreviature" onChange={handleInputSalutation} placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></input>
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputSalutation} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <input
-                                                    type="text"
-                                                    name="Description"
-                                                    onChange={handleInputSalutation}
-                                                    placeholder="Descrição"
-                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4" />
-                                                <input type="text" name="Treat" onChange={handleInputSalutation} placeholder="Tratamento" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Gender" onChange={handleInputSalutation} placeholder="Trat.Pessoal" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Title" onChange={handleInputSalutation} placeholder="Titulo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Ordenation" onChange={handleInputSalutation} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="NameSuff" onChange={handleInputSalutation} placeholder="Nome-Suffix" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"treat"}
+                                                    name={"Treat"}
+                                                    label={"Tratamento"}
+                                                    ariaLabel={"Tratamento"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"gender"}
+                                                    name={"Gender"}
+                                                    label={"Trat.Pessoal"}
+                                                    ariaLabel={"Trat.Pessoal"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"title"}
+                                                    name={"Title"}
+                                                    label={"Titulo"}
+                                                    ariaLabel={"Titulo"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    onChange={handleInputSalutation} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"nameSuff"}
+                                                    name={"NameSuff"}
+                                                    label={"Nome-Suffix"}
+                                                    ariaLabel={"Nome-Suffix"}
+                                                    onChange={handleInputSalutation} />
+
                                                 <div className="flex flex-row justify-left items-center">
                                                     <label className="mr-10">Tipo</label>
                                                     <div className="flex flex-row justify-center items-center mr-10">
@@ -138,21 +178,66 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <div className="flex flex-row items-center justify-center">
-                                                    <input type="text" name="Fo" onChange={handleInputNacionality} placeholder="Detalhes" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-10 px-4"></input>
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"Fo"}
+                                                        name={"Fo"}
+                                                        label={"Detalhes"}
+                                                        ariaLabel={"Detalhes"}
+                                                        onChange={handleInputNacionality} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <input
-                                                    type="text"
-                                                    name="Nation"
-                                                    onChange={handleInputNacionality}
-                                                    placeholder="País"
-                                                    className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4" />
-                                                <input type="text" name="Nationality" onChange={handleInputNacionality} placeholder="Nacionalidade" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Statnr" onChange={handleInputNacionality} placeholder="Número de Estatísticas" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Group" onChange={handleInputNacionality} placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Ordenation" onChange={handleInputNacionality} placeholder="Ordenação" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
-                                                <input type="text" name="Isocode" onChange={handleInputNacionality} placeholder="Código ISO" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-8 px-4"></input>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"nation"}
+                                                    name={"Nation"}
+                                                    label={"País"}
+                                                    ariaLabel={"País"}
+                                                    onChange={handleInputNacionality} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"nationality"}
+                                                    name={"Nationality"}
+                                                    label={"Nacionalidade"}
+                                                    ariaLabel={"Nacionalidade"}
+                                                    onChange={handleInputNacionality} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"statnr"}
+                                                    name={"Statnr"}
+                                                    label={"Número de Estatísticas"}
+                                                    ariaLabel={"Número de Estatísticas"}
+                                                    onChange={handleInputNacionality} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"}
+                                                    onChange={handleInputNacionality} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={"Ordenação"}
+                                                    ariaLabel={"Ordenação"}
+                                                    onChange={handleInputNacionality} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"isocode"}
+                                                    name={"Isocode"}
+                                                    label={"Código ISO"}
+                                                    ariaLabel={"Código ISO"}
+                                                    onChange={handleInputNacionality} />
+
                                             </ModalBody>
                                         </form>
                                     </>
@@ -182,17 +267,33 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Abreviature"
-                                                        onChange={handleInputKnowledgeMethod}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputKnowledgeMethod} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Description" onChange={handleInputKnowledgeMethod} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputKnowledgeMethod} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -236,9 +337,31 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <Input type="text" name="Group" onChange={handleInputProfession} variant="underlined" label="Grupo" />
-                                                <Input type="text" name="Abreviature" onChange={handleInputProfession} variant="underlined" label="Abreviatura" />
-                                                <Input type="textarea" name="Description" onChange={handleInputProfession} variant="underlined" label="Descrição" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"}
+                                                    onChange={handleInputProfession} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    onChange={handleInputProfession} />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputProfession} />
+
                                             </ModalBody>
                                         </form>
                                     </>
@@ -268,17 +391,33 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="ShortName"
-                                                        onChange={handleInputDoctypes}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"shortName"}
+                                                        name={"ShortName"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputDoctypes} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Name" onChange={handleInputDoctypes} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"name"}
+                                                    name={"Name"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputDoctypes} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -323,17 +462,33 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Abreviature"
-                                                        onChange={handleInputCustomerPreferences}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputCustomerPreferences} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Description" onChange={handleInputCustomerPreferences} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputCustomerPreferences} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -378,17 +533,33 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Abreviature"
-                                                        onChange={handleInputMember}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputMember} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Description" onChange={handleInputMember} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputMember} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -433,17 +604,33 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Grupo" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Abreviature"
-                                                        onChange={handleInputMarketing}
-                                                        placeholder="Abreviatura"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"group"}
+                                                    name={"Group"}
+                                                    label={"Grupo"}
+                                                    ariaLabel={"Grupo"} />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"abreviature"}
+                                                        name={"Abreviature"}
+                                                        label={"Abreviatura"}
+                                                        ariaLabel={"Abreviatura"}
+                                                        onChange={handleInputMarketing} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" name="Description" onChange={handleInputMarketing} placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                    onChange={handleInputMarketing} />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
@@ -487,17 +674,34 @@ const formModals = ({
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <div>
-                                                    <input
-                                                        type="text"
-                                                        name="Description"
-                                                        onChange={handleInputVipcode}
-                                                        placeholder="Descrição"
-                                                        className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4" />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                />
+
+                                                <div className="flex items-center">
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"description"}
+                                                        name={"Description"}
+                                                        label={"Descrição"}
+                                                        ariaLabel={"Descrição"}
+                                                        onChange={handleInputVipcode} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-                                                <textarea type="textarea" placeholder="Detalhe" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-24 px-4"></textarea>
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"Details"}
+                                                    label={"Detalhes"}
+                                                    ariaLabel={"Detalhes"}
+                                                />
+
                                                 <div>
                                                     <input
                                                         id="link-checkbox"
