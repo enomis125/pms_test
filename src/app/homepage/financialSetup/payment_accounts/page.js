@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/financialSetup/formModals";
+import FormModals from "@/components/modal/financialSetup/paymentAccounts/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -32,7 +32,7 @@ export default function Characteristics() {
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/reservationChange");
+      const res = await axios.get("/api/v1/financialSetup/paymentAccounts");
       setReservChange(res.data.response);
     };
     getData();
@@ -44,8 +44,8 @@ export default function Characteristics() {
     }
   
     return reservChange.filter((reserv) =>
-      (reserv.description && reserv.description.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reserv.reservationchangeID && reserv.reservationchangeID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+      (reserv.name && reserv.name.toLowerCase().includes(searchValue.toLowerCase())) ||
+      (reserv.primary && reserv.primary.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
   }, [reservChange, searchValue]);
   
@@ -73,12 +73,12 @@ export default function Characteristics() {
     setPage(1);
   };
  
-  const handleDelete = async (idReservChange) => {
+  const handleDelete = async (idPaymentAccounts) => {
     try {
-      const response = await axios.delete(`/api/v1/bookings/reservationChange/` + idReservChange);
-      alert("Departamento removido com sucesso!");
+      const response = await axios.delete(`/api/v1/financialSetup/paymentAccounts/` + idPaymentAccounts);
+      alert("Conta removido com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover departamento.", error.message);
+      console.error("Erro ao remover conta.", error.message);
     }
   };
  
@@ -107,7 +107,7 @@ export default function Characteristics() {
               buttonColor={"primary"}
               modalHeader={"Inserir Conta de Pagamento"}
               modalIcons={"bg-red"}
-              formTypeModal={41}
+              formTypeModal={11}
             ></FormModals>
           </div>
         </div>
@@ -158,27 +158,27 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((reservChange, index) => (
+          {items.map((paymentAccounts, index) => (
             <TableRow key={index}>
               <TableCell className="text-right underline text-blue-600"><FormModals
-                        buttonName={reservChange.reservationchangeID}
+                        buttonName={paymentAccounts.primary}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
                         modalHeader={"Editar Conta de Pagamento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={42}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        modalEdit={`ID: ${paymentAccounts.primary}`}
+                        formTypeModal={12}
+                        idPaymentAccounts={paymentAccounts.primary}
+                        criado={paymentAccounts.createdAt}
+                        editado={paymentAccounts.updatedAt}
                         editor={"teste"}
                       /></TableCell>
-              <TableCell className="px-10">{reservChange.abreviature}</TableCell>
-              <TableCell>{reservChange.description}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-10">{reservChange.ordenation}</TableCell>
-              <TableCell className="px-20">{reservChange.ordenation}</TableCell>
+              <TableCell className="px-10">{paymentAccounts.externalNumberShort}</TableCell>
+              <TableCell>alterar</TableCell>
+              <TableCell className="">{paymentAccounts.mainGroup}</TableCell>
+              <TableCell className="">{paymentAccounts.name}</TableCell>
+              <TableCell className="px-10">alterar</TableCell>
+              <TableCell className="px-20">alterar</TableCell>
               <TableCell className="flex justify-end">
                 <Dropdown>
                   <DropdownTrigger>
@@ -197,15 +197,15 @@ export default function Characteristics() {
                         buttonColor={"transparent"}
                         modalHeader={"Editar Conta de Pagamento"}
                         modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={42}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
+                        modalEdit={`ID: ${paymentAccounts.primary}`}
+                        formTypeModal={12}
+                        idPaymentAccounts={paymentAccounts.primary}
+                        criado={paymentAccounts.createdAt}
+                        editado={paymentAccounts.updatedAt}
                         editor={"teste"}
                       ></FormModals>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(paymentAccounts.primary)}>Remover</DropdownItem>
                     <DropdownItem key="view">Ver</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>

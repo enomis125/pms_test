@@ -20,7 +20,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
  
 //imports de componentes
-import FormModals from "@/components/modal/financialSetup/formModals";
+import FormModals from "@/components/modal/financialSetup/cashiers/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
  
  
@@ -32,7 +32,7 @@ export default function Characteristics() {
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/reservationChange");
+      const res = await axios.get("/api/v1/financialSetup/cashiers");
       setReservChange(res.data.response);
     };
     getData();
@@ -44,8 +44,8 @@ export default function Characteristics() {
     }
   
     return reservChange.filter((reserv) =>
-      (reserv.description && reserv.description.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reserv.reservationchangeID && reserv.reservationchangeID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+      (reserv.cashierName && reserv.cashierName.toLowerCase().includes(searchValue.toLowerCase())) ||
+      (reserv.cashierId && reserv.cashierId.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
   }, [reservChange, searchValue]);
   
@@ -73,12 +73,12 @@ export default function Characteristics() {
     setPage(1);
   };
  
-  const handleDelete = async (idReservChange) => {
+  const handleDelete = async (idCashiers) => {
     try {
-      const response = await axios.delete(`/api/v1/bookings/reservationChange/` + idReservChange);
-      alert("Departamento removido com sucesso!");
+      const response = await axios.delete(`/api/v1/financialSetup/cashiers/` + idCashiers);
+      alert("Caixa removido com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover departamento.", error.message);
+      console.error("Erro ao remover caixa.", error.message);
     }
   };
  
@@ -107,7 +107,7 @@ export default function Characteristics() {
               buttonColor={"primary"}
               modalHeader={"Inserir Caixa"}
               modalIcons={"bg-red"}
-              formTypeModal={61}
+              formTypeModal={11}
             ></FormModals>
           </div>
         </div>
@@ -149,58 +149,58 @@ export default function Characteristics() {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {items.map((reservChange, index) => (
-            <TableRow key={index}>
-              <TableCell className="text-right underline text-blue-600"><FormModals
-                        buttonName={reservChange.reservationchangeID}
-                        editIcon={<FiEdit3 size={25}/>}
-                        buttonColor={"transparent"}
-                        modalHeader={"Editar Caixa"}
-                        modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={62}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
-                        editor={"teste"}
-                      /></TableCell>
-              <TableCell className="px-20">{reservChange.abreviature}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="">{reservChange.ordenation}</TableCell>
-              <TableCell className="flex justify-end">
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button
-                      variant="light"
-                      className="flex flex-row justify-end"
-                    >
-                      <BsThreeDotsVertical size={20} className="text-gray-400" />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="edit">
-                      <FormModals
-                        buttonName={"Editar"}
-                        editIcon={<FiEdit3 size={25}/>}
-                        buttonColor={"transparent"}
-                        modalHeader={"Editar Caixa"}
-                        modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={62}
-                        idReservChange={reservChange.reservationchangeID}
-                        criado={reservChange.createdAt}
-                        editado={reservChange.updatedAt}
-                        editor={"teste"}
-                      ></FormModals>
-                    </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
-                    <DropdownItem key="view">Ver</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+  {items.map((cashier, index) => (
+    <TableRow key={index}>
+      <TableCell className="text-right underline text-blue-600">
+        <FormModals
+          buttonName={cashier.cashierId} 
+          editIcon={<FiEdit3 size={25}/>}
+          buttonColor={"transparent"}
+          modalHeader={"Editar Caixa"}
+          modalEditArrow={<BsArrowRight size={25}/>}
+          modalEdit={`ID: ${cashier.cashierId}`}
+          formTypeModal={12}
+          idCashiers={cashier.cashierId} 
+          criado={cashier.createdAt}
+          editado={cashier.updatedAt}
+          editor={"teste"}
+        />
+      </TableCell>
+      <TableCell className="px-20">{cashier.cashierName}</TableCell> 
+      <TableCell className="">alterar</TableCell>
+      <TableCell className="">alterar</TableCell>
+      <TableCell className="flex justify-end">
+        <Dropdown>
+          <DropdownTrigger>
+            <Button variant="light" className="flex flex-row justify-end">
+              <BsThreeDotsVertical size={20} className="text-gray-400" />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+            <DropdownItem key="edit">
+              <FormModals
+                buttonName={"Editar"}
+                editIcon={<FiEdit3 size={25}/>}
+                buttonColor={"transparent"}
+                modalHeader={"Editar Caixa"}
+                modalEditArrow={<BsArrowRight size={25}/>}
+                modalEdit={`ID: ${cashier.cashierId}`}
+                formTypeModal={12}
+                idCashiers={cashier.cashierId}
+                criado={cashier.createdAt}
+                editado={cashier.updatedAt}
+                editor={"teste"}
+              />
+            </DropdownItem>
+            <DropdownItem key="delete" onClick={() => handleDelete(cashier.cashierId)}>Remover</DropdownItem>
+            <DropdownItem key="view">Ver</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
+
       </Table>
           </PaginationTable>
         </div>
