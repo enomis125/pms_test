@@ -2,11 +2,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma"
 
 export async function GET(request, context) {
 
-    const prisma = new PrismaClient()
+
 
     // console.log("1")
 
@@ -27,17 +27,17 @@ export async function GET(request, context) {
     })
 
     if (!response) {
-        return new NextResponse(JSON.stringify({status: 404 }));
+        return new NextResponse(JSON.stringify({ status: 404 }));
     }
 
     prisma.$disconnect()
 
-    return new NextResponse(JSON.stringify({response, status: 200 }));
+    return new NextResponse(JSON.stringify({ response, status: 200 }));
 }
 
 export async function PATCH(request, context) {
 
-    const prisma = new PrismaClient()
+
 
     try {
         const { id } = context.params;
@@ -52,7 +52,7 @@ export async function PATCH(request, context) {
                 abreviature: data.abreviature,
             }
         })
-        return new NextResponse(JSON.stringify({status: 200 }));
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
@@ -64,7 +64,7 @@ export async function PATCH(request, context) {
 
 export async function DELETE(request, context) {
 
-    const prisma = new PrismaClient()
+
 
     try {
         const { id } = context.params;
@@ -76,7 +76,7 @@ export async function DELETE(request, context) {
                 knowledgeMethodID: parseInt(id),
             }
         })
-        return new NextResponse(JSON.stringify({status: 200 }));
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
