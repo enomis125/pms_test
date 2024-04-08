@@ -25,7 +25,7 @@ return (
     <div className={style}>
     <Autocomplete
         label={label}
-        className="w-30"
+        className="w-30 h-10"
         variant="underlined"
     >
         {nationalities.map((nationalities) => (

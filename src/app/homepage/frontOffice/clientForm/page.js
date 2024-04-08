@@ -166,10 +166,10 @@ export default function clientForm() {
                         buttonName={reservChange.reservationchangeID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Anulação de Cobrança"}
+                        modalHeader={"Editar Ficha de Cliente"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={0}
+                        formTypeModal={1}
                         idReservChange={reservChange.reservationchangeID}
                         criado={reservChange.createdAt}
                         editado={reservChange.updatedAt}
@@ -200,7 +200,7 @@ export default function clientForm() {
                         modalHeader={"Editar Anulação de Cobrança"}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservChange.reservationchangeID}`}
-                        formTypeModal={0}
+                        formTypeModal={1}
                         idReservChange={reservChange.reservationchangeID}
                         criado={reservChange.createdAt}
                         editado={reservChange.updatedAt}
