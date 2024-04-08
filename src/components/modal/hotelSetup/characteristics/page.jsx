@@ -8,7 +8,9 @@ import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
 import characteristicsInsert, { characteristicsEdit } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
-import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page"
+import ModalFooterContent from "@/components/modal/modalFooterContent";
+;
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
@@ -160,15 +162,7 @@ const characteristicForm = ({
 
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
-                                        <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
-                                        {criado !== editado && (
-                                            <div>
-                                                <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
-                                            </div>
-                                        )}
-                                    </ModalFooter>
-
+                                    <ModalFooterContent criado={criado} editado={editado} />
                                 </>
                             )}
                         </ModalContent>

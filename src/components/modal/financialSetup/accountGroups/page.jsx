@@ -8,6 +8,8 @@ import { MdClose } from "react-icons/md";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import accountGroupInsert, { accountGroupsEdit } from "@/components/functionsForm/CRUD/financialSetup/accountGroups/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import ModalFooterContent from "@/components/modal/modalFooterContent";
+
 
 
 const accountGroupsForm = ({
@@ -181,14 +183,7 @@ const accountGroupsForm = ({
 
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
-                                        <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
-                                        {criado !== editado && (
-                                            <div>
-                                                <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
-                                            </div>
-                                        )}
-                                    </ModalFooter>
+                                    <ModalFooterContent criado={criado} editado={editado} />
                                 </>
                             )}
                         </ModalContent>

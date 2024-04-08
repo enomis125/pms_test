@@ -8,6 +8,8 @@ import { MdClose } from "react-icons/md";
 import cashiersInsert, { cashiersEdit } from "@/components/functionsForm/CRUD/financialSetup/cashiers/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
+import ModalFooterContent from "@/components/modal/modalFooterContent";
+
 
 
 const doctypeForm = ({
@@ -179,14 +181,7 @@ const doctypeForm = ({
 
                                         </ModalBody>
                                     </form>
-                                    <ModalFooter className="absolute bottom-0 left-0 flex flex-col text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-sm">
-                                        <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
-                                        {criado !== editado && (
-                                            <div>
-                                                <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
-                                            </div>
-                                        )}
-                                    </ModalFooter>
+                                    <ModalFooterContent criado={criado} editado={editado} />
                                 </>
                             )}
                         </ModalContent>

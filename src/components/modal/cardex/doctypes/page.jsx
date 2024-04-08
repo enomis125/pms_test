@@ -9,6 +9,8 @@ import { MdClose } from "react-icons/md";
 import doctypesInsert, { doctypesEdit } from "@/components/functionsForm/CRUD/cardex/doctypes/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
+import ModalFooterContent from "@/components/modal/modalFooterContent";
+
 
 
 const doctypeForm = ({
@@ -189,14 +191,7 @@ const doctypeForm = ({
                                                 </div>
                                             </ModalBody>
                                         </form>
-                                        <ModalFooter className="absolute bottom-0 left-0 flex flex-row text-right bg-tableFooter border border-tableFooterBorder w-full text-gray-600 text-xs">
-                                            <p>Criado em {`${new Date(criado).toLocaleDateString()} : Teste`}</p>
-                                            {criado !== editado && (
-                                                <div>
-                                                    <p>Editado em {`${new Date(editado).toLocaleDateString()} : Teste`}</p>
-                                                </div>
-                                            )}
-                                        </ModalFooter>
+                                        <ModalFooterContent criado={criado} editado={editado} />
                                     </>
                                 </>
                             )}
