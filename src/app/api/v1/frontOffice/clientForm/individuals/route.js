@@ -37,7 +37,9 @@ export async function PUT(request) {
             }
         });
  
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        const id = newRecord.id;
+
+        return new NextResponse(JSON.stringify({id, newRecord, status: 200 }));
  
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
