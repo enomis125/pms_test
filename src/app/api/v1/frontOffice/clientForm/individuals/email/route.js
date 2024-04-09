@@ -6,7 +6,7 @@ export async function GET(request) {
  
     const prisma = new PrismaClient()
  
-    const response = await prisma.guestProfile.findMany()
+    const response = await prisma.guestEmails.findMany()
  
  
     prisma.$disconnect()
@@ -20,18 +20,16 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data.Label)
-        const newRecord = await prisma.guestProfile.create({
+        const newRecord = await prisma.guestEmails.create({
             data: {
-                firstName: data.firstName,
-                secondName: data.secondName,
-                zipCode: data.zipCode,
-                country: data.country,
-                //countryAddress: parseInt(data.countryAddress)
-                email: data.email,
+                personalEmail: data.personalEmail,
+                professionalEmail: data.professionalEmail,
             }
         });
+
+        const id = newRecord.id;
  
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({id, newRecord, status: 200 }));
  
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
