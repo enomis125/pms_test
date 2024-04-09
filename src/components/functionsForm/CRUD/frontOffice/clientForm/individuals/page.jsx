@@ -10,7 +10,11 @@ export default function individualsInsert() {
         LastName: '',
         Address: '',
         ZipCode: '',
-        Country: ''
+        Region: '',
+        Country: '',
+        Birthday: '',
+        BirthTown: '',
+        CC: ''
     })
 
     const handleInputIndividual = (event) => {
@@ -18,7 +22,7 @@ export default function individualsInsert() {
     }
     function handleSubmiIndividual(event) {
         event.preventDefault()
-        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Country) {
+        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday || !individual.BirthTown || !individual.CC ) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -28,7 +32,12 @@ export default function individualsInsert() {
                 secondName: individual.LastName,
                 country: individual.Address,
                 zipCode: individual.ZipCode,
-                countryAddress: individual.Country
+                region: individual.Region,
+                //countryAddress: individual.Country,
+                birthday: individual.Birthday,
+                birthTown: individual.BirthTown,
+                cc: individual.CC
+
             }
         })
             .then(response => console.log(response))
@@ -46,13 +55,28 @@ export function individualsEdit(idIndividual) {
         FirstName: '',
         LastName: '',
         Address: '',
-        ZipCode: ''
+        ZipCode: '',
+        Region: '',
+        Birthday: '',
+        BirthTown: '',
+        CC: ''
     })
 
     useEffect(() => {
         axios.get("/api/v1/frontOffice/clientForm/individuals/" + idIndividual)
             .then(res => {
-                setValuesIndividual({ ...valuesIndividual, FirstName: res.data.response.firstName, LastName: res.data.response.secondName, Address: res.data.response.country, ZipCode: res.data.response.zipCode })
+                const formattedBirthday = new Date(res.data.response.birthday).toLocaleDateString();
+
+                setValuesIndividual({ ...valuesIndividual, 
+                    FirstName: res.data.response.firstName, 
+                    LastName: res.data.response.secondName, 
+                    Address: res.data.response.country, 
+                    ZipCode: res.data.response.zipCode,
+                    Region: res.data.response.region,
+                    Birthday: formattedBirthday,
+                    BirthTown: res.data.response.birthTown,
+                    CC: res.data.response.cc
+                })
             })
             .catch(err => console.log(err))
     }, [])
@@ -65,6 +89,10 @@ export function individualsEdit(idIndividual) {
                 secondName: valuesIndividual.LastName,
                 country: valuesIndividual.Address,
                 zipCode: valuesIndividual.ZipCode,
+                region: valuesIndividual.Region,
+                birthday: valuesIndividual.Birthday,
+                birthTown: valuesIndividual.BirthTown,
+                cc: valuesIndividual.CC
             }
         })
             .catch(err => console.log(err))

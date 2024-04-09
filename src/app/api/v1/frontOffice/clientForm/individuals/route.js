@@ -20,13 +20,20 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data.Label)
+
+        const birthday = new Date(data.birthday);
+
         const newRecord = await prisma.guestProfile.create({
             data: {
                 firstName: data.firstName,
                 secondName: data.secondName,
                 zipCode: data.zipCode,
+                region: data.region,
                 country: data.country,
-                countryAddress: parseInt(data.countryAddress)
+                //countryAddress: parseInt(data.countryAddress)
+                birthday: birthday,
+                birthTown: data.birthTown,
+                cc: data.cc
             }
         });
  
