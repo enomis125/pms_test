@@ -6,7 +6,7 @@ export async function GET(request) {
  
     const prisma = new PrismaClient()
  
-    const response = await prisma.guestProfile.findMany()
+    const response = await prisma.guestEmails.findMany()
  
  
     prisma.$disconnect()
@@ -20,26 +20,15 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data.Label)
-
-        const birthday = new Date(data.birthday);
-
-        const newRecord = await prisma.guestProfile.create({
+        const newRecord = await prisma.guestEmails.create({
             data: {
-                firstName: data.firstName,
-                secondName: data.secondName,
-                zipCode: data.zipCode,
-                region: data.region,
-                country: data.country,
-                //countryAddress: parseInt(data.countryAddress)
-                email: data.email,
-                birthday: birthday,
-                birthTown: data.birthTown,
-                cc: data.cc
+                personalEmail: data.personalEmail,
+                professionalEmail: data.professionalEmail,
             }
         });
- 
-        const id = newRecord.id;
 
+        const id = newRecord.id;
+ 
         return new NextResponse(JSON.stringify({id, newRecord, status: 200 }));
  
     } catch (error) {

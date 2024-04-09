@@ -10,6 +10,8 @@ export default function individualsInsert() {
         LastName: '',
         Address: '',
         ZipCode: '',
+        PersonalEmail: '',
+        WorkEmail: ''
         Region: '',
         Country: '',
         Birthday: '',
@@ -20,14 +22,27 @@ export default function individualsInsert() {
     const handleInputIndividual = (event) => {
         setIndividual({ ...individual, [event.target.name]: event.target.value })
     }
-    function handleSubmiIndividual(event) {
+    async function handleSubmiIndividual(event) {
         event.preventDefault()
-        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday || !individual.BirthTown || !individual.CC ) {
+      
+        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday || !individual.BirthTown || !individual.CC || !individual.PersonalEmail || !individual.WorkEmail ) {
             alert("Preencha os campos corretamente");
             return;
         }
-        axios.put('/api/v1/frontOffice/clientForm/individuals', {
-            data: {
+      
+      try {
+            // Envio da solicitação para criar os emails
+            const emailCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/email', {
+                data: {
+                    personalEmail: individual.PersonalEmail,
+                    professionalEmail: individual.WorkEmail,
+                }
+            });
+            const guestEmailsID = await emailCreationInfo.data.newRecord.guestEmailsID.toString();
+
+            // Envio da solicitação para criar o indivíduo
+            const response = await axios.put('/api/v1/frontOffice/clientForm/individuals', {
+                data: {
                 firstName: individual.FirstName,
                 secondName: individual.LastName,
                 country: individual.Address,
@@ -37,11 +52,14 @@ export default function individualsInsert() {
                 birthday: individual.Birthday,
                 birthTown: individual.BirthTown,
                 cc: individual.CC
-
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
+                email: guestEmailsID
+                }
+            });
+            console.log(response); // Exibe a resposta do servidor no console
+        } catch (error) {
+            console.error('Erro ao enviar requisições:', error);
+        }
+      
     }
     return { 
         handleInputIndividual, handleSubmiIndividual

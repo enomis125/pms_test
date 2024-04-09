@@ -179,6 +179,7 @@ const individualForm = ({
                                                         label={"E-mail Pessoal"}
                                                         ariaLabel={"E-mail Pessoal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -188,6 +189,7 @@ const individualForm = ({
                                                         label={"E-mail Trabalho"}
                                                         ariaLabel={"E-mail Trabalho"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
