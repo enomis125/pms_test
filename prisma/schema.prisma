@@ -846,8 +846,8 @@ model departments {
 }
 
 model guestProfile {
-  guestProfileID                       Int      @id
-  protelID                             BigInt   @default(-1)
+  guestProfileID                       Int      @id @default(autoincrement())
+  protelID                             Int      @default(-1)
   pmsHotel                             Int      @default(-1)
   hotelkdnr                            Int      @default(-1)
   externalID                           String   @default("") @db.VarChar(15)
@@ -1168,4 +1168,10 @@ model taxes {
   createdBy        String   @default("") @db.VarChar(50)
   updatedAt        DateTime @default(now()) @db.Timestamp(0)
   updatedBy        String   @default("") @db.VarChar(50)
+}
+
+model guestEmails {
+  guestEmailsID     Int    @id @default(autoincrement())
+  personalEmail     String @default("") @db.VarChar(250)
+  professionalEmail String @default("") @db.VarChar(250)
 }

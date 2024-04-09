@@ -49,8 +49,7 @@ export async function PATCH(request, context) {
                 firstName: data.firstName,
                 secondName: data.secondName,
                 zipCode: data.zipCode,
-                country: data.country,
-                countryAddress: parseInt(data.countryAddress)
+                country: data.country
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));

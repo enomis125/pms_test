@@ -4,7 +4,7 @@ import {Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 import axios from 'axios';
 
-export default function countryAutocomplete({label, style}) {
+export default function countryAutocomplete({label, style, onChange, name}) {
 
     const [nationalities, setNationalities] = useState([]);
 
@@ -27,9 +27,10 @@ return (
         label={label}
         className="max-w-xs"
         variant="underlined"
+        onChange={onChange}
     >
         {nationalities.map((nationalities) => (
-            <AutocompleteItem key={nationalities.codeNr} value={nationalities.land}>
+            <AutocompleteItem key={nationalities.codeNr} value={nationalities.codeNr} name={name}>
                 {nationalities.land}
             </AutocompleteItem>
         ))}
