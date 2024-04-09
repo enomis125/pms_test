@@ -37,7 +37,7 @@ const individualForm = ({
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
     //variaveis de estilo para inputs
-    const inputStyle = "border-b-2 border-gray-300 px-1 h-10 outline-none text-sm::placeholder my-2"
+    const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
     //import de funções
@@ -59,7 +59,7 @@ const individualForm = ({
                             body: "h-full",
                         }}
                         size="full"
-                        className="bg-tableFooter"
+                        className="bg-neutral-100"
                         isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
                         <ModalContent>
                             {(onClose) => (
@@ -86,14 +86,14 @@ const individualForm = ({
                                                     formTypeModal={1}
                                                 />
                             </div>*/}
-                                            <div className="flex flex-row justify-between items-center">
+                                            <div className="bg-white flex flex-row justify-between items-center">
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
                                                     name={"FirstName"}
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
-                                                    style={"w-1/3 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     onChange={handleInputIndividual}
                                                 />
 
@@ -103,7 +103,7 @@ const individualForm = ({
                                                     name={"LastName"}
                                                     label={"Apelido"}
                                                     ariaLabel={"Apelido"}
-                                                    style={"w-30 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     onChange={handleInputIndividual}
                                                 />
 
@@ -113,16 +113,16 @@ const individualForm = ({
                                                     name={"Salutation"}
                                                     label={"Saudação"}
                                                     ariaLabel={"Saudação"}
-                                                    style={"w-30 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
                                             </div>
                                             {/*primeira linha de comboboxs */}
-                                            <div className="flex flex-row justify-around gap-4">
-                                                <div className="bg-white flex flex-col w-1/5">
-                                                    <div className="py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Endereço</b></h4>
+                                            <div className="flex flex-row justify-between gap-2">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Endereço</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -164,12 +164,12 @@ const individualForm = ({
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onChange={handleInputIndividual} />
+                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputIndividual} />
                                                     </div>
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Contatos</b></h4>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Contatos</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -217,9 +217,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Dados Pessoais</b></h4>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Dados Pessoais</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -251,9 +251,9 @@ const individualForm = ({
                                                     <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Informação Adicional</b></h4>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Informação Adicional</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -294,9 +294,12 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Dados Faturação</b></h4>
+                                            </div>
+                                            {/*segunda linha de comboboxs */}
+                                            <div className="flex flex-row justify-between gap-2">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Dados Faturação</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -347,12 +350,9 @@ const individualForm = ({
                                                     </div>
                                                     <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                 </div>
-                                            </div>
-                                            {/*segunda linha de comboboxs */}
-                                            <div className="flex flex-row justify-around gap-4">
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Marketing</b></h4>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Marketing</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -392,9 +392,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Class. empresarial</b></h4>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Class. empresarial</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -433,9 +433,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Membros</b></h4>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Membros</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -475,9 +475,12 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Notas</b></h4>
+                                            </div>
+                                            {/*terceira linha de comboboxs */}
+                                            <div className="flex flex-col justify-between gap-2">
+                                                <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Notas</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -517,9 +520,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Anexos</b></h4>
+                                                <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Anexos</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -615,10 +618,10 @@ const individualForm = ({
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
                                             </div>
                                             {/*primeira linha de comboboxs */}
-                                            <div className="flex flex-row justify-around gap-4">
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Endereço</b></h4>
+                                            <div className="flex flex-row justify-around gap-">
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Endereço</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -665,9 +668,9 @@ const individualForm = ({
                                                         <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onChange={handleInputIndividual} />
                                                     </div>
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Contatos</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Contatos</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -715,9 +718,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Dados Pessoais</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Dados Pessoais</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -749,9 +752,9 @@ const individualForm = ({
                                                     <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Informação Adicional</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Informação Adicional</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -792,9 +795,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Dados Faturação</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Dados Faturação</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -847,10 +850,10 @@ const individualForm = ({
                                                 </div>
                                             </div>
                                             {/*segunda linha de comboboxs */}
-                                            <div className="flex flex-row justify-around gap-4">
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Marketing</b></h4>
+                                            <div className="flex flex-row justify-around gap-2">
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Marketing</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -890,9 +893,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Class. empresarial</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Class. empresarial</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -931,9 +934,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Membros</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Membros</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -973,9 +976,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Notas</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Notas</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -1015,9 +1018,9 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="flex flex-col w-1/5">
-                                                    <div className="bg-tableFooter py-1">
-                                                        <h4 className="pl-5 text-black-300"><b>Anexos</b></h4>
+                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Anexos</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
