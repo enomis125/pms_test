@@ -51,7 +51,7 @@ export default function individualsInsert() {
                 //countryAddress: individual.Country,
                 birthday: individual.Birthday,
                 birthTown: individual.BirthTown,
-                cc: individual.CC
+                cc: individual.CC,
                 email: guestEmailsID
                 }
             });
