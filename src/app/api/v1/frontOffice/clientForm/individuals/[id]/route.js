@@ -40,7 +40,7 @@ export async function PATCH(request, context) {
     try {
         const { id } = context.params;
         const { data } = await request.json();
- 
+        const birthday = new Date(data.birthday);
         const updateRecord = await prisma.guestProfile.update({
             where: {
                 guestProfileID: parseInt(id),
@@ -49,7 +49,11 @@ export async function PATCH(request, context) {
                 firstName: data.firstName,
                 secondName: data.secondName,
                 zipCode: data.zipCode,
-                country: data.country
+                region: data.region,
+                country: data.country,
+                birthday: birthday,
+                birthTown: data.birthTown,
+                cc: data.cc
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));

@@ -86,7 +86,7 @@ const individualForm = ({
                                                     formTypeModal={1}
                                                 />
                             </div>*/}
-                                            <div className="bg-white flex flex-row justify-between items-center">
+                                            <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
@@ -161,6 +161,7 @@ const individualForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
@@ -230,15 +231,17 @@ const individualForm = ({
                                                         label={"Data de Nascimento"}
                                                         ariaLabel={"Data de Nascimento"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"birthdayLocal"}
-                                                        name={"BirthdayLocal"}
+                                                        name={"BirthTown"}
                                                         label={"Local de Nascimento"}
                                                         ariaLabel={"Local de Nascimento"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -264,6 +267,7 @@ const individualForm = ({
                                                         label={"Cartão de Cidadão"}
                                                         ariaLabel={"Cartão de Cidadão"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -559,6 +563,7 @@ const individualForm = ({
                             body: "h-full",
                         }}
                         size="full"
+                        className="bg-neutral-100"
                         isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
                         <ModalContent>
                             {(onClose) => (
@@ -574,8 +579,8 @@ const individualForm = ({
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                            <div className="h-1">
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
+                                            {/*<div className="h-1">
                                                 <CompanyForm
                                                     buttonName={"Empresas"}
                                                     modalHeader={"Inserir Ficha de Cliente"}
@@ -584,15 +589,15 @@ const individualForm = ({
                                                     buttonColor={"transparent"}
                                                     formTypeModal={1}
                                                 />
-                                            </div>
-                                            <div className="flex flex-row justify-between items-center">
+                            </div>*/}
+                                            <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
                                                     name={"FirstName"}
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
-                                                    style={"w-1/3 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     value={valuesIndividual.FirstName}
                                                     onChange={e => setValuesIndividual({ ...valuesIndividual, FirstName: e.target.value })}
                                                 />
@@ -603,7 +608,7 @@ const individualForm = ({
                                                     name={"LastName"}
                                                     label={"Apelido"}
                                                     ariaLabel={"Apelido"}
-                                                    style={"w-30 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     value={valuesIndividual.LastName}
                                                     onChange={e => setValuesIndividual({ ...valuesIndividual, LastName: e.target.value })}
                                                 />
@@ -614,14 +619,14 @@ const individualForm = ({
                                                     name={"Salutation"}
                                                     label={"Saudação"}
                                                     ariaLabel={"Saudação"}
-                                                    style={"w-30 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
                                             </div>
                                             {/*primeira linha de comboboxs */}
-                                            <div className="flex flex-row justify-around gap-">
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                            <div className="flex flex-row justify-between gap-2">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Endereço</b></h4>
                                                     </div>
@@ -664,13 +669,15 @@ const individualForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
+                                                        value={valuesIndividual.Region}
+                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Region: e.target.value })}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
                                                         <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onChange={handleInputIndividual} />
                                                     </div>
                                                 </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Contatos</b></h4>
                                                     </div>
@@ -720,7 +727,7 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Dados Pessoais</b></h4>
                                                     </div>
@@ -731,15 +738,19 @@ const individualForm = ({
                                                         label={"Data de Nascimento"}
                                                         ariaLabel={"Data de Nascimento"}
                                                         style={inputStyle}
+                                                        value={valuesIndividual.Birthday}
+                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Birthday: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"birthdayLocal"}
-                                                        name={"BirthdayLocal"}
+                                                        name={"BirthdayTown"}
                                                         label={"Local de Nascimento"}
                                                         ariaLabel={"Local de Nascimento"}
                                                         style={inputStyle}
+                                                        value={valuesIndividual.BirthTown}
+                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, BirthTown: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -754,7 +765,7 @@ const individualForm = ({
                                                     <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Informação Adicional</b></h4>
                                                     </div>
@@ -765,6 +776,8 @@ const individualForm = ({
                                                         label={"Cartão de Cidadão"}
                                                         ariaLabel={"Cartão de Cidadão"}
                                                         style={inputStyle}
+                                                        value={valuesIndividual.CC}
+                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, CC: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -797,7 +810,10 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                            </div>
+                                            {/*segunda linha de comboboxs */}
+                                            <div className="flex flex-row justify-between gap-2">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Dados Faturação</b></h4>
                                                     </div>
@@ -850,10 +866,7 @@ const individualForm = ({
                                                     </div>
                                                     <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                 </div>
-                                            </div>
-                                            {/*segunda linha de comboboxs */}
-                                            <div className="flex flex-row justify-around gap-2">
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Marketing</b></h4>
                                                     </div>
@@ -895,7 +908,7 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Class. empresarial</b></h4>
                                                     </div>
@@ -936,7 +949,7 @@ const individualForm = ({
                                                     />
 
                                                 </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Membros</b></h4>
                                                     </div>
@@ -977,8 +990,11 @@ const individualForm = ({
                                                         style={inputStyle}
                                                     />
 
-                                                </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+</div>
+                                            </div>
+                                            {/*terceira linha de comboboxs */}
+                                            <div className="flex flex-col justify-between gap-2">
+                                                <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Notas</b></h4>
                                                     </div>
@@ -1019,8 +1035,8 @@ const individualForm = ({
                                                         style={inputStyle}
                                                     />
 
-                                                </div>
-                                                <div className="bg-white flex flex-col w-1/5 px-5 py-5 border border-neutral-200">
+</div>
+                                                <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Anexos</b></h4>
                                                     </div>

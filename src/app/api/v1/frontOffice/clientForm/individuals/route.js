@@ -20,18 +20,27 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data.Label)
+
+        const birthday = new Date(data.birthday);
+
         const newRecord = await prisma.guestProfile.create({
             data: {
                 firstName: data.firstName,
                 secondName: data.secondName,
                 zipCode: data.zipCode,
+                region: data.region,
                 country: data.country,
                 //countryAddress: parseInt(data.countryAddress)
                 email: data.email,
+                birthday: birthday,
+                birthTown: data.birthTown,
+                cc: data.cc
             }
         });
  
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        const id = newRecord.id;
+
+        return new NextResponse(JSON.stringify({id, newRecord, status: 200 }));
  
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
