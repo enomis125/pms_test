@@ -11,7 +11,7 @@ export default function individualsInsert() {
         Address: '',
         ZipCode: '',
         PersonalEmail: '',
-        WorkEmail: ''
+        WorkEmail: '',
         Region: '',
         Country: '',
         Birthday: '',
