@@ -1175,3 +1175,9 @@ model guestEmails {
   personalEmail     String @default("") @db.VarChar(250)
   professionalEmail String @default("") @db.VarChar(250)
 }
+
+model guestPhone {
+  guestPhoneID      Int    @id @default(autoincrement())
+  personalPhone     String @default("") @db.VarChar(250)
+  professionalPhone String @default("") @db.VarChar(250)
+}

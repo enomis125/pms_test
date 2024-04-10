@@ -12,6 +12,8 @@ export default function individualsInsert() {
         ZipCode: '',
         PersonalEmail: '',
         WorkEmail: '',
+        PersonalPhone: '',
+        WorkPhone: '',
         Region: '',
         Country: '',
         Birthday: '',
@@ -25,7 +27,7 @@ export default function individualsInsert() {
     async function handleSubmiIndividual(event) {
         event.preventDefault()
       
-        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday || !individual.BirthTown || !individual.CC || !individual.PersonalEmail || !individual.WorkEmail ) {
+        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday || !individual.BirthTown || !individual.CC || !individual.PersonalEmail || !individual.WorkEmail || !individual.PersonalPhone || !individual.WorkPhone ) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -40,6 +42,16 @@ export default function individualsInsert() {
             });
             const guestEmailsID = await emailCreationInfo.data.newRecord.guestEmailsID.toString();
 
+
+            const phoneCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/phone', {
+                data: {
+                    personalPhone: individual.PersonalPhone,
+                    professionalPhone: individual.WorkPhone,
+                }
+            });
+            const guestPhoneID = await phoneCreationInfo.data.newRecord.guestPhoneID.toString();
+
+            
             // Envio da solicitação para criar o indivíduo
             const response = await axios.put('/api/v1/frontOffice/clientForm/individuals', {
                 data: {
@@ -52,7 +64,8 @@ export default function individualsInsert() {
                 birthday: individual.Birthday,
                 birthTown: individual.BirthTown,
                 cc: individual.CC,
-                email: guestEmailsID
+                email: guestEmailsID,
+                phoneNumber: guestPhoneID
                 }
             });
             console.log(response); // Exibe a resposta do servidor no console

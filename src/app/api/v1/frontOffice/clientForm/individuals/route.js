@@ -32,6 +32,7 @@ export async function PUT(request) {
                 country: data.country,
                 //countryAddress: parseInt(data.countryAddress)
                 email: data.email,
+                phoneNumber: data.phoneNumber,
                 birthday: birthday,
                 birthTown: data.birthTown,
                 cc: data.cc
