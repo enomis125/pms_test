@@ -86,35 +86,40 @@ export function individualsEdit(idIndividual, idEmail) {
     })
 
     useEffect(() => {
-        axios.get("/api/v1/frontOffice/clientForm/individuals/" + idIndividual)
-            .then(res => {
-                const formattedBirthday = new Date(res.data.response.birthday).toLocaleDateString();
-
-                setValuesIndividual({ ...valuesIndividual, 
-                    FirstName: res.data.response.firstName, 
-                    LastName: res.data.response.secondName, 
-                    Address: res.data.response.country, 
-                    ZipCode: res.data.response.zipCode,
-                    Region: res.data.response.region,
+        const fetchData = async () => {
+            try {
+                // Envio da solicitação para obter os dados do indivíduo
+                const individualResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + idIndividual);
+                const formattedBirthday = new Date(individualResponse.data.response.birthday).toLocaleDateString();
+    
+                setValuesIndividual({ 
+                    ...valuesIndividual, 
+                    FirstName: individualResponse.data.response.firstName, 
+                    LastName: individualResponse.data.response.secondName, 
+                    Address: individualResponse.data.response.country, 
+                    ZipCode: individualResponse.data.response.zipCode,
+                    Region: individualResponse.data.response.region,
                     Birthday: formattedBirthday,
-                    BirthTown: res.data.response.birthTown,
-                    CC: res.data.response.cc,
+                    BirthTown: individualResponse.data.response.birthTown,
+                    CC: individualResponse.data.response.cc,
                 });
-
-                axios.get("/api/v1/frontOffice/clientForm/individuals/email/" + idEmail)
-                    .then(res => {
-                        setValuesEmail({ ...valuesEmail, 
-                            PersonalEmail: res.data.response.personalEmail, 
-                        });
-                    })
-                    .catch(err => {
-                        console.error("Erro ao obter e-mail:", err);
-                    });
-            })
-            .catch(err => {
-                console.error("Erro ao obter informações individuais:", err);
-            });
-    }, [idIndividual, idEmail, valuesIndividual, valuesEmail]);
+    
+                // Envio da solicitação para obter os dados de email
+                const emailResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/email/" + idEmail);
+                setValuesEmail({ 
+                    ...valuesEmail, 
+                    PersonalEmail: emailResponse.data.response.personalEmail,
+                    WorkEmail: emailResponse.data.response.professionalEmail
+                });
+    
+                console.log(individualResponse, emailResponse); // Exibe as respostas do servidor no console
+            } catch (error) {
+                console.error('Erro ao enviar requisições:', error);
+            }
+        };
+    
+        fetchData();
+    }, [idIndividual, idEmail]);
 
 
     function handleUpdateIndividual(e) {
@@ -130,8 +135,16 @@ export function individualsEdit(idIndividual, idEmail) {
                 birthTown: valuesIndividual.BirthTown,
                 cc: valuesIndividual.CC
             }
+        });
+
+        axios.patch(`/api/v1/frontOffice/clientForm/individuals/email/` + idEmail, {
+            data: {
+                personalEmail: valuesEmail.PersonalEmail,
+                professionalEmail: valuesEmail.WorkEmail,
+            }
         })
             .catch(err => console.log(err))
+
     }
 
     return { 

@@ -700,6 +700,8 @@ const individualForm = ({
                                                         label={"E-mail Trabalho"}
                                                         ariaLabel={"E-mail Trabalho"}
                                                         style={inputStyle}
+                                                        value={valuesEmail.WorkEmail}
+                                                        onChange={e => setValuesEmail({ ...valuesEmail, WorkEmail: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
