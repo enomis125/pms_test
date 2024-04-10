@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   //imports de tabelas
-  Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination,
+  Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
   //imports de dropdown menu
   Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
   //imports de inputs
@@ -93,6 +93,7 @@ export default function clientForm() {
                 className="mt-4 w-80"
                 placeholder="Procurar..."
                 labelPlacement="outside"
+                aria-label="Pesquisar clientes"
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
@@ -134,28 +135,28 @@ export default function clientForm() {
             className="h-full overflow-auto"
           >
             <TableHeader>
-              <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
+              <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
+              <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase" aria-label="Tipo de ficha">
                 Tipo de ficha
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Nome">
                 Nome
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Apelido">
                 Apelido
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-                MORADA
+              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Morada">
+                Morada
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="E-mail">
                 E-mail
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Telefone">
                 Telefone
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
+              <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
               </TableColumn>
             </TableHeader>
@@ -187,12 +188,13 @@ export default function clientForm() {
                         <Button
                           variant="light"
                           className="flex flex-row justify-end"
+                          aria-label="Opções"
                         >
                           <BsThreeDotsVertical size={20} className="text-gray-400" />
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                        <DropdownItem key="edit">
+                        <DropdownItem key="edit" aria-label="Editar detalhes">
                           <IndividualForm
                             buttonName={"Editar"}
                             editIcon={<FiEdit3 size={25} />}
@@ -202,13 +204,14 @@ export default function clientForm() {
                             modalEdit={`ID: ${individual.guestProfileID}`}
                             formTypeModal={1}
                             idIndividual={individual.guestProfileID}
+                            idEmail={individual.email}
                             criado={individual.createdAt}
                             editado={individual.updatedAt}
                             editor={"teste"}
                           ></IndividualForm>
                         </DropdownItem>
-                        <DropdownItem key="delete" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
-                        <DropdownItem key="view">Ver</DropdownItem>
+                        <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
+                        <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </TableCell>

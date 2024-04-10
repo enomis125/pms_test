@@ -66,10 +66,11 @@ export default function individualsInsert() {
     };
 }
 
-export function individualsEdit(idIndividual) {
+export function individualsEdit(idIndividual, idEmail) {
     //edição na tabela client preference
     const [valuesIndividual, setValuesIndividual] = useState({
         id: idIndividual,
+        emailID: idEmail,
         FirstName: '',
         LastName: '',
         Address: '',
@@ -78,6 +79,10 @@ export function individualsEdit(idIndividual) {
         Birthday: '',
         BirthTown: '',
         CC: ''
+    })
+    const [valuesEmail, setValuesEmail] = useState({
+        PersonalEmail: '',
+        WorkEmail: '',
     })
 
     useEffect(() => {
@@ -93,11 +98,24 @@ export function individualsEdit(idIndividual) {
                     Region: res.data.response.region,
                     Birthday: formattedBirthday,
                     BirthTown: res.data.response.birthTown,
-                    CC: res.data.response.cc
-                })
+                    CC: res.data.response.cc,
+                });
+
+                axios.get("/api/v1/frontOffice/clientForm/individuals/email/" + idEmail)
+                    .then(res => {
+                        setValuesEmail({ ...valuesEmail, 
+                            PersonalEmail: res.data.response.personalEmail, 
+                        });
+                    })
+                    .catch(err => {
+                        console.error("Erro ao obter e-mail:", err);
+                    });
             })
-            .catch(err => console.log(err))
-    }, [])
+            .catch(err => {
+                console.error("Erro ao obter informações individuais:", err);
+            });
+    }, [idIndividual, idEmail, valuesIndividual, valuesEmail]);
+
 
     function handleUpdateIndividual(e) {
         e.preventDefault()
@@ -117,6 +135,6 @@ export function individualsEdit(idIndividual) {
     }
 
     return { 
-        handleUpdateIndividual, setValuesIndividual, valuesIndividual 
+        handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail
     };
 }

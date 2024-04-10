@@ -19,6 +19,7 @@ import individualsInsert, { individualsEdit } from "@/components/functionsForm/C
 
 const individualForm = ({
     idIndividual,
+    idEmail,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -42,7 +43,7 @@ const individualForm = ({
 
     //import de funções
     const { handleInputIndividual, handleSubmiIndividual } = individualsInsert();
-    const { handleUpdateIndividual, setValuesIndividual, valuesIndividual } = individualsEdit(idIndividual);
+    const { handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail } = individualsEdit(idIndividual, idEmail);
 
     return (
         <>
@@ -225,7 +226,7 @@ const individualForm = ({
                                                         <h4 className="pb-5 text-black-100"><b>Dados Pessoais</b></h4>
                                                     </div>
                                                     <InputFieldControlled
-                                                        type={"text"}
+                                                        type={"date"}
                                                         id={"birthday"}
                                                         name={"Birthday"}
                                                         label={"Data de Nascimento"}
@@ -688,6 +689,8 @@ const individualForm = ({
                                                         label={"E-mail Pessoal"}
                                                         ariaLabel={"E-mail Pessoal"}
                                                         style={inputStyle}
+                                                        value={valuesEmail.PersonalEmail}
+                                                        onChange={e => setValuesEmail({ ...valuesEmail, PersonalEmail: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
