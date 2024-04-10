@@ -6,7 +6,7 @@ export async function GET(request) {
  
     const prisma = new PrismaClient()
  
-    const response = await prisma.guestEmails.findMany()
+    const response = await prisma.guestPhone.findMany()
  
  
     prisma.$disconnect()
@@ -20,10 +20,10 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data.Label)
-        const newRecord = await prisma.guestEmails.create({
+        const newRecord = await prisma.guestPhone.create({
             data: {
-                personalEmail: data.personalEmail,
-                professionalEmail: data.professionalEmail,
+                personalPhone: data.personalPhone,
+                professionalPhone: data.professionalPhone,
             }
         });
  

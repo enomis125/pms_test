@@ -200,6 +200,7 @@ const individualForm = ({
                                                         label={"Telemóvel Pessoal"}
                                                         ariaLabel={"Telemóvel Pessoal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -209,6 +210,7 @@ const individualForm = ({
                                                         label={"Telemóvel Trabalho"}
                                                         ariaLabel={"Telemóvel Trabalho"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -711,6 +713,7 @@ const individualForm = ({
                                                         label={"Telemóvel Pessoal"}
                                                         ariaLabel={"Telemóvel Pessoal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -720,6 +723,7 @@ const individualForm = ({
                                                         label={"Telemóvel Trabalho"}
                                                         ariaLabel={"Telemóvel Trabalho"}
                                                         style={inputStyle}
+                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
