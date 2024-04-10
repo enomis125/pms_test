@@ -79,7 +79,7 @@ export default function individualsInsert() {
     };
 }
 
-export function individualsEdit(idIndividual, idEmail) {
+export function individualsEdit(idIndividual, idEmail, idPhone) {
     //edição na tabela client preference
     const [valuesIndividual, setValuesIndividual] = useState({
         id: idIndividual,
@@ -96,6 +96,10 @@ export function individualsEdit(idIndividual, idEmail) {
     const [valuesEmail, setValuesEmail] = useState({
         PersonalEmail: '',
         WorkEmail: '',
+    })
+    const [valuesPhone, setValuesPhone] = useState({
+        PersonalPhone: '',
+        WorkPhone: '',
     })
 
     useEffect(() => {
@@ -124,15 +128,23 @@ export function individualsEdit(idIndividual, idEmail) {
                     PersonalEmail: emailResponse.data.response.personalEmail,
                     WorkEmail: emailResponse.data.response.professionalEmail
                 });
+
+                //Envio de solicitação para obter os dados do tlm
+                const phoneResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/phone/" + idPhone);
+                setValuesPhone({
+                    ...valuesPhone,
+                    PersonalPhone: phoneResponse.data.response.personalPhone,
+                    WorkPhone: phoneResponse.data.response.professionalPhone
+                })
     
-                console.log(individualResponse, emailResponse); // Exibe as respostas do servidor no console
+                console.log(individualResponse, emailResponse, phoneResponse); // Exibe as respostas do servidor no console
             } catch (error) {
                 console.error('Erro ao enviar requisições:', error);
             }
         };
     
         fetchData();
-    }, [idIndividual, idEmail]);
+    }, [idIndividual, idEmail, idPhone]);
 
 
     function handleUpdateIndividual(e) {
@@ -155,12 +167,19 @@ export function individualsEdit(idIndividual, idEmail) {
                 personalEmail: valuesEmail.PersonalEmail,
                 professionalEmail: valuesEmail.WorkEmail,
             }
+        });
+
+        axios.patch("/api/v1/frontOffice/clientForm/individuals/phone/" + idPhone, {
+            data: {
+                personalPhone: valuesPhone.PersonalPhone,
+                professionalPhone: valuesPhone.WorkPhone,
+            }
         })
             .catch(err => console.log(err))
 
     }
 
     return { 
-        handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail
+        handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone
     };
 }

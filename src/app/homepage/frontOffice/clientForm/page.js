@@ -205,6 +205,7 @@ export default function clientForm() {
                             formTypeModal={1}
                             idIndividual={individual.guestProfileID}
                             idEmail={individual.email}
+                            idPhone={individual.phoneNumber}
                             criado={individual.createdAt}
                             editado={individual.updatedAt}
                             editor={"teste"}

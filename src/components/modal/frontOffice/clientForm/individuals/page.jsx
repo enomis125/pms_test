@@ -20,6 +20,7 @@ import individualsInsert, { individualsEdit } from "@/components/functionsForm/C
 const individualForm = ({
     idIndividual,
     idEmail,
+    idPhone,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -43,7 +44,7 @@ const individualForm = ({
 
     //import de funções
     const { handleInputIndividual, handleSubmiIndividual } = individualsInsert();
-    const { handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail } = individualsEdit(idIndividual, idEmail);
+    const { handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone } = individualsEdit(idIndividual, idEmail, idPhone);
 
     return (
         <>
@@ -713,7 +714,8 @@ const individualForm = ({
                                                         label={"Telemóvel Pessoal"}
                                                         ariaLabel={"Telemóvel Pessoal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
+                                                        value={valuesPhone.PersonalPhone}
+                                                        onChange={e => setValuesPhone({ ...valuesPhone, PersonalPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -723,7 +725,8 @@ const individualForm = ({
                                                         label={"Telemóvel Trabalho"}
                                                         ariaLabel={"Telemóvel Trabalho"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
+                                                        value={valuesPhone.WorkPhone}
+                                                        onChange={e => setValuesPhone({ ...valuesPhone, WorkPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
