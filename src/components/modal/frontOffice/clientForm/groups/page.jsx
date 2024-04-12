@@ -15,6 +15,7 @@ import LanguageAutocomplete from "@/components/functionsForm/autocomplete/langua
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import groupsInsert, { groupsEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/groups/page";
 
 const groupForm = ({
     idIndividual,
@@ -40,6 +41,9 @@ const groupForm = ({
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2 text-sm"
 
 
+    //funções de insert e edit
+    const { handleInputGroup, handleSubmitGroup } = groupsInsert();
+    const { handleUpdateGroup, setValuesGroup, valuesGroup } = groupsEdit(idIndividual);
     return (
         <>
 
@@ -60,7 +64,7 @@ const groupForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form>
+                                    <form onSubmit={handleSubmitGroup}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -80,6 +84,7 @@ const groupForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    onChange={handleInputGroup}
                                                 />
 
                                                 <InputFieldControlled
@@ -89,6 +94,7 @@ const groupForm = ({
                                                     label={"Abreviatura"}
                                                     ariaLabel={"Abreviatura"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    onChange={handleInputGroup}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
@@ -589,7 +595,7 @@ const groupForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form>
+                                    <form onSubmit={(e) => handleUpdateGroup(e)}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -609,6 +615,8 @@ const groupForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={valuesGroup.name}
+                                                    onChange={e => setValuesGroup({ ...valuesGroup, name: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
@@ -618,6 +626,8 @@ const groupForm = ({
                                                     label={"Abreviatura"}
                                                     ariaLabel={"Abreviatura"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={valuesGroup.abreviature}
+                                                    onChange={e => setValuesGroup({ ...valuesGroup, abreviature: e.target.value })}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />

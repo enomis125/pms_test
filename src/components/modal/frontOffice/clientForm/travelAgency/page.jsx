@@ -15,7 +15,7 @@ import LanguageAutocomplete from "@/components/functionsForm/autocomplete/langua
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import agencyInsert, { agencyEdit } from "@/components/functionsForm/CRUD/frontOffice/travelAgency/page";
+import agencyInsert, { agencyEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/travelAgency/page";
 
 const travelGroupForm = ({
     idIndividual,
@@ -76,16 +76,6 @@ const travelGroupForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
-                                            {/*<div className="h-1">
-                                                <CompanyForm
-                                                    buttonName={"Empresas"}
-                                                    modalHeader={"Inserir Ficha de Cliente"}
-                                                    modalEditArrow={<BsArrowRight size={25} />}
-                                                    modalEdit={"Empresa"}
-                                                    buttonColor={"transparent"}
-                                                    formTypeModal={1}
-                                                />
-                            </div>*/}
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -618,16 +608,6 @@ const travelGroupForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
-                                            {/*<div className="h-1">
-                                                <CompanyForm
-                                                    buttonName={"Empresas"}
-                                                    modalHeader={"Inserir Ficha de Cliente"}
-                                                    modalEditArrow={<BsArrowRight size={25} />}
-                                                    modalEdit={"Empresa"}
-                                                    buttonColor={"transparent"}
-                                                    formTypeModal={1}
-                                                />
-                            </div>*/}
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
