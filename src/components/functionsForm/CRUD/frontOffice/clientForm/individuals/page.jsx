@@ -8,7 +8,8 @@ export default function individualsInsert() {
     const [individual, setIndividual] = useState({
         FirstName: '',
         LastName: '',
-        Address: '',
+        MainAddress: '',
+        BillingAddress: '',
         ZipCode: '',
         PersonalEmail: '',
         WorkEmail: '',
@@ -23,7 +24,13 @@ export default function individualsInsert() {
         ExpiryDateDoc: '',
         GuestPersonalNif: '',
         TelephoneNumber: '',
-        GuestCompanyNif: ''
+        GuestCompanyNif: '',
+        Company: '',
+        MainZipCode: '',
+        BillingZipCode: '',
+        MainLocality: '',
+        BillinigLocality: '',
+        NaturalLocality: ''
     })
 
     const handleInputIndividual = (event) => {
@@ -32,9 +39,10 @@ export default function individualsInsert() {
     async function handleSubmiIndividual(event) {
         event.preventDefault()
 
-        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday ||
+        if (!individual.FirstName || !individual.LastName || !individual.MainAddress || !individual.Region || !individual.Birthday ||
             !individual.BirthTown || !individual.CC || !individual.PersonalEmail || !individual.WorkEmail || !individual.PersonalPhone || !individual.WorkPhone ||
-            !individual.TelephoneNumber || !individual.IssueDate || !individual.ExpiryDateDoc || !individual.GuestPersonalNif || !individual.GuestCompanyNif) {
+            !individual.TelephoneNumber || !individual.IssueDate || !individual.ExpiryDateDoc || !individual.GuestPersonalNif || !individual.BillingAddress || !individual.GuestCompanyNif || 
+            !individual.Company || !individual.MainZipCode || !individual.BillingZipCode || !individual.MainLocality || !individual.BillinigLocality || !individual.NaturalLocality) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -66,14 +74,41 @@ export default function individualsInsert() {
             });
             const guestNifID = await nifCreationInfo.data.newRecord.guestNifID.toString();
 
+             // Envio da solicitação para criar as moradas
+             const addressCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/address', {
+                data: {
+                    mainAddress: individual.MainAddress,
+                    billingAddress: individual.BillingAddress,
+                }
+            });
+            const guestAddressID = await addressCreationInfo.data.newRecord.guestAddressID.toString();
+
+            // Envio da solicitação para criar codigo postal
+            const zipCodeCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/zipcode', {
+                data: {
+                    mainZipCode: individual.MainZipCode,
+                    billinigZipCode: individual.BillingZipCode,
+                }
+            });
+            const guestZipCodeID = await zipCodeCreationInfo.data.newRecord.guestZipCodeID.toString();
+
+             // Envio da solicitação para criar localidades
+             const localityCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/locality', {
+                data: {
+                    mainLocality: individual.MainLocality,
+                    billinigLocality: individual.BillinigLocality,
+                    naturalLocality: individual.NaturalLocality,
+                }
+            });
+            const guestLocalityID = await localityCreationInfo.data.newRecord.guestLocalityID.toString();
 
             // Envio da solicitação para criar o indivíduo
             const response = await axios.put('/api/v1/frontOffice/clientForm/individuals', {
                 data: {
                     firstName: individual.FirstName,
                     secondName: individual.LastName,
-                    country: individual.Address,
-                    zipCode: individual.ZipCode,
+                    country: guestAddressID,
+                    zipCode: guestZipCodeID,
                     region: individual.Region,
                     //countryAddress: individual.Country,
                     birthday: individual.Birthday,
@@ -84,7 +119,9 @@ export default function individualsInsert() {
                     email: guestEmailsID,
                     phoneNumber: guestPhoneID,
                     telephoneNumber: individual.TelephoneNumber,
-                    nif: guestNifID
+                    nif: guestNifID,
+                    name: individual.Company,
+                    town: guestLocalityID
                 }
             });
             console.log(response); // Exibe a resposta do servidor no console
@@ -98,22 +135,21 @@ export default function individualsInsert() {
     };
 }
 
-export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
+export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality) {
     //edição na tabela client preference
     const [valuesIndividual, setValuesIndividual] = useState({
         id: idIndividual,
         emailID: idEmail,
         FirstName: '',
         LastName: '',
-        Address: '',
-        ZipCode: '',
         Region: '',
         Birthday: '',
         BirthTown: '',
         CC: '',
         IssueDate: '',
         ExpiryDateDoc: '',
-        TelephoneNumber: ''
+        TelephoneNumber: '',
+        Company: ''
     })
     const [valuesEmail, setValuesEmail] = useState({
         PersonalEmail: '',
@@ -126,6 +162,19 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
     const [valuesNif, setValuesNif] = useState({
         GuestPersonalNif: '',
         GuestCompanyNif: '',
+    })
+    const [valuesAddress, setValuesAddress] = useState({
+        MainAddress: '',
+        BillingAddress: '',
+    })
+    const [valuesZipCode, setValuesZipCode] = useState({
+        mainZipCode: '',
+        billinigZipCode: '',
+    })
+    const [valuesLocality, setValuesLocality] = useState({
+        MainLocality: '',
+        BillinigLocality: '',
+        NaturalLocality: ''   
     })
 
     useEffect(() => {
@@ -141,8 +190,7 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
                     ...valuesIndividual,
                     FirstName: individualResponse.data.response.firstName,
                     LastName: individualResponse.data.response.secondName,
-                    Address: individualResponse.data.response.country,
-                    ZipCode: individualResponse.data.response.zipCode,
+                    //MainAddress: individualResponse.data.response.country,
                     Region: individualResponse.data.response.region,
                     Birthday: formattedBirthday,
                     BirthTown: individualResponse.data.response.birthTown,
@@ -150,6 +198,7 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
                     TelephoneNumber: individualResponse.data.response.telephoneNumber,
                     IssueDate: formattedIssueDate,
                     ExpiryDateDoc: formattedExpiryDateDoc,
+                    Company: individualResponse.data.response.name
                 });
 
                 // Envio da solicitação para obter os dados de email
@@ -176,14 +225,39 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
                     GuestCompanyNif: nifResponse.data.response.guestCompanyNif
                 })
 
-                console.log(individualResponse, emailResponse, phoneResponse); // Exibe as respostas do servidor no console
+                //Envio de solicitação para obter os dados da morada
+                const addressResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/address/" + idAddress);
+                setValuesAddress({
+                    ...valuesAddress,
+                    MainAddress: addressResponse.data.response.mainAddress,
+                    BillingAddress: addressResponse.data.response.billingAddress
+                })
+
+                //Envio de solicitação para obter os dados do codigo postal
+                const zipCodeResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/zipcode/" + idZipCode);
+                setValuesZipCode({
+                    ...valuesZipCode,
+                    mainZipCode: zipCodeResponse.data.response.mainZipCode,
+                    billinigZipCode: zipCodeResponse.data.response.billinigZipCode
+                })
+
+                //Envio de solicitação para obter os dados da localidade
+                const localityResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/locality/" + idLocality);
+                setValuesLocality({
+                    ...valuesLocality,
+                    MainLocality: localityResponse.data.response.mainLocality,
+                    BillinigLocality: localityResponse.data.response.billinigLocality,
+                    NaturalLocality: localityResponse.data.response.naturalLocality,
+                })
+
+                console.log(individualResponse, emailResponse, phoneResponse, addressResponse, zipCodeResponse, localityResponse); // Exibe as respostas do servidor no console
             } catch (error) {
                 console.error('Erro ao enviar requisições:', error);
             }
         };
 
         fetchData();
-    }, [idIndividual, idEmail, idPhone, idNif]);
+    }, [idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality]);
 
 
     function handleUpdateIndividual(e) {
@@ -192,15 +266,15 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
             data: {
                 firstName: valuesIndividual.FirstName,
                 secondName: valuesIndividual.LastName,
-                country: valuesIndividual.Address,
-                zipCode: valuesIndividual.ZipCode,
+                //country: valuesIndividual.Address,
                 region: valuesIndividual.Region,
                 birthday: valuesIndividual.Birthday,
                 birthTown: valuesIndividual.BirthTown,
                 cc: valuesIndividual.CC,
                 telephoneNumber: valuesIndividual.TelephoneNumber,
                 issuedate: valuesIndividual.IssueDate,
-                expiryDateDoc: valuesIndividual.ExpiryDateDoc
+                expiryDateDoc: valuesIndividual.ExpiryDateDoc,
+                name: valuesIndividual.Company
             }
         });
 
@@ -225,12 +299,34 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
             }
         })
 
+        axios.patch("/api/v1/frontOffice/clientForm/individuals/address/" + idAddress, {
+            data: {
+                mainAddress: valuesAddress.MainAddress,
+                billingAddress: valuesAddress.BillingAddress,
+            }
+        })
+
+        axios.patch("/api/v1/frontOffice/clientForm/individuals/zipcode/" + idZipCode, {
+            data: {
+                mainZipCode: valuesAddress.mainZipCode,
+                billinigZipCode: valuesAddress.billinigZipCode,
+            }
+        })
+
+        axios.patch("/api/v1/frontOffice/clientForm/individuals/locality/" + idLocality, {
+            data: {
+                mainLocality: valuesLocality.MainLocality,
+                billinigLocality: valuesLocality.BillinigLocality,
+                naturalLocality: valuesLocality.NaturalLocality,
+            }
+        })
+
             .catch(err => console.log(err))
 
     }
 
     return {
         handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone,
-        setValuesNif, valuesNif
+        setValuesNif, valuesNif, setValuesAddress, valuesAddress, setValuesZipCode, valuesZipCode, setValuesLocality, valuesLocality
     };
 }
