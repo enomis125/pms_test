@@ -10,19 +10,15 @@ import { BsArrowRight } from "react-icons/bs";
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
-import CompanyForm from "../companys/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import individualsInsert, { individualsEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/individuals/page";
+import agencyInsert, { agencyEdit } from "@/components/functionsForm/CRUD/frontOffice/travelAgency/page";
 
-const individualForm = ({
+const travelGroupForm = ({
     idIndividual,
-    idEmail,
-    idPhone,
-    idNif,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -42,11 +38,11 @@ const individualForm = ({
 
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
-    const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
+    const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2 text-sm"
 
     //import de funções
-    const { handleInputIndividual, handleSubmiIndividual } = individualsInsert();
-    const { handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone, setValuesNif, valuesNif } = individualsEdit(idIndividual, idEmail, idPhone, idNif);
+    const { handleInputAgency, handleSubmiAgency } = agencyInsert();
+    const { handleUpdateTravelAgency, setValuesAgency, valuesAgency } = agencyEdit(idIndividual);
 
     return (
         <>
@@ -68,7 +64,7 @@ const individualForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form onSubmit={handleSubmiIndividual}>
+                                    <form onSubmit={handleSubmiAgency}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -94,30 +90,21 @@ const individualForm = ({
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
-                                                    name={"FirstName"}
+                                                    name={"name"}
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    onChange={handleInputIndividual}
+                                                    onChange={handleInputAgency}
                                                 />
 
                                                 <InputFieldControlled
                                                     type={"text"}
-                                                    id={"surname"}
-                                                    name={"LastName"}
-                                                    label={"Apelido"}
-                                                    ariaLabel={"Apelido"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    onChange={handleInputIndividual}
-                                                />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"salutation"}
-                                                    name={"Salutation"}
-                                                    label={"Saudação"}
-                                                    ariaLabel={"Saudação"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    id={"abreviatura"}
+                                                    name={"abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    onChange={handleInputAgency}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
@@ -126,7 +113,7 @@ const individualForm = ({
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Endereço</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Geral</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -135,18 +122,15 @@ const individualForm = ({
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"zipCode"}
-                                                        name={"ZipCode"}
+                                                        name={"zipCode"}
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
-
                                                     />
 
                                                     <InputFieldControlled
@@ -165,148 +149,192 @@ const individualForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputIndividual} />
+                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="flex justify-between items-center">
-                                                        <h4 className="pb-5 text-black-100"><b>Contatos</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Info.</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"personalEmail"}
-                                                        name={"PersonalEmail"}
-                                                        label={"E-mail Pessoal"}
-                                                        ariaLabel={"E-mail Pessoal"}
+                                                        id={"generalEmail"}
+                                                        name={"generalEmail"}
+                                                        label={"E-mail Geral"}
+                                                        ariaLabel={"E-mail Geral"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"workEmail"}
-                                                        name={"WorkEmail"}
-                                                        label={"E-mail Trabalho"}
-                                                        ariaLabel={"E-mail Trabalho"}
+                                                        id={"departmentEmail"}
+                                                        name={"departmentEmail"}
+                                                        label={"E-mail Departamento"}
+                                                        ariaLabel={"E-mail Departamento"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"personalPhone"}
-                                                        name={"PersonalPhone"}
-                                                        label={"Telemóvel Pessoal"}
-                                                        ariaLabel={"Telemóvel Pessoal"}
+                                                        id={"generalPhone"}
+                                                        name={"generalPhone"}
+                                                        label={"Telemóvel Geral"}
+                                                        ariaLabel={"Telemóvel Geral"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"workPhone"}
-                                                        name={"WorkPhone"}
-                                                        label={"Telemóvel Trabalho"}
-                                                        ariaLabel={"Telemóvel Trabalho"}
+                                                        id={"departmentPhone"}
+                                                        name={"departmentPhone"}
+                                                        label={"Telemóvel Departamento"}
+                                                        ariaLabel={"Telemóvel Departamento"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"house"}
-                                                        name={"TelephoneNumber"}
-                                                        label={"Casa"}
-                                                        ariaLabel={"Casa"}
+                                                        id={"link"}
+                                                        name={"url"}
+                                                        label={"URL"}
+                                                        ariaLabel={"URL"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
+                                                        onChange={handleInputAgency}
+
+                                                    />
+
+
+                                                </div>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Contacto 1</b></h4>
+                                                    </div>
+                                                    <div className="flex flex-row justify-center items-center gap-5">
+                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"saudation"}
+                                                            name={"Saudation"}
+                                                            label={"Saudação"}
+                                                            ariaLabel={"Saudação"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+                                                    </div>
+
+                                                    <div className="flex flex-row justify-center items-center">
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"firstName"}
+                                                            name={"firstName"}
+                                                            label={"Nome"}
+                                                            ariaLabel={"Nome"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"lastName"}
+                                                            name={"lastName"}
+                                                            label={"Apelido"}
+                                                            ariaLabel={"Apelido"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+                                                    </div>
+
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"department"}
+                                                        name={"department"}
+                                                        label={"Departamento"}
+                                                        ariaLabel={"Departamento"}
+                                                        style={inputStyle}
+                                                    />
+
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"phone"}
+                                                        name={"phone"}
+                                                        label={"Telemóvel"}
+                                                        ariaLabel={"Telemóvel"}
+                                                        style={inputStyle}
+                                                    />
+
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"email"}
+                                                        name={"email"}
+                                                        label={"Email"}
+                                                        ariaLabel={"Email"}
+                                                        style={inputStyle}
                                                     />
 
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Dados Pessoais</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Contacto 2</b></h4>
                                                     </div>
-                                                    <InputFieldControlled
-                                                        type={"date"}
-                                                        id={"birthday"}
-                                                        name={"Birthday"}
-                                                        label={"Data de Nascimento"}
-                                                        ariaLabel={"Data de Nascimento"}
-                                                        style={inputStyle}
-                                                        onChange={handleInputIndividual}
-                                                    />
+                                                    <div className="flex flex-row justify-center items-center gap-5">
+                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
 
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"birthdayLocal"}
-                                                        name={"BirthTown"}
-                                                        label={"Local de Nascimento"}
-                                                        ariaLabel={"Local de Nascimento"}
-                                                        style={inputStyle}
-                                                        onChange={handleInputIndividual}
-                                                    />
-
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"natural"}
-                                                        name={"Natural"}
-                                                        label={"Naturalidade"}
-                                                        ariaLabel={"Naturalidade"}
-                                                        style={inputStyle}
-                                                    />
-
-                                                    <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
-                                                    {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
-                                                </div>
-                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
-                                                    <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Informação Adicional</b></h4>
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"saudation"}
+                                                            name={"Saudation"}
+                                                            label={"Saudação"}
+                                                            ariaLabel={"Saudação"}
+                                                            style={sharedLineInputStyle}
+                                                        />
                                                     </div>
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"citizenCard"}
-                                                        name={"CC"}
-                                                        label={"Cartão de Cidadão"}
-                                                        ariaLabel={"Cartão de Cidadão"}
-                                                        style={inputStyle}
-                                                        onChange={handleInputIndividual}
-                                                    />
 
-                                                    <InputFieldControlled
-                                                        type={"date"}
-                                                        id={"issuedOn"}
-                                                        name={"IssueDate"}
-                                                        label={"Emitido em:"}
-                                                        ariaLabel={"Emitido em:"}
-                                                        style={inputStyle}
-                                                        onChange={handleInputIndividual}
-                                                    />
+                                                    <div className="flex flex-row justify-center items-center">
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"firstName"}
+                                                            name={"firstName"}
+                                                            label={"Nome"}
+                                                            ariaLabel={"Nome"}
+                                                            style={sharedLineInputStyle}
+                                                        />
 
-                                                    <InputFieldControlled
-                                                        type={"date"}
-                                                        id={"expiredOn"}
-                                                        name={"ExpiryDateDoc"}
-                                                        label={"Expira em:"}
-                                                        ariaLabel={"Expira em:"}
-                                                        style={inputStyle}
-                                                        onChange={handleInputIndividual}
-                                                    />
-
-                                                    <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"lastName"}
+                                                            name={"lastName"}
+                                                            label={"Apelido"}
+                                                            ariaLabel={"Apelido"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+                                                    </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"GuestPersonalNif"}
-                                                        name={"GuestPersonalNif"}
-                                                        label={"Nr. Identificação fiscal"}
-                                                        ariaLabel={"Nr. Identificação fiscal"}
+                                                        id={"department"}
+                                                        name={"department"}
+                                                        label={"Departamento"}
+                                                        ariaLabel={"Departamento"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
+                                                    />
+
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"phone"}
+                                                        name={"phone"}
+                                                        label={"Telemóvel"}
+                                                        ariaLabel={"Telemóvel"}
+                                                        style={inputStyle}
+                                                    />
+
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"email"}
+                                                        name={"email"}
+                                                        label={"Email"}
+                                                        ariaLabel={"Email"}
+                                                        style={inputStyle}
                                                     />
 
                                                 </div>
@@ -333,7 +361,6 @@ const individualForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -579,7 +606,7 @@ const individualForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form onSubmit={(e) => handleUpdateIndividual(e)}>
+                                    <form onSubmit={(e) => handleUpdateTravelAgency(e)}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -605,32 +632,23 @@ const individualForm = ({
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
-                                                    name={"FirstName"}
+                                                    name={"name"}
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={valuesIndividual.FirstName}
-                                                    onChange={e => setValuesIndividual({ ...valuesIndividual, FirstName: e.target.value })}
+                                                    value={valuesAgency.name}
+                                                    onChange={e => setValuesAgency({ ...valuesAgency, name: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
                                                     type={"text"}
-                                                    id={"surname"}
-                                                    name={"LastName"}
-                                                    label={"Apelido"}
-                                                    ariaLabel={"Apelido"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={valuesIndividual.LastName}
-                                                    onChange={e => setValuesIndividual({ ...valuesIndividual, LastName: e.target.value })}
-                                                />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"salutation"}
-                                                    name={"Salutation"}
-                                                    label={"Saudação"}
-                                                    ariaLabel={"Saudação"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    id={"abreviatura"}
+                                                    name={"abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                    style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={valuesAgency.abreviature}
+                                                    onChange={e => setValuesAgency({ ...valuesAgency, abreviature: e.target.value })}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
@@ -639,7 +657,7 @@ const individualForm = ({
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Endereço</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Geral</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -648,20 +666,15 @@ const individualForm = ({
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.Address}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Address: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"zipCode"}
-                                                        name={"ZipCode"}
+                                                        name={"zipCode"}
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.ZipCode}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, ZipCode: e.target.value })}
-
                                                     />
 
                                                     <InputFieldControlled
@@ -680,160 +693,193 @@ const individualForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.Region}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Region: e.target.value })}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onChange={handleInputIndividual} />
+                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
-                                                    <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contatos</b></h4>
+                                                    <div className="flex justify-between items-center">
+                                                        <h4 className="pb-5 text-black-100"><b>Info.</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"personalEmail"}
-                                                        name={"PersonalEmail"}
-                                                        label={"E-mail Pessoal"}
-                                                        ariaLabel={"E-mail Pessoal"}
+                                                        id={"generalEmail"}
+                                                        name={"generalEmail"}
+                                                        label={"E-mail Geral"}
+                                                        ariaLabel={"E-mail Geral"}
                                                         style={inputStyle}
-                                                        value={valuesEmail.PersonalEmail}
-                                                        onChange={e => setValuesEmail({ ...valuesEmail, PersonalEmail: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"workEmail"}
-                                                        name={"WorkEmail"}
-                                                        label={"E-mail Trabalho"}
-                                                        ariaLabel={"E-mail Trabalho"}
+                                                        id={"departmentEmail"}
+                                                        name={"departmentEmail"}
+                                                        label={"E-mail Departamento"}
+                                                        ariaLabel={"E-mail Departamento"}
                                                         style={inputStyle}
-                                                        value={valuesEmail.WorkEmail}
-                                                        onChange={e => setValuesEmail({ ...valuesEmail, WorkEmail: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"personalPhone"}
-                                                        name={"PersonalPhone"}
-                                                        label={"Telemóvel Pessoal"}
-                                                        ariaLabel={"Telemóvel Pessoal"}
+                                                        id={"generalPhone"}
+                                                        name={"generalPhone"}
+                                                        label={"Telemóvel Geral"}
+                                                        ariaLabel={"Telemóvel Geral"}
                                                         style={inputStyle}
-                                                        value={valuesPhone.PersonalPhone}
-                                                        onChange={e => setValuesPhone({ ...valuesPhone, PersonalPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"workPhone"}
-                                                        name={"WorkPhone"}
-                                                        label={"Telemóvel Trabalho"}
-                                                        ariaLabel={"Telemóvel Trabalho"}
+                                                        id={"departmentPhone"}
+                                                        name={"departmentPhone"}
+                                                        label={"Telemóvel Departamento"}
+                                                        ariaLabel={"Telemóvel Departamento"}
                                                         style={inputStyle}
-                                                        value={valuesPhone.WorkPhone}
-                                                        onChange={e => setValuesPhone({ ...valuesPhone, WorkPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"house"}
-                                                        name={"House"}
-                                                        label={"Casa"}
-                                                        ariaLabel={"Casa"}
+                                                        id={"link"}
+                                                        name={"url"}
+                                                        label={"URL"}
+                                                        ariaLabel={"URL"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.TelephoneNumber}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, TelephoneNumber: e.target.value })}
+                                                        value={valuesAgency.url}
+                                                        onChange={e => setValuesAgency({ ...valuesAgency, url: e.target.value })}
+
                                                     />
+
 
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Dados Pessoais</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Contacto 1</b></h4>
                                                     </div>
+                                                    <div className="flex flex-row justify-center items-center gap-5">
+                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"saudation"}
+                                                            name={"Saudation"}
+                                                            label={"Saudação"}
+                                                            ariaLabel={"Saudação"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+                                                    </div>
+
+                                                    <div className="flex flex-row justify-center items-center">
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"firstName"}
+                                                            name={"firstName"}
+                                                            label={"Nome"}
+                                                            ariaLabel={"Nome"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"lastName"}
+                                                            name={"lastName"}
+                                                            label={"Apelido"}
+                                                            ariaLabel={"Apelido"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+                                                    </div>
+
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"birthday"}
-                                                        name={"Birthday"}
-                                                        label={"Data de Nascimento"}
-                                                        ariaLabel={"Data de Nascimento"}
+                                                        id={"department"}
+                                                        name={"department"}
+                                                        label={"Departamento"}
+                                                        ariaLabel={"Departamento"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.Birthday}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Birthday: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"birthdayLocal"}
-                                                        name={"BirthdayTown"}
-                                                        label={"Local de Nascimento"}
-                                                        ariaLabel={"Local de Nascimento"}
+                                                        id={"phone"}
+                                                        name={"phone"}
+                                                        label={"Telemóvel"}
+                                                        ariaLabel={"Telemóvel"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.BirthTown}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, BirthTown: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"natural"}
-                                                        name={"Natural"}
-                                                        label={"Naturalidade"}
-                                                        ariaLabel={"Naturalidade"}
+                                                        id={"email"}
+                                                        name={"email"}
+                                                        label={"Email"}
+                                                        ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
 
-                                                    <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
-                                                    {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Informação Adicional</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Contacto 2</b></h4>
                                                     </div>
+                                                    <div className="flex flex-row justify-center items-center gap-5">
+                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"saudation"}
+                                                            name={"Saudation"}
+                                                            label={"Saudação"}
+                                                            ariaLabel={"Saudação"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+                                                    </div>
+
+                                                    <div className="flex flex-row justify-center items-center">
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"firstName"}
+                                                            name={"firstName"}
+                                                            label={"Nome"}
+                                                            ariaLabel={"Nome"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+
+                                                        <InputFieldControlled
+                                                            type={"text"}
+                                                            id={"lastName"}
+                                                            name={"lastName"}
+                                                            label={"Apelido"}
+                                                            ariaLabel={"Apelido"}
+                                                            style={sharedLineInputStyle}
+                                                        />
+                                                    </div>
+
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"citizenCard"}
-                                                        name={"CC"}
-                                                        label={"Cartão de Cidadão"}
-                                                        ariaLabel={"Cartão de Cidadão"}
+                                                        id={"department"}
+                                                        name={"department"}
+                                                        label={"Departamento"}
+                                                        ariaLabel={"Departamento"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.CC}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, CC: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"issuedOn"}
-                                                        name={"IssueDate"}
-                                                        label={"Emitido em:"}
-                                                        ariaLabel={"Emitido em:"}
+                                                        id={"phone"}
+                                                        name={"phone"}
+                                                        label={"Telemóvel"}
+                                                        ariaLabel={"Telemóvel"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.IssueDate}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, IssueDate: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"expiredOn"}
-                                                        name={"ExperiedOn"}
-                                                        label={"Expira em:"}
-                                                        ariaLabel={"Expira em:"}
+                                                        id={"email"}
+                                                        name={"email"}
+                                                        label={"Email"}
+                                                        ariaLabel={"Email"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.ExpiryDateDoc}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, ExpiryDateDoc: e.target.value })}
-                                                    />
-
-                                                    <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
-
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"fiscalNumber"}
-                                                        name={"FiscalNumber"}
-                                                        label={"Nr. Identificação fiscal"}
-                                                        ariaLabel={"Nr. Identificação fiscal"}
-                                                        style={inputStyle}
-                                                        value={valuesNif.GuestPersonalNif}
-                                                        onChange={e => setValuesNif({ ...valuesNif, GuestPersonalNif: e.target.value })}
                                                     />
 
                                                 </div>
@@ -855,13 +901,11 @@ const individualForm = ({
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"fiscalNumber"}
-                                                        name={"FiscalNumber"}
+                                                        id={"GuestCompanyNif"}
+                                                        name={"GuestCompanyNif"}
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
-                                                        value={valuesNif.GuestCompanyNif}
-                                                        onChange={e => setValuesNif({ ...valuesNif, GuestCompanyNif: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -1093,4 +1137,4 @@ const individualForm = ({
     );
 };
 
-export default individualForm;
+export default travelGroupForm;

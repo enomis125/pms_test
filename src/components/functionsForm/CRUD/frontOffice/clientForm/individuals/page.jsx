@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function individualsInsert() {
 
-     //inserção na tabela client preference
+    //inserção na tabela client preference
     const [individual, setIndividual] = useState({
         FirstName: '',
         LastName: '',
@@ -18,7 +18,12 @@ export default function individualsInsert() {
         Country: '',
         Birthday: '',
         BirthTown: '',
-        CC: ''
+        CC: '',
+        IssueDate: '',
+        ExpiryDateDoc: '',
+        GuestPersonalNif: '',
+        TelephoneNumber: '',
+        GuestCompanyNif: ''
     })
 
     const handleInputIndividual = (event) => {
@@ -26,13 +31,15 @@ export default function individualsInsert() {
     }
     async function handleSubmiIndividual(event) {
         event.preventDefault()
-      
-        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday || !individual.BirthTown || !individual.CC || !individual.PersonalEmail || !individual.WorkEmail || !individual.PersonalPhone || !individual.WorkPhone ) {
+
+        if (!individual.FirstName || !individual.LastName || !individual.Address || !individual.ZipCode || !individual.Region || !individual.Birthday ||
+            !individual.BirthTown || !individual.CC || !individual.PersonalEmail || !individual.WorkEmail || !individual.PersonalPhone || !individual.WorkPhone ||
+            !individual.TelephoneNumber || !individual.IssueDate || !individual.ExpiryDateDoc || !individual.GuestPersonalNif || !individual.GuestCompanyNif) {
             alert("Preencha os campos corretamente");
             return;
         }
-      
-      try {
+
+        try {
             // Envio da solicitação para criar os emails
             const emailCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/email', {
                 data: {
@@ -51,35 +58,47 @@ export default function individualsInsert() {
             });
             const guestPhoneID = await phoneCreationInfo.data.newRecord.guestPhoneID.toString();
 
-            
+            const nifCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/nif', {
+                data: {
+                    guestPersonalNif: individual.GuestPersonalNif,
+                    guestCompanyNif: individual.GuestCompanyNif,
+                }
+            });
+            const guestNifID = await nifCreationInfo.data.newRecord.guestNifID.toString();
+
+
             // Envio da solicitação para criar o indivíduo
             const response = await axios.put('/api/v1/frontOffice/clientForm/individuals', {
                 data: {
-                firstName: individual.FirstName,
-                secondName: individual.LastName,
-                country: individual.Address,
-                zipCode: individual.ZipCode,
-                region: individual.Region,
-                //countryAddress: individual.Country,
-                birthday: individual.Birthday,
-                birthTown: individual.BirthTown,
-                cc: individual.CC,
-                email: guestEmailsID,
-                phoneNumber: guestPhoneID
+                    firstName: individual.FirstName,
+                    secondName: individual.LastName,
+                    country: individual.Address,
+                    zipCode: individual.ZipCode,
+                    region: individual.Region,
+                    //countryAddress: individual.Country,
+                    birthday: individual.Birthday,
+                    birthTown: individual.BirthTown,
+                    cc: individual.CC,
+                    issuedate: individual.IssueDate,
+                    expiryDateDoc: individual.ExpiryDateDoc,
+                    email: guestEmailsID,
+                    phoneNumber: guestPhoneID,
+                    telephoneNumber: individual.TelephoneNumber,
+                    nif: guestNifID
                 }
             });
             console.log(response); // Exibe a resposta do servidor no console
         } catch (error) {
             console.error('Erro ao enviar requisições:', error);
         }
-      
+
     }
-    return { 
+    return {
         handleInputIndividual, handleSubmiIndividual
     };
 }
 
-export function individualsEdit(idIndividual, idEmail, idPhone) {
+export function individualsEdit(idIndividual, idEmail, idPhone, idNif) {
     //edição na tabela client preference
     const [valuesIndividual, setValuesIndividual] = useState({
         id: idIndividual,
@@ -91,7 +110,10 @@ export function individualsEdit(idIndividual, idEmail, idPhone) {
         Region: '',
         Birthday: '',
         BirthTown: '',
-        CC: ''
+        CC: '',
+        IssueDate: '',
+        ExpiryDateDoc: '',
+        TelephoneNumber: ''
     })
     const [valuesEmail, setValuesEmail] = useState({
         PersonalEmail: '',
@@ -101,6 +123,10 @@ export function individualsEdit(idIndividual, idEmail, idPhone) {
         PersonalPhone: '',
         WorkPhone: '',
     })
+    const [valuesNif, setValuesNif] = useState({
+        GuestPersonalNif: '',
+        GuestCompanyNif: '',
+    })
 
     useEffect(() => {
         const fetchData = async () => {
@@ -108,23 +134,28 @@ export function individualsEdit(idIndividual, idEmail, idPhone) {
                 // Envio da solicitação para obter os dados do indivíduo
                 const individualResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + idIndividual);
                 const formattedBirthday = new Date(individualResponse.data.response.birthday).toLocaleDateString();
-    
-                setValuesIndividual({ 
-                    ...valuesIndividual, 
-                    FirstName: individualResponse.data.response.firstName, 
-                    LastName: individualResponse.data.response.secondName, 
-                    Address: individualResponse.data.response.country, 
+                const formattedIssueDate = new Date(individualResponse.data.response.issuedate).toLocaleDateString();
+                const formattedExpiryDateDoc = new Date(individualResponse.data.response.expiryDateDoc).toLocaleDateString();
+
+                setValuesIndividual({
+                    ...valuesIndividual,
+                    FirstName: individualResponse.data.response.firstName,
+                    LastName: individualResponse.data.response.secondName,
+                    Address: individualResponse.data.response.country,
                     ZipCode: individualResponse.data.response.zipCode,
                     Region: individualResponse.data.response.region,
                     Birthday: formattedBirthday,
                     BirthTown: individualResponse.data.response.birthTown,
                     CC: individualResponse.data.response.cc,
+                    TelephoneNumber: individualResponse.data.response.telephoneNumber,
+                    IssueDate: formattedIssueDate,
+                    ExpiryDateDoc: formattedExpiryDateDoc,
                 });
-    
+
                 // Envio da solicitação para obter os dados de email
                 const emailResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/email/" + idEmail);
-                setValuesEmail({ 
-                    ...valuesEmail, 
+                setValuesEmail({
+                    ...valuesEmail,
                     PersonalEmail: emailResponse.data.response.personalEmail,
                     WorkEmail: emailResponse.data.response.professionalEmail
                 });
@@ -136,15 +167,23 @@ export function individualsEdit(idIndividual, idEmail, idPhone) {
                     PersonalPhone: phoneResponse.data.response.personalPhone,
                     WorkPhone: phoneResponse.data.response.professionalPhone
                 })
-    
+
+                //Envio de solicitação para obter os dados do tlm
+                const nifResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/nif/" + idNif);
+                setValuesNif({
+                    ...valuesNif,
+                    GuestPersonalNif: nifResponse.data.response.guestPersonalNif,
+                    GuestCompanyNif: nifResponse.data.response.guestCompanyNif
+                })
+
                 console.log(individualResponse, emailResponse, phoneResponse); // Exibe as respostas do servidor no console
             } catch (error) {
                 console.error('Erro ao enviar requisições:', error);
             }
         };
-    
+
         fetchData();
-    }, [idIndividual, idEmail, idPhone]);
+    }, [idIndividual, idEmail, idPhone, idNif]);
 
 
     function handleUpdateIndividual(e) {
@@ -158,7 +197,10 @@ export function individualsEdit(idIndividual, idEmail, idPhone) {
                 region: valuesIndividual.Region,
                 birthday: valuesIndividual.Birthday,
                 birthTown: valuesIndividual.BirthTown,
-                cc: valuesIndividual.CC
+                cc: valuesIndividual.CC,
+                telephoneNumber: valuesIndividual.TelephoneNumber,
+                issuedate: valuesIndividual.IssueDate,
+                expiryDateDoc: valuesIndividual.ExpiryDateDoc
             }
         });
 
@@ -175,11 +217,20 @@ export function individualsEdit(idIndividual, idEmail, idPhone) {
                 professionalPhone: valuesPhone.WorkPhone,
             }
         })
+
+        axios.patch("/api/v1/frontOffice/clientForm/individuals/nif/" + idNif, {
+            data: {
+                guestPersonalNif: valuesNif.GuestPersonalNif,
+                guestCompanyNif: valuesNif.GuestCompanyNif,
+            }
+        })
+
             .catch(err => console.log(err))
 
     }
 
-    return { 
-        handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone
+    return {
+        handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone,
+        setValuesNif, valuesNif
     };
 }

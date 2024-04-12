@@ -21,6 +21,9 @@ import { BsArrowRight } from "react-icons/bs";
 
 //imports de componentes
 import IndividualForm from "@/components/modal/frontOffice/clientForm/individuals/page";
+import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAgency/page";
+import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
+import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
 
@@ -82,6 +85,31 @@ export default function clientForm() {
     }
   };
 
+  const [selectedComponent, setSelectedComponent] = useState(null)
+
+  const handleClickIndividual = () => {
+    setSelectedComponent('IndividualForm')
+  }
+
+  const handleClickAgency = () => {
+    setSelectedComponent('AgencyForm')
+  }
+
+  const handleClickGroup = () => {
+    setSelectedComponent('GroupForm')
+  }
+
+  const handleClickOthers = () => {
+    setSelectedComponent('OthersForm')
+  }
+
+
+  //botoes que mudam de cor
+  const [selectedButton, setSelectedButton] = useState("")
+
+  const handleClickChangeButton = (name) => {
+    setSelectedButton(name)
+  }
   return (
     <main>
       <div className="flex flex-col mt-3 py-3">
@@ -102,16 +130,48 @@ export default function clientForm() {
               />
             </div>
           </div>
-          <IndividualForm
-            buttonName={"Novo"}
-            buttonIcon={<FiPlus size={15} />}
-            buttonColor={"primary"}
-            modalHeader={"Inserir Ficha de Cliente"}
-            modalEditArrow={<BsArrowRight size={25} />}
-            modalEdit={"Particular"}
-            modalIcons={"bg-red"}
-            formTypeModal={0}
-          ></IndividualForm>
+          {selectedComponent === 'IndividualForm' && (
+            <IndividualForm
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Particular"}
+              modalIcons={"bg-red"}
+              formTypeModal={0}
+            ></IndividualForm>
+          )}
+          {selectedComponent === 'AgencyForm' && (
+            <TravelGroupForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Agencia de Viagens"} />
+          )}
+          {selectedComponent === 'GroupForm' && (
+            <GroupForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Grupos"} />
+          )}
+          {selectedComponent === 'OthersForm' && (
+            <OthersForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Outros"} />
+          )}
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -123,6 +183,40 @@ export default function clientForm() {
           items={items}
           setPage={setPage}
         >
+          <div className="flex flex-row gap-4 mb-2">
+            <button 
+            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
+            onClick={() => {
+              handleClickIndividual();
+              setSelectedButton("individual");
+            }}>
+              Individual
+            </button>
+            <button 
+            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
+            onClick={() => {
+              handleClickAgency();
+              setSelectedButton("agency");
+            }}>
+              Agência de Viagens
+              </button>
+            <button 
+            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
+            onClick={() => {
+              handleClickGroup();
+              setSelectedButton("group");
+            }}>
+              Grupos
+              </button>
+            <button 
+            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
+            onClick={() => {
+              handleClickOthers();
+              setSelectedButton("others");
+            }}>
+              Outros
+              </button>
+          </div>
           <Table
             id="TableToPDF"
             isHeaderSticky={"true"}
@@ -163,19 +257,71 @@ export default function clientForm() {
             <TableBody>
               {items.map((individual, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-right undeline text-blue-600"><IndividualForm
-                    buttonName={individual.guestProfileID}
-                    editIcon={<FiEdit3 size={25} />}
-                    buttonColor={"transparent"}
-                    modalHeader={"Editar Ficha de Cliente"}
-                    modalEditArrow={<BsArrowRight size={25} />}
-                    modalEdit={`ID: ${individual.guestProfileID}`}
-                    formTypeModal={1}
-                    idIndividual={individual.guestProfileID}
-                    criado={individual.createdAt}
-                    editado={individual.updatedAt}
-                    editor={"teste"}
-                  /></TableCell>
+                  <TableCell className="text-right undeline text-blue-600">
+                    {individual.profileType === 0 ? (
+                      <IndividualForm
+                        buttonName={individual.guestProfileID}
+                        editIcon={<FiEdit3 size={25} />}
+                        buttonColor={"transparent"}
+                        modalHeader={"Editar Ficha de Cliente"}
+                        modalEditArrow={<BsArrowRight size={25} />}
+                        modalEdit={`ID: ${individual.guestProfileID}`}
+                        formTypeModal={1}
+                        idIndividual={individual.guestProfileID}
+                        criado={individual.createdAt}
+                        editado={individual.updatedAt}
+                        editor={"teste"}
+                      />
+                    ) : (
+                      individual.profileType === 2 ? (
+                        <TravelGroupForm
+                          buttonName={individual.guestProfileID}
+                          editIcon={<FiEdit3 size={25} />}
+                          buttonColor={"transparent"}
+                          modalHeader={"Editar Ficha de cliente"}
+                          modalEditArrow={<BsArrowRight size={25} />}
+                          modalEdit={`ID: ${individual.guestProfileID}`}
+                          formTypeModal={1}
+                          idIndividual={individual.guestProfileID}
+                          criado={individual.createdAt}
+                          editado={individual.updatedAt}
+                          editor={"teste"}
+                        />
+                      ) : (
+                        individual.profileType === 3 ? (
+                          <GroupForm
+                            buttonName={individual.guestProfileID}
+                            editIcon={<FiEdit3 size={25} />}
+                            buttonColor={"transparent"}
+                            modalHeader={"Editar Ficha de cliente"}
+                            modalEditArrow={<BsArrowRight size={25} />}
+                            modalEdit={`ID: ${individual.guestProfileID}`}
+                            formTypeModal={1}
+                            idIndividual={individual.guestProfileID}
+                            criado={individual.createdAt}
+                            editado={individual.updatedAt}
+                            editor={"teste"}
+                          />
+                        ) : (
+                          individual.profileType === 4 ? (
+                            <OthersForm
+                              buttonName={individual.guestProfileID}
+                              editIcon={<FiEdit3 size={25} />}
+                              buttonColor={"transparent"}
+                              modalHeader={"Editar Ficha de cliente"}
+                              modalEditArrow={<BsArrowRight size={25} />}
+                              modalEdit={`ID: ${individual.guestProfileID}`}
+                              formTypeModal={1}
+                              idIndividual={individual.guestProfileID}
+                              criado={individual.createdAt}
+                              editado={individual.updatedAt}
+                              editor={"teste"}
+                            />
+                          ) : null
+                        )
+                      )
+                    )}
+                  </TableCell>
                   <TableCell className="px-20">{individual.profileType}</TableCell>
                   <TableCell className="">{individual.firstName}</TableCell>
                   <TableCell className="">{individual.secondName}</TableCell>
@@ -195,21 +341,69 @@ export default function clientForm() {
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                         <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <IndividualForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Anulação de Cobrança"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${individual.guestProfileID}`}
-                            formTypeModal={1}
-                            idIndividual={individual.guestProfileID}
-                            idEmail={individual.email}
-                            idPhone={individual.phoneNumber}
-                            criado={individual.createdAt}
-                            editado={individual.updatedAt}
-                            editor={"teste"}
-                          ></IndividualForm>
+                          {individual.profileType === 0 ? (
+                            <IndividualForm
+                              buttonName={"Editar"}
+                              editIcon={<FiEdit3 size={25} />}
+                              buttonColor={"transparent"}
+                              modalHeader={"Editar Ficha de Cliente"}
+                              modalEditArrow={<BsArrowRight size={25} />}
+                              modalEdit={`ID: ${individual.guestProfileID}`}
+                              formTypeModal={1}
+                              idIndividual={individual.guestProfileID}
+                              criado={individual.createdAt}
+                              editado={individual.updatedAt}
+                              editor={"teste"}
+                            />
+                          ) : (
+                            individual.profileType === 2 ? (
+                              <TravelGroupForm
+                                buttonName={"Editar"}
+                                editIcon={<FiEdit3 size={25} />}
+                                buttonColor={"transparent"}
+                                modalHeader={"Editar Ficha de cliente"}
+                                modalEditArrow={<BsArrowRight size={25} />}
+                                modalEdit={`ID: ${individual.guestProfileID}`}
+                                formTypeModal={1}
+                                idIndividual={individual.guestProfileID}
+                                criado={individual.createdAt}
+                                editado={individual.updatedAt}
+                                editor={"teste"}
+                              />
+                            ) : (
+                              individual.profileType === 3 ? (
+                                <GroupForm
+                                  buttonName={"Editar"}
+                                  editIcon={<FiEdit3 size={25} />}
+                                  buttonColor={"transparent"}
+                                  modalHeader={"Editar Ficha de cliente"}
+                                  modalEditArrow={<BsArrowRight size={25} />}
+                                  modalEdit={`ID: ${individual.guestProfileID}`}
+                                  formTypeModal={1}
+                                  idIndividual={individual.guestProfileID}
+                                  criado={individual.createdAt}
+                                  editado={individual.updatedAt}
+                                  editor={"teste"}
+                                />
+                              ) : (
+                                individual.profileType === 4 ? (
+                                  <OthersForm
+                                    buttonName={"Editar"}
+                                    editIcon={<FiEdit3 size={25} />}
+                                    buttonColor={"transparent"}
+                                    modalHeader={"Editar Ficha de cliente"}
+                                    modalEditArrow={<BsArrowRight size={25} />}
+                                    modalEdit={`ID: ${individual.guestProfileID}`}
+                                    formTypeModal={1}
+                                    idIndividual={individual.guestProfileID}
+                                    criado={individual.createdAt}
+                                    editado={individual.updatedAt}
+                                    editor={"teste"}
+                                  />
+                                ) : null
+                              )
+                            )
+                          )}
                         </DropdownItem>
                         <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
                         <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>

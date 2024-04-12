@@ -48,17 +48,7 @@ export async function PATCH(request, context) {
                 guestProfileID: parseInt(id),
             },
             data: {
-                firstName: data.firstName,
-                secondName: data.secondName,
-                zipCode: data.zipCode,
-                region: data.region,
-                country: data.country,
-                birthday: birthday,
-                birthTown: data.birthTown,
-                cc: data.cc,
-                telephoneNumber: data.telephoneNumber,
-                issuedate: issuedate,
-                expiryDateDoc: expiryDateDoc
+                name: data.name
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));
