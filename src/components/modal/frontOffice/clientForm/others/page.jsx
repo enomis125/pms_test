@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from "react";
+import Reac from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
@@ -10,19 +10,13 @@ import { BsArrowRight } from "react-icons/bs";
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
-import CompanyForm from "../companys/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import individualsInsert, { individualsEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/individuals/page";
 
-const individualForm = ({
-    idIndividual,
-    idEmail,
-    idPhone,
-    idNif,
+const othersForm = ({
     buttonName,
     buttonIcon,
     modalHeader,
@@ -44,9 +38,6 @@ const individualForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    //import de funções
-    const { handleInputIndividual, handleSubmiIndividual } = individualsInsert();
-    const { handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone, setValuesNif, valuesNif } = individualsEdit(idIndividual, idEmail, idPhone, idNif);
 
     return (
         <>
@@ -68,7 +59,7 @@ const individualForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form onSubmit={handleSubmiIndividual}>
+                                    <form>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -80,16 +71,6 @@ const individualForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
-                                            {/*<div className="h-1">
-                                                <CompanyForm
-                                                    buttonName={"Empresas"}
-                                                    modalHeader={"Inserir Ficha de Cliente"}
-                                                    modalEditArrow={<BsArrowRight size={25} />}
-                                                    modalEdit={"Empresa"}
-                                                    buttonColor={"transparent"}
-                                                    formTypeModal={1}
-                                                />
-                            </div>*/}
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -98,7 +79,6 @@ const individualForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    onChange={handleInputIndividual}
                                                 />
 
                                                 <InputFieldControlled
@@ -108,7 +88,6 @@ const individualForm = ({
                                                     label={"Apelido"}
                                                     ariaLabel={"Apelido"}
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    onChange={handleInputIndividual}
                                                 />
 
                                                 <InputFieldControlled
@@ -135,7 +114,6 @@ const individualForm = ({
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -145,7 +123,6 @@ const individualForm = ({
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
 
                                                     />
 
@@ -165,11 +142,10 @@ const individualForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputIndividual} />
+                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -183,7 +159,6 @@ const individualForm = ({
                                                         label={"E-mail Pessoal"}
                                                         ariaLabel={"E-mail Pessoal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -193,7 +168,6 @@ const individualForm = ({
                                                         label={"E-mail Trabalho"}
                                                         ariaLabel={"E-mail Trabalho"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -203,7 +177,6 @@ const individualForm = ({
                                                         label={"Telemóvel Pessoal"}
                                                         ariaLabel={"Telemóvel Pessoal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -213,7 +186,6 @@ const individualForm = ({
                                                         label={"Telemóvel Trabalho"}
                                                         ariaLabel={"Telemóvel Trabalho"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -223,7 +195,6 @@ const individualForm = ({
                                                         label={"Casa"}
                                                         ariaLabel={"Casa"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                 </div>
@@ -238,7 +209,6 @@ const individualForm = ({
                                                         label={"Data de Nascimento"}
                                                         ariaLabel={"Data de Nascimento"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -248,7 +218,6 @@ const individualForm = ({
                                                         label={"Local de Nascimento"}
                                                         ariaLabel={"Local de Nascimento"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -274,7 +243,6 @@ const individualForm = ({
                                                         label={"Cartão de Cidadão"}
                                                         ariaLabel={"Cartão de Cidadão"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -284,7 +252,6 @@ const individualForm = ({
                                                         label={"Emitido em:"}
                                                         ariaLabel={"Emitido em:"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -294,7 +261,6 @@ const individualForm = ({
                                                         label={"Expira em:"}
                                                         ariaLabel={"Expira em:"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
@@ -306,7 +272,6 @@ const individualForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                 </div>
@@ -333,7 +298,6 @@ const individualForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
-                                                        onChange={handleInputIndividual}
                                                     />
 
                                                     <InputFieldControlled
@@ -579,7 +543,7 @@ const individualForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form onSubmit={(e) => handleUpdateIndividual(e)}>
+                                    <form>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -591,16 +555,6 @@ const individualForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
-                                            {/*<div className="h-1">
-                                                <CompanyForm
-                                                    buttonName={"Empresas"}
-                                                    modalHeader={"Inserir Ficha de Cliente"}
-                                                    modalEditArrow={<BsArrowRight size={25} />}
-                                                    modalEdit={"Empresa"}
-                                                    buttonColor={"transparent"}
-                                                    formTypeModal={1}
-                                                />
-                            </div>*/}
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -609,8 +563,6 @@ const individualForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={valuesIndividual.FirstName}
-                                                    onChange={e => setValuesIndividual({ ...valuesIndividual, FirstName: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
@@ -620,8 +572,6 @@ const individualForm = ({
                                                     label={"Apelido"}
                                                     ariaLabel={"Apelido"}
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={valuesIndividual.LastName}
-                                                    onChange={e => setValuesIndividual({ ...valuesIndividual, LastName: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
@@ -648,8 +598,6 @@ const individualForm = ({
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.Address}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Address: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -659,8 +607,6 @@ const individualForm = ({
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.ZipCode}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, ZipCode: e.target.value })}
 
                                                     />
 
@@ -680,12 +626,10 @@ const individualForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.Region}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Region: e.target.value })}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onChange={handleInputIndividual} />
+                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -699,8 +643,6 @@ const individualForm = ({
                                                         label={"E-mail Pessoal"}
                                                         ariaLabel={"E-mail Pessoal"}
                                                         style={inputStyle}
-                                                        value={valuesEmail.PersonalEmail}
-                                                        onChange={e => setValuesEmail({ ...valuesEmail, PersonalEmail: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -710,8 +652,7 @@ const individualForm = ({
                                                         label={"E-mail Trabalho"}
                                                         ariaLabel={"E-mail Trabalho"}
                                                         style={inputStyle}
-                                                        value={valuesEmail.WorkEmail}
-                                                        onChange={e => setValuesEmail({ ...valuesEmail, WorkEmail: e.target.value })}
+
                                                     />
 
                                                     <InputFieldControlled
@@ -721,8 +662,6 @@ const individualForm = ({
                                                         label={"Telemóvel Pessoal"}
                                                         ariaLabel={"Telemóvel Pessoal"}
                                                         style={inputStyle}
-                                                        value={valuesPhone.PersonalPhone}
-                                                        onChange={e => setValuesPhone({ ...valuesPhone, PersonalPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -732,8 +671,6 @@ const individualForm = ({
                                                         label={"Telemóvel Trabalho"}
                                                         ariaLabel={"Telemóvel Trabalho"}
                                                         style={inputStyle}
-                                                        value={valuesPhone.WorkPhone}
-                                                        onChange={e => setValuesPhone({ ...valuesPhone, WorkPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -743,8 +680,6 @@ const individualForm = ({
                                                         label={"Casa"}
                                                         ariaLabel={"Casa"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.TelephoneNumber}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, TelephoneNumber: e.target.value })}
                                                     />
 
                                                 </div>
@@ -759,8 +694,6 @@ const individualForm = ({
                                                         label={"Data de Nascimento"}
                                                         ariaLabel={"Data de Nascimento"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.Birthday}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, Birthday: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -770,8 +703,6 @@ const individualForm = ({
                                                         label={"Local de Nascimento"}
                                                         ariaLabel={"Local de Nascimento"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.BirthTown}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, BirthTown: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -797,8 +728,6 @@ const individualForm = ({
                                                         label={"Cartão de Cidadão"}
                                                         ariaLabel={"Cartão de Cidadão"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.CC}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, CC: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -808,8 +737,6 @@ const individualForm = ({
                                                         label={"Emitido em:"}
                                                         ariaLabel={"Emitido em:"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.IssueDate}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, IssueDate: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -819,8 +746,6 @@ const individualForm = ({
                                                         label={"Expira em:"}
                                                         ariaLabel={"Expira em:"}
                                                         style={inputStyle}
-                                                        value={valuesIndividual.ExpiryDateDoc}
-                                                        onChange={e => setValuesIndividual({ ...valuesIndividual, ExpiryDateDoc: e.target.value })}
                                                     />
 
                                                     <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
@@ -832,8 +757,6 @@ const individualForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
-                                                        value={valuesNif.GuestPersonalNif}
-                                                        onChange={e => setValuesNif({ ...valuesNif, GuestPersonalNif: e.target.value })}
                                                     />
 
                                                 </div>
@@ -860,8 +783,6 @@ const individualForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
-                                                        value={valuesNif.GuestCompanyNif}
-                                                        onChange={e => setValuesNif({ ...valuesNif, GuestCompanyNif: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -1093,4 +1014,4 @@ const individualForm = ({
     );
 };
 
-export default individualForm;
+export default othersForm;

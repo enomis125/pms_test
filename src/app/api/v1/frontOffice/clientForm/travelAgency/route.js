@@ -21,28 +21,12 @@ export async function PUT(request) {
         const { data } = await request.json();
         console.log(data.Label)
 
-        const birthday = new Date(data.birthday);
-        const issuedate = new Date(data.issuedate);
-        const expiryDateDoc = new Date(data.expiryDateDoc);
-
         const newRecord = await prisma.guestProfile.create({
             data: {
-                firstName: data.firstName,
-                secondName: data.secondName,
-                zipCode: data.zipCode,
-                region: data.region,
-                country: data.country,
-                //countryAddress: parseInt(data.countryAddress)
-                email: parseInt(data.email),
-                phoneNumber: data.phoneNumber,
-                birthday: birthday,
-                birthTown: data.birthTown,
-                cc: data.cc,
-                telephoneNumber: data.telephoneNumber,
-                issuedate: issuedate,
-                expiryDateDoc: expiryDateDoc,
-                nif: parseInt(data.nif),
-                profileType: 0
+                name: data.name,
+                shortName: data.shortName,
+                websiteURL: data.websiteURL,
+                profileType: 2
             }
         });
  
