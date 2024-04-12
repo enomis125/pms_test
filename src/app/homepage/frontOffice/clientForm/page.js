@@ -107,9 +107,10 @@ export default function clientForm() {
   //botoes que mudam de cor
   const [selectedButton, setSelectedButton] = useState("")
 
-  const handleClickChangeButton = (name) => {
+  /*const handleClickChangeButton = (name) => {
     setSelectedButton(name)
-  }
+  }*/
+
   return (
     <main>
       <div className="flex flex-col mt-3 py-3">
@@ -184,38 +185,38 @@ export default function clientForm() {
           setPage={setPage}
         >
           <div className="flex flex-row gap-4 mb-2">
-            <button 
-            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
-            onClick={() => {
-              handleClickIndividual();
-              setSelectedButton("individual");
-            }}>
+            <button
+              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickIndividual();
+                setSelectedButton("individual");
+              }}>
               Individual
             </button>
-            <button 
-            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
-            onClick={() => {
-              handleClickAgency();
-              setSelectedButton("agency");
-            }}>
+            <button
+              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
               Agência de Viagens
-              </button>
-            <button 
-            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
-            onClick={() => {
-              handleClickGroup();
-              setSelectedButton("group");
-            }}>
+            </button>
+            <button
+              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickGroup();
+                setSelectedButton("group");
+              }}>
               Grupos
-              </button>
-            <button 
-            className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`} 
-            onClick={() => {
-              handleClickOthers();
-              setSelectedButton("others");
-            }}>
+            </button>
+            <button
+              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickOthers();
+                setSelectedButton("others");
+              }}>
               Outros
-              </button>
+            </button>
           </div>
           <Table
             id="TableToPDF"
@@ -268,6 +269,12 @@ export default function clientForm() {
                         modalEdit={`ID: ${individual.guestProfileID}`}
                         formTypeModal={1}
                         idIndividual={individual.guestProfileID}
+                        idEmail={individual.email}
+                        idPhone={individual.phoneNumber}
+                        idNif={individual.nif}
+                        idAddress={individual.country}
+                        idZipCode={individual.zipCode}
+                        idLocality={individual.town}
                         criado={individual.createdAt}
                         editado={individual.updatedAt}
                         editor={"teste"}
@@ -323,7 +330,7 @@ export default function clientForm() {
                     )}
                   </TableCell>
                   <TableCell className="px-20">{individual.profileType}</TableCell>
-                  <TableCell className="">{individual.firstName}</TableCell>
+                  <TableCell className="">{individual.firstName ? individual.firstName : individual.name}</TableCell>
                   <TableCell className="">{individual.secondName}</TableCell>
                   <TableCell className="">{individual.country}</TableCell>
                   <TableCell className="">{individual.email}</TableCell>
@@ -351,6 +358,12 @@ export default function clientForm() {
                               modalEdit={`ID: ${individual.guestProfileID}`}
                               formTypeModal={1}
                               idIndividual={individual.guestProfileID}
+                              idEmail={individual.email}
+                              idPhone={individual.phoneNumber}
+                              idNif={individual.nif}
+                              idAddress={individual.country}
+                              idZipCode={individual.zipCode}
+                              idLocality={individual.town}
                               criado={individual.createdAt}
                               editado={individual.updatedAt}
                               editor={"teste"}

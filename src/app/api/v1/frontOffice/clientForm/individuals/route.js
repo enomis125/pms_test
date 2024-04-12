@@ -31,7 +31,7 @@ export async function PUT(request) {
                 secondName: data.secondName,
                 zipCode: data.zipCode,
                 region: data.region,
-                country: data.country,
+                country: parseInt(data.country),
                 //countryAddress: parseInt(data.countryAddress)
                 email: parseInt(data.email),
                 phoneNumber: data.phoneNumber,
@@ -42,6 +42,8 @@ export async function PUT(request) {
                 issuedate: issuedate,
                 expiryDateDoc: expiryDateDoc,
                 nif: parseInt(data.nif),
+                name: data.name,
+                town: data.town,
                 profileType: 0
             }
         });

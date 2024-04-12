@@ -18,9 +18,9 @@ export async function GET(request, context) {
  
     console.log(id)
  
-    const response = await prisma.guestProfile.findUnique({
+    const response = await prisma.guestZipCode.findUnique({
         where: {
-            guestProfileID: parseInt(id)
+            guestZipCodeID: parseInt(id)
         }
     })
  
@@ -40,26 +40,13 @@ export async function PATCH(request, context) {
     try {
         const { id } = context.params;
         const { data } = await request.json();
-        const birthday = new Date(data.birthday);
-        const issuedate = new Date(data.issuedate);
-        const expiryDateDoc = new Date(data.expiryDateDoc);
-        const updateRecord = await prisma.guestProfile.update({
+        const updateRecord = await prisma.guestZipCode.update({
             where: {
-                guestProfileID: parseInt(id),
+                guestZipCodeID: parseInt(id),
             },
             data: {
-                firstName: data.firstName,
-                secondName: data.secondName,
-                zipCode: data.zipCode,
-                region: data.region,
-                country: data.country,
-                birthday: birthday,
-                birthTown: data.birthTown,
-                cc: data.cc,
-                telephoneNumber: data.telephoneNumber,
-                issuedate: issuedate,
-                expiryDateDoc: expiryDateDoc,
-                name: data.name
+                mainZipCode: data.mainZipCode,
+                billinigZipCode: data.billinigZipCode,
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));
@@ -81,9 +68,9 @@ export async function DELETE(request, context) {
  
         console.log(id)
  
-        const deleteRecord = await prisma.guestProfile.delete({
+        const deleteRecord = await prisma.guestZipCode.delete({
             where: {
-                guestProfileID: parseInt(id),
+                guestZipCodeID: parseInt(id),
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));
