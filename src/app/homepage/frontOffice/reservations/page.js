@@ -21,9 +21,6 @@ import { BsArrowRight } from "react-icons/bs";
 
 //imports de componentes
 import IndividualForm from "@/components/modal/frontOffice/clientForm/individuals/page";
-import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAgency/page";
-import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
-import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
 
@@ -85,6 +82,9 @@ export default function clientForm() {
     }
   };
 
+  //botoes que mudam de cor
+  const [selectedButton, setSelectedButton] = useState("")
+
   const [selectedComponent, setSelectedComponent] = useState(null)
 
   const handleClickIndividual = () => {
@@ -103,18 +103,10 @@ export default function clientForm() {
     setSelectedComponent('OthersForm')
   }
 
-
-  //botoes que mudam de cor
-  const [selectedButton, setSelectedButton] = useState("")
-
-  /*const handleClickChangeButton = (name) => {
-    setSelectedButton(name)
-  }*/
-
   return (
     <main>
       <div className="flex flex-col mt-1 py-3">
-        <p className="text-xs px-6">Fichas de Clientes</p>
+        <p className="text-xs px-6">Reservas</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
@@ -131,7 +123,6 @@ export default function clientForm() {
               />
             </div>
           </div>
-          {selectedComponent === 'IndividualForm' && (
             <IndividualForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
@@ -142,37 +133,6 @@ export default function clientForm() {
               modalIcons={"bg-red"}
               formTypeModal={0}
             ></IndividualForm>
-          )}
-          {selectedComponent === 'AgencyForm' && (
-            <TravelGroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Agencia de Viagens"} />
-          )}
-          {selectedComponent === 'GroupForm' && (
-            <GroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Grupos"} />
-          )}
-          {selectedComponent === 'OthersForm' && (
-            <OthersForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Outros"} />
-          )}
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -184,14 +144,14 @@ export default function clientForm() {
           items={items}
           setPage={setPage}
         >
-          <div className="flex flex-row gap-4 mb-2">
+            <div className="flex flex-row gap-4 mb-2">
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
                 handleClickIndividual();
                 setSelectedButton("individual");
               }}>
-              Individual
+              Checked In
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -199,7 +159,7 @@ export default function clientForm() {
                 handleClickAgency();
                 setSelectedButton("agency");
               }}>
-              Agência de Viagens
+              Checked Out
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -207,7 +167,7 @@ export default function clientForm() {
                 handleClickGroup();
                 setSelectedButton("group");
               }}>
-              Grupos
+              Canceladas
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -215,7 +175,7 @@ export default function clientForm() {
                 handleClickOthers();
                 setSelectedButton("others");
               }}>
-              Outros
+              Pagas
             </button>
           </div>
           <Table
@@ -233,23 +193,29 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase" aria-label="Tipo de ficha">
-                Tipo de ficha
+              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-64 uppercase" aria-label="Nome do Hóspede">
+                Nome do Hóspede
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Nome">
-                Nome
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
+                Check-In
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Apelido">
-                Apelido
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-Out">
+                Check-Out
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Morada">
-                Morada
+              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Noites">
+                Noites
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="E-mail">
-                E-mail
+              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Quarto">
+                Quarto
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Telefone">
-                Telefone
+              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RT">
+                RT
+              </TableColumn>
+              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Pessoas">
+                Pessoas
+              </TableColumn>
+              <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="RI">
+                RI
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
@@ -259,7 +225,6 @@ export default function clientForm() {
               {items.map((individual, index) => (
                 <TableRow key={index}>
                   <TableCell className="text-right undeline text-blue-600">
-                    {individual.profileType === 0 ? (
                       <IndividualForm
                         buttonName={individual.guestProfileID}
                         editIcon={<FiEdit3 size={25} />}
@@ -279,66 +244,15 @@ export default function clientForm() {
                         editado={individual.updatedAt}
                         editor={"teste"}
                       />
-                    ) : (
-                      individual.profileType === 2 ? (
-                        <TravelGroupForm
-                          buttonName={individual.guestProfileID}
-                          editIcon={<FiEdit3 size={25} />}
-                          buttonColor={"transparent"}
-                          modalHeader={"Editar Ficha de cliente"}
-                          modalEditArrow={<BsArrowRight size={25} />}
-                          modalEdit={`ID: ${individual.guestProfileID}`}
-                          formTypeModal={1}
-                          idAgency={individual.guestProfileID}
-                          idNifAgency={individual.nif}
-                          idAddressAgency={individual.country}
-                          idZipCodeAgency={individual.zipCode}
-                          idLocalityAgency={individual.town}
-                          criado={individual.createdAt}
-                          editado={individual.updatedAt}
-                          editor={"teste"}
-                        />
-                      ) : (
-                        individual.profileType === 3 ? (
-                          <GroupForm
-                            buttonName={individual.guestProfileID}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Ficha de cliente"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${individual.guestProfileID}`}
-                            formTypeModal={1}
-                            idIndividual={individual.guestProfileID}
-                            criado={individual.createdAt}
-                            editado={individual.updatedAt}
-                            editor={"teste"}
-                          />
-                        ) : (
-                          individual.profileType === 4 ? (
-                            <OthersForm
-                              buttonName={individual.guestProfileID}
-                              editIcon={<FiEdit3 size={25} />}
-                              buttonColor={"transparent"}
-                              modalHeader={"Editar Ficha de cliente"}
-                              modalEditArrow={<BsArrowRight size={25} />}
-                              modalEdit={`ID: ${individual.guestProfileID}`}
-                              formTypeModal={1}
-                              idIndividual={individual.guestProfileID}
-                              criado={individual.createdAt}
-                              editado={individual.updatedAt}
-                              editor={"teste"}
-                            />
-                          ) : null
-                        )
-                      )
-                    )}
                   </TableCell>
-                  <TableCell className="px-20">{individual.profileType}</TableCell>
-                  <TableCell className="">{individual.firstName ? individual.firstName : individual.name}</TableCell>
-                  <TableCell className="">{individual.secondName}</TableCell>
-                  <TableCell className="">{individual.country}</TableCell>
-                  <TableCell className="">{individual.email}</TableCell>
-                  <TableCell className="">{individual.phoneNumber}</TableCell>
+                  <TableCell className="px-4">{"alterar alterar alterar"}</TableCell>
+                  <TableCell className="px-10">{"alterar"}</TableCell>
+                  <TableCell className="px-10">{"alterar"}</TableCell>
+                  <TableCell className="px-40">{"alterar"}</TableCell>
+                  <TableCell className="px-40">{"alterar"}</TableCell>
+                  <TableCell className="px-40">{"aa"}</TableCell>
+                  <TableCell className="px-[12%]">{"alterar"}</TableCell>
+                  <TableCell className="px-[8%]">{"aa"}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
@@ -352,7 +266,6 @@ export default function clientForm() {
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                         <DropdownItem key="edit" aria-label="Editar detalhes">
-                          {individual.profileType === 0 ? (
                             <IndividualForm
                               buttonName={"Editar"}
                               editIcon={<FiEdit3 size={25} />}
@@ -372,59 +285,6 @@ export default function clientForm() {
                               editado={individual.updatedAt}
                               editor={"teste"}
                             />
-                          ) : (
-                            individual.profileType === 2 ? (
-                              <TravelGroupForm
-                                buttonName={"Editar"}
-                                editIcon={<FiEdit3 size={25} />}
-                                buttonColor={"transparent"}
-                                modalHeader={"Editar Ficha de cliente"}
-                                modalEditArrow={<BsArrowRight size={25} />}
-                                modalEdit={`ID: ${individual.guestProfileID}`}
-                                formTypeModal={1}
-                                idAgency={individual.guestProfileID}
-                                idNifAgency={individual.nif}
-                                idAddressAgency={individual.country}
-                                idZipCodeAgency={individual.zipCode}
-                                idLocalityAgency={individual.town}
-                                criado={individual.createdAt}
-                                editado={individual.updatedAt}
-                                editor={"teste"}
-                              />
-                            ) : (
-                              individual.profileType === 3 ? (
-                                <GroupForm
-                                  buttonName={"Editar"}
-                                  editIcon={<FiEdit3 size={25} />}
-                                  buttonColor={"transparent"}
-                                  modalHeader={"Editar Ficha de cliente"}
-                                  modalEditArrow={<BsArrowRight size={25} />}
-                                  modalEdit={`ID: ${individual.guestProfileID}`}
-                                  formTypeModal={1}
-                                  idIndividual={individual.guestProfileID}
-                                  criado={individual.createdAt}
-                                  editado={individual.updatedAt}
-                                  editor={"teste"}
-                                />
-                              ) : (
-                                individual.profileType === 4 ? (
-                                  <OthersForm
-                                    buttonName={"Editar"}
-                                    editIcon={<FiEdit3 size={25} />}
-                                    buttonColor={"transparent"}
-                                    modalHeader={"Editar Ficha de cliente"}
-                                    modalEditArrow={<BsArrowRight size={25} />}
-                                    modalEdit={`ID: ${individual.guestProfileID}`}
-                                    formTypeModal={1}
-                                    idIndividual={individual.guestProfileID}
-                                    criado={individual.createdAt}
-                                    editado={individual.updatedAt}
-                                    editor={"teste"}
-                                  />
-                                ) : null
-                              )
-                            )
-                          )}
                         </DropdownItem>
                         <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
                         <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>

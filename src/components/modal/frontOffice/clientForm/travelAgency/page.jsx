@@ -18,7 +18,11 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import agencyInsert, { agencyEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/travelAgency/page";
 
 const travelGroupForm = ({
-    idIndividual,
+    idAgency,
+    idNifAgency,
+    idAddressAgency,
+    idZipCodeAgency,
+    idLocalityAgency,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -42,7 +46,9 @@ const travelGroupForm = ({
 
     //import de funções
     const { handleInputAgency, handleSubmiAgency } = agencyInsert();
-    const { handleUpdateTravelAgency, setValuesAgency, valuesAgency } = agencyEdit(idIndividual);
+    const { handleUpdateTravelAgency, setValuesAgency, valuesAgency, setValuesAddress, valuesAddress,
+        setValuesZipCode, valuesZipCode, setValuesLocality, valuesLocality, setValuesNif, valuesNif
+    } = agencyEdit(idAgency, idNifAgency, idAddressAgency, idZipCodeAgency, idLocalityAgency);
 
     return (
         <>
@@ -108,28 +114,32 @@ const travelGroupForm = ({
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"MainAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        onChange={handleInputAgency}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"zipCode"}
-                                                        name={"zipCode"}
+                                                        name={"MainZipCode"}
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputAgency}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"local"}
-                                                        name={"Local"}
+                                                        name={"MainLocality"}
                                                         label={"Localidade"}
                                                         ariaLabel={"Localidade"}
                                                         style={inputStyle}
+                                                        onChange={handleInputAgency}
+
                                                     />
 
                                                     <InputFieldControlled
@@ -139,6 +149,8 @@ const travelGroupForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
+                                                        onChange={handleInputAgency}
+
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
@@ -351,34 +363,39 @@ const travelGroupForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputAgency}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"BillingAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        onChange={handleInputAgency}
+
                                                     />
 
                                                     <div className="flex flex-row gap-5">
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"zipCode"}
-                                                            name={"ZipCode"}
+                                                            name={"BillingZipCode"}
                                                             label={"Cod.-Postal"}
                                                             ariaLabel={"Cod.-Postal"}
                                                             style={sharedLineInputStyle}
+                                                            onChange={handleInputAgency}
                                                         />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"local"}
-                                                            name={"Local"}
+                                                            name={"BillingLocality"}
                                                             label={"Localidade"}
                                                             ariaLabel={"Localidade"}
                                                             style={sharedLineInputStyle}
+                                                            onChange={handleInputAgency}
                                                         />
 
                                                     </div>
@@ -642,19 +659,23 @@ const travelGroupForm = ({
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"MainAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        value={valuesAddress.MainAddress}
+                                                        onChange={e => setValuesAddress({ ...valuesAddress, MainAddress: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"zipCode"}
-                                                        name={"zipCode"}
+                                                        name={"MainZipCode"}
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
+                                                        value={valuesZipCode.MainZipCode}
+                                                        onChange={e => setValuesZipCode({ ...valuesZipCode, MainZipCode: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -664,6 +685,8 @@ const travelGroupForm = ({
                                                         label={"Localidade"}
                                                         ariaLabel={"Localidade"}
                                                         style={inputStyle}
+                                                        value={valuesLocality.MainLocality}
+                                                        onChange={e => setValuesLocality({ ...valuesLocality, MainLocality: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -673,6 +696,8 @@ const travelGroupForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
+                                                        value={valuesAgency.Region}
+                                                        onChange={e => setValuesAgency({ ...valuesAgency, Region: e.target.value })}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
@@ -886,34 +911,43 @@ const travelGroupForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
+                                                        value={valuesNif.GuestCompanyNif}
+                                                        onChange={e => setValuesNif({ ...valuesNif, GuestCompanyNif: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"BillingAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        value={valuesAddress.BillingAddress}
+                                                        onChange={e => setValuesAddress({ ...valuesAddress, BillingAddress: e.target.value })}
                                                     />
 
                                                     <div className="flex flex-row gap-5">
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"zipCode"}
-                                                            name={"ZipCode"}
+                                                            name={"BillinigZipCode"}
                                                             label={"Cod.-Postal"}
                                                             ariaLabel={"Cod.-Postal"}
                                                             style={sharedLineInputStyle}
+                                                            value={valuesZipCode.BillinigZipCode}
+                                                            onChange={e => setValuesZipCode({ ...valuesZipCode, BillinigZipCode: e.target.value })}
+
                                                         />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"local"}
-                                                            name={"Local"}
+                                                            name={"BillinigLocality"}
                                                             label={"Localidade"}
                                                             ariaLabel={"Localidade"}
                                                             style={sharedLineInputStyle}
+                                                            value={valuesLocality.BillinigLocality}
+                                                            onChange={e => setValuesLocality({ ...valuesLocality, BillinigLocality: e.target.value })}
                                                         />
 
                                                     </div>
