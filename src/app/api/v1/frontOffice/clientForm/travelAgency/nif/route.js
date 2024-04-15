@@ -6,7 +6,7 @@ export async function GET(request) {
  
     const prisma = new PrismaClient()
  
-    const response = await prisma.guestProfile.findMany()
+    const response = await prisma.guestNIFs.findMany()
  
  
     prisma.$disconnect()
@@ -20,26 +20,13 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data.Label)
-
-        const newRecord = await prisma.guestProfile.create({
+        const newRecord = await prisma.guestNIFs.create({
             data: {
-                name: data.name,
-                shortName: data.shortName,
-                websiteURL: data.websiteURL,
-                //geral
-                country: parseInt(data.country),
-                zipCode: data.zipCode,
-                town: data.town,
-                region: data.region,
-                //dados faturação
-                nif: parseInt(data.nif),
-                profileType: 2
+                guestCompanyNif: data.guestCompanyNif,
             }
         });
  
-        const id = newRecord.id;
-
-        return new NextResponse(JSON.stringify({id, newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
  
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });

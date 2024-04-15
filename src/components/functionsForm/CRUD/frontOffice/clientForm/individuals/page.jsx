@@ -308,8 +308,8 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress
 
         axios.patch("/api/v1/frontOffice/clientForm/individuals/zipcode/" + idZipCode, {
             data: {
-                mainZipCode: valuesAddress.mainZipCode,
-                billinigZipCode: valuesAddress.billinigZipCode,
+                mainZipCode: valuesZipCode.mainZipCode,
+                billinigZipCode: valuesZipCode.billinigZipCode,
             }
         })
 
