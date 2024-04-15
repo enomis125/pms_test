@@ -118,13 +118,13 @@ export default function clientForm() {
 
   return (
     <main>
-      <div className="flex flex-col mt-3 py-3">
+      <div className="flex flex-col mt-1 py-3">
         <p className="text-xs px-6">Fichas de Clientes</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
               <Input
-                className="mt-4 w-80"
+                className="mt-2 w-80"
                 placeholder="Procurar..."
                 labelPlacement="outside"
                 aria-label="Pesquisar clientes"
@@ -203,7 +203,7 @@ export default function clientForm() {
         >
           <div className="flex flex-row gap-4 mb-2">
             <button
-              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
                 handleClickIndividual();
                 setSelectedButton("individual");
@@ -211,7 +211,7 @@ export default function clientForm() {
               Individual
             </button>
             <button
-              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "company" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "company" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
                 handleClickCompany();
                 setSelectedButton("company");
@@ -219,7 +219,7 @@ export default function clientForm() {
               Empresa
             </button>
             <button
-              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
                 handleClickAgency();
                 setSelectedButton("agency");
@@ -227,7 +227,7 @@ export default function clientForm() {
               Agência de Viagens
             </button>
             <button
-              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
                 handleClickGroup();
                 setSelectedButton("group");
@@ -235,7 +235,7 @@ export default function clientForm() {
               Grupos
             </button>
             <button
-              className={`py-1 px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
                 handleClickOthers();
                 setSelectedButton("others");
@@ -331,7 +331,11 @@ export default function clientForm() {
                           modalEditArrow={<BsArrowRight size={25} />}
                           modalEdit={`ID: ${individual.guestProfileID}`}
                           formTypeModal={1}
-                          idIndividual={individual.guestProfileID}
+                          idAgency={individual.guestProfileID}
+                          idNifAgency={individual.nif}
+                          idAddressAgency={individual.country}
+                          idZipCodeAgency={individual.zipCode}
+                          idLocalityAgency={individual.town}
                           criado={individual.createdAt}
                           editado={individual.updatedAt}
                           editor={"teste"}
@@ -438,7 +442,11 @@ export default function clientForm() {
                                 modalEditArrow={<BsArrowRight size={25} />}
                                 modalEdit={`ID: ${individual.guestProfileID}`}
                                 formTypeModal={1}
-                                idIndividual={individual.guestProfileID}
+                                idAgency={individual.guestProfileID}
+                                idNifAgency={individual.nif}
+                                idAddressAgency={individual.country}
+                                idZipCodeAgency={individual.zipCode}
+                                idLocalityAgency={individual.town}
                                 criado={individual.createdAt}
                                 editado={individual.updatedAt}
                                 editor={"teste"}
