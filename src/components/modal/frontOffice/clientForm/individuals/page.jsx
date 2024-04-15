@@ -10,7 +10,7 @@ import { BsArrowRight } from "react-icons/bs";
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
-import CompanyForm from "../companys/page";
+import CompanyForm from "../companies/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";

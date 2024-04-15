@@ -21,10 +21,23 @@ export default function CustomPagination({
   const filename = `${lastSegment}.csv`;
 
   const exportToPDF = () => {
-    const pdf = new jsPDF();
-    pdf.autoTable({ html: "#TableToPDF" });
-    pdf.save(`${lastSegment}.pdf`);
-  };
+  const pdf = new jsPDF();
+
+  const titleFontSize = 16;
+  const titleMargin = 10;
+
+
+  // Set title font size and add title text
+  pdf.setFontSize(titleFontSize);
+  pdf.text(titleMargin, titleFontSize, lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1));
+
+  // Render the table below the title
+  pdf.autoTable({ html: "#TableToPDF", startY: titleFontSize + titleMargin + 5 });
+
+  // Save the PDF with the specified filename
+  pdf.save(`${lastSegment}.pdf`);
+};
+
   return (
     <>
       <div className="bg-tableFooter border border-tableFooterBorder flex justify-between items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
