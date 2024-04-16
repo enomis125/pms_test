@@ -15,8 +15,10 @@ import LanguageAutocomplete from "@/components/functionsForm/autocomplete/langua
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
 
 const reservationsForm = ({
+    idReservation,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -38,12 +40,13 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-
+    const { handleInputReservation, handleSubmitReservation } = reservationInsert();
+    const { handleUpdateReservation, setValuesReserve, valuesReserve } = reservationEdit(idReservation);
 
     return (
         <>
 
-            {formTypeModal === 0 && ( //individuals insert
+            {formTypeModal === 0 && ( //reservations insert
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -60,7 +63,7 @@ const reservationsForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form>
+                                    <form onSubmit={handleSubmitReservation}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -112,18 +115,21 @@ const reservationsForm = ({
                                                         <InputFieldControlled
                                                             type={"date"}
                                                             id={"arrival"}
+                                                            name={"CheckIn"}
                                                             label={"Arrival:"}
                                                             ariaLabel={"Arrival:"}
                                                             style={inputStyle}
+                                                            onChange={handleInputReservation}
                                                         />
 
                                                         <InputFieldControlled
                                                             type={"date"}
                                                             id={"optional"}
-                                                            name={"Optional"}
+                                                            name={"CheckOut"}
                                                             label={"Optional:"}
                                                             ariaLabel={"Optional:"}
                                                             style={inputStyle}
+                                                            onChange={handleInputReservation}
                                                         />
 
                                                     </div>
@@ -327,7 +333,7 @@ const reservationsForm = ({
                 </>
             )}
 
-            {formTypeModal === 1 && ( //individuals insert
+            {formTypeModal === 1 && ( //reservations edit
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
@@ -344,7 +350,7 @@ const reservationsForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form onSubmit={(e) => handleUpdateTravelAgency(e)}>
+                                    <form onSubmit={(e) => handleUpdateReservation(e)}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -364,8 +370,6 @@ const reservationsForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={valuesAgency.name}
-                                                    onChange={e => setValuesAgency({ ...valuesAgency, name: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
@@ -375,8 +379,6 @@ const reservationsForm = ({
                                                     label={"Abreviatura"}
                                                     ariaLabel={"Abreviatura"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={valuesAgency.abreviature}
-                                                    onChange={e => setValuesAgency({ ...valuesAgency, abreviature: e.target.value })}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
@@ -388,24 +390,24 @@ const reservationsForm = ({
                                                         <h4 className="pb-5 text-black-100"><b>Stay Details</b></h4>
                                                     </div>
                                                     <InputFieldControlled
-                                                        type={"date"}
+                                                        type={"text"}
                                                         id={"arrival"}
                                                         label={"Arrival:"}
                                                         ariaLabel={"Arrival:"}
                                                         style={inputStyle}
-                                                        value={valuesAddress.MainAddress}
-                                                        onChange={e => setValuesAddress({ ...valuesAddress, MainAddress: e.target.value })}
+                                                        value={valuesReserve.CheckIn}
+                                                        onChange={e => setValuesReserve({ ...valuesReserve, CheckIn: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
-                                                        type={"date"}
+                                                        type={"text"}
                                                         id={"optional"}
                                                         name={"Optional"}
                                                         label={"Optional:"}
                                                         ariaLabel={"Optional:"}
                                                         style={inputStyle}
-                                                        value={valuesZipCode.MainZipCode}
-                                                        onChange={e => setValuesZipCode({ ...valuesZipCode, MainZipCode: e.target.value })}
+                                                        value={valuesReserve.CheckOut}
+                                                        onChange={e => setValuesReserve({ ...valuesReserve, CheckOut: e.target.value })}
                                                     />
 
                                                     <div className="flex flex-row gap-5">
@@ -416,8 +418,6 @@ const reservationsForm = ({
                                                             label={"Nights"}
                                                             ariaLabel={"Nights"}
                                                             style={inputStyle}
-                                                            value={valuesLocality.MainLocality}
-                                                            onChange={e => setValuesLocality({ ...valuesLocality, MainLocality: e.target.value })}
                                                         />
 
                                                         <InputFieldControlled
@@ -427,8 +427,6 @@ const reservationsForm = ({
                                                             label={"Guests per Room"}
                                                             ariaLabel={"Guests per Room"}
                                                             style={inputStyle}
-                                                            value={valuesAgency.Region}
-                                                            onChange={e => setValuesAgency({ ...valuesAgency, Region: e.target.value })}
                                                         />
 
                                                         <InputFieldControlled
@@ -438,11 +436,7 @@ const reservationsForm = ({
                                                             label={"Departure:"}
                                                             ariaLabel={"Departure:"}
                                                             style={inputStyle}
-                                                            value={valuesAgency.Region}
-                                                            onChange={e => setValuesAgency({ ...valuesAgency, Region: e.target.value })}
                                                         />
-
-
 
                                                     </div>
 
