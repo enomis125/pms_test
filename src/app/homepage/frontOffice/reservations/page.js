@@ -20,39 +20,35 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
 
 //imports de componentes
-import IndividualForm from "@/components/modal/frontOffice/clientForm/individuals/page";
-import CompanyForm from "@/components/modal/frontOffice/clientForm/companies/page";
-import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAgency/page";
-import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
-import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
+import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
-import definiteForm from "@/components/modal/frontOffice/clientForm/reservations/page";
 
 
 export default function clientForm() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
-  const [individual, setIndividual] = useState([]);
+  const [reservation, setReservation] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
-      setIndividual(res.data.response);
+      const res = await axios.get("/api/v1/frontOffice/reservations");
+      setReservation(res.data.response);
     };
     getData();
   }, []);
 
+
   const filteredItems = React.useMemo(() => {
-    if (!individual || !Array.isArray(individual)) {
+    if (!reservation || !Array.isArray(reservation)) {
       return [];
     }
 
-    return individual.filter((individual) =>
-      (individual.firstName && individual.firstName.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (individual.guestProfileID && individual.guestProfileID.toString().toLowerCase().includes(searchValue.toLowerCase()))
+    return reservation.filter((reservation) =>
+      (reservation.checkInDate && reservation.checkInDate.toLowerCase().includes(searchValue.toLowerCase())) ||
+      (reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase()))
     );
-  }, [individual, searchValue]);
+  }, [reservation, searchValue]);
 
 
   const items = React.useMemo(() => {
@@ -64,8 +60,8 @@ export default function clientForm() {
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
-  const renderCell = React.useCallback((individual, columnKey) => {
-    const cellValue = individual[columnKey];
+  const renderCell = React.useCallback((reservation, columnKey) => {
+    const cellValue = reservation[columnKey];
   }, []);
 
   const handleChangeRowsPerPage = (event) => {
@@ -78,35 +74,14 @@ export default function clientForm() {
     setPage(1);
   };
 
-  const handleDelete = async (idIndividual) => {
+  const handleDelete = async (idReservation) => {
     try {
-      const response = await axios.delete(`/api/v1/frontOffice/clientForm/individuals/` + idIndividual);
+      const response = await axios.delete(`/api/v1/frontOffice/reservations/` + idReservation);
       alert("Departamento removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover departamento.", error.message);
     }
   };
-
-  //botoes que mudam de cor
-  const [selectedButton, setSelectedButton] = useState("")
-
-  const [selectedComponent, setSelectedComponent] = useState(null)
-
-  const handleClickIndividual = () => {
-    setSelectedComponent('IndividualForm')
-  }
-
-  const handleClickAgency = () => {
-    setSelectedComponent('AgencyForm')
-  }
-
-  const handleClickGroup = () => {
-    setSelectedComponent('GroupForm')
-  }
-
-  const handleClickOthers = () => {
-    setSelectedComponent('OthersForm')
-  }
 
   return (
     <main>
@@ -128,70 +103,14 @@ export default function clientForm() {
               />
             </div>
           </div>
-          {selectedComponent === 'IndividualForm' && (
-            <IndividualForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Particular"}
-              modalIcons={"bg-red"}
-              formTypeModal={0}
-            ></IndividualForm>
-          )}
-          {selectedComponent === 'CompanyForm' && (
-            <CompanyForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Empresa"}
-              modalIcons={"bg-red"}
-              formTypeModal={0}
-            ></CompanyForm>
-          )}
-          {selectedComponent === 'AgencyForm' && (
-            <TravelGroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Agencia de Viagens"} />
-          )}
-          {selectedComponent === 'GroupForm' && (
-            <GroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Grupos"} />
-          )}
-          {selectedComponent === 'OthersForm' && (
-            <OthersForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Outros"} />
-          )}
-          {selectedComponent === 'definiteForm' && (
-            <definiteForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Definite"} />
-          )}
+          <ReservationsForm
+            formTypeModal={0}
+            buttonName={"Novo"}
+            buttonIcon={<FiPlus size={15} />}
+            buttonColor={"primary"}
+            modalHeader={"Inserir Ficha de Cliente"}
+            modalEditArrow={<BsArrowRight size={25} />}
+            modalEdit={"Definite"} />
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -203,7 +122,7 @@ export default function clientForm() {
           items={items}
           setPage={setPage}
         >
-          <div className="flex flex-row gap-4 mb-2">
+          {/*<div className="flex flex-row gap-4 mb-2">
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
@@ -237,7 +156,7 @@ export default function clientForm() {
               Pagas
             </button>
 
-          </div>
+            </div>*/}
           <Table
             id="TableToPDF"
             isHeaderSticky={"true"}
@@ -282,89 +201,27 @@ export default function clientForm() {
               </TableColumn>
             </TableHeader>
             <TableBody>
-              {items.map((individual, index) => (
+              {items.map((reservation, index) => (
                 <TableRow key={index}>
                   <TableCell className="text-right undeline text-blue-600">
-                    {individual.profileType === 0 ? (
-                      <IndividualForm
-                        buttonName={individual.guestProfileID}
-                        editIcon={<FiEdit3 size={25} />}
-                        buttonColor={"transparent"}
-                        modalHeader={"Editar Ficha de Cliente"}
-                        modalEditArrow={<BsArrowRight size={25} />}
-                        modalEdit={`ID: ${individual.guestProfileID}`}
-                        formTypeModal={1}
-                        idIndividual={individual.guestProfileID}
-                        idEmail={individual.email}
-                        idPhone={individual.phoneNumber}
-                        idNif={individual.nif}
-                        idAddress={individual.country}
-                        idZipCode={individual.zipCode}
-                        idLocality={individual.town}
-                        criado={individual.createdAt}
-                        editado={individual.updatedAt}
-                        editor={"teste"}
-                      />
-                    ) : (
-                      individual.profileType === 1 ? (
-                        <CompanyForm
-                          buttonName={individual.guestProfileID}
-                          editIcon={<FiEdit3 size={25} />}
-                          buttonColor={"transparent"}
-                          modalHeader={"Editar Ficha de cliente"}
-                          modalEditArrow={<BsArrowRight size={25} />}
-                          modalEdit={`ID: ${individual.guestProfileID}`}
-                          formTypeModal={1}
-                          idCompany={individual.guestProfileID}
-                          idEmail={individual.email}
-                          idPhone={individual.phoneNumber}
-                          criado={individual.createdAt}
-                          editado={individual.updatedAt}
-                          editor={"teste"}
-                        />
-                      ) : (
-                        individual.profileType === 2 ? (
-                          <TravelGroupForm
-                            buttonName={individual.guestProfileID}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Ficha de cliente"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${individual.guestProfileID}`}
-                            formTypeModal={1}
-                            idAgency={individual.guestProfileID}
-                            idNifAgency={individual.nif}
-                            idAddressAgency={individual.country}
-                            idZipCodeAgency={individual.zipCode}
-                            idLocalityAgency={individual.town}
-                            criado={individual.createdAt}
-                            editado={individual.updatedAt}
-                            editor={"teste"}
-                          />
-                        ) : (
-                          individual.profileType === 3 ? (
-                            <def
-                              buttonName={individual.guestProfileID}
-                              editIcon={<FiEdit3 size={25} />}
-                              buttonColor={"transparent"}
-                              modalHeader={"Editar Ficha de cliente"}
-                              modalEditArrow={<BsArrowRight size={25} />}
-                              modalEdit={`ID: ${individual.guestProfileID}`}
-                              formTypeModal={1}
-                              idIndividual={individual.guestProfileID}
-                              criado={individual.createdAt}
-                              editado={individual.updatedAt}
-                              editor={"teste"}
-                            />
-                          ) : null
-                        )
-                      )
-                    )
-                    }
+                    <ReservationsForm
+                      buttonName={reservation.reservationID}
+                      editIcon={<FiEdit3 size={25} />}
+                      buttonColor={"transparent"}
+                      modalHeader={"Editar Reserva"}
+                      modalEditArrow={<BsArrowRight size={25} />}
+                      modalEdit={`ID: ${reservation.reservationID}`}
+                      formTypeModal={1}
+                      idReservation={reservation.reservationID}
+                      criado={reservation.createdAt}
+                      editado={reservation.updatedAt}
+                      editor={"teste"}
+                    />
                   </TableCell>
                   <TableCell className="px-4">{"alterar alterar alterar"}</TableCell>
-                  <TableCell className="px-10">{"alterar"}</TableCell>
-                  <TableCell className="px-10">{"alterar"}</TableCell>
+                  {/*impede que a data apareça com data e hora */}
+                  <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
@@ -383,27 +240,21 @@ export default function clientForm() {
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                         <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <IndividualForm
+                          <ReservationsForm
                             buttonName={"Editar"}
                             editIcon={<FiEdit3 size={25} />}
                             buttonColor={"transparent"}
-                            modalHeader={"Editar Ficha de Cliente"}
+                            modalHeader={"Editar Reserva"}
                             modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${individual.guestProfileID}`}
+                            modalEdit={`ID: ${reservation.reservationID}`}
                             formTypeModal={1}
-                            idIndividual={individual.guestProfileID}
-                            idEmail={individual.email}
-                            idPhone={individual.phoneNumber}
-                            idNif={individual.nif}
-                            idAddress={individual.country}
-                            idZipCode={individual.zipCode}
-                            idLocality={individual.town}
-                            criado={individual.createdAt}
-                            editado={individual.updatedAt}
+                            idReservation={reservation.reservationID}
+                            criado={reservation.createdAt}
+                            editado={reservation.updatedAt}
                             editor={"teste"}
                           />
                         </DropdownItem>
-                        <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
+                        <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(reservation.reservationID)}>Remover</DropdownItem>
                         <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
