@@ -16,7 +16,7 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
-        console.log(data.description)
+        //console.log(data.description)
         const newRecord = await prisma.member.create({
             data: {
                 description: data.description,
