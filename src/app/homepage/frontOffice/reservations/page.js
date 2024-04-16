@@ -21,7 +21,12 @@ import { BsArrowRight } from "react-icons/bs";
 
 //imports de componentes
 import IndividualForm from "@/components/modal/frontOffice/clientForm/individuals/page";
+import CompanyForm from "@/components/modal/frontOffice/clientForm/companies/page";
+import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAgency/page";
+import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
+import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import definiteForm from "@/components/modal/frontOffice/clientForm/definite/page";
 
 
 export default function clientForm() {
@@ -104,6 +109,10 @@ export default function clientForm() {
   }
 
   const handleClickDefinite = () => {
+    setSelectedComponent('definiteForm')
+  }
+
+  const handleClickFailedprotIds = () => {
     setSelectedComponent('OthersForm')
   }
 
@@ -127,6 +136,7 @@ export default function clientForm() {
               />
             </div>
           </div>
+          {selectedComponent === 'IndividualForm' && (
             <IndividualForm
               buttonName={"Novo"}
               buttonIcon={<FiPlus size={15} />}
@@ -137,6 +147,59 @@ export default function clientForm() {
               modalIcons={"bg-red"}
               formTypeModal={0}
             ></IndividualForm>
+          )}
+          {selectedComponent === 'CompanyForm' && (
+            <CompanyForm
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Empresa"}
+              modalIcons={"bg-red"}
+              formTypeModal={0}
+            ></CompanyForm>
+          )}
+          {selectedComponent === 'AgencyForm' && (
+            <TravelGroupForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Agencia de Viagens"} />
+          )}
+          {selectedComponent === 'GroupForm' && (
+            <GroupForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Grupos"} />
+          )}
+          {selectedComponent === 'OthersForm' && (
+            <OthersForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Outros"} />
+          )}
+          {selectedComponent === 'definiteForm' && (
+            <definiteForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Ficha de Cliente"}
+              modalEditArrow={<BsArrowRight size={25} />}
+              modalEdit={"Definite"} />
+          )}
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -182,17 +245,17 @@ export default function clientForm() {
               Pagas
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "definite" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
                 handleClickDefinite();
-                setSelectedButton("agency");
+                setSelectedButton("definite");
               }}>
               Definite
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
-                handleClickAgency();
+                handleClickFailedprotIds();
                 setSelectedButton("agency");
               }}>
               Failed(protIds)
@@ -318,6 +381,7 @@ export default function clientForm() {
               {items.map((individual, index) => (
                 <TableRow key={index}>
                   <TableCell className="text-right undeline text-blue-600">
+                    {individual.profileType === 0 ? (
                       <IndividualForm
                         buttonName={individual.guestProfileID}
                         editIcon={<FiEdit3 size={25} />}
@@ -337,6 +401,62 @@ export default function clientForm() {
                         editado={individual.updatedAt}
                         editor={"teste"}
                       />
+                    ) : (
+                      individual.profileType === 1 ? (
+                        <CompanyForm
+                          buttonName={individual.guestProfileID}
+                          editIcon={<FiEdit3 size={25} />}
+                          buttonColor={"transparent"}
+                          modalHeader={"Editar Ficha de cliente"}
+                          modalEditArrow={<BsArrowRight size={25} />}
+                          modalEdit={`ID: ${individual.guestProfileID}`}
+                          formTypeModal={1}
+                          idCompany={individual.guestProfileID}
+                          idEmail={individual.email}
+                          idPhone={individual.phoneNumber}
+                          criado={individual.createdAt}
+                          editado={individual.updatedAt}
+                          editor={"teste"}
+                        />
+                      ) : (
+                      individual.profileType === 2 ? (
+                        <TravelGroupForm
+                          buttonName={individual.guestProfileID}
+                          editIcon={<FiEdit3 size={25} />}
+                          buttonColor={"transparent"}
+                          modalHeader={"Editar Ficha de cliente"}
+                          modalEditArrow={<BsArrowRight size={25} />}
+                          modalEdit={`ID: ${individual.guestProfileID}`}
+                          formTypeModal={1}
+                          idAgency={individual.guestProfileID}
+                          idNifAgency={individual.nif}
+                          idAddressAgency={individual.country}
+                          idZipCodeAgency={individual.zipCode}
+                          idLocalityAgency={individual.town}
+                          criado={individual.createdAt}
+                          editado={individual.updatedAt}
+                          editor={"teste"}
+                        />
+                      ) : (
+                          individual.profileType === 3 ? (
+                            <def
+                              buttonName={individual.guestProfileID}
+                              editIcon={<FiEdit3 size={25} />}
+                              buttonColor={"transparent"}
+                              modalHeader={"Editar Ficha de cliente"}
+                              modalEditArrow={<BsArrowRight size={25} />}
+                              modalEdit={`ID: ${individual.guestProfileID}`}
+                              formTypeModal={1}
+                              idIndividual={individual.guestProfileID}
+                              criado={individual.createdAt}
+                              editado={individual.updatedAt}
+                              editor={"teste"}
+                            />
+                            ) : null
+                        )
+                      )
+                    )
+                    }
                   </TableCell>
                   <TableCell className="px-4">{"alterar alterar alterar"}</TableCell>
                   <TableCell className="px-10">{"alterar"}</TableCell>

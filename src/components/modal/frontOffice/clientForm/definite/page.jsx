@@ -17,7 +17,7 @@ import LanguageAutocomplete from "@/components/functionsForm/autocomplete/langua
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import agencyInsert, { agencyEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/travelAgency/page";
 
-const reservGroupForm = ({
+const definiteForm = ({
     idAgency,
     idNifAgency,
     idAddressAgency,
@@ -1151,4 +1151,4 @@ const reservGroupForm = ({
     );
 };
 
-export default reservGroupForm;
+export default definiteForm;

@@ -105,25 +105,24 @@ const othersForm = ({
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Endereço</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Detalhes de Estadia</b></h4>
                                                     </div>
                                                     <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"address"}
-                                                        name={"Address"}
-                                                        label={"Morada"}
-                                                        ariaLabel={"Morada"}
+                                                        type={"date"}
+                                                        id={"issuedOn"}
+                                                        name={"IssueDate"}
+                                                        label={"Emitido em:"}
+                                                        ariaLabel={"Emitido em:"}
                                                         style={inputStyle}
                                                     />
 
                                                     <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"zipCode"}
-                                                        name={"ZipCode"}
-                                                        label={"Código-Postal"}
-                                                        ariaLabel={"Código-Postal"}
+                                                        type={"date"}
+                                                        id={"issuedOn"}
+                                                        name={"IssueDate"}
+                                                        label={"Emitido em:"}
+                                                        ariaLabel={"Emitido em:"}
                                                         style={inputStyle}
-
                                                     />
 
                                                     <InputFieldControlled
