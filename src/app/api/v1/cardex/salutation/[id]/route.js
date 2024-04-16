@@ -17,7 +17,7 @@ export async function GET(request, context) {
 
     const { id } = context.params;
 
-    console.log(id)
+    //console.log(id)
 
     const response = await prisma.salutions.findUnique({
         where: {
@@ -71,7 +71,7 @@ export async function DELETE(request, context) {
     try {
         const { id } = context.params;
 
-        console.log(id)
+        //console.log(id)
 
         const deleteRecord = await prisma.salutions.delete({
             where: {

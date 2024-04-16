@@ -6,7 +6,7 @@ export async function GET(request, context) {
 
     const prisma = new PrismaClient()
 
-    // console.log("1")
+    // //console.log("1")
 
     // const pathname = new URL(request.url).pathname;
 
@@ -16,7 +16,7 @@ export async function GET(request, context) {
 
     const { id } = context.params;
 
-    console.log(id)
+    //console.log(id)
 
     const response = await prisma.cashiers.findUnique({
         where: {
@@ -68,7 +68,7 @@ export async function DELETE(request, context) {
     try {
         const { id } = context.params;
 
-        console.log(id)
+        //console.log(id)
 
         const deleteRecord = await prisma.cashiers.delete({
             where: {

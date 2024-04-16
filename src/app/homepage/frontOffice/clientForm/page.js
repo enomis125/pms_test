@@ -80,7 +80,7 @@ export default function clientForm() {
   const handleDelete = async (idIndividual) => {
     try {
       const response = await axios.delete(`/api/v1/frontOffice/clientForm/individuals/` + idIndividual);
-      alert("Departamento removido com sucesso!");
+      alert("Ficha removida com sucesso!");
     } catch (error) {
       console.error("Erro ao remover departamento.", error.message);
     }

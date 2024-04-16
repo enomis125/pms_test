@@ -21,7 +21,7 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
-        console.log(data.Label)
+        //console.log(data.Label)
         const newRecord = await prisma.rooms.create({
             data: {
                 label: data.Label,

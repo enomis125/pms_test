@@ -19,7 +19,7 @@ export async function PUT(request) {
  
     try {
         const { data } = await request.json();
-        console.log(data.Label)
+        //console.log(data.Label)
 
         const birthday = new Date(data.birthday);
         const issuedate = new Date(data.issuedate);
