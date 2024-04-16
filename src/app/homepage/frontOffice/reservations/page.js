@@ -26,7 +26,7 @@ import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAge
 import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
 import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
-import definiteForm from "@/components/modal/frontOffice/clientForm/definite/page";
+import definiteForm from "@/components/modal/frontOffice/clientForm/reservations/page";
 
 
 export default function clientForm() {
@@ -105,14 +105,6 @@ export default function clientForm() {
   }
 
   const handleClickOthers = () => {
-    setSelectedComponent('OthersForm')
-  }
-
-  const handleClickDefinite = () => {
-    setSelectedComponent('definiteForm')
-  }
-
-  const handleClickFailedprotIds = () => {
     setSelectedComponent('OthersForm')
   }
 
@@ -211,7 +203,7 @@ export default function clientForm() {
           items={items}
           setPage={setPage}
         >
-            <div className="flex flex-row gap-4 mb-2">
+          <div className="flex flex-row gap-4 mb-2">
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
               onClick={() => {
@@ -244,95 +236,7 @@ export default function clientForm() {
               }}>
               Pagas
             </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "definite" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickDefinite();
-                setSelectedButton("definite");
-              }}>
-              Definite
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickFailedprotIds();
-                setSelectedButton("agency");
-              }}>
-              Failed(protIds)
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              Guaranteed with Credit Card
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              No Show
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              Optional
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              Paid
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              Pending
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              PreCheckedIn
-            </button>
-            <br></br>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              Temporary
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              Until 6pm
-            </button>
-            <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
-              mobileCheckIn
-            </button>
+
           </div>
           <Table
             id="TableToPDF"
@@ -419,25 +323,25 @@ export default function clientForm() {
                           editor={"teste"}
                         />
                       ) : (
-                      individual.profileType === 2 ? (
-                        <TravelGroupForm
-                          buttonName={individual.guestProfileID}
-                          editIcon={<FiEdit3 size={25} />}
-                          buttonColor={"transparent"}
-                          modalHeader={"Editar Ficha de cliente"}
-                          modalEditArrow={<BsArrowRight size={25} />}
-                          modalEdit={`ID: ${individual.guestProfileID}`}
-                          formTypeModal={1}
-                          idAgency={individual.guestProfileID}
-                          idNifAgency={individual.nif}
-                          idAddressAgency={individual.country}
-                          idZipCodeAgency={individual.zipCode}
-                          idLocalityAgency={individual.town}
-                          criado={individual.createdAt}
-                          editado={individual.updatedAt}
-                          editor={"teste"}
-                        />
-                      ) : (
+                        individual.profileType === 2 ? (
+                          <TravelGroupForm
+                            buttonName={individual.guestProfileID}
+                            editIcon={<FiEdit3 size={25} />}
+                            buttonColor={"transparent"}
+                            modalHeader={"Editar Ficha de cliente"}
+                            modalEditArrow={<BsArrowRight size={25} />}
+                            modalEdit={`ID: ${individual.guestProfileID}`}
+                            formTypeModal={1}
+                            idAgency={individual.guestProfileID}
+                            idNifAgency={individual.nif}
+                            idAddressAgency={individual.country}
+                            idZipCodeAgency={individual.zipCode}
+                            idLocalityAgency={individual.town}
+                            criado={individual.createdAt}
+                            editado={individual.updatedAt}
+                            editor={"teste"}
+                          />
+                        ) : (
                           individual.profileType === 3 ? (
                             <def
                               buttonName={individual.guestProfileID}
@@ -452,7 +356,7 @@ export default function clientForm() {
                               editado={individual.updatedAt}
                               editor={"teste"}
                             />
-                            ) : null
+                          ) : null
                         )
                       )
                     )
@@ -479,25 +383,25 @@ export default function clientForm() {
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                         <DropdownItem key="edit" aria-label="Editar detalhes">
-                            <IndividualForm
-                              buttonName={"Editar"}
-                              editIcon={<FiEdit3 size={25} />}
-                              buttonColor={"transparent"}
-                              modalHeader={"Editar Ficha de Cliente"}
-                              modalEditArrow={<BsArrowRight size={25} />}
-                              modalEdit={`ID: ${individual.guestProfileID}`}
-                              formTypeModal={1}
-                              idIndividual={individual.guestProfileID}
-                              idEmail={individual.email}
-                              idPhone={individual.phoneNumber}
-                              idNif={individual.nif}
-                              idAddress={individual.country}
-                              idZipCode={individual.zipCode}
-                              idLocality={individual.town}
-                              criado={individual.createdAt}
-                              editado={individual.updatedAt}
-                              editor={"teste"}
-                            />
+                          <IndividualForm
+                            buttonName={"Editar"}
+                            editIcon={<FiEdit3 size={25} />}
+                            buttonColor={"transparent"}
+                            modalHeader={"Editar Ficha de Cliente"}
+                            modalEditArrow={<BsArrowRight size={25} />}
+                            modalEdit={`ID: ${individual.guestProfileID}`}
+                            formTypeModal={1}
+                            idIndividual={individual.guestProfileID}
+                            idEmail={individual.email}
+                            idPhone={individual.phoneNumber}
+                            idNif={individual.nif}
+                            idAddress={individual.country}
+                            idZipCode={individual.zipCode}
+                            idLocality={individual.town}
+                            criado={individual.createdAt}
+                            editado={individual.updatedAt}
+                            editor={"teste"}
+                          />
                         </DropdownItem>
                         <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
                         <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
