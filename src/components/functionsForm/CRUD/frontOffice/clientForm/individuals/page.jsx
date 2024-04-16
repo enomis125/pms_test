@@ -250,7 +250,7 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress
                     NaturalLocality: localityResponse.data.response.naturalLocality,
                 })
 
-                console.log(individualResponse, emailResponse, phoneResponse, addressResponse, zipCodeResponse, localityResponse); // Exibe as respostas do servidor no console
+                //console.log(individualResponse, emailResponse, phoneResponse, addressResponse, zipCodeResponse, localityResponse); // Exibe as respostas do servidor no console
             } catch (error) {
                 console.error('Erro ao enviar requisições:', error);
             }
