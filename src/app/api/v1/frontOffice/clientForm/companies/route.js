@@ -21,7 +21,7 @@ export async function PUT(request) {
             data: {
                 companyName: data.companyName,
                 companyName2: data.companyName2,
-                profileType: parseInt(data.profileType),
+                profileType: 1,
                 country: parseInt(data.country),
                 zipCodePostBox: data.zipCodePostBox,
                 //countryAddress: parseInt(data.countryAddress)
