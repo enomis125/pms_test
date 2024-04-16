@@ -26,6 +26,15 @@ export default function CustomPagination({
   const titleFontSize = 16;
   const titleMargin = 10;
 
+  const footerText = "Teste, alterar depois"; // Customize this with your desired footer text
+  const pageNumber = pdf.internal.getNumberOfPages(); // Get total number of pages
+
+  for (let i = 1; i <= pageNumber; i++) {
+    pdf.setPage(i); // Set current page
+    pdf.text(footerText, pdf.internal.pageSize.getWidth() / 2, pdf.internal.pageSize.getHeight() - 10, {
+      align: "center"
+    });
+  }
 
   // Set title font size and add title text
   pdf.setFontSize(titleFontSize);
