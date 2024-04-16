@@ -14,7 +14,7 @@ export async function GET(request, context) {
  
     const { id } = context.params;
  
-    console.log(id)
+    //console.log(id)
  
     const response = await prisma.guestProfile.findUnique({
         where: {
@@ -44,7 +44,6 @@ export async function PATCH(request, context) {
             data: {
                 companyName: data.companyName,
                 companyName2: data.companyName2,
-                profileType: parseInt(data.profileType),
                 country: parseInt(data.country),
                 zipCodePostBox: data.zipCodePostBox,
                 //countryAddress: parseInt(data.countryAddress)

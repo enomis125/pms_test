@@ -8,7 +8,6 @@ export default function companiesInsert() {
     const [company, setCompany] = useState({
         CompanyName: '',
         CompanyName2: '',
-        ProfileType: '',
         Country: '',
         ZipCodePostBox: '',
         Town: '',
@@ -27,7 +26,7 @@ export default function companiesInsert() {
     async function handleSubmiCompany(event) {
         event.preventDefault()
       
-        if (!company.CompanyName || !company.CompanyName2 || !company.ProfileType || !company.Country || !company.ZipCodePostBox || !company.Town || !company.Region || /*!company.CountryAddress ||*/ !company.WebsiteURL || !company.GeneralEmail || !company.DepartmentEmail || !company.GeneralPhone || !company.DepartmentPhone) {
+        if (!company.CompanyName || !company.CompanyName2 || !company.Country || !company.ZipCodePostBox || !company.Town || !company.Region || /*!company.CountryAddress ||*/ !company.WebsiteURL || !company.GeneralEmail || !company.DepartmentEmail || !company.GeneralPhone || !company.DepartmentPhone) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -65,7 +64,6 @@ export default function companiesInsert() {
                 data: {
                 companyName: company.CompanyName,
                 companyName2: company.CompanyName2,
-                profileType: company.ProfileType,
                 country: company.Country,
                 zipCodePostBox: company.ZipCodePostBox,
                 town: company.Town,
@@ -93,7 +91,6 @@ export function companiesEdit(idCompany, idEmail, idPhone) {
         id: idCompany,
         CompanyName: '',
         CompanyName2: '',
-        ProfileType: '',
         Country: '',
         ZipCodePostBox: '',
         Town: '',
@@ -126,7 +123,6 @@ export function companiesEdit(idCompany, idEmail, idPhone) {
                     ...valuesCompany, 
                     CompanyName: companyResponse.data.response.companyName, 
                     CompanyName2: companyResponse.data.response.companyName2, 
-                    ProfileType: companyResponse.data.response.profileType, 
                     Country: companyResponse.data.response.country,
                     ZipCodePostBox: companyResponse.data.response.zipCodePostBox,
                     Town: companyResponse.data.response.town,
@@ -172,7 +168,6 @@ export function companiesEdit(idCompany, idEmail, idPhone) {
             data: {
                 companyName: valuesCompany.CompanyName,
                 companyName2: valuesCompany.CompanyName2,
-                profileType: valuesCompany.ProfileType,
                 country: valuesCompany.Country,
                 zipCodePostBox: valuesCompany.ZipCodePostBox,
                 town: valuesCompany.Town,

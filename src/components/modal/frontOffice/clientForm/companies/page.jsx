@@ -95,7 +95,7 @@ const companyForm = ({
                                                     formTypeModal={1}
                                                 />
                             </div>*/}
-                                            <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
+                                            <div className="bg-white flex flex-row justify-start space-x-4 items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"companyName"}
@@ -116,15 +116,7 @@ const companyForm = ({
                                                     onChange={handleInputCompany}
                                                 />
 
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"profileType"}
-                                                    name={"ProfileType"}
-                                                    label={"Tipo de ficha"}
-                                                    ariaLabel={"Tipo de ficha"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    onChange={handleInputCompany}
-                                                />
+                                                
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
@@ -564,7 +556,7 @@ const companyForm = ({
                                                     formTypeModal={1}
                                                 />
                             </div>*/}
-                                            <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
+                                            <div className="bg-white flex flex-row justify-start items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"companyName"}
@@ -587,16 +579,7 @@ const companyForm = ({
                                                     onChange={e => setValuesCompany({ ...valuesCompany, CompanyName2: e.target.value })}
                                                 />
 
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"profileType"}
-                                                    name={"ProfileType"}
-                                                    label={"Tipo de ficha"}
-                                                    ariaLabel={"Tipo de ficha"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={valuesCompany.ProfileType}
-                                                    onChange={e => setValuesCompany({ ...valuesCompany, ProfileType: e.target.value })}
-                                                />
+                                                
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
