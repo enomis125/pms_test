@@ -27,6 +27,9 @@ import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
 import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 export default function clientForm() {
   const [page, setPage] = React.useState(1);
@@ -34,11 +37,24 @@ export default function clientForm() {
   const [searchValue, setSearchValue] = React.useState("");
   const [individual, setIndividual] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
+
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
-      setIndividual(res.data.response);
-    };
+      if (!dataFetched) {
+        setIsLoading(true);
+        try {
+          const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
+          setIndividual(res.data.response);
+          setDataFetched(true);
+        } catch (error) {
+          console.error("Erro ao encontrar as fichas de cliente:", error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+    }
     getData();
   }, []);
 
@@ -243,106 +259,94 @@ export default function clientForm() {
               Outros
             </button>
           </div>
-          <Table
-            id="TableToPDF"
-            isHeaderSticky={"true"}
-            layout={"fixed"}
-            isCompact={"true"}
-            removeWrapper
-            classNames={{
-              wrapper: "min-h-[222px]",
-            }}
-            className="h-full overflow-auto"
+          {isLoading ? (<Backdrop
+            sx={{ color: 'primary', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open
           >
-            <TableHeader>
-              <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
-                ID
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase" aria-label="Tipo de ficha">
-                Tipo de ficha
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Nome">
-                Nome
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Apelido">
-                Apelido
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Morada">
-                Morada
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="E-mail">
-                E-mail
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Telefone">
-                Telefone
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
-                <GoGear size={20} />
-              </TableColumn>
-            </TableHeader>
-            <TableBody>
-              {items.map((individual, index) => (
-                <TableRow key={index}>
-                  <TableCell className="text-right undeline text-blue-600">
-                    {individual.profileType === 0 ? (
-                      <IndividualForm
-                        buttonName={individual.guestProfileID}
-                        editIcon={<FiEdit3 size={25} />}
-                        buttonColor={"transparent"}
-                        modalHeader={"Editar Ficha de Cliente"}
-                        modalEditArrow={<BsArrowRight size={25} />}
-                        modalEdit={`ID: ${individual.guestProfileID}`}
-                        formTypeModal={1}
-                        idIndividual={individual.guestProfileID}
-                        idEmail={individual.email}
-                        idPhone={individual.phoneNumber}
-                        idNif={individual.nif}
-                        idAddress={individual.country}
-                        idZipCode={individual.zipCode}
-                        idLocality={individual.town}
-                        criado={individual.createdAt}
-                        editado={individual.updatedAt}
-                        editor={"teste"}
-                      />
-                    ) : (
-                      individual.profileType === 1 ? (
-                        <CompanyForm
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          ) : (
+            <Table
+              id="TableToPDF"
+              isHeaderSticky={"true"}
+              layout={"fixed"}
+              isCompact={"true"}
+              removeWrapper
+              classNames={{
+                wrapper: "min-h-[222px]",
+              }}
+              className="h-full overflow-auto"
+            >
+              <TableHeader>
+                <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
+                  ID
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase" aria-label="Tipo de ficha">
+                  Tipo de ficha
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Nome">
+                  Nome
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Apelido">
+                  Apelido
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Morada">
+                  Morada
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="E-mail">
+                  E-mail
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Telefone">
+                  Telefone
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
+                  <GoGear size={20} />
+                </TableColumn>
+              </TableHeader>
+              <TableBody>
+                {items.map((individual, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-right undeline text-blue-600">
+                      {individual.profileType === 0 ? (
+                        <IndividualForm
                           buttonName={individual.guestProfileID}
                           editIcon={<FiEdit3 size={25} />}
                           buttonColor={"transparent"}
-                          modalHeader={"Editar Ficha de cliente"}
+                          modalHeader={"Editar Ficha de Cliente"}
                           modalEditArrow={<BsArrowRight size={25} />}
                           modalEdit={`ID: ${individual.guestProfileID}`}
                           formTypeModal={1}
-                          idCompany={individual.guestProfileID}
+                          idIndividual={individual.guestProfileID}
                           idEmail={individual.email}
                           idPhone={individual.phoneNumber}
+                          idNif={individual.nif}
+                          idAddress={individual.country}
+                          idZipCode={individual.zipCode}
+                          idLocality={individual.town}
                           criado={individual.createdAt}
                           editado={individual.updatedAt}
                           editor={"teste"}
                         />
                       ) : (
-                      individual.profileType === 2 ? (
-                        <TravelGroupForm
-                          buttonName={individual.guestProfileID}
-                          editIcon={<FiEdit3 size={25} />}
-                          buttonColor={"transparent"}
-                          modalHeader={"Editar Ficha de cliente"}
-                          modalEditArrow={<BsArrowRight size={25} />}
-                          modalEdit={`ID: ${individual.guestProfileID}`}
-                          formTypeModal={1}
-                          idAgency={individual.guestProfileID}
-                          idNifAgency={individual.nif}
-                          idAddressAgency={individual.country}
-                          idZipCodeAgency={individual.zipCode}
-                          idLocalityAgency={individual.town}
-                          criado={individual.createdAt}
-                          editado={individual.updatedAt}
-                          editor={"teste"}
-                        />
-                      ) : (
-                          individual.profileType === 3 ? (
-                            <GroupForm
+                        individual.profileType === 1 ? (
+                          <CompanyForm
+                            buttonName={individual.guestProfileID}
+                            editIcon={<FiEdit3 size={25} />}
+                            buttonColor={"transparent"}
+                            modalHeader={"Editar Ficha de cliente"}
+                            modalEditArrow={<BsArrowRight size={25} />}
+                            modalEdit={`ID: ${individual.guestProfileID}`}
+                            formTypeModal={1}
+                            idCompany={individual.guestProfileID}
+                            idEmail={individual.email}
+                            idPhone={individual.phoneNumber}
+                            criado={individual.createdAt}
+                            editado={individual.updatedAt}
+                            editor={"teste"}
+                          />
+                        ) : (
+                          individual.profileType === 2 ? (
+                            <TravelGroupForm
                               buttonName={individual.guestProfileID}
                               editIcon={<FiEdit3 size={25} />}
                               buttonColor={"transparent"}
@@ -350,14 +354,18 @@ export default function clientForm() {
                               modalEditArrow={<BsArrowRight size={25} />}
                               modalEdit={`ID: ${individual.guestProfileID}`}
                               formTypeModal={1}
-                              idIndividual={individual.guestProfileID}
+                              idAgency={individual.guestProfileID}
+                              idNifAgency={individual.nif}
+                              idAddressAgency={individual.country}
+                              idZipCodeAgency={individual.zipCode}
+                              idLocalityAgency={individual.town}
                               criado={individual.createdAt}
                               editado={individual.updatedAt}
                               editor={"teste"}
                             />
                           ) : (
-                            individual.profileType === 4 ? (
-                              <OthersForm
+                            individual.profileType === 3 ? (
+                              <GroupForm
                                 buttonName={individual.guestProfileID}
                                 editIcon={<FiEdit3 size={25} />}
                                 buttonColor={"transparent"}
@@ -370,91 +378,10 @@ export default function clientForm() {
                                 editado={individual.updatedAt}
                                 editor={"teste"}
                               />
-                            ) : null
-                        )
-                      )
-                    )
-                    )}
-                  </TableCell>
-                  <TableCell className="px-20">{individual.profileType}</TableCell>
-                  <TableCell className="">{individual.firstName ? individual.firstName : individual.name}</TableCell>
-                  <TableCell className="">{individual.secondName}</TableCell>
-                  <TableCell className="">{individual.country}</TableCell>
-                  <TableCell className="">{individual.email}</TableCell>
-                  <TableCell className="">{individual.phoneNumber}</TableCell>
-                  <TableCell className="flex justify-end">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          variant="light"
-                          className="flex flex-row justify-end"
-                          aria-label="Opções"
-                        >
-                          <BsThreeDotsVertical size={20} className="text-gray-400" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                        <DropdownItem key="edit" aria-label="Editar detalhes">
-                          {individual.profileType === 0 ? (
-                            <IndividualForm
-                              buttonName={"Editar"}
-                              editIcon={<FiEdit3 size={25} />}
-                              buttonColor={"transparent"}
-                              modalHeader={"Editar Ficha de Cliente"}
-                              modalEditArrow={<BsArrowRight size={25} />}
-                              modalEdit={`ID: ${individual.guestProfileID}`}
-                              formTypeModal={1}
-                              idIndividual={individual.guestProfileID}
-                              idEmail={individual.email}
-                              idPhone={individual.phoneNumber}
-                              idNif={individual.nif}
-                              idAddress={individual.country}
-                              idZipCode={individual.zipCode}
-                              idLocality={individual.town}
-                              criado={individual.createdAt}
-                              editado={individual.updatedAt}
-                              editor={"teste"}
-                            />
-                          ) : (
-                            individual.profileType === 1 ? (
-                              <CompanyForm
-                                buttonName={"Editar"}
-                                editIcon={<FiEdit3 size={25} />}
-                                buttonColor={"transparent"}
-                                modalHeader={"Editar Ficha de cliente"}
-                                modalEditArrow={<BsArrowRight size={25} />}
-                                modalEdit={`ID: ${individual.guestProfileID}`}
-                                formTypeModal={1}
-                                idIndividual={individual.guestProfileID}
-                                idEmail={individual.email}
-                                idPhone={individual.phoneNumber}
-                                criado={individual.createdAt}
-                                editado={individual.updatedAt}
-                                editor={"teste"}
-                              />
                             ) : (
-                            individual.profileType === 2 ? (
-                              <TravelGroupForm
-                                buttonName={"Editar"}
-                                editIcon={<FiEdit3 size={25} />}
-                                buttonColor={"transparent"}
-                                modalHeader={"Editar Ficha de cliente"}
-                                modalEditArrow={<BsArrowRight size={25} />}
-                                modalEdit={`ID: ${individual.guestProfileID}`}
-                                formTypeModal={1}
-                                idAgency={individual.guestProfileID}
-                                idNifAgency={individual.nif}
-                                idAddressAgency={individual.country}
-                                idZipCodeAgency={individual.zipCode}
-                                idLocalityAgency={individual.town}
-                                criado={individual.createdAt}
-                                editado={individual.updatedAt}
-                                editor={"teste"}
-                              />
-                            ) : (
-                              individual.profileType === 3 ? (
-                                <GroupForm
-                                  buttonName={"Editar"}
+                              individual.profileType === 4 ? (
+                                <OthersForm
+                                  buttonName={individual.guestProfileID}
                                   editIcon={<FiEdit3 size={25} />}
                                   buttonColor={"transparent"}
                                   modalHeader={"Editar Ficha de cliente"}
@@ -466,9 +393,71 @@ export default function clientForm() {
                                   editado={individual.updatedAt}
                                   editor={"teste"}
                                 />
+                              ) : null
+                            )
+                          )
+                        )
+                      )}
+                    </TableCell>
+                    <TableCell className="px-20">{individual.profileType}</TableCell>
+                    <TableCell className="">{individual.firstName ? individual.firstName : individual.name}</TableCell>
+                    <TableCell className="">{individual.secondName}</TableCell>
+                    <TableCell className="">{individual.country}</TableCell>
+                    <TableCell className="">{individual.email}</TableCell>
+                    <TableCell className="">{individual.phoneNumber}</TableCell>
+                    <TableCell className="flex justify-end">
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            variant="light"
+                            className="flex flex-row justify-end"
+                            aria-label="Opções"
+                          >
+                            <BsThreeDotsVertical size={20} className="text-gray-400" />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                          <DropdownItem key="edit" aria-label="Editar detalhes">
+                            {individual.profileType === 0 ? (
+                              <IndividualForm
+                                buttonName={"Editar"}
+                                editIcon={<FiEdit3 size={25} />}
+                                buttonColor={"transparent"}
+                                modalHeader={"Editar Ficha de Cliente"}
+                                modalEditArrow={<BsArrowRight size={25} />}
+                                modalEdit={`ID: ${individual.guestProfileID}`}
+                                formTypeModal={1}
+                                idIndividual={individual.guestProfileID}
+                                idEmail={individual.email}
+                                idPhone={individual.phoneNumber}
+                                idNif={individual.nif}
+                                idAddress={individual.country}
+                                idZipCode={individual.zipCode}
+                                idLocality={individual.town}
+                                criado={individual.createdAt}
+                                editado={individual.updatedAt}
+                                editor={"teste"}
+                              />
+                            ) : (
+                              individual.profileType === 1 ? (
+                                <CompanyForm
+                                  buttonName={"Editar"}
+                                  editIcon={<FiEdit3 size={25} />}
+                                  buttonColor={"transparent"}
+                                  modalHeader={"Editar Ficha de cliente"}
+                                  modalEditArrow={<BsArrowRight size={25} />}
+                                  modalEdit={`ID: ${individual.guestProfileID}`}
+                                  formTypeModal={1}
+                                  idIndividual={individual.guestProfileID}
+                                  idEmail={individual.email}
+                                  idPhone={individual.phoneNumber}
+                                  criado={individual.createdAt}
+                                  editado={individual.updatedAt}
+                                  editor={"teste"}
+                                />
                               ) : (
-                                individual.profileType === 4 ? (
-                                  <OthersForm
+                                individual.profileType === 2 ? (
+                                  <TravelGroupForm
                                     buttonName={"Editar"}
                                     editIcon={<FiEdit3 size={25} />}
                                     buttonColor={"transparent"}
@@ -476,26 +465,61 @@ export default function clientForm() {
                                     modalEditArrow={<BsArrowRight size={25} />}
                                     modalEdit={`ID: ${individual.guestProfileID}`}
                                     formTypeModal={1}
-                                    idIndividual={individual.guestProfileID}
+                                    idAgency={individual.guestProfileID}
+                                    idNifAgency={individual.nif}
+                                    idAddressAgency={individual.country}
+                                    idZipCodeAgency={individual.zipCode}
+                                    idLocalityAgency={individual.town}
                                     criado={individual.createdAt}
                                     editado={individual.updatedAt}
                                     editor={"teste"}
                                   />
-                                ) : null
+                                ) : (
+                                  individual.profileType === 3 ? (
+                                    <GroupForm
+                                      buttonName={"Editar"}
+                                      editIcon={<FiEdit3 size={25} />}
+                                      buttonColor={"transparent"}
+                                      modalHeader={"Editar Ficha de cliente"}
+                                      modalEditArrow={<BsArrowRight size={25} />}
+                                      modalEdit={`ID: ${individual.guestProfileID}`}
+                                      formTypeModal={1}
+                                      idIndividual={individual.guestProfileID}
+                                      criado={individual.createdAt}
+                                      editado={individual.updatedAt}
+                                      editor={"teste"}
+                                    />
+                                  ) : (
+                                    individual.profileType === 4 ? (
+                                      <OthersForm
+                                        buttonName={"Editar"}
+                                        editIcon={<FiEdit3 size={25} />}
+                                        buttonColor={"transparent"}
+                                        modalHeader={"Editar Ficha de cliente"}
+                                        modalEditArrow={<BsArrowRight size={25} />}
+                                        modalEdit={`ID: ${individual.guestProfileID}`}
+                                        formTypeModal={1}
+                                        idIndividual={individual.guestProfileID}
+                                        criado={individual.createdAt}
+                                        editado={individual.updatedAt}
+                                        editor={"teste"}
+                                      />
+                                    ) : null
+                                  )
+                                )
                               )
-                            )
-                          )
-                          )}
-                        </DropdownItem>
-                        <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                            )}
+                          </DropdownItem>
+                          <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
+                          <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </PaginationTable>
       </div>
     </main>

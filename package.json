@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mui/material": "^5.15.14",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
     "@nextui-org/react": "^2.2.10",
     "@prisma/client": "^5.11.0",
     "@prisma/extension-pulse": "^1.0.1",
