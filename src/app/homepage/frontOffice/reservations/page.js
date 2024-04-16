@@ -103,6 +103,10 @@ export default function clientForm() {
     setSelectedComponent('OthersForm')
   }
 
+  const handleClickDefinite = () => {
+    setSelectedComponent('OthersForm')
+  }
+
   return (
     <main>
       <div className="flex flex-col mt-1 py-3">
@@ -176,6 +180,95 @@ export default function clientForm() {
                 setSelectedButton("others");
               }}>
               Pagas
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickDefinite();
+                setSelectedButton("agency");
+              }}>
+              Definite
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              Failed(protIds)
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              Guaranteed with Credit Card
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              No Show
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              Optional
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              Paid
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              Pending
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              PreCheckedIn
+            </button>
+            <br></br>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              Temporary
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              Until 6pm
+            </button>
+            <button
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+              onClick={() => {
+                handleClickAgency();
+                setSelectedButton("agency");
+              }}>
+              mobileCheckIn
             </button>
           </div>
           <Table
