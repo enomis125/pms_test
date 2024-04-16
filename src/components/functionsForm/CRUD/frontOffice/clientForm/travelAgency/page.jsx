@@ -86,7 +86,7 @@ export default function agencyInsert() {
 
                 }
             });
-            console.log(response); // Exibe a resposta do servidor no console
+            //console.log(response); // Exibe a resposta do servidor no console
         } catch (error) {
             console.error('Erro ao enviar requisições:', error);
         }
