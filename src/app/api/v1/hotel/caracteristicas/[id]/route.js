@@ -1,11 +1,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/app/lib/prisma";
+
 
 export async function GET(request, context) {
-
-    const prisma = new PrismaClient()
 
     // console.log("1")
 
@@ -36,7 +35,6 @@ export async function GET(request, context) {
 
 export async function PATCH(request, context) {
 
-    const prisma = new PrismaClient()
 
     try {
         const { id } = context.params;
@@ -63,8 +61,6 @@ export async function PATCH(request, context) {
 }
 
 export async function DELETE(request, context) {
-
-    const prisma = new PrismaClient()
 
     try {
         const { id } = context.params;
