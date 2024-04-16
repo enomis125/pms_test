@@ -68,7 +68,7 @@ export async function DELETE(request, context) {
     try {
         const { id } = context.params;
  
-        console.log(id)
+        //console.log(id)
  
         const deleteRecord = await prisma.guestProfile.delete({
             where: {
