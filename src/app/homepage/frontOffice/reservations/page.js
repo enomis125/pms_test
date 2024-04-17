@@ -24,18 +24,20 @@ import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
 
-export default function clientForm() {
+export default function clientForm({idGuest}) {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [reservation, setReservation] = useState([]);
 
+  const [guestProfiles, setGuestProfiles] = useState([]);
+
   useEffect(() => {
-    const getData = async () => {
+    const fetchData = async () => {
       const res = await axios.get("/api/v1/frontOffice/reservations");
       setReservation(res.data.response);
     };
-    getData();
+    fetchData();
   }, []);
 
 
@@ -82,6 +84,7 @@ export default function clientForm() {
       console.error("Erro ao remover departamento.", error.message);
     }
   };
+  
 
   return (
     <main>
@@ -218,14 +221,14 @@ export default function clientForm() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4">{"alterar alterar alterar"}</TableCell>
+                  <TableCell className="px-4">{guestProfiles.firstName}</TableCell>
                   {/*impede que a data apareça com data e hora */}
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-40">{reservation.nightCount}</TableCell>
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
-                  <TableCell className="px-[12%]">{reservation.guestNumber}</TableCell>
+                  <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
                   <TableCell className="px-[8%]">{"aa"}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
@@ -249,6 +252,7 @@ export default function clientForm() {
                             modalEdit={`ID: ${reservation.reservationID}`}
                             formTypeModal={1}
                             idReservation={reservation.reservationID}
+                            idGuest={reservation.guestNumber}
                             criado={reservation.createdAt}
                             editado={reservation.updatedAt}
                             editor={"teste"}
