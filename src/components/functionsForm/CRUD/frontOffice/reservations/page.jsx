@@ -4,19 +4,42 @@ import axios from 'axios';
 
 export default function reservationInsert() {
 
+    const currentDate = new Date().toLocaleDateString('en-CA');
+
     //inserção na tabela client preference
     const [reservation, setReservation] = useState({
-        CheckIn: '',
-        CheckOut: ''
+        CheckIn: currentDate,
+        CheckOut: '',
+        NightCount: ''
     })
 
     const handleInputReservation = (event) => {
         setReservation({ ...reservation, [event.target.name]: event.target.value })
     }
+
+    useEffect(() => {
+        if (reservation.CheckIn && reservation.CheckOut) {
+            const checkInDate = new Date(reservation.CheckIn);
+            const checkOutDate = new Date(reservation.CheckOut);
+            const diffTime = Math.abs(checkOutDate - checkInDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            setReservation({ ...reservation, NightCount: diffDays.toString() });
+        }
+    }, [reservation.CheckIn, reservation.CheckOut]);
+
+    useEffect(() => {
+        if (reservation.CheckIn && reservation.NightCount) {
+            const checkInDate = new Date(reservation.CheckIn);
+            const checkOutDate = new Date(checkInDate.getTime() + (parseInt(reservation.NightCount) * 24 * 60 * 60 * 1000));
+            const checkOutDateString = checkOutDate.toISOString().split('T')[0];
+            setReservation({ ...reservation, CheckOut: checkOutDateString });
+        }
+    }, [reservation.CheckIn, reservation.NightCount]);
+
     async function handleSubmitReservation(event) {
         event.preventDefault()
 
-        if (!reservation.CheckIn || !reservation.CheckOut) {
+        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -27,6 +50,7 @@ export default function reservationInsert() {
                 data: {
                     checkInDate: reservation.CheckIn,
                     checkOutDate: reservation.CheckOut,
+                    nightCount: reservation.NightCount,
                 }
             });
             //console.log(response); // Exibe a resposta do servidor no console
@@ -36,7 +60,7 @@ export default function reservationInsert() {
 
     }
     return {
-        handleInputReservation, handleSubmitReservation
+        handleInputReservation, handleSubmitReservation, reservation
     };
 }
 

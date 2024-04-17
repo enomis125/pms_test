@@ -23,6 +23,7 @@ export async function PUT(request) {
             data: {
                 checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
+                nightCount: parseInt(data.nightCount)
             }
         });
  
