@@ -24,7 +24,7 @@ import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
 
-export default function clientForm({idGuest}) {
+export default function clientForm() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -34,12 +34,26 @@ export default function clientForm({idGuest}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/reservations");
-      setReservation(res.data.response);
+      try {
+        const res = await axios.get("/api/v1/frontOffice/reservations");
+        setReservation(res.data.response);
+      } catch (error) {
+        console.error('Erro ao obter dados da reserva:', error);
+      }
+  
+      try {
+        const resGuestProfiles = await axios.get("/api/v1/frontOffice/reservations/guestProfile");
+        const guestProfilesMap = {};
+        resGuestProfiles.data.response.forEach(profile => {
+          guestProfilesMap[profile.id] = profile.firstName;
+        });
+        setGuestProfiles(guestProfilesMap);
+      } catch (error) {
+        console.error('Erro ao obter dados dos perfis de hóspedes:', error);
+      }
     };
     fetchData();
   }, []);
-
 
   const filteredItems = React.useMemo(() => {
     if (!reservation || !Array.isArray(reservation)) {
@@ -124,19 +138,6 @@ export default function clientForm({idGuest}) {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           items={items}
           setPage={setPage}
-          dataCSVButton={
-            items.map((item) => ({
-              ID: item.reservationID,
-              Nome_Do_Hospede: "alterar",
-              Check_In: item.checkInDate,
-              Check_Out: item.checkOutDate,
-              Noites: "alterar",
-              Quarto: "alterar",
-              RT: "alterar",
-              Pessoas: "alterar",
-              RI: "alterar"
-            }))
-          }
         >
           {/*<div className="flex flex-row gap-4 mb-2">
             <button
@@ -234,7 +235,7 @@ export default function clientForm({idGuest}) {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4">{guestProfiles.firstName}</TableCell>
+                  <TableCell className="px-4">{guestProfiles[reservation.guestNumber]?.firstName || "Nome não encontrado"}</TableCell>
                   {/*impede que a data apareça com data e hora */}
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
