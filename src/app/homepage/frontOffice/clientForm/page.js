@@ -218,6 +218,17 @@ export default function clientForm() {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           items={items}
           setPage={setPage}
+          dataCSVButton={
+            items.map((item) => ({
+              ID: item.guestProfileID,
+              Tipo_De_Ficha: item.firstName ? item.firstName : item.name,
+              Nome: item.details,
+              Apelido: item.secondName,
+              Morada: item.country,
+              Email: item.email,
+              Telefone: item.phoneNumber,
+            }))
+          }
         >
           <div className="flex flex-row gap-4 mb-2">
             <button
