@@ -126,12 +126,10 @@ const reservationsForm = ({
                                                         <InputFieldControlled
                                                             type={"date"}
                                                             id={"optional"}
-                                                            name={"CheckOut"}
+                                                            name={"Optional"}
                                                             label={"Optional:"}
                                                             ariaLabel={"Optional:"}
                                                             style={inputStyle}
-                                                            value={reservation.CheckOut}
-                                                            onChange={handleInputReservation}
                                                         />
 
                                                     </div>
@@ -151,10 +149,12 @@ const reservationsForm = ({
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"guestsperRoom"}
-                                                            name={"Guests per Room"}
+                                                            name={"GuestNumber"}
                                                             label={"Guests per Room"}
                                                             ariaLabel={"Guests per Room"}
                                                             style={inputStyle}
+                                                            value={reservation.GuestNumber}
+                                                            onChange={handleInputReservation}
                                                         />
 
                                                     </div>
@@ -162,10 +162,12 @@ const reservationsForm = ({
                                                     <InputFieldControlled
                                                         type={"date"}
                                                         id={"departure"}
-                                                        name={"Departure"}
+                                                        name={"CheckOut"}
                                                         label={"Departure:"}
                                                         ariaLabel={"Departure:"}
                                                         style={inputStyle}
+                                                        value={reservation.CheckOut}
+                                                        onChange={handleInputReservation}
                                                     />
 
                                                     <CountryAutocomplete label="Payment" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
@@ -410,8 +412,6 @@ const reservationsForm = ({
                                                         label={"Optional:"}
                                                         ariaLabel={"Optional:"}
                                                         style={inputStyle}
-                                                        value={valuesReserve.CheckOut}
-                                                        onChange={e => setValuesReserve({ ...valuesReserve, CheckOut: e.target.value })}
                                                     />
 
                                                     <div className="flex flex-row gap-5">
@@ -422,6 +422,8 @@ const reservationsForm = ({
                                                             label={"Nights"}
                                                             ariaLabel={"Nights"}
                                                             style={inputStyle}
+                                                            value={valuesReserve.NightCount}
+                                                            onChange={e => setValuesReserve({ ...valuesReserve, NightCount: e.target.value })}
                                                         />
 
                                                         <InputFieldControlled
@@ -431,6 +433,8 @@ const reservationsForm = ({
                                                             label={"Guests per Room"}
                                                             ariaLabel={"Guests per Room"}
                                                             style={inputStyle}
+                                                            value={valuesReserve.GuestNumber}
+                                                            onChange={e => setValuesReserve({ ...valuesReserve, GuestNumber: e.target.value })}
                                                         />
 
                                                         <InputFieldControlled
@@ -440,6 +444,8 @@ const reservationsForm = ({
                                                             label={"Departure:"}
                                                             ariaLabel={"Departure:"}
                                                             style={inputStyle}
+                                                            value={valuesReserve.CheckOut}
+                                                            onChange={e => setValuesReserve({ ...valuesReserve, CheckOut: e.target.value })}
                                                         />
 
                                                     </div>

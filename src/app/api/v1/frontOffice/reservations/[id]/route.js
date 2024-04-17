@@ -46,6 +46,8 @@ export async function PATCH(request, context) {
             data: {
                 checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
+                nightCount: parseInt(data.nightCount),
+                guestNumber: parseInt(data.guestNumber)
             }
         })
         return new NextResponse(JSON.stringify({status: 200 }));

@@ -222,10 +222,10 @@ export default function clientForm() {
                   {/*impede que a data apareça com data e hora */}
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-40">{"alterar"}</TableCell>
+                  <TableCell className="px-40">{reservation.nightCount}</TableCell>
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
-                  <TableCell className="px-[12%]">{"alterar"}</TableCell>
+                  <TableCell className="px-[12%]">{reservation.guestNumber}</TableCell>
                   <TableCell className="px-[8%]">{"aa"}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>

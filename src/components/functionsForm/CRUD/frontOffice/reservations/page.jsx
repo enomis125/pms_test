@@ -5,18 +5,21 @@ import axios from 'axios';
 export default function reservationInsert() {
 
     const currentDate = new Date().toLocaleDateString('en-CA');
+    const guestNumberDefault = 1;
 
     //inserção na tabela client preference
     const [reservation, setReservation] = useState({
-        CheckIn: currentDate,
+        CheckIn: currentDate, //para o checkin aparecer por default com a data atual do pc
         CheckOut: '',
-        NightCount: ''
+        NightCount: '',
+        GuestNumber: guestNumberDefault
     })
 
     const handleInputReservation = (event) => {
         setReservation({ ...reservation, [event.target.name]: event.target.value })
     }
 
+    //para o nrm de noites aparecer ao detemrinar o checkin e chekout
     useEffect(() => {
         if (reservation.CheckIn && reservation.CheckOut) {
             const checkInDate = new Date(reservation.CheckIn);
@@ -27,6 +30,7 @@ export default function reservationInsert() {
         }
     }, [reservation.CheckIn, reservation.CheckOut]);
 
+    //para o checkout aparecer apos determinar o checkin e o nrm de noites
     useEffect(() => {
         if (reservation.CheckIn && reservation.NightCount) {
             const checkInDate = new Date(reservation.CheckIn);
@@ -39,7 +43,7 @@ export default function reservationInsert() {
     async function handleSubmitReservation(event) {
         event.preventDefault()
 
-        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount) {
+        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -51,6 +55,7 @@ export default function reservationInsert() {
                     checkInDate: reservation.CheckIn,
                     checkOutDate: reservation.CheckOut,
                     nightCount: reservation.NightCount,
+                    guestNumber: reservation.GuestNumber
                 }
             });
             //console.log(response); // Exibe a resposta do servidor no console
@@ -70,6 +75,8 @@ export function reservationEdit(idReservation) {
         id: idReservation,
         CheckIn: '',
         CheckOut: '',
+        NightCount: '',
+        GuestNumber: '',
     })
 
     useEffect(() => {
@@ -84,6 +91,8 @@ export function reservationEdit(idReservation) {
                     ...valuesReserve,
                     CheckIn: CheckIn,
                     CheckOut: CheckOut,
+                    NightCount: reserveResponse.data.response.nightCount,
+                    GuestNumber: reserveResponse.data.response.guestNumber
                 });
 
                 //console.log(reserveResponse); // Exibe as respostas do servidor no console
@@ -102,6 +111,8 @@ export function reservationEdit(idReservation) {
             data: {
                 checkInDate: valuesReserve.CheckIn,
                 checkOutDate: valuesReserve.CheckOut,
+                nightCount: valuesReserve.NightCount,
+                guestNumber: valuesReserve.GuestNumber
             }
         })
             .catch(err => console.log(err))
