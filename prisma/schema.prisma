@@ -1701,4 +1701,5 @@ model reservations {
   createdBy                      String    @default("") @db.VarChar(50)
   updatedAt                      DateTime  @default(now()) @db.Timestamp(0)
   updatedBy                      String    @default("") @db.VarChar(50)
+  nightCount                     Int       @default(-1)
 }

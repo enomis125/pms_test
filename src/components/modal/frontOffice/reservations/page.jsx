@@ -40,7 +40,7 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation } = reservationInsert();
+    const { handleInputReservation, handleSubmitReservation, reservation } = reservationInsert();
     const { handleUpdateReservation, setValuesReserve, valuesReserve } = reservationEdit(idReservation);
 
     return (
@@ -119,6 +119,7 @@ const reservationsForm = ({
                                                             label={"Arrival:"}
                                                             ariaLabel={"Arrival:"}
                                                             style={inputStyle}
+                                                            value={reservation.CheckIn}
                                                             onChange={handleInputReservation}
                                                         />
 
@@ -129,6 +130,7 @@ const reservationsForm = ({
                                                             label={"Optional:"}
                                                             ariaLabel={"Optional:"}
                                                             style={inputStyle}
+                                                            value={reservation.CheckOut}
                                                             onChange={handleInputReservation}
                                                         />
 
@@ -138,10 +140,12 @@ const reservationsForm = ({
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"nights"}
-                                                            name={"Nights"}
+                                                            name={"NightCount"}
                                                             label={"Nights"}
                                                             ariaLabel={"Nights"}
                                                             style={inputStyle}
+                                                            value={reservation.NightCount}
+                                                            onChange={handleInputReservation}
                                                         />
 
                                                         <InputFieldControlled
