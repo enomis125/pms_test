@@ -24,7 +24,7 @@ export async function PUT(request) {
                 shortName: data.shortName,
                 websiteURL: data.websiteURL,
                 //geral
-                country: parseInt(data.country),
+                address: parseInt(data.country),
                 zipCode: data.zipCode,
                 town: data.town,
                 region: data.region,

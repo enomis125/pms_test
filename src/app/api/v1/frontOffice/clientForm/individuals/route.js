@@ -28,7 +28,7 @@ export async function PUT(request) {
                 secondName: data.secondName,
                 zipCode: data.zipCode,
                 region: data.region,
-                country: parseInt(data.country),
+                address: parseInt(data.country),
                 //countryAddress: parseInt(data.countryAddress)
                 email: parseInt(data.email),
                 phoneNumber: data.phoneNumber,
