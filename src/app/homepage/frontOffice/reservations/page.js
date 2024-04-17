@@ -34,26 +34,12 @@ export default function clientForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const res = await axios.get("/api/v1/frontOffice/reservations");
-        setReservation(res.data.response);
-      } catch (error) {
-        console.error('Erro ao obter dados da reserva:', error);
-      }
-  
-      try {
-        const resGuestProfiles = await axios.get("/api/v1/frontOffice/reservations/guestProfile");
-        const guestProfilesMap = {};
-        resGuestProfiles.data.response.forEach(profile => {
-          guestProfilesMap[profile.id] = profile.firstName;
-        });
-        setGuestProfiles(guestProfilesMap);
-      } catch (error) {
-        console.error('Erro ao obter dados dos perfis de hóspedes:', error);
-      }
+      const res = await axios.get("/api/v1/frontOffice/reservations");
+      setReservation(res.data.response);
     };
     fetchData();
   }, []);
+
 
   const filteredItems = React.useMemo(() => {
     if (!reservation || !Array.isArray(reservation)) {
@@ -235,7 +221,7 @@ export default function clientForm() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4">{guestProfiles[reservation.guestNumber]?.firstName || "Nome não encontrado"}</TableCell>
+                  <TableCell className="px-4">{"aa"}</TableCell>
                   {/*impede que a data apareça com data e hora */}
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
