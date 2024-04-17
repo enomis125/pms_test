@@ -121,6 +121,19 @@ export default function clientForm() {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           items={items}
           setPage={setPage}
+          dataCSVButton={
+            items.map((item) => ({
+              ID: item.reservationID,
+              Nome_Do_Hospede: "alterar",
+              Check_In: item.checkInDate,
+              Check_Out: item.checkOutDate,
+              Noites: "alterar",
+              Quarto: "alterar",
+              RT: "alterar",
+              Pessoas: "alterar",
+              RI: "alterar"
+            }))
+          }
         >
           {/*<div className="flex flex-row gap-4 mb-2">
             <button
