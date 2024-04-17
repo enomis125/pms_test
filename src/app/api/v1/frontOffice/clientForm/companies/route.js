@@ -22,7 +22,7 @@ export async function PUT(request) {
                 companyName: data.companyName,
                 companyName2: data.companyName2,
                 profileType: 1,
-                country: parseInt(data.country),
+                address: parseInt(data.country),
                 zipCodePostBox: data.zipCodePostBox,
                 //countryAddress: parseInt(data.countryAddress)
                 town: data.town,
