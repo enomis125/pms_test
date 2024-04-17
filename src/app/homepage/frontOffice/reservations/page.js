@@ -29,18 +29,34 @@ export default function clientForm() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [reservation, setReservation] = useState([]);
-
+  const [guestId, setGuestId] = useState([]);
   const [guestProfiles, setGuestProfiles] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get("/api/v1/frontOffice/reservations");
-      setReservation(res.data.response);
+      const reservationsData = res.data.response;
+      setReservation(reservationsData);
     };
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const newGuestIds = reservation.map(reservation => reservation.guestNumber);
+    setGuestId(newGuestIds);
+  }, [reservation]);
 
+  console.log("Ids dos hóspedes:", guestId);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + guestId);
+      const guestData = res.data.response;
+      setGuestProfiles(guestData);
+    };
+    fetchData();
+  }, []);
+  
   const filteredItems = React.useMemo(() => {
     if (!reservation || !Array.isArray(reservation)) {
       return [];
@@ -216,12 +232,13 @@ export default function clientForm() {
                       modalEdit={`ID: ${reservation.reservationID}`}
                       formTypeModal={1}
                       idReservation={reservation.reservationID}
+                      idGuest={reservation.guestNumber}
                       criado={reservation.createdAt}
                       editado={reservation.updatedAt}
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4">{"aa"}</TableCell>
+                  <TableCell className="px-4"> {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}</TableCell>
                   {/*impede que a data apareça com data e hora */}
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
