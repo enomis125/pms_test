@@ -24,6 +24,7 @@ export async function PUT(request) {
                 checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
                 nightCount: parseInt(data.nightCount),
+                adultCount: parseInt(data.adultCount),
                 guestNumber: parseInt(data.guestNumber)
             }
         });

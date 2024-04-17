@@ -12,6 +12,7 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
+import ClientFormAutocomplete from "@/components/functionsForm/autocomplete/clientForm/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
@@ -19,6 +20,7 @@ import reservationInsert, { reservationEdit } from "@/components/functionsForm/C
 
 const reservationsForm = ({
     idReservation,
+    idGuest,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -40,8 +42,9 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, reservation } = reservationInsert();
-    const { handleUpdateReservation, setValuesReserve, valuesReserve } = reservationEdit(idReservation);
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect } = reservationInsert();
+    const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
+
 
     return (
         <>
@@ -76,13 +79,20 @@ const reservationsForm = ({
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
+                                                <ClientFormAutocomplete
+                                                    label={"Documento"}
+                                                    style={""}
+                                                    onChange={(value) => handleClientSelect(value)}
+                                                />
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
-                                                    name={"FirstName"}
+                                                    name={"Name"}
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={reservation.Name}
+                                                    onChange={handleInputReservation}
                                                 />
 
                                                 <InputFieldControlled
@@ -92,6 +102,8 @@ const reservationsForm = ({
                                                     label={"Apelido"}
                                                     ariaLabel={"Apelido"}
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={reservation.LastName}
+                                                    onChange={handleInputReservation}
                                                 />
 
                                                 <InputFieldControlled
@@ -369,6 +381,12 @@ const reservationsForm = ({
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
+                                                <ClientFormAutocomplete
+                                                    label={"Documento"}
+                                                    style={""}
+                                                    onChange={(value) => handleClientSelect(value)}
+                                                    idGuest={valuesGuest.GuestID}
+                                                />
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
@@ -376,6 +394,8 @@ const reservationsForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={valuesGuest.Name}
+                                                    onChange={e => setValuesGuest({ ...valuesGuest, Name: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
@@ -385,6 +405,8 @@ const reservationsForm = ({
                                                     label={"Abreviatura"}
                                                     ariaLabel={"Abreviatura"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={valuesGuest.LastName}
+                                                    onChange={e => setValuesGuest({ ...valuesGuest, LastName: e.target.value })}
                                                 />
 
                                                 <LanguageAutocomplete label={"Idioma"} style={""} />
@@ -438,7 +460,7 @@ const reservationsForm = ({
                                                         />
 
                                                         <InputFieldControlled
-                                                            type={"date"}
+                                                            type={"text"}
                                                             id={"departure"}
                                                             name={"Departure"}
                                                             label={"Departure:"}

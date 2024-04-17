@@ -12,8 +12,24 @@ export default function reservationInsert() {
         CheckIn: currentDate, //para o checkin aparecer por default com a data atual do pc
         CheckOut: '',
         NightCount: '',
-        GuestNumber: guestNumberDefault
+        GuestNumber: guestNumberDefault,
+        GuestID: '',
+        Name: '',
+        LastName: ''
     })
+
+    //preenchimento automatico do nome e do apelido atraves de autocomplete
+    const handleClientSelect = (clientForm) => {
+        //console.log("ID do guestProfile selecionado:", clientForm.firstName);
+        //console.log("ID do guestProfile selecionado:", clientForm.secondName);
+
+        setReservation({
+            ...reservation,
+            Name: clientForm.firstName,
+            LastName: clientForm.secondName,
+            GuestID: clientForm.guestProfileID
+        })
+    };
 
     const handleInputReservation = (event) => {
         setReservation({ ...reservation, [event.target.name]: event.target.value })
@@ -43,7 +59,7 @@ export default function reservationInsert() {
     async function handleSubmitReservation(event) {
         event.preventDefault()
 
-        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber) {
+        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
             alert("Preencha os campos corretamente");
             return;
         }
@@ -55,7 +71,8 @@ export default function reservationInsert() {
                     checkInDate: reservation.CheckIn,
                     checkOutDate: reservation.CheckOut,
                     nightCount: reservation.NightCount,
-                    guestNumber: reservation.GuestNumber
+                    adultCount: reservation.GuestNumber,
+                    guestNumber: reservation.GuestID
                 }
             });
             //console.log(response); // Exibe a resposta do servidor no console
@@ -65,11 +82,11 @@ export default function reservationInsert() {
 
     }
     return {
-        handleInputReservation, handleSubmitReservation, reservation
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect
     };
 }
 
-export function reservationEdit(idReservation) {
+export function reservationEdit(idReservation, idGuest) {
     //edição na tabela client preference
     const [valuesReserve, setValuesReserve] = useState({
         id: idReservation,
@@ -77,6 +94,11 @@ export function reservationEdit(idReservation) {
         CheckOut: '',
         NightCount: '',
         GuestNumber: '',
+    })
+
+    const [valuesGuest, setValuesGuest] = useState({
+        Name: '',
+        LastName: ''
     })
 
     useEffect(() => {
@@ -92,9 +114,14 @@ export function reservationEdit(idReservation) {
                     CheckIn: CheckIn,
                     CheckOut: CheckOut,
                     NightCount: reserveResponse.data.response.nightCount,
-                    GuestNumber: reserveResponse.data.response.guestNumber
+                    GuestNumber: reserveResponse.data.response.adultCount
                 });
 
+                const guestProfileResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + idGuest)
+                console.log(guestProfileResponse)
+                setValuesGuest({ ...valuesGuest, 
+                    Name: guestProfileResponse.data.response.firstName, 
+                    LastName: guestProfileResponse.data.response.secondName });
                 //console.log(reserveResponse); // Exibe as respostas do servidor no console
             } catch (error) {
                 console.error('Erro ao enviar requisições:', error);
@@ -121,6 +148,6 @@ export function reservationEdit(idReservation) {
     }
 
     return {
-        handleUpdateReservation, setValuesReserve, valuesReserve
+        handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest
     };
 }
