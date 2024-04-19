@@ -13,6 +13,7 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 import ClientFormAutocomplete from "@/components/functionsForm/autocomplete/clientForm/page";
+import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
@@ -42,7 +43,7 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect } = reservationInsert();
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert();
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
 
 
@@ -115,7 +116,11 @@ const reservationsForm = ({
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                 />
 
-                                                <LanguageAutocomplete label={"Idioma"} style={""} />
+                                                <LanguageAutocomplete
+                                                    label={"Idioma"}
+                                                    style={""}
+                                                    onChange={(value) => handleLanguageSelect(value)}
+                                                />
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
@@ -197,7 +202,11 @@ const reservationsForm = ({
                                                         style={inputStyle}
                                                     />
 
-                                                    <CountryAutocomplete label="Room Type" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <TipologyAutocomplete
+                                                        label="Room Type"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleTipologySelect(value)}
+                                                    />
 
                                                     <InputFieldControlled
                                                         type={"text"}

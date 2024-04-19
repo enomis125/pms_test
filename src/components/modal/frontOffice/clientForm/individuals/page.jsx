@@ -20,6 +20,7 @@ import individualsInsert, { individualsEdit } from "@/components/functionsForm/C
 
 const individualForm = ({
     idIndividual,
+    idCountry,
     idEmail,
     idPhone,
     idNif,
@@ -48,11 +49,11 @@ const individualForm = ({
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
     //import de funções
-    const { handleInputIndividual, handleSubmiIndividual } = individualsInsert();
+    const { handleInputIndividual, handleSubmiIndividual, handleSelect, handleLanguageSelect } = individualsInsert();
     const { handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail,
         setValuesPhone, valuesPhone, setValuesNif, valuesNif, setValuesAddress, valuesAddress, setValuesZipCode, valuesZipCode,
-        setValuesLocality, valuesLocality
-    } = individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality);
+        setValuesLocality, valuesLocality, setCountry, country
+    } = individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality, idCountry);
 
     return (
         <>
@@ -126,7 +127,11 @@ const individualForm = ({
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                 />
 
-                                                <LanguageAutocomplete label={"Idioma"} style={""} />
+                                                <LanguageAutocomplete
+                                                    label={"Idioma"}
+                                                    style={""}
+                                                    onChange={(value) => handleLanguageSelect(value)}
+                                                />
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
@@ -176,7 +181,12 @@ const individualForm = ({
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputIndividual} />
+                                                        <CountryAutocomplete
+                                                            label="País"
+                                                            name={"CountryAddress"}
+                                                            style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                            onChange={(value) => handleSelect(value, "CountryAddress")}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -268,7 +278,12 @@ const individualForm = ({
                                                         onChange={handleInputIndividual}
                                                     />
 
-                                                    <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="Nacionalidade"
+                                                        name={"CountryNationality"}
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleSelect(value, "CountryNationality")}
+                                                    />
                                                     {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -305,7 +320,12 @@ const individualForm = ({
                                                         onChange={handleInputIndividual}
                                                     />
 
-                                                    <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País de emissão"
+                                                        name={"CountryEmission"}
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleSelect(value, "CountryEmission")}
+                                                    />
 
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -377,7 +397,12 @@ const individualForm = ({
                                                         />
 
                                                     </div>
-                                                    <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País"
+                                                        name={"CountryBilling"}
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleSelect(value, "CountryBilling")}
+                                                    />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
@@ -699,7 +724,14 @@ const individualForm = ({
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onChange={handleInputIndividual} />
+                                                        <CountryAutocomplete
+                                                            label="País"
+                                                            name={"CountryAddress"}
+                                                            style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                            value={country.CountryAddress} // Valor controlado
+                                                            onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                            fieldName="CountryAddress" // Nome do campo
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -799,7 +831,13 @@ const individualForm = ({
                                                         onChange={e => setValuesLocality({ ...valuesLocality, NaturalLocality: e.target.value })}
                                                     />
 
-                                                    <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="Nacionalidade"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        value={country.CountryNationality} // Valor controlado
+                                                        onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                        fieldName="CountryNationality" // Nome do campo
+                                                    />
                                                     {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -839,7 +877,13 @@ const individualForm = ({
                                                         onChange={e => setValuesIndividual({ ...valuesIndividual, ExpiryDateDoc: e.target.value })}
                                                     />
 
-                                                    <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País de emissão"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        value={country.CountryEmission} // Valor controlado
+                                                        onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                        fieldName="CountryEmission" // Nome do campo
+                                                    />
 
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -917,7 +961,13 @@ const individualForm = ({
                                                         />
 
                                                     </div>
-                                                    <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        value={country.CountryBilling} // Valor controlado
+                                                        onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                        fieldName="CountryBilling" // Nome do campo
+                                                    />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">

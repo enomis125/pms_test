@@ -70,6 +70,7 @@ const tipologyForm = ({
                                                 name={"Desc"}
                                                 label={"Descrição"}
                                                 ariaLabel={"Descrição"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
                                             <InputFieldControlled
@@ -78,6 +79,7 @@ const tipologyForm = ({
                                                 name={"Name"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
                                             <InputFieldControlled
@@ -86,6 +88,7 @@ const tipologyForm = ({
                                                 name={"RoomFeaturesDesc"}
                                                 label={"Detalhes"}
                                                 ariaLabel={"Detalhes"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
                                             <TipologyGroupAutocomplete
@@ -162,6 +165,7 @@ const tipologyForm = ({
                                                 name={"Desc"}
                                                 label={"Descrição"}
                                                 ariaLabel={"Descrição"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesRoomtype.Desc}
                                                 onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })} />
 
@@ -171,6 +175,7 @@ const tipologyForm = ({
                                                 name={"Name"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesRoomtype.Name}
                                                 onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })} />
 
@@ -180,6 +185,7 @@ const tipologyForm = ({
                                                 name={"RoomFeaturesDesc"}
                                                 label={"Detalhes"}
                                                 ariaLabel={"Detalhes"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesRoomtype.RoomFeaturesDesc}
                                                 onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })} />
 

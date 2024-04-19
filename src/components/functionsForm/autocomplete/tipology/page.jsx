@@ -4,16 +4,16 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 import axios from 'axios';
 
-export default function countryAutocomplete({ label, style, onChange, fieldName }) {
+export default function tipologyAutocomplete({ label, style, onChange}) {
 
-    const [country, setCountry] = useState([]);
+    const [tipology, setTipology] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get('/api/v1/cardex/nationalities');
-                const filteredData = res.data.response.filter(country => country.land !== "");
-                setCountry(filteredData);
+                const res = await axios.get('/api/v1/hotel/tipologys');
+                const filteredData = res.data.response.filter(tipology => tipology.name !== "");
+                setTipology(filteredData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -28,16 +28,17 @@ export default function countryAutocomplete({ label, style, onChange, fieldName 
                 className="max-w-xs"
                 variant="underlined"
                 onChange={(value) => {
-                    onChange(value, fieldName);
+                    onChange(value);
                     //console.log("Selected value: ", value);
                 }}
             >
-                {country.map((country) => (
-                    <AutocompleteItem key={country.codeNr} value={country} onClick={() => onChange(country, fieldName)}>
-                        {country.land}
+                {tipology.map((tipology) => (
+                    <AutocompleteItem key={tipology.roomTypeID} value={tipology} onClick={() => onChange(tipology)}>
+                        {tipology.name}
                     </AutocompleteItem>
                 ))}
             </Autocomplete>
         </div>
     );
 }
+

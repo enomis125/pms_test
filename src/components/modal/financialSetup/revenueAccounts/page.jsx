@@ -9,8 +9,11 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 import revenueAccountInsert, { revenueAccountsEdit } from "@/components/functionsForm/CRUD/financialSetup/revenueAccounts/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
+
 import AccountGroupAutocomplete from "@/components/functionsForm/autocomplete/accountGroups/page";
 import TaxesAutocomplete from "@/components/functionsForm/autocomplete/taxes/page";
+import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
+
 
 
 const revenueAccountsForm = ({
@@ -30,7 +33,7 @@ const revenueAccountsForm = ({
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes } = revenueAccountInsert();
+    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes, handleDepartmentSelect } = revenueAccountInsert();
     const { handleUpdateRevenueAccount, setValuesRevenueAccounts, valuesRevenueAccounts } = revenueAccountsEdit(idRevenueAccount);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
@@ -94,11 +97,12 @@ const revenueAccountsForm = ({
                                                     onChange={handleInputRevenueAccounts}
                                                 />
 
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Departamento</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
+
+                                                <DepartmentAutocomplete
+                                                    label={"Departamento"}
+                                                    style={""}
+                                                    onChange={(value) => handleDepartmentSelect(value)}
+                                                />
                                                 <AccountGroupAutocomplete
                                                     label={"Grupo de Conta"}
                                                     style={""}
@@ -110,6 +114,9 @@ const revenueAccountsForm = ({
                                                     name={"Taxes"}
                                                     onChange={(value) => handleSelectTaxes(value)}
                                                 />
+
+                                                
+
                                                 <input type="text" placeholder="Valor"></input>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Propriedade</option>

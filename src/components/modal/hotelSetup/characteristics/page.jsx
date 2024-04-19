@@ -76,6 +76,7 @@ const characteristicForm = ({
                                                 name={"Abreviature"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInput} />
 
                                             <InputFieldControlled
@@ -84,6 +85,7 @@ const characteristicForm = ({
                                                 name={"Description"}
                                                 label={"Descrição"}
                                                 ariaLabel={"Descrição"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInput} />
 
                                             <InputFieldControlled
@@ -92,6 +94,7 @@ const characteristicForm = ({
                                                 name={"Details"}
                                                 label={"Detalhes"}
                                                 ariaLabel={"Detalhes"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInput} />
 
                                         </ModalBody>
@@ -139,6 +142,7 @@ const characteristicForm = ({
                                                 name={"Abreviature"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 value={values.Description}
                                                 onChange={e => setValues({ ...values, Description: e.target.value })} />
 
@@ -148,6 +152,7 @@ const characteristicForm = ({
                                                 name={"Description"}
                                                 label={"Descrição"}
                                                 ariaLabel={"Descrição"}
+                                                style={"w-full outline-none h-10"}
                                                 value={values.Abreviature}
                                                 onChange={e => setValues({ ...values, Abreviature: e.target.value })} />
 
@@ -157,6 +162,7 @@ const characteristicForm = ({
                                                 name={"Details"}
                                                 label={"Detalhes"}
                                                 ariaLabel={"Detalhes"}
+                                                style={"w-full outline-none h-10"}
                                                 value={values.Details}
                                                 onChange={e => setValues({ ...values, Details: e.target.value })} />
 

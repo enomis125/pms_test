@@ -9,8 +9,10 @@ export default function revenueAccountInsert() {
         Cod: '',
         Abreviature: '',
         Details: '',
+        revenueAccounts
         AccountGroup: '',
         Taxes: ''
+        DepartmentID: '',
     })
 
     //preenchimento automatico do nome e do apelido atraves de autocomplete
@@ -33,7 +35,15 @@ export default function revenueAccountInsert() {
             Taxes: taxes.taxesID,
         })
     };
-    
+
+    //preenchimento automatico de departamento atraves de autocomplete
+    const handleDepartmentSelect = (department) => {
+        setRevenueAccounts({
+            ...revenueAccount,
+            DepartmentID: department.departmentID,
+        })
+    };
+
     const handleInputRevenueAccounts = (event) => {
         setRevenueAccounts({ ...revenueAccount, [event.target.name]: event.target.value })
     }
@@ -48,15 +58,19 @@ export default function revenueAccountInsert() {
                 Cod: revenueAccount.Cod,
                 Abreviature: revenueAccount.Abreviature,
                 Details: revenueAccount.Details,
+
                 AccountGroup: revenueAccount.AccountGroup.toString(),
                 Taxes: revenueAccount.Taxes
+                extaxRevenueAccount: revenueAccount.DepartmentID,
             }
         })
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
     return { 
-        handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes
+
+        handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes, handleDepartmentSelect
+
     };
 }
 

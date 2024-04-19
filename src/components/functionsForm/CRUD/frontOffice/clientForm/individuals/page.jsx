@@ -30,8 +30,32 @@ export default function individualsInsert() {
         BillingZipCode: '',
         MainLocality: '',
         BillinigLocality: '',
-        NaturalLocality: ''
+        NaturalLocality: '',
+        CountryAddress: '',
+        CountryNationality: '',
+        CountryEmission: '',
+        CountryBilling: '',
+        Language: '',
     })
+
+
+    //preenchimento automatico do país atraves de autocomplete
+    const handleSelect = (country, fieldName) => {
+
+        setIndividual({
+            ...individual,
+            [fieldName]: country.land
+        })
+    };
+
+    //preenchimento automatico do país atraves de autocomplete
+    const handleLanguageSelect = (language) => {
+        console.log("porra pa: " + language.nation)
+        setIndividual({
+            ...individual,
+            Language: language.codeNr
+        });
+    };
 
     const handleInputIndividual = (event) => {
         setIndividual({ ...individual, [event.target.name]: event.target.value })
@@ -41,13 +65,25 @@ export default function individualsInsert() {
 
         if (!individual.FirstName || !individual.LastName || !individual.MainAddress || !individual.Region || !individual.Birthday ||
             !individual.BirthTown || !individual.CC || !individual.PersonalEmail || !individual.WorkEmail || !individual.PersonalPhone || !individual.WorkPhone ||
-            !individual.TelephoneNumber || !individual.IssueDate || !individual.ExpiryDateDoc || !individual.GuestPersonalNif || !individual.BillingAddress || !individual.GuestCompanyNif || 
+            !individual.TelephoneNumber || !individual.IssueDate || !individual.ExpiryDateDoc || !individual.GuestPersonalNif || !individual.BillingAddress || !individual.GuestCompanyNif ||
             !individual.Company || !individual.MainZipCode || !individual.BillingZipCode || !individual.MainLocality || !individual.BillinigLocality || !individual.NaturalLocality) {
             alert("Preencha os campos corretamente");
             return;
         }
 
         try {
+
+            // Envio da solicitação para criar os emails
+            const countryCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/country', {
+                data: {
+                    countryAddress: individual.CountryAddress,
+                    countryNationality: individual.CountryNationality,
+                    countryEmission: individual.CountryEmission,
+                    countryBilling: individual.CountryBilling,
+                }
+            });
+            const countryID = await countryCreationInfo.data.newRecord.countryID.toString();
+
             // Envio da solicitação para criar os emails
             const emailCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/email', {
                 data: {
@@ -74,8 +110,8 @@ export default function individualsInsert() {
             });
             const guestNifID = await nifCreationInfo.data.newRecord.guestNifID.toString();
 
-             // Envio da solicitação para criar as moradas
-             const addressCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/address', {
+            // Envio da solicitação para criar as moradas
+            const addressCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/address', {
                 data: {
                     mainAddress: individual.MainAddress,
                     billingAddress: individual.BillingAddress,
@@ -92,8 +128,8 @@ export default function individualsInsert() {
             });
             const guestZipCodeID = await zipCodeCreationInfo.data.newRecord.guestZipCodeID.toString();
 
-             // Envio da solicitação para criar localidades
-             const localityCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/locality', {
+            // Envio da solicitação para criar localidades
+            const localityCreationInfo = await axios.put('/api/v1/frontOffice/clientForm/individuals/locality', {
                 data: {
                     mainLocality: individual.MainLocality,
                     billinigLocality: individual.BillinigLocality,
@@ -110,7 +146,7 @@ export default function individualsInsert() {
                     country: guestAddressID,
                     zipCode: guestZipCodeID,
                     region: individual.Region,
-                    //countryAddress: individual.Country,
+                    countryAddress: countryID, //id da tabela secundaria paises
                     birthday: individual.Birthday,
                     birthTown: individual.BirthTown,
                     cc: individual.CC,
@@ -121,7 +157,8 @@ export default function individualsInsert() {
                     telephoneNumber: individual.TelephoneNumber,
                     nif: guestNifID,
                     name: individual.Company,
-                    town: guestLocalityID
+                    town: guestLocalityID,
+                    languageID: individual.Language
                 }
             });
             console.log(response); // Exibe a resposta do servidor no console
@@ -131,11 +168,11 @@ export default function individualsInsert() {
 
     }
     return {
-        handleInputIndividual, handleSubmiIndividual
+        handleInputIndividual, handleSubmiIndividual, handleSelect, handleLanguageSelect
     };
 }
 
-export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality) {
+export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality, idCountry) {
     //edição na tabela client preference
     const [valuesIndividual, setValuesIndividual] = useState({
         id: idIndividual,
@@ -174,7 +211,13 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress
     const [valuesLocality, setValuesLocality] = useState({
         MainLocality: '',
         BillinigLocality: '',
-        NaturalLocality: ''   
+        NaturalLocality: ''
+    })
+    const [country, setCountry] = useState({
+        CountryAddress: '',
+        CountryNationality: '',
+        CountryEmission: '',
+        CountryBilling: '',
     })
 
     useEffect(() => {
@@ -250,14 +293,24 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress
                     NaturalLocality: localityResponse.data.response.naturalLocality,
                 })
 
-                //console.log(individualResponse, emailResponse, phoneResponse, addressResponse, zipCodeResponse, localityResponse); // Exibe as respostas do servidor no console
+                //Envio de solicitação para obter os dados da localidade
+                const countryResponse = await axios.get('/api/v1/frontOffice/clientForm/individuals/country/' + idCountry);
+                setCountry({
+                    ...country,
+                    CountryAddress: countryResponse.data.response.countryAddress,
+                    CountryNationality: countryResponse.data.response.countryNationality,
+                    CountryEmission: countryResponse.data.response.countryEmission,
+                    CountryBilling: countryResponse.data.response.countryBilling,
+                })
+
+                console.log(individualResponse, emailResponse, phoneResponse, addressResponse, zipCodeResponse, localityResponse, countryResponse); // Exibe as respostas do servidor no console
             } catch (error) {
                 console.error('Erro ao enviar requisições:', error);
             }
         };
 
         fetchData();
-    }, [idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality]);
+    }, [idIndividual, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality, idCountry]);
 
 
     function handleUpdateIndividual(e) {
@@ -327,6 +380,7 @@ export function individualsEdit(idIndividual, idEmail, idPhone, idNif, idAddress
 
     return {
         handleUpdateIndividual, setValuesIndividual, valuesIndividual, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone,
-        setValuesNif, valuesNif, setValuesAddress, valuesAddress, setValuesZipCode, valuesZipCode, setValuesLocality, valuesLocality
+        setValuesNif, valuesNif, setValuesAddress, valuesAddress, setValuesZipCode, valuesZipCode, setValuesLocality, valuesLocality,
+        setCountry, country
     };
 }

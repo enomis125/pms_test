@@ -333,9 +333,10 @@ export default function clientForm() {
                           idEmail={individual.email}
                           idPhone={individual.phoneNumber}
                           idNif={individual.nif}
-                          idAddress={individual.country}
+                          idAddress={individual.address}
                           idZipCode={individual.zipCode}
                           idLocality={individual.town}
+                          idCountry={individual.countryAddress || ''}
                           criado={individual.createdAt}
                           editado={individual.updatedAt}
                           editor={"teste"}
@@ -369,7 +370,7 @@ export default function clientForm() {
                               formTypeModal={1}
                               idAgency={individual.guestProfileID}
                               idNifAgency={individual.nif}
-                              idAddressAgency={individual.country}
+                              idAddressAgency={individual.address}
                               idZipCodeAgency={individual.zipCode}
                               idLocalityAgency={individual.town}
                               criado={individual.createdAt}
@@ -444,9 +445,10 @@ export default function clientForm() {
                                 idEmail={individual.email}
                                 idPhone={individual.phoneNumber}
                                 idNif={individual.nif}
-                                idAddress={individual.country}
+                                idAddress={individual.address}
                                 idZipCode={individual.zipCode}
                                 idLocality={individual.town}
+                                idCountry={individual.countryAddress || ''}
                                 criado={individual.createdAt}
                                 editado={individual.updatedAt}
                                 editor={"teste"}
@@ -480,7 +482,7 @@ export default function clientForm() {
                                     formTypeModal={1}
                                     idAgency={individual.guestProfileID}
                                     idNifAgency={individual.nif}
-                                    idAddressAgency={individual.country}
+                                    idAddressAgency={individual.address}
                                     idZipCodeAgency={individual.zipCode}
                                     idLocalityAgency={individual.town}
                                     criado={individual.createdAt}
