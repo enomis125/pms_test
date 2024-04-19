@@ -24,7 +24,7 @@ export async function PUT(request) {
                 details: data.Details,
 
                 accountsGroupsID: data.AccountGroup,
-                taxesID: parseInt(data.Taxes)
+                taxesID: parseInt(data.Taxes),
                 extaxRevenueAccount: parseInt(data.extaxRevenueAccount),
 
             }
