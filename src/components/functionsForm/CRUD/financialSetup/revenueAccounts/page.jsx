@@ -9,7 +9,7 @@ export default function revenueAccountInsert() {
         Cod: '',
         Abreviature: '',
         Details: '',
-        revenueAccounts,
+        revenueAccounts: '',
         AccountGroup: '',
         Taxes: '',
         DepartmentID: '',
