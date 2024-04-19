@@ -9,9 +9,9 @@ export default function revenueAccountInsert() {
         Cod: '',
         Abreviature: '',
         Details: '',
-        revenueAccounts
+        revenueAccounts,
         AccountGroup: '',
-        Taxes: ''
+        Taxes: '',
         DepartmentID: '',
     })
 
@@ -60,7 +60,7 @@ export default function revenueAccountInsert() {
                 Details: revenueAccount.Details,
 
                 AccountGroup: revenueAccount.AccountGroup.toString(),
-                Taxes: revenueAccount.Taxes
+                Taxes: revenueAccount.Taxes,
                 extaxRevenueAccount: revenueAccount.DepartmentID,
             }
         })
@@ -81,7 +81,7 @@ export function revenueAccountsEdit(idRevenueAccount) {
         Cod: '',
         Abreviature: '',
         Details: '',
-        AccountGroup: ''
+        AccountGroup: '',
     })
 
     useEffect(() => {
@@ -99,7 +99,7 @@ export function revenueAccountsEdit(idRevenueAccount) {
                 Cod: valuesRevenueAccounts.Cod,
                 Abreviature: valuesRevenueAccounts.Abreviature,
                 Details: valuesRevenueAccounts.Details,
-                AccountGroup: valuesRevenueAccounts.AccountGroup
+                AccountGroup: valuesRevenueAccounts.AccountGroup,
             }
         })
             .catch(err => console.log(err))
