@@ -399,6 +399,7 @@ model rooms {
   createdBy             String                  @default("") @db.VarChar(50)
   updatedAt             DateTime                @default(now()) @db.Timestamp(0)
   updatedBy             String                  @default("") @db.VarChar(50)
+  roomCharacteristicID  Int                     @default(-1)
   blockedRooms          blockedRooms[]
   roomtypes             roomtypes               @relation(fields: [roomType], references: [roomTypeID], onDelete: NoAction, onUpdate: NoAction, map: "rooms_roomTypes")
   rooms_characteristics rooms_characteristics[]
@@ -1078,7 +1079,7 @@ model revenueAccounts {
   abreviature         String   @default("") @db.VarChar(10)
   name                String   @default("") @db.VarChar(40)
   details             String   @default("") @db.VarChar(40)
-  accountsGroupsID    Int      @default(-1)
+  accountsGroupsID    String   @default("") @db.VarChar(200)
   taxesID             Int      @default(-1)
   tax1                Decimal  @default(-1) @db.Decimal(10, 0)
   tax2                Decimal  @default(-1) @db.Decimal(10, 0)
@@ -1702,4 +1703,13 @@ model reservations {
   updatedAt                      DateTime  @default(now()) @db.Timestamp(0)
   updatedBy                      String    @default("") @db.VarChar(50)
   nightCount                     Int       @default(-1)
+  languageID                     Int       @default(-1)
+}
+
+model country {
+  countryID          Int    @id @default(autoincrement())
+  countryAddress     String @default("") @db.VarChar(250)
+  countryNationality String @default("") @db.VarChar(250)
+  countryEmission    String @default("") @db.VarChar(250)
+  countryBilling     String @default("") @db.VarChar(250)
 }
