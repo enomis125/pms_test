@@ -18,6 +18,7 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
+import { FaCalendarAlt } from "react-icons/fa";
 
 //imports de componentes
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
@@ -126,10 +127,10 @@ export default function clientForm() {
             formTypeModal={0}
             buttonName={"Novo"}
             buttonIcon={<FiPlus size={15} />}
+            editIcon={<FaCalendarAlt size={25} color="white"/>}
             buttonColor={"primary"}
-            modalHeader={"Inserir Ficha de Cliente"}
-            modalEditArrow={<BsArrowRight size={25} />}
-            modalEdit={"Definite"} />
+            modalHeader={"Inserir uma Reserva"} 
+            />
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">

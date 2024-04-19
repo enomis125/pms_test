@@ -72,7 +72,6 @@ export default function reservationInsert() {
     }, [reservation.CheckIn, reservation.NightCount]);
 
     async function handleSubmitReservation(event) {
-        event.preventDefault()
 
         if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
             alert("Preencha os campos corretamente");

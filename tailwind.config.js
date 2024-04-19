@@ -43,7 +43,8 @@ module.exports = {
           focus: "#0D9488",
           tableFooter: "#F8F8F8",
           tableFooterBorder: "#DADADA",
-          white: "#FFFFFF"
+          lightBlue: "#E6EDF4",
+          green: '#159F46'
         },
 
       }
