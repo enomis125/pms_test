@@ -28,7 +28,7 @@ export default function ClientFormAutocomplete({ label, style, onChange }) {
           variant="underlined"
           onChange={(value) => {
             onChange(value);
-            console.log("Selected value: ", value);
+            //console.log("Selected value: ", value);
           }}
         >
           {clientForm.map((clientForm) => (

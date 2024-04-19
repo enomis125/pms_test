@@ -21,7 +21,8 @@ export async function PUT(request) {
             data: {
                 name: data.Cod,
                 abreviature: data.Abreviature,
-                details: data.Details
+                details: data.Details,
+                extaxRevenueAccount: parseInt(data.extaxRevenueAccount),
             }
         });
  

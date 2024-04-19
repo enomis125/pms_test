@@ -9,7 +9,16 @@ export default function revenueAccountInsert() {
         Cod: '',
         Abreviature: '',
         Details: '',
+        DepartmentID: '',
     })
+
+    //preenchimento automatico de departamento atraves de autocomplete
+    const handleDepartmentSelect = (department) => {
+        setRevenueAccounts({
+            ...revenueAccount,
+            DepartmentID: department.departmentID,
+        })
+    };
 
     const handleInputRevenueAccounts = (event) => {
         setRevenueAccounts({ ...revenueAccount, [event.target.name]: event.target.value })
@@ -24,14 +33,16 @@ export default function revenueAccountInsert() {
             data: {
                 Cod: revenueAccount.Cod,
                 Abreviature: revenueAccount.Abreviature,
-                Details: revenueAccount.Details
+                Details: revenueAccount.Details,
+                //mudar o nome por um que se encaixe melhor com o que guarda, provavelmente é preciso adicionar na bd um novo campo
+                extaxRevenueAccount: revenueAccount.DepartmentID,
             }
         })
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
     return { 
-        handleInputRevenueAccounts, handleSubmitRevenueAccounts
+        handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleDepartmentSelect
     };
 }
 

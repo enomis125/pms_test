@@ -15,20 +15,35 @@ export default function reservationInsert() {
         GuestNumber: guestNumberDefault,
         GuestID: '',
         Name: '',
-        LastName: ''
+        LastName: '',
+        Language: '',
+        Tipology: '',
     })
 
     //preenchimento automatico do nome e do apelido atraves de autocomplete
     const handleClientSelect = (clientForm) => {
-        //console.log("ID do guestProfile selecionado:", clientForm.firstName);
-        //console.log("ID do guestProfile selecionado:", clientForm.secondName);
-
         setReservation({
             ...reservation,
             Name: clientForm.firstName,
             LastName: clientForm.secondName,
             GuestID: clientForm.guestProfileID
         })
+    };
+
+    //preenchimento automatico do país atraves de autocomplete
+    const handleLanguageSelect = (language) => {
+        setReservation({
+            ...reservation,
+            Language: language.codeNr
+        });
+    };
+
+     //preenchimento automatico do país atraves de autocomplete
+     const handleTipologySelect = (tipology) => {
+        setReservation({
+            ...reservation,
+            Tipology: tipology.roomTypeID
+        });
     };
 
     const handleInputReservation = (event) => {
@@ -72,7 +87,9 @@ export default function reservationInsert() {
                     checkOutDate: reservation.CheckOut,
                     nightCount: reservation.NightCount,
                     adultCount: reservation.GuestNumber,
-                    guestNumber: reservation.GuestID
+                    guestNumber: reservation.GuestID,
+                    languageID: reservation.Language,
+                    roomTypeNumber: reservation.Tipology,
                 }
             });
             //console.log(response); // Exibe a resposta do servidor no console
@@ -82,7 +99,7 @@ export default function reservationInsert() {
 
     }
     return {
-        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect
     };
 }
 
@@ -139,7 +156,7 @@ export function reservationEdit(idReservation, idGuest) {
                 checkInDate: valuesReserve.CheckIn,
                 checkOutDate: valuesReserve.CheckOut,
                 nightCount: valuesReserve.NightCount,
-                guestNumber: valuesReserve.GuestNumber
+                adultCount: valuesReserve.GuestNumber
             }
         })
             .catch(err => console.log(err))

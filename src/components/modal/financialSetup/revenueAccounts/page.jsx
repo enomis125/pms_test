@@ -9,6 +9,7 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 import revenueAccountInsert, { revenueAccountsEdit } from "@/components/functionsForm/CRUD/financialSetup/revenueAccounts/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
+import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
 
 
 
@@ -29,7 +30,7 @@ const revenueAccountsForm = ({
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts } = revenueAccountInsert();
+    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleDepartmentSelect } = revenueAccountInsert();
     const { handleUpdateRevenueAccount, setValuesRevenueAccounts, valuesRevenueAccounts } = revenueAccountsEdit(idRevenueAccount);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
@@ -92,11 +93,11 @@ const revenueAccountsForm = ({
                                                     onChange={handleInputRevenueAccounts}
                                                 />
 
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Departamento</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
+                                                <DepartmentAutocomplete
+                                                    label={"Departamento"}
+                                                    style={""}
+                                                    onChange={(value) => handleDepartmentSelect(value)}
+                                                />
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Grupo de Conta</option>
                                                     <option value="1">Teste de opções</option>

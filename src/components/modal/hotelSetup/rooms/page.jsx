@@ -12,10 +12,13 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 
+import CaracteristicsAutocomplete from "@/components/functionsForm/autocomplete/caracteristic/page";
+import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
 
 
 const roomForm = ({
     idRoom,
+    idRoomType,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -31,42 +34,10 @@ const roomForm = ({
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const { handleInputRoom, handleSubmitRoom } = roomsInsert();
-    const { handleUpdateRoom, setValuesRoom, valuesRoom } = roomsEdit(idRoom);
+    const { handleInputRoom, handleSubmitRoom, handleCaracteristicSelect, handleTipologySelect } = roomsInsert();
+    const { handleUpdateRoom, setValuesRoom, valuesRoom } = roomsEdit(idRoom, idRoomType);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
-
-
-    const [caracteristics, setCaracteristics] = useState([]);
-
-    useEffect(() => {
-        const getData = () => {
-            axios.get('/api/v1/hotel/caracteristicas')
-                .then(res => {
-                    setCaracteristics(res.data.response);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        };
-        getData();
-    }, []);
-
-
-    const [tipology, setTipology] = useState([]);
-
-    useEffect(() => {
-        const getData = () => {
-            axios.get('/api/v1/hotel/tipologys')
-                .then(res => {
-                    setTipology(res.data.response);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        };
-        getData();
-    }, []);
 
     return (
         <>
@@ -96,14 +67,14 @@ const roomForm = ({
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Description"}
                                                 label={"Descrição"}
                                                 ariaLabel={"Descrição"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoom} />
 
                                             <InputFieldControlled
@@ -112,6 +83,7 @@ const roomForm = ({
                                                 name={"Label"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoom} />
 
                                             <InputFieldControlled
@@ -120,20 +92,15 @@ const roomForm = ({
                                                 name={"RoomType"}
                                                 label={"Tipo de Quarto"}
                                                 ariaLabel={"Tipo de Quarto"}
-                                                onChange={handleInputRoom} />
+                                                style={"w-full outline-none h-10"} />
 
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        label="Selecione uma tipologia"
-                                                        className="max-w-xs"
-                                                    >
-                                                        {tipology.map((tipology) => (
-                                                            <AutocompleteItem key={tipology.roomTypeID} value={tipology.desc}>
-                                                                {tipology.desc}
-                                                            </AutocompleteItem>
-                                                        ))}
-                                                    </Autocomplete>
+                                                    <TipologyAutocomplete
+                                                        label={"Tipologias"}
+                                                        style={""}
+                                                        onChange={(value) => handleTipologySelect(value)}
+                                                    />
                                                 </div>
                                             </div>
 
@@ -153,6 +120,7 @@ const roomForm = ({
                                                 id={"depHousekeeping"}
                                                 name={"depHousekeeping"}
                                                 label={"DEP. DE HOUSEKEEPING"}
+                                                style={"w-full outline-none h-10"}
 
                                                 ariaLabel={"Departamento de limpeza"} />
 
@@ -164,16 +132,11 @@ const roomForm = ({
 
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        label="Selecione uma caracteristica"
-                                                        className="max-w-xs"
-                                                    >
-                                                        {caracteristics.map((caracteristic) => (
-                                                            <AutocompleteItem key={caracteristic.characteristicID} value={caracteristic.description}>
-                                                                {caracteristic.description}
-                                                            </AutocompleteItem>
-                                                        ))}
-                                                    </Autocomplete>
+                                                    <CaracteristicsAutocomplete
+                                                        label={"Caracteristica"}
+                                                        style={""}
+                                                        onChange={(value) => handleCaracteristicSelect(value)}
+                                                    />
                                                 </div>
                                             </div>
                                         </ModalBody>
@@ -212,14 +175,14 @@ const roomForm = ({
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
-                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-
+                                        <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Description"}
                                                 label={"Descrição"}
                                                 ariaLabel={"Descrição"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesRoom.Description}
                                                 onChange={e => setValuesRoom({ ...valuesRoom, Description: e.target.value })} />
 
@@ -229,6 +192,7 @@ const roomForm = ({
                                                 name={"Label"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesRoom.Label}
                                                 onChange={e => setValuesRoom({ ...valuesRoom, Label: e.target.value })} />
 
@@ -238,21 +202,17 @@ const roomForm = ({
                                                 name={"RoomType"}
                                                 label={"Tipo de Quarto"}
                                                 ariaLabel={"Tipo de Quarto"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesRoom.RoomType}
                                                 onChange={e => setValuesRoom({ ...valuesRoom, RoomType: e.target.value })} />
 
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        label="Selecione uma tipologia"
-                                                        className="max-w-xs"
-                                                    >
-                                                        {tipology.map((tipology) => (
-                                                            <AutocompleteItem key={tipology.roomTypeID} value={tipology.desc}>
-                                                                {tipology.desc}
-                                                            </AutocompleteItem>
-                                                        ))}
-                                                    </Autocomplete>
+                                                    <TipologyAutocomplete
+                                                        label={"Tipologias"}
+                                                        style={""}
+                                                        onChange={(value) => handleTipologySelect(value)}
+                                                    />
                                                 </div>
                                             </div>
 
@@ -272,6 +232,7 @@ const roomForm = ({
                                                 id={"depHousekeeping"}
                                                 name={"depHousekeeping"}
                                                 label={"DEP. DE HOUSEKEEPING"}
+                                                style={"w-full outline-none h-10"}
                                                 ariaLabel={"Departamento de limpeza"} />
 
                                             <div className="flex gap-4 items-center max-w-xs">
@@ -283,16 +244,11 @@ const roomForm = ({
                                             <div className="w-full flex flex-col gap-4">
 
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                    <Autocomplete
-                                                        label="Selecione uma caracteristica"
-                                                        className="max-w-xs"
-                                                    >
-                                                        {caracteristics.map((caracteristic) => (
-                                                            <AutocompleteItem key={caracteristic.characteristicID} value={caracteristic.description}>
-                                                                {caracteristic.description}
-                                                            </AutocompleteItem>
-                                                        ))}
-                                                    </Autocomplete>
+                                                    <CaracteristicsAutocomplete
+                                                        label={"Caracteristica"}
+                                                        style={""}
+                                                        onChange={(value) => handleCaracteristicSelect(value)}
+                                                    />
                                                 </div>
                                             </div>
                                         </ModalBody>

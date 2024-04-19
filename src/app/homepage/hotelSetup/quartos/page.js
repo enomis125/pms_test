@@ -180,6 +180,7 @@ export default function Rooms() {
                         modalEdit={`ID: ${rooms.roomID}`}
                         formTypeModal={12}
                         idRoom={rooms.roomID}
+                        idRoomType={rooms.roomType}
                         criado={rooms.createdAt}
                         editado={rooms.updatedAt}
                         editor={"teste"}
@@ -211,6 +212,7 @@ export default function Rooms() {
                         modalEdit={`ID: ${rooms.roomID}`}
                         formTypeModal={12}
                         idRoom={rooms.roomID}
+                        idRoomType={rooms.roomType}
                         criado={rooms.createdAt}
                         editado={rooms.updatedAt}
                         editor={"teste"}

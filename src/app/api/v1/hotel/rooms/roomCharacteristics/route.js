@@ -4,7 +4,7 @@ import prisma from "@/app/lib/prisma";
 
 export async function GET(request) {
 
-    const roomsRecords = await prisma.rooms.findMany()
+    const roomsRecords = await prisma.rooms_characteristics.findMany()
 
     const response = roomsRecords
 
@@ -18,11 +18,10 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         //console.log(data.Label)
-        const newRecord = await prisma.rooms.create({
+        const newRecord = await prisma.rooms_characteristics.create({
             data: {
-                label: data.Label,
-                description: data.Description,
-                roomType: parseInt(data.roomType)
+                roomID: parseInt(data.roomID),
+                characteristicID: parseInt(data.characteristicID),
             }
         });
 

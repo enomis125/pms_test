@@ -70,7 +70,9 @@ const tipologyGroupForm = ({
                                                     id={"description"}
                                                     name={"Description"}
                                                     label={"Descrição"}
-                                                    ariaLabel={"Descrição"} />
+                                                    ariaLabel={"Descrição"}
+                                                    style={"w-full outline-none h-10"}
+                                                />
 
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -78,6 +80,7 @@ const tipologyGroupForm = ({
                                                     name={"Label"}
                                                     label={"Abreviatura"}
                                                     ariaLabel={"Abreviatura"}
+                                                    style={"w-full outline-none h-10"}
                                                     onChange={handleInputTypesgroups} />
 
                                                 <InputFieldControlled
@@ -85,7 +88,9 @@ const tipologyGroupForm = ({
                                                     id={"details"}
                                                     name={"Details"}
                                                     label={"Detalhes"}
-                                                    ariaLabel={"Detalhes"} />
+                                                    ariaLabel={"Detalhes"}
+                                                    style={"w-full outline-none h-10"}
+                                                />
 
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
@@ -98,7 +103,8 @@ const tipologyGroupForm = ({
                                                     name={"Order"}
                                                     label={"Ordem"}
                                                     ariaLabel={"Ordem"}
-                                                    style={"w-1/2"} />
+                                                    style={"w-1/2 outline-none h-10"}
+                                                />
 
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">------------</option>
@@ -149,7 +155,9 @@ const tipologyGroupForm = ({
                                                 id={"description"}
                                                 name={"Description"}
                                                 label={"Descrição"}
-                                                ariaLabel={"Descrição"} />
+                                                ariaLabel={"Descrição"}
+                                                style={"w-full outline-none h-10"}
+                                            />
 
                                             <InputFieldControlled
                                                 type={"text"}
@@ -157,6 +165,7 @@ const tipologyGroupForm = ({
                                                 name={"Label"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesTypesgroups.Label}
                                                 onChange={e => setValuesTypesGroups({ ...valuesTypesgroups, Label: e.target.value })} />
 
@@ -165,14 +174,23 @@ const tipologyGroupForm = ({
                                                 id={"details"}
                                                 name={"Details"}
                                                 label={"Detalhes"}
-                                                ariaLabel={"Detalhes"} />
+                                                ariaLabel={"Detalhes"}
+                                                style={"w-full outline-none h-10"}
+                                            />
 
                                             <div>
                                                 <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
                                                 <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
                                             </div>
 
-                                            <InputFieldControlled type={"text"} id={"order"} name={"Order"} label={"Ordem"} ariaLabel={"Ordem"} />
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"order"}
+                                                name={"Order"}
+                                                label={"Ordem"}
+                                                ariaLabel={"Ordem"}
+                                                style={"w-1/2 outline-none h-10"}
+                                            />
 
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                 <option value="0">------------</option>

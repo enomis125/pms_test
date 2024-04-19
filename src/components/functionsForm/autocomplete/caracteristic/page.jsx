@@ -4,16 +4,16 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 import axios from 'axios';
 
-export default function countryAutocomplete({ label, style, onChange, fieldName }) {
+export default function caracteristicsAutocomplete({ label, style, onChange}) {
 
-    const [country, setCountry] = useState([]);
+    const [caracteristics, setCaracteristics] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get('/api/v1/cardex/nationalities');
-                const filteredData = res.data.response.filter(country => country.land !== "");
-                setCountry(filteredData);
+                const res = await axios.get('/api/v1/hotel/caracteristicas');
+                const filteredData = res.data.response.filter(caracteristics => caracteristics.abreviature !== "");
+                setCaracteristics(filteredData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -28,13 +28,13 @@ export default function countryAutocomplete({ label, style, onChange, fieldName 
                 className="max-w-xs"
                 variant="underlined"
                 onChange={(value) => {
-                    onChange(value, fieldName);
+                    onChange(value);
                     //console.log("Selected value: ", value);
                 }}
             >
-                {country.map((country) => (
-                    <AutocompleteItem key={country.codeNr} value={country} onClick={() => onChange(country, fieldName)}>
-                        {country.land}
+                {caracteristics.map((caracteristics) => (
+                    <AutocompleteItem key={caracteristics.characteristicID} value={caracteristics} onClick={() => onChange(caracteristics)}>
+                        {caracteristics.abreviature}
                     </AutocompleteItem>
                 ))}
             </Autocomplete>

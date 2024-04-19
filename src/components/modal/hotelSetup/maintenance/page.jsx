@@ -73,6 +73,7 @@ const maintenanceForm = ({
                                                     name={"Description"}
                                                     label={"Descrição"}
                                                     ariaLabel={"Descrição"}
+                                                    style={"w-full outline-none h-10"}
                                                     onChange={handleInputMaintenance} />
                                                 <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
@@ -83,6 +84,7 @@ const maintenanceForm = ({
                                                 name={"Abreviature"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInputMaintenance} />
 
                                             <InputFieldControlled
@@ -91,6 +93,7 @@ const maintenanceForm = ({
                                                 name={"Details"}
                                                 label={"Detalhes"}
                                                 ariaLabel={"Detalhes"}
+                                                style={"w-full outline-none h-10"}
                                                 onChange={handleInputMaintenance} />
 
                                             <div>
@@ -153,6 +156,7 @@ const maintenanceForm = ({
                                                     name={"Description"}
                                                     label={"Descrição"}
                                                     ariaLabel={"Descrição"}
+                                                    style={"w-full outline-none h-10"}
                                                     value={valuesMaintenance.Description}
                                                     onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })} />
                                                 <AiOutlineGlobal className="ml-auto text-xl" />{" "}
@@ -164,6 +168,7 @@ const maintenanceForm = ({
                                                 name={"Abreviature"}
                                                 label={"Abreviatura"}
                                                 ariaLabel={"Abreviatura"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesMaintenance.Abreviature}
                                                 onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })} />
 
@@ -173,6 +178,7 @@ const maintenanceForm = ({
                                                 name={"Details"}
                                                 label={"Detalhes"}
                                                 ariaLabel={"Detalhes"}
+                                                style={"w-full outline-none h-10"}
                                                 value={valuesMaintenance.Details}
                                                 onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })} />
 

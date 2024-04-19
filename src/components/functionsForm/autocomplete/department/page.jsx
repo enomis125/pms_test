@@ -4,16 +4,16 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 import axios from 'axios';
 
-export default function countryAutocomplete({ label, style, onChange, fieldName }) {
+export default function departmentAutocomplete({ label, style, onChange}) {
 
-    const [country, setCountry] = useState([]);
+    const [department, setDepartment] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get('/api/v1/cardex/nationalities');
-                const filteredData = res.data.response.filter(country => country.land !== "");
-                setCountry(filteredData);
+                const res = await axios.get('/api/v1/financialSetup/departments');
+                const filteredData = res.data.response.filter(department => department.departmentName !== "");
+                setDepartment(filteredData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -28,16 +28,17 @@ export default function countryAutocomplete({ label, style, onChange, fieldName 
                 className="max-w-xs"
                 variant="underlined"
                 onChange={(value) => {
-                    onChange(value, fieldName);
+                    onChange(value);
                     //console.log("Selected value: ", value);
                 }}
             >
-                {country.map((country) => (
-                    <AutocompleteItem key={country.codeNr} value={country} onClick={() => onChange(country, fieldName)}>
-                        {country.land}
+                {department.map((department) => (
+                    <AutocompleteItem key={department.departmentID} value={department} onClick={() => onChange(department)}>
+                        {department.departmentName}
                     </AutocompleteItem>
                 ))}
             </Autocomplete>
         </div>
     );
 }
+

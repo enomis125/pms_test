@@ -29,7 +29,7 @@ export async function PUT(request) {
                 zipCode: data.zipCode,
                 region: data.region,
                 address: parseInt(data.country),
-                //countryAddress: parseInt(data.countryAddress)
+                countryAddress: parseInt(data.countryAddress),
                 email: parseInt(data.email),
                 phoneNumber: data.phoneNumber,
                 birthday: birthday,
@@ -41,6 +41,7 @@ export async function PUT(request) {
                 nif: parseInt(data.nif),
                 name: data.name,
                 town: data.town,
+                languageID: parseInt(data.languageID),
                 profileType: 0
             }
         });
