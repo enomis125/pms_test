@@ -1,23 +1,27 @@
 "use client"
-import Reac from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
+import { FiSearch } from "react-icons/fi";
+import { IoIosArrowDown } from "react-icons/io";
+
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
-import ClientFormAutocomplete from "@/components/functionsForm/autocomplete/clientForm/page";
 import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
+
+import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
 
 const reservationsForm = ({
     idReservation,
@@ -79,48 +83,70 @@ const reservationsForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
-                                            <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
-                                                <ClientFormAutocomplete
-                                                    label={"Documento"}
-                                                    style={""}
-                                                    onChange={(value) => handleClientSelect(value)}
-                                                />
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"name"}
-                                                    name={"Name"}
-                                                    label={"Nome"}
-                                                    ariaLabel={"Nome"}
-                                                    style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={reservation.Name}
-                                                    onChange={handleInputReservation}
-                                                />
+                                            <div className="bg-white flex flex-col py-5 px-5 border boder-neutral-200 rounded-lg">
+                                                <div className="mb-10">
+                                                    <Input
+                                                        className="mt-2 w-[40%]"
+                                                        placeholder="Procurar..."
+                                                        labelPlacement="outside"
+                                                        aria-label="Pesquisar clientes"
+                                                        startContent={
+                                                            <FiSearch color={"black"} size={20} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                                                        }
+                                                        endContent={
+                                                            <SearchModal
+                                                                buttonIcon={<IoIosArrowDown size={20} color="black" />}
+                                                                buttonColor={"transparent"}
+                                                                handleClientSelect={handleClientSelect}
+                                                                handleSubmitReservation={handleSubmitReservation}
+                                                                reservation={reservation}
+                                                            />
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className=" flex flex-row justify-between items-center">
+                                                    {/*<ClientFormAutocomplete
+                                                        label={"Documento"}
+                                                        style={""}
+                                                        onChange={(value) => handleClientSelect(value)}
+                                                    />*/}
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"name"}
+                                                        name={"Name"}
+                                                        label={"Nome"}
+                                                        ariaLabel={"Nome"}
+                                                        style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                        value={reservation.Name}
+                                                        onChange={handleInputReservation}
+                                                    />
 
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"surname"}
-                                                    name={"LastName"}
-                                                    label={"Apelido"}
-                                                    ariaLabel={"Apelido"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                    value={reservation.LastName}
-                                                    onChange={handleInputReservation}
-                                                />
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"surname"}
+                                                        name={"LastName"}
+                                                        label={"Apelido"}
+                                                        ariaLabel={"Apelido"}
+                                                        style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                        value={reservation.LastName}
+                                                        onChange={handleInputReservation}
+                                                    />
 
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"salutation"}
-                                                    name={"Salutation"}
-                                                    label={"Saudação"}
-                                                    ariaLabel={"Saudação"}
-                                                    style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                />
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"salutation"}
+                                                        name={"Salutation"}
+                                                        label={"Saudação"}
+                                                        ariaLabel={"Saudação"}
+                                                        style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    />
 
-                                                <LanguageAutocomplete
-                                                    label={"Idioma"}
-                                                    style={""}
-                                                    onChange={(value) => handleLanguageSelect(value)}
-                                                />
+                                                    <LanguageAutocomplete
+                                                        label={"Idioma"}
+                                                        style={""}
+                                                        onChange={(value) => handleLanguageSelect(value)}
+                                                    />
+                                                </div>
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
@@ -128,7 +154,7 @@ const reservationsForm = ({
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Stay Details</b></h4>
                                                     </div>
-                                                    <div className="flex flex-row gap-5">
+                                                    <div className="flex flex-row">
                                                         <InputFieldControlled
                                                             type={"date"}
                                                             id={"arrival"}
@@ -390,12 +416,12 @@ const reservationsForm = ({
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
-                                                <ClientFormAutocomplete
+                                                {/*<ClientFormAutocomplete
                                                     label={"Documento"}
                                                     style={""}
                                                     onChange={(value) => handleClientSelect(value)}
                                                     idGuest={valuesGuest.GuestID}
-                                                />
+                            />*/}
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"name"}
