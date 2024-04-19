@@ -9,8 +9,19 @@ export default function tipologysInsert() {
     const [roomTypeState, setRoomTypeState] = useState({
         Name: '',
         Desc: '',
-        RoomFeaturesDesc: ''
+        RoomFeaturesDesc: '',
+        TipologyGroup: ''
     })
+
+    const handleSelect = (tipologyGroup) => {
+        //console.log("ID do guestProfile selecionado:", clientForm.firstName);
+        //console.log("ID do guestProfile selecionado:", clientForm.secondName);
+
+        setRoomTypeState({
+            ...roomTypeState,
+            TipologyGroup: tipologyGroup.roomTypeGroupID,
+        })
+    };
 
     const handleInputRoomtype = (event) => {
         setRoomTypeState({ ...roomTypeState, [event.target.name]: event.target.value })
@@ -25,7 +36,8 @@ export default function tipologysInsert() {
             data: {
                 name: roomTypeState.Name,
                 desc: roomTypeState.Desc,
-                roomFeaturesDesc: roomTypeState.RoomFeaturesDesc
+                roomFeaturesDesc: roomTypeState.RoomFeaturesDesc,
+                tipologyGroup: roomTypeState.TipologyGroup
             }
         })
             .then(response => console.log(response))
@@ -33,7 +45,7 @@ export default function tipologysInsert() {
     }
 
     return { 
-        handleInputRoomtype, handleSubmitRoomtype
+        handleInputRoomtype, handleSubmitRoomtype, handleSelect
     };
 }
 
