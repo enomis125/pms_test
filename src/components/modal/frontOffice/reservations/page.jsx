@@ -226,6 +226,7 @@ const reservationsForm = ({
                                                         label={"Room"}
                                                         ariaLabel={"Room"}
                                                         style={inputStyle}
+                                                        onChange={handleInputReservation}
                                                     />
 
                                                     <TipologyAutocomplete
