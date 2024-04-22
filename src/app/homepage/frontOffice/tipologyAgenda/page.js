@@ -78,6 +78,7 @@ export default function TipologyAgenda() {
     <FullCalendar
       plugins={[resourceTimelinePlugin]}
       resourceAreaWidth="15%"
+      resourceAreaHeaderContent={() => 'Tipologias'}
       initialView="resourceTimelineWeek"
       resources={roomTypeState.map(roomType => ({
         id: roomType.roomTypeID,
