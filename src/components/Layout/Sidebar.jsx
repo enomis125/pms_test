@@ -34,6 +34,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontOffice/reservations", label: "Reservas", active: true
                 },
                 {
+                    ref: "/homepage/frontOffice/tipologyAgenda", label: "Agenda de Tipologias", active: true
+                },
+                {
                     ref: "#", label: "Housekeeping", active: true
                 }
             ]
