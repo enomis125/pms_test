@@ -36,6 +36,44 @@ export default function TipologyAgenda() {
     getData();
   }, []);
 
+  const getEvents = () => {
+    const events = [];
+    let currentDate = moment().subtract(1, 'years').startOf('day');
+    const endDate = moment().add(1, 'years').endOf('day');
+  
+    while (currentDate <= endDate) {
+      roomTypeState.forEach(roomType => {
+        const roomCount = roomCounts[roomType.roomTypeID] || 0;
+        const filteredReservations = reservation.filter(reservation =>
+          moment(reservation.checkInDate).startOf('day').isSameOrBefore(currentDate, 'day') &&
+          moment(reservation.checkOutDate).endOf('day').subtract(2, 'hours').isAfter(currentDate, 'day') &&
+          reservation.roomTypeNumber === roomType.roomTypeID
+        );
+  
+        let reservedRooms = filteredReservations.length;
+        if (filteredReservations.some(reservation => moment(reservation.checkOutDate).startOf('day').isSame(currentDate, 'day'))) {
+          reservedRooms--;
+        }
+        const availableRooms = roomCount - reservedRooms;
+        const event = {
+          title: `${availableRooms}`,
+          start: currentDate.format('YYYY-MM-DD'),
+          end: currentDate.format('YYYY-MM-DD'),
+          resourceId: roomType.roomTypeID,
+          extendedProps: {
+            roomCount: availableRooms
+          }
+        };
+  
+        events.push(event);
+      });
+  
+      currentDate.add(1, 'day');
+    }
+  
+    return events;
+  }
+
   return (
     <FullCalendar
       plugins={[resourceTimelinePlugin]}
@@ -47,23 +85,7 @@ export default function TipologyAgenda() {
           number: roomCounts[roomType.roomTypeID] || 0
         }
       }))}
-      events={reservation.flatMap(reservation => {
-        const startDate = moment(reservation.checkInDate);
-        const endDate = moment(reservation.checkOutDate);
-        const eventsArray = [];
-      
-        while (startDate.isSameOrBefore(endDate)) {
-          eventsArray.push({
-            title: `Room ${reservation.roomTypeNumber}`,
-            start: startDate.format('YYYY-MM-DD'),
-            end: startDate.format('YYYY-MM-DD'),
-            resourceId: reservation.roomTypeNumber
-          });
-          startDate.add(1, 'day');
-        }
-      
-        return eventsArray;
-      })}
+      events={getEvents()}
       resourceLabelContent={(args) => {
         // args contém informações sobre o recurso
         return (
