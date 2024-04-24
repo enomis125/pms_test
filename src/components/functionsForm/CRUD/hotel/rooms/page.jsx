@@ -25,7 +25,7 @@ export default function roomsInsert() {
     const handleCaracteristicSelect = (caracteristics) => {
         setRoom({
             ...room,
-            CharacteristcID: caracteristics.characteristicID,
+            CharacteristcID: [caracteristics.characteristicID],
         })
     };
 

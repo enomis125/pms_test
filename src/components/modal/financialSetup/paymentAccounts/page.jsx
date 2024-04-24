@@ -10,6 +10,9 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 
+import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
+import AccountGroupAutocomplete from "@/components/functionsForm/autocomplete/accountGroups/page";
+
 
 
 const doctypeForm = ({
@@ -29,7 +32,7 @@ const doctypeForm = ({
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const { handleInputPaymentAccounts, handleSubmitPaymentAccounts } = paymentAccountsInsert();
+    const { handleInputPaymentAccounts, handleSubmitPaymentAccounts, handleSelect, handleDepartmentSelect } = paymentAccountsInsert();
     const { handleUpdatePaymentAccounts, setValuesPaymentAccounts, valuesPaymentAccounts } = paymentAccountsEdit(idPaymentAccounts);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
@@ -92,16 +95,16 @@ const doctypeForm = ({
                                                     onChange={handleInputPaymentAccounts}
                                                 />
 
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Departamento</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Grupo de Conta</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
+                                                <DepartmentAutocomplete
+                                                        label={"Departamentos"}
+                                                        style={""}
+                                                        onChange={(value) => handleDepartmentSelect(value)}
+                                                />
+                                                <AccountGroupAutocomplete
+                                                    label={"Grupo de Conta"}
+                                                    style={""}
+                                                    onChange={(value) => handleSelect(value)}
+                                                />
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Tipo</option>
                                                     <option value="1">Teste de opções</option>
