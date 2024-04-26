@@ -4,11 +4,13 @@ import axios from 'axios'
 import FullCalendar from '@fullcalendar/react';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import moment from 'moment';
+import interactionPlugin from '@fullcalendar/interaction';
 
 export default function TipologyAgenda() {
   const [roomTypeState, setRoomTypeState] = useState([]);
   const [roomCounts, setRoomCounts] = useState({});
   const [reservation, setReservation] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -74,9 +76,17 @@ export default function TipologyAgenda() {
     return events;
   }
 
+  const handleDateSelect = (info) => {
+    console.log("Date selected:", info.startStr);
+    setSelectedDate(info.startStr);
+  };
+
   return (
     <FullCalendar
-      plugins={[resourceTimelinePlugin]}
+      plugins={[resourceTimelinePlugin, interactionPlugin]}
+      selectable={true}
+      resourceSelectable={true}
+      resourceAreaSelectable={true}
       resourceAreaWidth="15%"
       resourceAreaHeaderContent={() => 'Tipologias'}
       initialView="resourceTimelineWeek"
@@ -108,6 +118,7 @@ export default function TipologyAgenda() {
         //center: 'title',
         right: 'resourceTimelineWeek,resourceTimelineMonth'
       }}
+      select={handleDateSelect}
     />
   );
 }
