@@ -21,7 +21,7 @@ export async function PUT(request) {
         const newRecord = await prisma.rooms_characteristics.create({
             data: {
                 roomID: parseInt(data.roomID),
-                characteristicID: parseInt(data.characteristicID),
+                characteristicID: (parseInt(data.characteristicID)),
             }
         });
 

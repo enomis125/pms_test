@@ -9,8 +9,32 @@ export default function revenueAccountInsert() {
         Cod: '',
         Abreviature: '',
         Details: '',
+        revenueAccounts: '',
+        AccountGroup: '',
+        Taxes: '',
         DepartmentID: '',
     })
+
+    //preenchimento automatico do nome e do apelido atraves de autocomplete
+    const handleSelect = (accountGroups) => {
+        //console.log("ID do guestProfile selecionado:", clientForm.firstName);
+        //console.log("ID do guestProfile selecionado:", clientForm.secondName);
+
+        setRevenueAccounts({
+            ...revenueAccount,
+            AccountGroup: accountGroups.accountsGroupsID,
+        })
+    };
+    
+    const handleSelectTaxes = (taxes) => {
+        //console.log("ID do guestProfile selecionado:", clientForm.firstName);
+        //console.log("ID do guestProfile selecionado:", clientForm.secondName);
+
+        setRevenueAccounts({
+            ...revenueAccount,
+            Taxes: taxes.taxesID,
+        })
+    };
 
     //preenchimento automatico de departamento atraves de autocomplete
     const handleDepartmentSelect = (department) => {
@@ -34,7 +58,9 @@ export default function revenueAccountInsert() {
                 Cod: revenueAccount.Cod,
                 Abreviature: revenueAccount.Abreviature,
                 Details: revenueAccount.Details,
-                //mudar o nome por um que se encaixe melhor com o que guarda, provavelmente é preciso adicionar na bd um novo campo
+
+                AccountGroup: revenueAccount.AccountGroup.toString(),
+                Taxes: revenueAccount.Taxes,
                 extaxRevenueAccount: revenueAccount.DepartmentID,
             }
         })
@@ -42,7 +68,9 @@ export default function revenueAccountInsert() {
             .catch(err => console.log(err))
     }
     return { 
-        handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleDepartmentSelect
+
+        handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes, handleDepartmentSelect
+
     };
 }
 
@@ -52,13 +80,14 @@ export function revenueAccountsEdit(idRevenueAccount) {
         id: idRevenueAccount,
         Cod: '',
         Abreviature: '',
-        Details: ''
+        Details: '',
+        AccountGroup: '',
     })
 
     useEffect(() => {
         axios.get("/api/v1/financialSetup/revenueAccounts/" + idRevenueAccount)
             .then(res => {
-                setValuesRevenueAccounts({ ...valuesRevenueAccounts, Cod: res.data.response.name, Abreviature: res.data.response.abreviature, Details: res.data.response.details })
+                setValuesRevenueAccounts({ ...valuesRevenueAccounts, Cod: res.data.response.name, Abreviature: res.data.response.abreviature, Details: res.data.response.details, AccountGroup: res.data.response.accountsGroupsID })
             })
             .catch(err => console.log(err))
     }, [])
@@ -69,7 +98,8 @@ export function revenueAccountsEdit(idRevenueAccount) {
             data: {
                 Cod: valuesRevenueAccounts.Cod,
                 Abreviature: valuesRevenueAccounts.Abreviature,
-                Details: valuesRevenueAccounts.Details
+                Details: valuesRevenueAccounts.Details,
+                AccountGroup: valuesRevenueAccounts.AccountGroup,
             }
         })
             .catch(err => console.log(err))

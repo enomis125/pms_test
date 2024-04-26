@@ -14,15 +14,15 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
-
     try {
         const { data } = await request.json();
+        console.log(data)
         const newRecord = await prisma.roomtypes.create({
             data: {
                 name: data.name,
                 desc: data.desc,
                 roomFeaturesDesc: data.roomFeaturesDesc,
-                groupID: 1
+                groupID: parseInt(data.tipologyGroup),
             }
         });
 

@@ -9,7 +9,27 @@ export default function paymentAccountsInsert() {
         Cod: '',
         Abreviature: '',
         Description: '',
+        AccountGroup: '',
+        DepartmentID: '',
     })
+
+    const handleSelect = (accountGroups) => {
+        //console.log("ID do guestProfile selecionado:", clientForm.firstName);
+        //console.log("ID do guestProfile selecionado:", clientForm.secondName);
+
+        setPaymentAccounts({
+            ...paymentAccounts,
+            AccountGroup: accountGroups.accountsGroupsID,
+        })
+    };
+
+    //preenchimento automatico de departamento atraves de autocomplete
+    const handleDepartmentSelect = (department) => {
+        setPaymentAccounts({
+            ...paymentAccounts,
+            DepartmentID: department.departmentID,
+        })
+    };
 
     const handleInputPaymentAccounts = (event) => {
         setPaymentAccounts({ ...paymentAccounts, [event.target.name]: event.target.value })
@@ -24,14 +44,16 @@ export default function paymentAccountsInsert() {
             data: {
             cod: paymentAccounts.Cod,
             description: paymentAccounts.Description,
-            abreviature: paymentAccounts.Abreviature 
+            abreviature: paymentAccounts.Abreviature,
+            AccountGroup: paymentAccounts.AccountGroup,
+            DepartmentID: paymentAccounts.DepartmentID,
             }
         })
             .then(response => console.log(response))
             .catch(err => console.log(err))
     }
     return { 
-        handleInputPaymentAccounts, handleSubmitPaymentAccounts
+        handleInputPaymentAccounts, handleSubmitPaymentAccounts, handleSelect, handleDepartmentSelect
     };
 
 }
