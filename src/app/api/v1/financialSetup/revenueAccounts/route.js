@@ -16,13 +16,17 @@ export async function PUT(request) {
  
     try {
         const { data } = await request.json();
-        //console.log(data.Label)
+        console.log(data)
         const newRecord = await prisma.revenueAccounts.create({
             data: {
                 name: data.Cod,
                 abreviature: data.Abreviature,
                 details: data.Details,
+
+                accountsGroupsID: data.AccountGroup,
+                taxesID: parseInt(data.Taxes),
                 extaxRevenueAccount: parseInt(data.extaxRevenueAccount),
+
             }
         });
  
