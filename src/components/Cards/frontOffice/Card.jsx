@@ -46,7 +46,7 @@ const Cartao = ({ title, description, counter1, counter2, icon, listType, formTy
 
 
                   <Button
-                   isIconOnly
+                    isIconOnly
                     size="sm"
                     variant="light"
                     className="bg-primary-100   -mt"
