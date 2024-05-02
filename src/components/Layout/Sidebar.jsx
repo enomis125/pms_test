@@ -46,15 +46,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontDesk/guestlist", label: "Lista de Hóspedes", active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/arrivals", label: "Chegadas", active: true
-                },
-                {
-                    ref: "/homepage/frontOffice/departures", label: "Partidas", active: true
-                },
-                {
-                    ref: "/homepage/frontOffice/guestlist", label: "Lista de Hóspedes", active: true
-                },
-                {
                     ref: "/homepage/frontOffice/tipologyPlan", label: "Agenda de Tipologias", active: true
                 },
                 {
