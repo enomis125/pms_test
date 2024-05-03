@@ -11,6 +11,7 @@ import { IoReceipt, IoStorefront  } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { FaHotel } from "react-icons/fa";
+import { IoMdPricetags } from "react-icons/io";
 import { PiUsersFourFill } from "react-icons/pi";
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
@@ -203,6 +204,17 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 {
                     ref: "/homepage/financialSetup/void_charges", label: "Anulação de Cobranças", active: true
                 },
+            ]
+        },
+
+        "Gestão de Preços":{
+            icon: <IoMdPricetags  size={20} />,
+            active: true,
+            items: [
+                {
+                    ref: "/homepage/priceManagement", label: "Códigos de Preços", active: true
+                },
+                
             ]
         }
     }
