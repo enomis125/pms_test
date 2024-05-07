@@ -41,7 +41,7 @@ export default function clientForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/reservations");
+      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals");
       const reservationsData = res.data.response;
       setReservation(reservationsData);
     };
@@ -57,7 +57,7 @@ export default function clientForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + guestId);
+      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals/" + guestId);
       const guestData = res.data.response;
       setGuestProfiles(guestData);
     };
