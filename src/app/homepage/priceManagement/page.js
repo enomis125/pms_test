@@ -22,9 +22,9 @@ import { FaCalendarAlt } from "react-icons/fa";
 
 //imports de componentes
 
-// import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
+import PriceManagementsForm from "@/components/modal/priceManagement/page";
 
-import PaginationTable from "@/components/table/paginationTable/paginationTable";
+// import PaginationTable from "@/components/table/paginationTable/paginationTable";
 
 
 export default function priceManagementForm() {
@@ -126,14 +126,14 @@ return (
               />
             </div>
           </div>
-          {/* <ReservationsForm
-            formTypeModal={0}
+          <PriceManagementsForm
+            formTypeModal={11}
             buttonName={"Novo"}
             buttonIcon={<FiPlus size={15} />}
             editIcon={<FaCalendarAlt size={25} color="white"/>}
             buttonColor={"primary"}
-            modalHeader={"Inserir uma Reserva"} 
-            /> */}
+            modalHeader={"Inserir"} 
+            /> 
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -195,37 +195,37 @@ return (
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 Nº
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-64 uppercase" aria-label="Nome do Hóspede">
+              <TableColumn className="bg-primary-600 text-white font-bold  w-48 uppercase" aria-label="Nome do Hóspede">
                 GRUPO TAB.PREÇO
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="Check-In">
                 TEXTO              
                 </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-Out">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="Check-Out">
                 BASIS GRP.
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Noites">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="Noites">
                 BASIS RATE
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Quarto">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="Quarto">
                 SOBRETAXA
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RT">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="RT">
                 SOBRETAXA FIXA
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Pessoas">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="Pessoas">
                 Pessoas
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RI">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="RI">
                 DIVIDIR
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RI">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="RI">
                 REF
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RI">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="RI">
                 ORDENAÇÃO
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RI">
+              <TableColumn className="bg-primary-600 text-white font-bold  uppercase" aria-label="RI">
                 HOTEL DA RESERVA
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
