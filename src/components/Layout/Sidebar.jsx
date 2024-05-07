@@ -32,7 +32,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontOffice/clientForm", label: "Fichas de clientes", active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/frontDesk", label: "Front-Desk", active: true
+                    ref: "/homepage/frontDesk", label: "Front-Desk", active: true
                 },
                 {
                     ref: "/homepage/frontDesk/reservations", label: "Reservas", active: true
@@ -41,10 +41,10 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontDesk/arrivals", label: "Chegadas", active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/departures", label: "Partidas", active: true
+                    ref: "/homepage/frontDesk/guestlist", label: "Lista de Hóspedes", active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/guestlist", label: "Lista de Hóspedes", active: true
+                    ref: "/homepage/frontDesk/departures", label: "Partidas", active: true
                 },
                 {
                     ref: "/homepage/frontOffice/tipologyPlan", label: "Agenda de Tipologias", active: true

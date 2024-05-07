@@ -38,10 +38,11 @@ export default function clientForm() {
   const [reservation, setReservation] = useState([]);
   const [guestId, setGuestId] = useState([]);
   const [guestProfiles, setGuestProfiles] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10)); // Formato ISO: YYYY-MM-DD
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/reservations");
+      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals");
       const reservationsData = res.data.response;
       setReservation(reservationsData);
     };
@@ -57,7 +58,7 @@ export default function clientForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + guestId);
+      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals/" + guestId);
       const guestData = res.data.response;
       setGuestProfiles(guestData);
     };
@@ -101,7 +102,7 @@ export default function clientForm() {
 
   const handleDelete = async (idReservation) => {
     try {
-      const response = await axios.delete(`/api/v1/frontOffice/reservations/` + idReservation);
+      const response = await axios.delete(`/api/v1/frontOffice/frontDesk/arrivals/` + idReservation);
       alert("Departamento removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover departamento.", error.message);
@@ -185,6 +186,7 @@ export default function clientForm() {
                 name={"Até"}
                 label={"Até:"}
                 ariaLabel={"Até:"}
+                value={currentDate} // Define o valor do campo como a data atual
                 style={inputStyle}
               />
               <CountryAutocomplete

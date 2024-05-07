@@ -3,17 +3,22 @@ import axios from "axios";
 import prisma from "@/app/lib/prisma";
  
 export async function GET(request) {
-    
+
+    const today = new Date();
     const startOfToday = new Date(today.setHours(0, 0, 0, 0));
-    
+
+    const endOfPeriod = new Date(startOfToday);
+    endOfPeriod.setDate(startOfToday.getDate() + 10);
+
     const response = await prisma.reservations.findMany({
         where: {
-          checkOutDate: {
-            gte: startOfToday,
-            lt: new Date(today.setDate(today.getDate() + 31)),
-          },
+            checkOutDate: {
+                gte: startOfToday,
+                lt: endOfPeriod,
+            },
         },
-      });
+    });
+
  
     prisma.$disconnect()
  
