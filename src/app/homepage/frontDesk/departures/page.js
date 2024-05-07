@@ -30,7 +30,6 @@ A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA A
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 
 
 
@@ -167,14 +166,6 @@ export default function clientForm() {
               />
             </div>
             <div className="flex flex-row gap-12 pb-1.5">
-              <CountryAutocomplete
-                label="Procurar"
-                name={"Procurar"}
-                style={
-                  "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
-                }
-                onChange={(value) => handleSelect(value, "Procurar")}
-              />
               <InputFieldControlled
                 type={"date"}
                 id={"de"}
@@ -192,14 +183,7 @@ export default function clientForm() {
                 ariaLabel={"Até:"}
                 style={inputStyle}
               />
-              <CountryAutocomplete
-                label="Quartos"
-                name={"Quartos"}
-                style={
-                  "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
-                }
-                onChange={(value) => handleSelect(value, "Quartos")}
-              />
+            
             </div>
           </div>
           {selectedComponent === 'IndividualForm' && (

@@ -10,6 +10,7 @@ export async function GET(request) {
     const endOfPeriod = new Date(startOfToday);
     endOfPeriod.setDate(startOfToday.getDate() + 10);
 
+
     const response = await prisma.reservations.findMany({
         where: {
             checkInDate: {

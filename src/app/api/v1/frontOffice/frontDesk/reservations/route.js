@@ -4,7 +4,31 @@ import prisma from "@/app/lib/prisma";
  
 export async function GET(request) {
  
-    const response = await prisma.reservations.findMany()
+    const today = new Date();
+    const startOfToday = new Date(today.setHours(0, 0, 0, 0));
+
+    const endOfPeriod = new Date(startOfToday);
+    endOfPeriod.setDate(startOfToday.getDate() + 31);
+
+    const response = await prisma.reservations.findMany({
+        where: {
+            OR: [
+                {
+                    checkOutDate: {
+                        gte: startOfToday,
+                        lt: endOfPeriod,
+                    },
+                },
+                {
+                    checkInDate: {
+                        gte: startOfToday,
+                        lt: endOfPeriod,
+                    },
+                },
+            ],
+        },
+    });
+    
  
     prisma.$disconnect()
  
