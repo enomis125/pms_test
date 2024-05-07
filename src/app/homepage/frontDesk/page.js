@@ -16,7 +16,7 @@ const Card = () => {
         <>
         <div className="border grid grid-cols-4 gap-4 justify-between py-5 px-5">
             <div className="">
-                <Cartao title={"RESERVAS"} description={""} listType={"/reservations"} formName={""} icon={<PiListPlus size={35} />} formTypeCard={0}/>
+                <Cartao title={"RESERVAS"} description={""} listType={"/reservations"} formName={"ModalRes"} icon={<PiListPlus size={35} />} formTypeCard={0}/>
             </div>
             <div className="">
                 <Cartao title={"CHEGADAS"} description={""} listType={"/arrivals"} formType={""} formName={""} icon={<PiAirplaneLandingFill size={35}/>} formTypeCard={0}/>
