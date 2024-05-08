@@ -1715,3 +1715,10 @@ model vipcode {
   updatedAt            DateTime @default(now()) @db.Timestamp(0)
   updatedBy            String   @default("") @db.VarChar(50)
 }
+
+model mpehide {
+  mpeHideID Int @id @default(autoincrement())
+  type      Int @default(-1)
+  ref       Int @default(-1)
+  mpehotel  Int @default(-1)
+}

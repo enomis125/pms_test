@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
@@ -36,13 +36,33 @@ const reservationsForm = ({
     buttonColor,
     criado,
     editado,
-    editor
+    editor,
+    autoOpen = false // novo prop para controle automático da abertura
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+    
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
+     const [key, setKey] = useState(0); 
+
+    // Abre o modal automaticamente se autoOpen é true
+    useEffect(() => {
+        if (autoOpen) {
+            onOpen();
+        }
+    }, [autoOpen, onOpen]);
+
+    // Atualiza chave para forçar re-renderização e assegurar que o modal pode ser aberto novamente
+    useEffect(() => {
+        if (!isOpen && autoOpen) {
+            setKey(prev => prev + 1);
+        }
+    }, [isOpen, autoOpen]);
+
+    const handleClose = () => {
+        onClose(); // Isso chamará onOpenChange com false
+    }
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
@@ -56,9 +76,11 @@ const reservationsForm = ({
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
-                        {buttonName} {buttonIcon}
-                    </Button>
+                   {!autoOpen && ( // Renderiza o botão somente se autoOpen não for verdadeiro
+                        <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                            {buttonName} {buttonIcon}
+                        </Button>
+                    )}
                     <Modal
                         classNames={{
                             base: "max-h-screen",
@@ -67,7 +89,7 @@ const reservationsForm = ({
                         }}
                         size="full"
                         className="bg-neutral-100"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
+                        key={key} isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside" >
                         <ModalContent>
                             {(onClose) => (
                                 <>

@@ -44,7 +44,9 @@ module.exports = {
           tableFooter: "#F8F8F8",
           tableFooterBorder: "#DADADA",
           lightBlue: "#E6EDF4",
-          green: '#159F46'
+          green: '#159F46',
+          tableCol: '#F8F8F8',
+          tableColWeekend: '#E3F1FC',
         },
 
       }
