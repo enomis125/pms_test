@@ -17,16 +17,18 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
+        console.log(data)
         const newRecord = await prisma.ratecodes.create({
             data: {
-                rateGroup: data.raterName,
-                rateCode: parseInt(data.ratergrpExID),
-                specialRate: parseInt(data.raterSpecial),
-                hotels: data.gdsCode
+                raterName: data.rateGroup,
+                ratergrpExID: parseInt(data.rateCode),
+               // raterSpecial: parseInt(data.SpecialRate),
+                gdsCode: data.hotels
             }
+            
         });
 
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });

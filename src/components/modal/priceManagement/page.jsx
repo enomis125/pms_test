@@ -66,13 +66,6 @@ const priceManagementForm = ({
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
                                         
                                             <div className="flex flex-row gap-8">
-                                                <InputFieldControlled
-                                                    type={"number"}
-                                                    id={"number"}
-                                                    name={"Number"}
-                                                    label={"Nr."}
-                                                    style={"w-30 outline-none h-10"}
-                                                    onChange={handleInputPriceManagement} />
 
                                                 <InputFieldControlled
                                                     type={"text"}

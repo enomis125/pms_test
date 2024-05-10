@@ -10,7 +10,7 @@ export default function priceManagementInsert() {
         RateGroup: '',
         RateCode: '',
         //SpecialRate: '',
-        Hotels: '',
+        Hotels: ''
     })
 
     const handleInputPriceManagement = (event) => {
@@ -38,34 +38,34 @@ export default function priceManagementInsert() {
     };
 }
 
-export function priceManagementEdits(idCustomerPreferences) {
-    //edição 
-    const [valuesCustomerPreferences, setValuesCustomerPreferences] = useState({
-        id: idCustomerPreferences,
-        Descrition: '',
-        Abreviature: '',
-    })
+// export function priceManagementEdits(idCustomerPreferences) {
+//     //edição 
+//     const [valuesCustomerPreferences, setValuesCustomerPreferences] = useState({
+//         id: idCustomerPreferences,
+//         Descrition: '',
+//         Abreviature: '',
+//     })
 
-    useEffect(() => {
-        axios.get("/api/v1/cardex/customerPreferences/" + idCustomerPreferences)
-            .then(res => {
-                setValuesCustomerPreferences({ ...valuesCustomerPreferences, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
-            })
-            .catch(err => console.log(err))
-    }, [])
+//     useEffect(() => {
+//         axios.get("/api/v1/cardex/customerPreferences/" + idCustomerPreferences)
+//             .then(res => {
+//                 setValuesCustomerPreferences({ ...valuesCustomerPreferences, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
+//             })
+//             .catch(err => console.log(err))
+//     }, [])
 
-    function handleUpdateCustomerPreferences(e) {
-        e.preventDefault()
-        axios.patch(`/api/v1/cardex/customerPreferences/` + idCustomerPreferences, {
-            data: {
-                description: valuesCustomerPreferences.Descrition,
-                abreviature: valuesCustomerPreferences.Abreviature,
-            }
-        })
-            .catch(err => console.log(err))
-    }
+//     function handleUpdateCustomerPreferences(e) {
+//         e.preventDefault()
+//         axios.patch(`/api/v1/cardex/customerPreferences/` + idCustomerPreferences, {
+//             data: {
+//                 description: valuesCustomerPreferences.Descrition,
+//                 abreviature: valuesCustomerPreferences.Abreviature,
+//             }
+//         })
+//             .catch(err => console.log(err))
+//     }
 
-    return {
-        handleUpdateCustomerPreferences, setValuesCustomerPreferences, valuesCustomerPreferences
-    };
-}
+//     return {
+//         handleUpdateCustomerPreferences, setValuesCustomerPreferences, valuesCustomerPreferences
+//     };
+// }
