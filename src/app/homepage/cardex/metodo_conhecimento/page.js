@@ -23,6 +23,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import KnowledgeForm from "@/components/modal/cardex/knowledge/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function Knowledgemethod() {
@@ -30,11 +31,18 @@ export default function Knowledgemethod() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [knowledgemethod, setKnowledgemethod] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/cardex/knowledgeMethod");
-      setKnowledgemethod(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/cardex/knowledgeMethod");
+        setKnowledgemethod(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -127,6 +135,8 @@ export default function Knowledgemethod() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -214,6 +224,7 @@ export default function Knowledgemethod() {
           ))}
         </TableBody>
       </Table>
+          )}
           </PaginationTable>
         </div>
       </main>

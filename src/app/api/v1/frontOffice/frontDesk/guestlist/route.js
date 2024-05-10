@@ -35,7 +35,7 @@ export async function GET(request) {
         },
     });
 
-    const activeReservations = reservations.filter(reservation => {
+    const response = reservations.filter(reservation => {
         const reservationStartDate = new Date(reservation.checkInDate);
         const reservationEndDate = new Date(reservation.checkOutDate);
         const overlapStartDate = new Date(Math.max(startDate, reservationStartDate));
@@ -47,7 +47,7 @@ export async function GET(request) {
 
     await prisma.$disconnect();
 
-    return new NextResponse(JSON.stringify({ activeReservations, status: 200 }));
+    return new NextResponse(JSON.stringify({ response, status: 200 }));
 }
  
 export async function PUT(request) {

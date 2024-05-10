@@ -22,6 +22,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import FormModals from "@/components/modal/financialSetup/paymentAccounts/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function Characteristics() {
@@ -29,11 +30,18 @@ export default function Characteristics() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [reservChange, setReservChange] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);s
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/financialSetup/paymentAccounts");
-      setReservChange(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/financialSetup/paymentAccounts");
+        setReservChange(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -128,6 +136,8 @@ export default function Characteristics() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -222,6 +232,7 @@ export default function Characteristics() {
           ))}
         </TableBody>
       </Table>
+          )}
           </PaginationTable>
         </div>
       </main>

@@ -44,7 +44,7 @@ export default function clientForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/reservations");
+      const res = await axios.get("/api/v1/frontOffice/frontDesk/guestlist");
       const reservationsData = res.data.response;
       setReservation(reservationsData);
     };
@@ -104,7 +104,7 @@ export default function clientForm() {
 
   const handleDelete = async (idReservation) => {
     try {
-      const response = await axios.delete(`/api/v1/frontOffice/reservations/` + idReservation);
+      const response = await axios.delete(`/api/v1/frontOffice/frontDesk/guestlist/` + idReservation);
       alert("Departamento removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover departamento.", error.message);

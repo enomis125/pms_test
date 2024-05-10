@@ -1418,7 +1418,7 @@ model reservations {
 
 model reservationstatus {
   resID     Int      @id @default(autoincrement())
-  resbez    String   @default("") @db.VarChar(100)
+  status    String   @default("") @db.VarChar(100)
   reschar   Int      @default(-1)
   resmark   String   @default("") @db.VarChar(50)
   rgb       Int      @default(-1)

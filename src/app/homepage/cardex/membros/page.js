@@ -23,6 +23,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import MembersForm from "@/components/modal/cardex/members/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function Members() {
@@ -30,11 +31,18 @@ export default function Members() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [member, setMember] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/cardex/members");
-      setMember(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/cardex/members");
+        setMember(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -127,6 +135,8 @@ export default function Members() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -218,6 +228,7 @@ export default function Members() {
           ))}
         </TableBody>
       </Table>
+    )}
           </PaginationTable>
         </div>
       </main>
