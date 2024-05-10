@@ -26,6 +26,7 @@ import { BsArrowRight } from "react-icons/bs";
 
 import ReservationStatusForm from "@/components/modal/bookings/resevationStatus/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
 
 const searchOptions = [
   { label: "Tudo", value: "all" },
@@ -40,11 +41,18 @@ export default function reservationStatus() {
   const [searchField, setSearchField] = React.useState(searchOptions[0].value); // Default search field
 
   const [reservStatus, setReservStatus] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/reservationStatus");
-      setReservStatus(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/bookings/reservationStatus");
+        setReservStatus(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -184,7 +192,8 @@ export default function reservationStatus() {
             }))
           }
         >
-
+          <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
           <Table
             id="TableToPDF"
             isHeaderSticky={"true"}
@@ -231,10 +240,10 @@ export default function reservationStatus() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-40">{reservStatus.resbez}</TableCell>
-                  <TableCell>{reservStatus.resmark}</TableCell>
+                  <TableCell className="px-40">{reservStatus.reschar}</TableCell>
+                  <TableCell>{reservStatus.status}</TableCell>
                   <TableCell className="px-20">
-                    {reservStatus.reschar}
+                    {reservStatus.resmark}
                   </TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
@@ -283,6 +292,7 @@ export default function reservationStatus() {
               ))}
             </TableBody>
           </Table>
+        )}
         </PaginationTable>
       </div>
     </main>
