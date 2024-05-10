@@ -22,6 +22,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import RoomForm from "@/components/modal/hotelSetup/rooms/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function Rooms() {
@@ -29,11 +30,18 @@ export default function Rooms() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [rooms, setRooms] = useState([]);
- 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/hotel/rooms");
-      setRooms(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/hotel/rooms");
+        setRooms(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -130,6 +138,8 @@ export default function Rooms() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -227,6 +237,7 @@ export default function Rooms() {
           ))}
         </TableBody>
       </Table>
+          )}
           </PaginationTable>
         </div>
       </main>

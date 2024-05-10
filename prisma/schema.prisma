@@ -1211,7 +1211,7 @@ model ratecodes {
   gdsName        String   @default("") @db.VarChar(50)
   gdsDescrip     String   @default("") @db.VarChar(255)
   otagtyp        String   @default("") @db.VarChar(50)
-  otaCom         Decimal  @db.Decimal(19, 0)
+  otaCom         Decimal  @default(0) @db.Decimal(19, 0)
   otaQual        Int      @default(-1)
   otaType        Int      @default(-1)
   noYield        Int      @default(-1)
@@ -1418,7 +1418,7 @@ model reservations {
 
 model reservationstatus {
   resID     Int      @id @default(autoincrement())
-  resbez    String   @default("") @db.VarChar(100)
+  status    String   @default("") @db.VarChar(100)
   reschar   Int      @default(-1)
   resmark   String   @default("") @db.VarChar(50)
   rgb       Int      @default(-1)
