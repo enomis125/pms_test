@@ -22,7 +22,7 @@ export default function priceManagementInsert() {
             alert("Preencha os campos corretamente");
             return;
         }
-        axios.put(`/api/v1/prices/priceManagement/`, {
+        axios.put(`/api/v1/prices/priceManagement`, {
             data: {
                 rateGroup: priceManagement.RateGroup,
                 rateCode: priceManagement.RateCode,
@@ -38,34 +38,37 @@ export default function priceManagementInsert() {
     };
 }
 
-// export function priceManagementEdits(idCustomerPreferences) {
-//     //edição 
-//     const [valuesCustomerPreferences, setValuesCustomerPreferences] = useState({
-//         id: idCustomerPreferences,
-//         Descrition: '',
-//         Abreviature: '',
-//     })
+  export function priceManagementEdit(idPriceManagement) {
+      const [valuesPriceManagement, setValuesPriceManagement] = useState({
+          id: idPriceManagement,
+          RateGroup: '',
+          RateCode: '',
+          //SpecialRate: '',
+          Hotels: ''
+      })
 
-//     useEffect(() => {
-//         axios.get("/api/v1/cardex/customerPreferences/" + idCustomerPreferences)
-//             .then(res => {
-//                 setValuesCustomerPreferences({ ...valuesCustomerPreferences, Descrition: res.data.response.description, Abreviature: res.data.response.abreviature })
-//             })
-//             .catch(err => console.log(err))
-//     }, [])
+      useEffect(() => {
+          axios.get("/api/v1/prices/priceManagement/" + idPriceManagement)
+              .then(res => {
+                console.log("TESTE TESTE TESTE", res.data.response.raterName)
+                setValuesPriceManagement({ ...valuesPriceManagement, RateGroup: res.data.response.raterName, RateCode: res.data.response.ratergrpExID, Hotels: res.data.response.gdsCode })
+              })
+              .catch(err => console.log(err))
+      }, [])
 
-//     function handleUpdateCustomerPreferences(e) {
-//         e.preventDefault()
-//         axios.patch(`/api/v1/cardex/customerPreferences/` + idCustomerPreferences, {
-//             data: {
-//                 description: valuesCustomerPreferences.Descrition,
-//                 abreviature: valuesCustomerPreferences.Abreviature,
-//             }
-//         })
-//             .catch(err => console.log(err))
-//     }
+      function handleUpdatePriceManagement(e) {
+          e.preventDefault()
+          axios.patch(`/api/v1/prices/priceManagement/` + idPriceManagement, {
+              data: {
+                raterName: valuesPriceManagement.RateGroup,
+                ratergrpExID: valuesPriceManagement.RateCode,
+                gdsCode: valuesPriceManagement.Hotels,
+              }
+          })
+              .catch(err => console.log(err))
+      }
 
-//     return {
-//         handleUpdateCustomerPreferences, setValuesCustomerPreferences, valuesCustomerPreferences
-//     };
-// }
+      return {
+        handleUpdatePriceManagement, setValuesPriceManagement, valuesPriceManagement
+      };
+  }
