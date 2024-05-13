@@ -19,6 +19,7 @@ import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
+import { IoIosArrowUp } from "react-icons/io";
 
 //imports de componentes
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
@@ -28,13 +29,60 @@ import CountryAutocomplete from "@/components/functionsForm/autocomplete/country
 
 
 
+
+
 export default function clientForm() {
+  const handleDate30DaysLater = () => {
+    const today = new Date();
+    const next30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000); // Adiciona 30 dias à data atual
+    return next30Days.toISOString().slice(0, 10); // Retorna a data no formato ISO: YYYY-MM-DD
+  }
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [reservation, setReservation] = useState([]);
+  const [reservationStatus, setReservationStatus] = useState([]);
   const [guestId, setGuestId] = useState([]);
   const [guestProfiles, setGuestProfiles] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10)); // Data atual no formato ISO: YYYY-MM-DD
+  const [startDate, setStartDate] = useState(currentDate); // Valor inicial é a data atual
+  const [endDate, setEndDate] = useState(""); // Valor inicial é 30 dias a partir da data atual
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setEndDate(handleDate30DaysLater());
+  }, []);
+
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+
+  const handleClick = () => {
+    console.log("Filtrar Datas button clicked");
+    setIsModalOpen(true);
+  };
+  
+
+  const handleFilterSubmit = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+  
+    // Filtrar as reservas com base nas datas de check-in e check-out
+    const filteredReservations = reservation.filter((reservation) => {
+      const checkInDate = new Date(reservation.checkInDate);
+      const checkOutDate = new Date(reservation.checkOutDate);
+  
+      // Verificar se a reserva está dentro do intervalo de datas selecionado pelo usuário
+      return checkInDate >= start && checkOutDate <= end;
+    });
+  
+    // Atualizar o estado das reservas com os dados filtrados
+    setFilteredReservations(filteredReservations);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +91,18 @@ export default function clientForm() {
       setReservation(reservationsData);
     };
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchReservationStatus = async () => {
+      try {
+        const response = await axios.get("/api/v1/bookings/reservationStatus");
+        setReservationStatus(response.data.response);
+      } catch (error) {
+        console.error("Erro ao buscar os status das reservas:", error.message);
+      }
+    };
+    fetchReservationStatus();
   }, []);
 
   useEffect(() => {
@@ -61,16 +121,53 @@ export default function clientForm() {
     fetchData();
   }, []);
 
+  const getStatusById = (reservationId) => {
+    const statusObject = reservationStatus.find(status => status.reservationID === reservationId);
+    return statusObject ? statusObject.status : "Status desconhecido";
+  };
+
   const filteredItems = React.useMemo(() => {
     if (!reservation || !Array.isArray(reservation)) {
+      console.log("Sem dados de reserva disponíveis.");
       return [];
     }
-
-    return reservation.filter((reservation) =>
-      (reservation.checkInDate && reservation.checkInDate.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase()))
-    );
-  }, [reservation, searchValue]);
+  
+    console.log("Filtrando dados de reserva...");
+  
+    const filteredReservations = reservation.filter((reservation) => {
+      const checkInDate = new Date(reservation.checkInDate);
+      const checkOutDate = new Date(reservation.checkOutDate);
+      const filterStartDate = new Date(startDate);
+      const filterEndDate = new Date(endDate);
+  
+      const isSameDay =
+        checkInDate.getFullYear() === filterStartDate.getFullYear() &&
+        checkInDate.getMonth() === filterStartDate.getMonth() &&
+        checkInDate.getDate() === filterStartDate.getDate();
+  
+      // Ajuste para verificar se o check-out está dentro ou antes do dia selecionado
+      const isBeforeOrSameDay =
+        checkOutDate.getFullYear() < filterEndDate.getFullYear() ||
+        (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
+          checkOutDate.getMonth() < filterEndDate.getMonth()) ||
+        (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
+          checkOutDate.getMonth() === filterEndDate.getMonth() &&
+          checkOutDate.getDate() <= filterEndDate.getDate());
+  
+      console.log("Data de check-in:", checkInDate);
+      console.log("Data de check-out:", checkOutDate);
+      console.log("Data de início do filtro:", filterStartDate);
+      console.log("Data de término do filtro:", filterEndDate);
+      console.log("Está no mesmo dia:", isSameDay);
+      console.log("Check-out é antes ou no mesmo dia:", isBeforeOrSameDay);
+  
+      return isSameDay && isBeforeOrSameDay;
+    });
+  
+    console.log("Reservas filtradas:", filteredReservations);
+    return filteredReservations;
+  }, [reservation, startDate, endDate]);
+  
 
 
   const items = React.useMemo(() => {
@@ -174,6 +271,8 @@ export default function clientForm() {
                 name={"De"}
                 label={"De:"}
                 ariaLabel={"De:"}
+                value={startDate}
+                onChange={handleStartDateChange}
                 style={inputStyle}
               />
               <InputFieldControlled
@@ -182,6 +281,8 @@ export default function clientForm() {
                 name={"Até"}
                 label={"Até:"}
                 ariaLabel={"Até:"}
+                value={endDate}
+                onChange={handleEndDateChange}
                 style={inputStyle}
               />
               <CountryAutocomplete
@@ -192,6 +293,7 @@ export default function clientForm() {
                 }
                 onChange={(value) => handleSelect(value, "Quartos")}
               />
+
             </div>
           </div>
           {selectedComponent === 'IndividualForm' && (
@@ -339,8 +441,8 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Pessoas">
                 Pessoas
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="RI">
-                RI
+              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Status">
+                Status
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
@@ -373,7 +475,7 @@ export default function clientForm() {
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
                   <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[8%]">{"aa"}</TableCell>
+                  <TableCell className="px-[12%]">{reservation.reservationStatus}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
@@ -402,8 +504,9 @@ export default function clientForm() {
                             editor={"teste"}
                           />
                         </DropdownItem>
-                        <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(reservation.reservationID)}>Remover</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
+                        <DropdownItem key="view" aria-label="Ver detalhes">Check-In</DropdownItem>
+                        <DropdownItem key="view" aria-label="Ver detalhes">Cancelada</DropdownItem>
+                        <DropdownItem key="view" aria-label="Ver detalhes">NoShow</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </TableCell>

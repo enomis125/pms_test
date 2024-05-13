@@ -332,7 +332,7 @@ export default function clientForm() {
                 Pessoas
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="RI">
-                RI
+                Status
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
@@ -365,7 +365,7 @@ export default function clientForm() {
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
                   <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[8%]">{"aa"}</TableCell>
+                  <TableCell className="px-[8%]">{"Status"}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
@@ -378,24 +378,7 @@ export default function clientForm() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                        <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <ReservationsForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Reserva"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${reservation.reservationID}`}
-                            formTypeModal={1}
-                            idReservation={reservation.reservationID}
-                            idGuest={reservation.guestNumber}
-                            criado={reservation.createdAt}
-                            editado={reservation.updatedAt}
-                            editor={"teste"}
-                          />
-                        </DropdownItem>
-                        <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(reservation.reservationID)}>Remover</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
+                        <DropdownItem key="view" aria-label="Ver detalhes">Check-Out</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </TableCell>
