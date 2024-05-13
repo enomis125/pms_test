@@ -30,7 +30,7 @@ import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop"
 
 const searchOptions = [
   { label: "Tudo", value: "all" },
-  { label: "Descrição", value: "resmark" },
+  { label: "Descrição", value: "status" },
   { label: "ID", value: "resID" },
 ];
 
