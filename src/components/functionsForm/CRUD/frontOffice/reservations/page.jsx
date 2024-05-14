@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function reservationInsert() {
+export default function reservationInsert(selectedDates) {
 
     const [filteredRoom, setFilteredRoom] = useState(null);
     const currentDate = new Date().toLocaleDateString('en-CA');

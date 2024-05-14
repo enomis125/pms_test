@@ -24,8 +24,8 @@ export const generateDate = (month = dayjs().month(), year = dayjs().year()) => 
         });
     }
 
-    // Adiciona os dias até completar a última semana
-    while (days.length % 7 !== 0) {
+    // Adiciona os dias até completar o último período de 14 dias
+    while (days.length % 14 !== 0) {
         days.push({
             date: days[days.length - 1].date.add(1, 'day'),
             currentMonth: false,
@@ -33,13 +33,13 @@ export const generateDate = (month = dayjs().month(), year = dayjs().year()) => 
         });
     }
 
-    // Organiza os dias em semanas
-    let weeks = [];
-    for (let i = 0; i < days.length; i += 7) {
-        weeks.push(days.slice(i, i + 7));
+    // Organiza os dias em períodos de 14 dias
+    let periods = [];
+    for (let i = 0; i < days.length; i += 14) {
+        periods.push(days.slice(i, i + 14));
     }
 
-    return weeks;
+    return periods;
 };
 
 export const months = [
@@ -62,7 +62,9 @@ export const daysOfWeek = [
     "Monday",
     "Tuesday",
     "Wednesday",
-    "Thrusday",
+    "Thursday",
     "Friday",
     "Saturday",
 ];
+
+

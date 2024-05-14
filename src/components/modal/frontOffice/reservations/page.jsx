@@ -41,10 +41,10 @@ const reservationsForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    
+
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-     const [key, setKey] = useState(0); 
+    const [key, setKey] = useState(0);
 
     // Abre o modal automaticamente se autoOpen é true
     useEffect(() => {
@@ -55,10 +55,10 @@ const reservationsForm = ({
 
     // Atualiza chave para forçar re-renderização e assegurar que o modal pode ser aberto novamente
     useEffect(() => {
-        if (!isOpen && autoOpen) {
+        if (!isOpen) {
             setKey(prev => prev + 1);
         }
-    }, [isOpen, autoOpen]);
+    }, [isOpen]);
 
     const handleClose = () => {
         onClose(); // Isso chamará onOpenChange com false
@@ -76,7 +76,7 @@ const reservationsForm = ({
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                   {!autoOpen && ( // Renderiza o botão somente se autoOpen não for verdadeiro
+                    {!autoOpen && (
                         <Button onPress={onOpen} color={buttonColor} className="w-fit">
                             {buttonName} {buttonIcon}
                         </Button>

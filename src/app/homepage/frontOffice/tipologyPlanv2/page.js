@@ -192,15 +192,15 @@ export default function CalendarPage() {
         <thead>
           <tr>
             {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
-            <th className='w-[20%] bg-tableCol text-left px-4'>Tipologias</th>
+            <th className='w-[15%] bg-tableCol text-left px-4'>Tipologias</th>
             {weeks[currentWeekIndex].map((day, index) => (
-              <th key={index} className={`h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
+              <td key={index} className={`h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
               ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
                 <div className='flex flex-col justify-center text-center'>
                   <span className="text-xs text-gray-400">{daysOfWeek[day.date.day()]}</span>
-                  <span className='text-sm'>{day.date.format('DD.MM.YYYY')}</span>
+                  <span className='text-xs font-bold'>{day.date.format('DD.MM.YYYY')}</span>
                 </div>
-              </th>
+              </td>
             ))}
           </tr>
         </thead>
@@ -208,7 +208,7 @@ export default function CalendarPage() {
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map(roomType => (
             <tr key={roomType.roomTypeID}>
-              <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+              <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
                 <span>{roomType.name}</span>
                 <span>{roomCounts[roomType.roomTypeID] || 0}</span>
               </td>
@@ -220,7 +220,7 @@ export default function CalendarPage() {
                 return (
                   <td
                     key={index}
-                    className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
+                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                       } ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""
                       } 
                     select-none`}
@@ -236,11 +236,11 @@ export default function CalendarPage() {
           ))}
           <tr>
             {/*LINHA SEPARADORA DA GRELHA */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}></td>
               );
@@ -248,13 +248,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*DAY USE LINHA */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Day Use</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -262,7 +262,7 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*CALCULA O NRM DE QUARTOS DISPONIVEIS*/}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Available</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
@@ -272,7 +272,7 @@ export default function CalendarPage() {
               return (
                 <td
                   key={index}
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                   ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}
                 >
@@ -283,13 +283,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*TOTAL OVERBOOKING */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Overbooking</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -297,13 +297,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*ALLOT - NON DED/NOT PU */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Non Ded/Not Pu</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -311,13 +311,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*ALLOT - NON DED/PU */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Non Ded/Pu</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -325,13 +325,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*ALLOT - DEDUCT/NOT PU */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Deduct/Not Pu</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -339,13 +339,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*ALLOT - DEDUCT/PU */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Deduct/Pu</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -353,13 +353,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*OUT OF ORDER*/}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Out of Order</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -367,13 +367,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*OPTION - DEDUCT*/}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Option - Deduct</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -381,13 +381,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*OPTION - NON DEDUCT*/}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Option - Non Deduct</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -395,13 +395,13 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*CONFIRMED - DEDUCT*/}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Confirmed - Deduct</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}>0</td>
               );
@@ -409,7 +409,7 @@ export default function CalendarPage() {
           </tr>
           <tr>
             {/*CALCULA O NRM DE QUARTOS FISICOS DISPONIVEIS*/}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Physically Available</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
@@ -419,7 +419,7 @@ export default function CalendarPage() {
               return (
                 <td
                   key={index}
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                   ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}
                 >
@@ -433,7 +433,7 @@ export default function CalendarPage() {
             CALCULA A % DE QUARTOS JÁ OCUPADOS
             O% - TODOS OS QUARTOS LIVRES | 100% - TODOS OS QUARTOS OCUPADOS
             */}
-            <td className='w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+            <td className='text-sm w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Ocupação %</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
@@ -456,7 +456,7 @@ export default function CalendarPage() {
                 */
                 <td
                   key={index}
-                  className={`text-center border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                   ${dailyOccupancyPercentage <= 49 ? "bg-green bg-opacity-30" : ""} 
                   ${dailyOccupancyPercentage >= 50 && dailyOccupancyPercentage <= 69 ? "bg-yellow-100" : ""} 
                   ${dailyOccupancyPercentage >= 70 ? "bg-red-200" : ""} 
@@ -483,8 +483,3 @@ export default function CalendarPage() {
     </div>
   );
 }
-
-
-
-
-
