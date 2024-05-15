@@ -28,6 +28,7 @@ const reservationsForm = ({
     idGuest,
     buttonName,
     buttonIcon,
+    style,
     modalHeader,
     editIcon,
     modalEditArrow,
@@ -37,37 +38,21 @@ const reservationsForm = ({
     criado,
     editado,
     editor,
-    autoOpen = false // novo prop para controle automático da abertura
+
+    showModal,
+    startDate,
+    endDate,
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-    const [key, setKey] = useState(0);
-
-    // Abre o modal automaticamente se autoOpen é true
-    useEffect(() => {
-        if (autoOpen) {
-            onOpen();
-        }
-    }, [autoOpen, onOpen]);
-
-    // Atualiza chave para forçar re-renderização e assegurar que o modal pode ser aberto novamente
-    useEffect(() => {
-        if (!isOpen) {
-            setKey(prev => prev + 1);
-        }
-    }, [isOpen]);
-
-    const handleClose = () => {
-        onClose(); // Isso chamará onOpenChange com false
-    }
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert();
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert(startDate, endDate);
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
 
 
@@ -76,11 +61,9 @@ const reservationsForm = ({
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                    {!autoOpen && (
-                        <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                        <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
                             {buttonName} {buttonIcon}
                         </Button>
-                    )}
                     <Modal
                         classNames={{
                             base: "max-h-screen",
@@ -89,7 +72,7 @@ const reservationsForm = ({
                         }}
                         size="full"
                         className="bg-neutral-100"
-                        key={key} isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside" >
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside" >
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -101,7 +84,7 @@ const reservationsForm = ({
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>

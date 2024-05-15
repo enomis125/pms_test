@@ -180,13 +180,16 @@ export default function CalendarPage() {
 
   return (
     <div className='w-full'>
+<div className='bg-primary-600 py-5'>
       <div className='flex justify-between'>
-        <h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>
+        <p className='text-ml text-white px-4'><b>Agenda de Tipologias</b></p>
+        {/*<h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>*/}
         <div className='flex items-center gap-5'>
-          <GrFormPrevious className='w-5 h-5 cursor-pointer' onClick={goToPreviousWeek} />
-          <p className='cursor-pointer' onClick={goToCurrentWeek}>Today</p>
-          <GrFormNext className='w-5 h-5 cursor-pointer' onClick={goToNextWeek} />
+          <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
+          <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>Today</p>
+          <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextWeek} />
         </div>
+      </div>
       </div>
       <table className='w-[100%] bg-tableCol'>
         <thead>

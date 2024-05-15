@@ -223,7 +223,7 @@ export default function clientForm() {
             <TableBody>
               {items.map((reservation, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-right undeline text-blue-600">
+                  <TableCell className="text-left underline text-blue-600">
                     <ReservationsForm
                       buttonName={reservation.reservationID}
                       editIcon={<FiEdit3 size={25} />}
