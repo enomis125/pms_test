@@ -4,7 +4,15 @@ import prisma from "@/app/lib/prisma";
 
 export async function GET(request) {
 
-    const roomsRecords = await prisma.rooms.findMany()
+    const roomsRecords = await prisma.rooms.findMany({
+        include: {
+            roomtypes: {
+                select: {
+                    desc: true
+                }
+            }
+        }
+    })
 
     const response = roomsRecords
 
@@ -26,7 +34,7 @@ export async function PUT(request) {
             }
         });
 
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });

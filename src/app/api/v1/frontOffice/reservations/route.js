@@ -1,18 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import prisma from "@/app/lib/prisma";
- 
+
 export async function GET(request) {
- 
-    const response = await prisma.reservations.findMany()
- 
+
+    const response = await prisma.reservations.findMany({
+        include: {
+            guestProfile: {
+                select: {
+                    secondName: true
+                }
+            }
+        }
+    })
+
     prisma.$disconnect()
- 
+
     return new NextResponse(JSON.stringify({ response, status: 200 }));
 }
- 
+
 export async function PUT(request) {
- 
+
     try {
         const { data } = await request.json();
         //console.log(data.Label)
@@ -28,11 +36,11 @@ export async function PUT(request) {
                 guestNumber: parseInt(data.guestNumber)
             }
         });
- 
+
         const id = newRecord.id;
 
-        return new NextResponse(JSON.stringify({id, newRecord, status: 200 }));
- 
+        return new NextResponse(JSON.stringify({ id, newRecord, status: 200 }));
+
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
     } finally {
