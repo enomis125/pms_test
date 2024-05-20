@@ -18,8 +18,12 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
-import { FaCalendarAlt } from "react-icons/fa";
 import { IoIosArrowUp } from "react-icons/io";
+import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
+import { FaCalendarAlt } from "react-icons/fa";
+import { MdOutlinePersonOff } from "react-icons/md";
+import { ImCross } from "react-icons/im";
+import { FaClock } from "react-icons/fa";
 
 //imports de componentes
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
@@ -48,6 +52,9 @@ export default function clientForm() {
   const [startDate, setStartDate] = useState(currentDate); // Valor inicial é a data atual
   const [endDate, setEndDate] = useState(""); // Valor inicial é 30 dias a partir da data atual
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filteredReservations, setFilteredReservations] = useState([]);
+  const [selectedButton, setSelectedButton] = React.useState(null);
+
 
   useEffect(() => {
     setEndDate(handleDate30DaysLater());
@@ -65,21 +72,20 @@ export default function clientForm() {
     console.log("Filtrar Datas button clicked");
     setIsModalOpen(true);
   };
-  
 
   const handleFilterSubmit = (start, end) => {
     setStartDate(start);
     setEndDate(end);
-  
+
     // Filtrar as reservas com base nas datas de check-in e check-out
     const filteredReservations = reservation.filter((reservation) => {
       const checkInDate = new Date(reservation.checkInDate);
       const checkOutDate = new Date(reservation.checkOutDate);
-  
+
       // Verificar se a reserva está dentro do intervalo de datas selecionado pelo usuário
       return checkInDate >= start && checkOutDate <= end;
     });
-  
+
     // Atualizar o estado das reservas com os dados filtrados
     setFilteredReservations(filteredReservations);
   };
@@ -93,17 +99,16 @@ export default function clientForm() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchReservationStatus = async () => {
-      try {
-        const response = await axios.get("/api/v1/bookings/reservationStatus");
-        setReservationStatus(response.data.response);
-      } catch (error) {
-        console.error("Erro ao buscar os status das reservas:", error.message);
-      }
-    };
-    fetchReservationStatus();
-  }, []);
+  const handleStatusChange = async (reservationID, newStatus) => {
+    try {
+      await axios.put("/api/v1/frontOffice/reservations/" + reservationID, {
+        data: {reservationStatus: newStatus }});
+      // Atualize o estado local da reserva após a alteração do status, se necessário
+      // Você pode recarregar os dados ou atualizar apenas a reserva afetada
+    } catch (error) {
+      console.error("Erro ao atualizar o status da reserva:", error.message);
+    }
+  };
 
   useEffect(() => {
     const newGuestIds = reservation.map(reservation => reservation.guestNumber);
@@ -121,9 +126,21 @@ export default function clientForm() {
     fetchData();
   }, []);
 
-  const getStatusById = (reservationId) => {
-    const statusObject = reservationStatus.find(status => status.reservationID === reservationId);
-    return statusObject ? statusObject.status : "Status desconhecido";
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 0:
+        return <FaClock size={28} />;
+      case 1:
+        return <PiAirplaneLandingFill size={28} />;
+      case 2:
+        return <PiAirplaneTakeoffFill size={28} />;
+      case 3:
+        return <ImCross size={28} />;
+      case 4:
+        return <MdOutlinePersonOff size={28} />;
+      default:
+        return "Status desconhecido";
+    }
   };
 
   const filteredItems = React.useMemo(() => {
@@ -131,21 +148,20 @@ export default function clientForm() {
       console.log("Sem dados de reserva disponíveis.");
       return [];
     }
-  
+
     console.log("Filtrando dados de reserva...");
-  
+
     const filteredReservations = reservation.filter((reservation) => {
       const checkInDate = new Date(reservation.checkInDate);
       const checkOutDate = new Date(reservation.checkOutDate);
       const filterStartDate = new Date(startDate);
       const filterEndDate = new Date(endDate);
-  
+
       const isSameDay =
         checkInDate.getFullYear() === filterStartDate.getFullYear() &&
         checkInDate.getMonth() === filterStartDate.getMonth() &&
         checkInDate.getDate() === filterStartDate.getDate();
-  
-      // Ajuste para verificar se o check-out está dentro ou antes do dia selecionado
+
       const isBeforeOrSameDay =
         checkOutDate.getFullYear() < filterEndDate.getFullYear() ||
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
@@ -153,21 +169,36 @@ export default function clientForm() {
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
           checkOutDate.getMonth() === filterEndDate.getMonth() &&
           checkOutDate.getDate() <= filterEndDate.getDate());
-  
-      console.log("Data de check-in:", checkInDate);
-      console.log("Data de check-out:", checkOutDate);
-      console.log("Data de início do filtro:", filterStartDate);
-      console.log("Data de término do filtro:", filterEndDate);
-      console.log("Está no mesmo dia:", isSameDay);
-      console.log("Check-out é antes ou no mesmo dia:", isBeforeOrSameDay);
-  
-      return isSameDay && isBeforeOrSameDay;
+
+      let isSelectedStatus = false;
+
+      switch (selectedButton) {
+        case 0: // Pendentes
+          isSelectedStatus = reservation.reservationStatus === 0;
+          break;
+        case 1: // Checked-in
+          isSelectedStatus = reservation.reservationStatus === 1;
+          break;
+        case 2: // Checked-Out
+          isSelectedStatus = reservation.reservationStatus === 2;
+          break;
+        case 3: // Canceladas
+          isSelectedStatus = reservation.reservationStatus === 3;
+          break;
+        case 4: // No-Show
+          isSelectedStatus = reservation.reservationStatus === 4;
+          break;
+        default:
+          break;
+      }
+
+      return isSameDay && isBeforeOrSameDay && isSelectedStatus;
     });
-  
+
     console.log("Reservas filtradas:", filteredReservations);
     return filteredReservations;
-  }, [reservation, startDate, endDate]);
-  
+  }, [reservation, startDate, endDate, selectedButton]);
+
 
 
   const items = React.useMemo(() => {
@@ -179,9 +210,14 @@ export default function clientForm() {
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
-  const renderCell = React.useCallback((reservation, columnKey) => {
-    const cellValue = reservation[columnKey];
-  }, []);
+  const renderCell = (reservation, columnKey) => {
+    switch (columnKey) {
+      case "reservationStatus":
+        return getStatusIcon(reservation[columnKey]);
+      default:
+        return reservation[columnKey];
+    }
+  };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -202,31 +238,8 @@ export default function clientForm() {
     }
   };
 
-  const [selectedComponent, setSelectedComponent] = useState(null)
-
-  const handleClickIndividual = () => {
-    setSelectedComponent('IndividualForm')
-  }
-
-  const handleClickCompany = () => {
-    setSelectedComponent('CompanyForm')
-  }
-
-  const handleClickAgency = () => {
-    setSelectedComponent('AgencyForm')
-  }
-
-  const handleClickGroup = () => {
-    setSelectedComponent('GroupForm')
-  }
-
-  const handleClickOthers = () => {
-    setSelectedComponent('OthersForm')
-  }
-
 
   //botoes que mudam de cor
-  const [selectedButton, setSelectedButton] = useState("")
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
   const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
@@ -296,60 +309,6 @@ export default function clientForm() {
 
             </div>
           </div>
-          {selectedComponent === 'IndividualForm' && (
-            <IndividualForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Particular"}
-              modalIcons={"bg-red"}
-              formTypeModal={0}
-            ></IndividualForm>
-          )}
-          {selectedComponent === 'CompanyForm' && (
-            <CompanyForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Empresa"}
-              modalIcons={"bg-red"}
-              formTypeModal={0}
-            ></CompanyForm>
-          )}
-          {selectedComponent === 'AgencyForm' && (
-            <TravelGroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Agencia de Viagens"} />
-          )}
-          {selectedComponent === 'GroupForm' && (
-            <GroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Grupos"} />
-          )}
-          {selectedComponent === 'OthersForm' && (
-            <OthersForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Outros"} />
-          )}
         </div>
       </div>
 
@@ -364,46 +323,35 @@ export default function clientForm() {
         >
           <div className="flex flex-row gap-4 mb-2">
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickIndividual();
-                setSelectedButton("individual");
-              }}>
+              onClick={() => setSelectedButton(0)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Pendentes
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
+              onClick={() => setSelectedButton(1)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Checked-In
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickGroup();
-                setSelectedButton("group");
-              }}>
+              onClick={() => setSelectedButton(2)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Checked-Out
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickOthers();
-                setSelectedButton("others");
-              }}>
+              onClick={() => setSelectedButton(3)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Canceladas
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickOthers();
-                setSelectedButton("others");
-              }}>
+              onClick={() => setSelectedButton(4)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               No-Show
             </button>
-
           </div>
           <Table
             id="TableToPDF"
@@ -467,15 +415,16 @@ export default function clientForm() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4"> {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}</TableCell>
-                  {/*impede que a data apareça com data e hora */}
+                  <TableCell className="px-4">
+                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
+                  </TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-40">{reservation.nightCount}</TableCell>
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
                   <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[12%]">{reservation.reservationStatus}</TableCell>
+                  <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
@@ -504,9 +453,9 @@ export default function clientForm() {
                             editor={"teste"}
                           />
                         </DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Check-In</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Cancelada</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">NoShow</DropdownItem>
+                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 1)}>Check-In</DropdownItem>
+                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 3)}>Cancelada</DropdownItem>
+                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 4)}>NoShow</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </TableCell>
