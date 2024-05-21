@@ -18,10 +18,12 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
+import { IoIosArrowUp } from "react-icons/io";
+import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
 import { FaCalendarAlt } from "react-icons/fa";
-
-/* ESTA PAGINA É IGUAL A DAS RESERVAR EXATAMENTE IGUAL E NESTE MOMENTO ESTA A DAR DISPLAY
-A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
+import { MdOutlinePersonOff } from "react-icons/md";
+import { ImCross } from "react-icons/im";
+import { FaClock } from "react-icons/fa";
 
 /* ESTA PAGINA É IGUAL A DAS RESERVAR EXATAMENTE IGUAL E NESTE MOMENTO ESTA A DAR DISPLAY
 A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
@@ -39,12 +41,19 @@ export default function clientForm() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [reservation, setReservation] = useState([]);
+  const [reservationStatus, setReservationStatus] = useState([]);
   const [guestId, setGuestId] = useState([]);
   const [guestProfiles, setGuestProfiles] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10)); // Data atual no formato ISO: YYYY-MM-DD
+  const [startDate, setStartDate] = useState(currentDate); // Valor inicial é a data atual
+  const [endDate, setEndDate] = useState(""); // Valor inicial é 30 dias a partir da data atual
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filteredReservations, setFilteredReservations] = useState([]);
+  const [selectedButton, setSelectedButton] = React.useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/reservations");
+      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals");
       const reservationsData = res.data.response;
       setReservation(reservationsData);
     };
@@ -60,7 +69,7 @@ export default function clientForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + guestId);
+      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals/" + guestId);
       const guestData = res.data.response;
       setGuestProfiles(guestData);
     };
@@ -69,14 +78,43 @@ export default function clientForm() {
 
   const filteredItems = React.useMemo(() => {
     if (!reservation || !Array.isArray(reservation)) {
+      console.log("Sem dados de reserva disponíveis.");
       return [];
     }
 
-    return reservation.filter((reservation) =>
-      (reservation.checkInDate && reservation.checkInDate.toLowerCase().includes(searchValue.toLowerCase())) ||
-      (reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase()))
-    );
-  }, [reservation, searchValue]);
+    console.log("Filtrando dados de reserva...");
+
+    const filteredReservations = reservation.filter((reservation) => {
+      const checkInDateIncludes = reservation.checkInDate && reservation.checkInDate.toLowerCase().includes(searchValue.toLowerCase());
+      const checkOutDateIncludes = reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase());
+
+      let isSelectedStatus = false;
+
+      switch (selectedButton) {
+        case 0: // Pendentes
+          isSelectedStatus = reservation.reservationStatus === 0;
+          break;
+        case 1: // Checked-in
+          isSelectedStatus = reservation.reservationStatus === 1;
+          break;
+        case 2: // Checked-Out
+          isSelectedStatus = reservation.reservationStatus === 2;
+          break;
+        case 3: // Canceladas
+          isSelectedStatus = reservation.reservationStatus === 3;
+          break;
+        case 4: // No-Show
+          isSelectedStatus = reservation.reservationStatus === 4;
+          break;
+        default:
+          break;
+      }
+
+      return (checkInDateIncludes || checkOutDateIncludes) && isSelectedStatus;
+    });
+
+    return filteredReservations;
+  }, [reservation, searchValue, selectedButton]);
 
 
   const items = React.useMemo(() => {
@@ -87,10 +125,14 @@ export default function clientForm() {
   }, [page, filteredItems, rowsPerPage]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
-
-  const renderCell = React.useCallback((reservation, columnKey) => {
-    const cellValue = reservation[columnKey];
-  }, []);
+  const renderCell = (reservation, columnKey) => {
+    switch (columnKey) {
+      case "reservationStatus":
+        return getStatusIcon(reservation[columnKey]);
+      default:
+        return reservation[columnKey];
+    }
+  };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -104,38 +146,42 @@ export default function clientForm() {
 
   const handleDelete = async (idReservation) => {
     try {
-      const response = await axios.delete(`/api/v1/frontOffice/reservations/` + idReservation);
+      const response = await axios.delete(`/api/v1/frontOffice/frontDesk/arrivals/` + idReservation);
       alert("Departamento removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover departamento.", error.message);
     }
   };
 
-  const [selectedComponent, setSelectedComponent] = useState(null)
+  const handleStatusChange = async (reservationID, newStatus) => {
+    try {
+      await axios.put("/api/v1/frontOffice/reservations/" + reservationID, {
+        data: {reservationStatus: newStatus }});
+      // Atualize o estado local da reserva após a alteração do status, se necessário
+      // Você pode recarregar os dados ou atualizar apenas a reserva afetada
+    } catch (error) {
+      console.error("Erro ao atualizar o status da reserva:", error.message);
+    }
+  };
 
-  const handleClickIndividual = () => {
-    setSelectedComponent('IndividualForm')
-  }
-
-  const handleClickCompany = () => {
-    setSelectedComponent('CompanyForm')
-  }
-
-  const handleClickAgency = () => {
-    setSelectedComponent('AgencyForm')
-  }
-
-  const handleClickGroup = () => {
-    setSelectedComponent('GroupForm')
-  }
-
-  const handleClickOthers = () => {
-    setSelectedComponent('OthersForm')
-  }
-
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 0:
+        return <FaClock size={28} />;
+      case 1:
+        return <PiAirplaneLandingFill size={28} />;
+      case 2:
+        return <PiAirplaneTakeoffFill size={28} />;
+      case 3:
+        return <ImCross size={28} />;
+      case 4:
+        return <MdOutlinePersonOff size={28} />;
+      default:
+        return "Status desconhecido";
+    }
+  };
 
   //botoes que mudam de cor
-  const [selectedButton, setSelectedButton] = useState("")
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
   const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
@@ -188,6 +234,7 @@ export default function clientForm() {
                 name={"Até"}
                 label={"Até:"}
                 ariaLabel={"Até:"}
+                value={currentDate} // Define o valor do campo como a data atual
                 style={inputStyle}
               />
               <CountryAutocomplete
@@ -200,60 +247,6 @@ export default function clientForm() {
               />
             </div>
           </div>
-          {selectedComponent === 'IndividualForm' && (
-            <IndividualForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Particular"}
-              modalIcons={"bg-red"}
-              formTypeModal={0}
-            ></IndividualForm>
-          )}
-          {selectedComponent === 'CompanyForm' && (
-            <CompanyForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Empresa"}
-              modalIcons={"bg-red"}
-              formTypeModal={0}
-            ></CompanyForm>
-          )}
-          {selectedComponent === 'AgencyForm' && (
-            <TravelGroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Agencia de Viagens"} />
-          )}
-          {selectedComponent === 'GroupForm' && (
-            <GroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Grupos"} />
-          )}
-          {selectedComponent === 'OthersForm' && (
-            <OthersForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
-              modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Outros"} />
-          )}
         </div>
       </div>
 
@@ -268,46 +261,35 @@ export default function clientForm() {
         >
           <div className="flex flex-row gap-4 mb-2">
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "individual" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickIndividual();
-                setSelectedButton("individual");
-              }}>
+              onClick={() => setSelectedButton(0)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Pendentes
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickAgency();
-                setSelectedButton("agency");
-              }}>
+              onClick={() => setSelectedButton(1)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Checked-In
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickGroup();
-                setSelectedButton("group");
-              }}>
+              onClick={() => setSelectedButton(2)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Checked-Out
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickOthers();
-                setSelectedButton("others");
-              }}>
+              onClick={() => setSelectedButton(3)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               Canceladas
             </button>
             <button
-              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
-              onClick={() => {
-                handleClickOthers();
-                setSelectedButton("others");
-              }}>
+              onClick={() => setSelectedButton(4)}
+              className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
+            >
               No-Show
             </button>
-
           </div>
           <Table
             id="TableToPDF"
@@ -345,8 +327,8 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Pessoas">
                 Pessoas
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="RI">
-                RI
+              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Status">
+                Status
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
@@ -371,15 +353,16 @@ export default function clientForm() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4"> {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}</TableCell>
-                  {/*impede que a data apareça com data e hora */}
+                  <TableCell className="px-4">
+                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
+                  </TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-40">{reservation.nightCount}</TableCell>
                   <TableCell className="px-40">{"alterar"}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
                   <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[8%]">{"aa"}</TableCell>
+                  <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
@@ -408,8 +391,7 @@ export default function clientForm() {
                             editor={"teste"}
                           />
                         </DropdownItem>
-                        <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(reservation.reservationID)}>Remover</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
+                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 2)}>Check-Out</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </TableCell>
@@ -422,4 +404,3 @@ export default function clientForm() {
     </main>
   );
 }
-
