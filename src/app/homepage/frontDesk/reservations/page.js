@@ -31,9 +31,6 @@ import { IoIosArrowDown } from "react-icons/io";
 //imports de componentes
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
-import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
-
 
 
 
@@ -148,6 +145,7 @@ export default function clientForm() {
         return "Status desconhecido";
     }
   };
+
 
   const filteredItems = React.useMemo(() => {
     if (!reservation || !Array.isArray(reservation)) {
@@ -302,7 +300,7 @@ export default function clientForm() {
   return (
     <main>
       <div className="flex flex-col mt-1 py-3">
-        <p className="text-xs px-6 pb-3">Fichas de Clientes</p>
+        <p className="text-xs px-6">Reservas</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="gap-12 grid-cols-2">
             <div className="flex flex-wrap gap-12 py-2">
@@ -391,15 +389,23 @@ export default function clientForm() {
                   "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
                 }
                 onChange={(value) => handleSelect(value, "Quartos")}
+
               />
 
             </div>
           </div>
+          <ReservationsForm
+            formTypeModal={0}
+            buttonName={"Novo"}
+            buttonIcon={<FiPlus size={15} />}
+            editIcon={<FaCalendarAlt size={25} color="white"/>}
+            buttonColor={"primary"}
+            modalHeader={"Inserir uma Reserva"} 
+            />
         </div>
       </div>
-
       <div className="mx-5 h-[65vh] min-h-full">
-        <PaginationTable
+       <PaginationTable
           page={page}
           pages={pages}
           rowsPerPage={rowsPerPage}
@@ -560,4 +566,3 @@ export default function clientForm() {
     </main>
   );
 }
-

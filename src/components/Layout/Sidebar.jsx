@@ -50,6 +50,12 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontOffice/tipologyPlan", label: "Agenda de Tipologias", active: true
                 },
                 {
+                    ref: "/homepage/frontOffice/tipologyPlanv2", label: "Agenda de Tipologias v2", active: true
+                },
+                {
+                    ref: "/homepage/frontOffice/tipologyPlanv3", label: "Agenda de Tipologias v3", active: true
+                },
+                {
                     ref: "#", label: "Housekeeping", active: true
                 }
             ]

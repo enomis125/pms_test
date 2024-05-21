@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
@@ -28,6 +28,7 @@ const reservationsForm = ({
     idGuest,
     buttonName,
     buttonIcon,
+    style,
     modalHeader,
     editIcon,
     modalEditArrow,
@@ -36,7 +37,11 @@ const reservationsForm = ({
     buttonColor,
     criado,
     editado,
-    editor
+    editor,
+
+    showModal,
+    startDate,
+    endDate,
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -47,7 +52,7 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert();
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert(startDate, endDate);
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
 
 
@@ -56,9 +61,9 @@ const reservationsForm = ({
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
-                        {buttonName} {buttonIcon}
-                    </Button>
+                        <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
+                            {buttonName} {buttonIcon}
+                        </Button>
                     <Modal
                         classNames={{
                             base: "max-h-screen",
@@ -67,7 +72,7 @@ const reservationsForm = ({
                         }}
                         size="full"
                         className="bg-neutral-100"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside" >
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -79,7 +84,7 @@ const reservationsForm = ({
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                                <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
