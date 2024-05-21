@@ -11,7 +11,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 
 //imports de componentes
 import ReservationsForm from '@/components/modal/frontOffice/reservations/page';
-import { FiPlus } from 'react-icons/fi';
+import { FiPlus, FiX } from 'react-icons/fi';
 import { FaCalendarAlt } from 'react-icons/fa';
 
 // Configurando plugins
@@ -30,7 +30,7 @@ export default function CalendarPage() {
   const [roomCounts, setRoomCounts] = useState({});
   const [reservation, setReservation] = useState([]);
   const [selectionInfo, setSelectionInfo] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
-  const [selectedRows, setSelectedRows] = useState([]); //seleção de varias linhas
+  const [selectionRows, setSelectionRows] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
   const [availability, setAvailability] = useState({});
 
   const [dragStart, setDragStart] = useState(null);
@@ -39,6 +39,13 @@ export default function CalendarPage() {
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  const [tipology, setTipology] = useState(null);
+
+  const [startDate2, setStartDate2] = useState(null);
+  const [endDate2, setEndDate2] = useState(null);
+
+  const [selectedDates, setSelectedDates] = useState([]);
 
   const handleToggleModal = () => {
     setShowModal(!showModal);
@@ -157,10 +164,16 @@ export default function CalendarPage() {
     setSelectionInfo({ roomTypeID, dates: [date.format('YYYY-MM-DD')] });
     setIsDragging(true);
     setStartDate(date.format('YYYY-MM-DD'));
+    if (ctrlPressed) {
+      setSelectionRows({ roomTypeID, dates: [date.format('YYYY-MM-DD')] });
+      setIsDragging(true);
+      setStartDate2(date.format('YYYY-MM-DD'));
+    }
   };
 
   const handleMouseOver = (date) => {
     if (isDragging && selectionInfo.roomTypeID) {
+      setTipology(selectionInfo.roomTypeID);
       const newDates = [...selectionInfo.dates];
       if (!newDates.includes(date.format('YYYY-MM-DD'))) {
         newDates.push(date.format('YYYY-MM-DD'));
@@ -173,19 +186,31 @@ export default function CalendarPage() {
     if (isDragging) {
       setIsDragging(false);
       setShowModal(true);
-      setEndDate(date.format('YYYY-MM-DD'));
+      if (ctrlPressed) {
+        // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
+        setEndDate2(date.format('YYYY-MM-DD'), () => {
+          // O estado endDate2 foi atualizado, agora você pode acessá-lo com segurança
+          setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: endDate2 }]);
+        });
+      } else {
+        // Se a tecla Ctrl não está pressionada, defina startDate e endDate
+        setEndDate(date.format('YYYY-MM-DD'));
+        // Usar o estado anterior para garantir que endDate tenha o valor atualizado
+        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: date.format('YYYY-MM-DD') }]);
+      }
       // Limpar seleção após o uso
       setSelectionInfo({ roomTypeID: null, dates: [] });
     }
   };
 
+
   useEffect(() => {
     if (!isDragging && startDate && endDate) {
       console.log("Data de início:", startDate);
       console.log("Data de fim:", endDate);
-      console.log("Tipologia:", selectionInfo.roomTypeID);
+      console.log("Tipologia:", tipology);
     }
-  }, [isDragging, startDate, endDate]);
+  }, [isDragging, startDate, endDate, tipology]);
 
   const setCurrentWeekToCurrentDate = () => {
     const currentToday = dayjs();  // Pega a data atual
@@ -201,6 +226,50 @@ export default function CalendarPage() {
     setCurrentWeekIndex(newCurrentWeekIndex);  // Atualiza o índice da semana
   };
 
+  const [ctrlPressed, setCtrlPressed] = useState(false);
+
+  // Função para lidar com o pressionamento da tecla Ctrl
+  const handleKeyDown = (event) => {
+    if (event.key === 'Control') {
+      setCtrlPressed(true);
+    }
+  };
+
+  // Função para lidar com a liberação da tecla Ctrl
+  const handleKeyUp = (event) => {
+    if (event.key === 'Control') {
+      setCtrlPressed(false);
+    }
+  };
+
+  // Adicionando event listeners quando o componente é montado
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    // Removendo event listeners quando o componente é desmontado
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+
+
+  const removeEvent = (index) => {
+    // Remove o evento correspondente ao índice
+    const updatedSelectedDates = [...selectedDates];
+    updatedSelectedDates.splice(index, 1);
+    setSelectedDates(updatedSelectedDates);
+  };
+
+  const [selectedRow, setSelectedRow] = useState(null);
+
+// Função para lidar com a seleção da linha
+const handleRowSelection = (rowIndex) => {
+  setSelectedRow(rowIndex);
+};
+
+const [selectedDatesInCurrentWeek, setSelectedDatesInCurrentWeek] = useState([]);
   return (
     <div className='w-full'>
       <div className='bg-primary-600 py-5'>
@@ -209,24 +278,29 @@ export default function CalendarPage() {
           {/*<h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>*/}
           <div className='flex items-center gap-5'>
             {/*EXIBE O FORM AO SELECIONAR CELULAS */}
-          {showModal && (
-            <>
-            <div className='bg-white'>
-            <p className=''>{startDate ? dayjs(startDate).format('DD/MM/YYYY') : ''}</p>
-            <p className=''>{endDate ? dayjs(endDate).format('DD/MM/YYYY') : ''}</p>
-            </div>
-            <ReservationsForm
-              formTypeModal={0}
-              buttonName={""}
-              buttonIcon={<FiPlus size={15}/>}
-              editIcon={<FaCalendarAlt size={25} color="white" />}
-              buttonColor={"white"}
-              modalHeader={"Inserir uma Reserva"}
-              startDate={`${startDate}`}
-              endDate={`${endDate}`}
-            />
-            </>
-          )}
+            {showModal && (
+              <>
+                {/*<FaCalendarAlt color='white' size={25}/>*/}
+                {selectedDates.map((dateRange, index) => (
+                  <div className="bg-white text-sm px-4 py-1 rounded-lg" key={index}>
+                    <FiX className="cursor-pointer ml-16" onClick={() => removeEvent(index)} />
+                    <p className="">{dayjs(dateRange.start).format('DD/MM/YYYY')}</p>
+                    <p className="">{dayjs(dateRange.end).format('DD/MM/YYYY')}</p>
+                  </div>
+
+                ))}
+                <ReservationsForm
+                  formTypeModal={0}
+                  buttonName={""}
+                  buttonIcon={<FiPlus size={15} />}
+                  editIcon={<FaCalendarAlt size={25} color="white" />}
+                  buttonColor={"white"}
+                  modalHeader={"Inserir uma Reserva"}
+                  startDate={`${startDate}`}
+                  endDate={`${endDate}`}
+                />
+              </>
+            )}
             <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
             <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>Today</p>
             <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextWeek} />
@@ -251,8 +325,9 @@ export default function CalendarPage() {
         </thead>
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
-          {roomTypeState.map(roomType => (
-            <tr key={roomType.roomTypeID}>
+          {roomTypeState.map((roomType, rowIndex) => (
+            <tr key={roomType.roomTypeID} 
+            >
               <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
                 <span>{roomType.name}</span>
                 <span>{roomCounts[roomType.roomTypeID] || 0}</span>
@@ -262,20 +337,23 @@ export default function CalendarPage() {
                 const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
                 const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
 
+
                 return (
                   <td
                     key={index}
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                     ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-                    ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""} 
+                    ${selectedDates.some(dateRange => day.date.isBetween(dayjs(dateRange.start), dayjs(dateRange.end), null, '[]')) ? "bg-red-500" : ""}
+                    ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
+                    ${selectedRow === rowIndex ? "bg-red-500" : ""} 
                     select-none`}
+                    onClick={() => handleRowSelection(rowIndex)}
                     onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
                     onMouseOver={() => handleMouseOver(day.date)}
                     onMouseUp={() => handleMouseUp(day.date)}>
                     {availableRooms}
                   </td>
                 );
-
               })}
             </tr>
           ))}
