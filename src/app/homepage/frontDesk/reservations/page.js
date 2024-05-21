@@ -16,24 +16,20 @@ import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
-import { IoIosArrowUp } from "react-icons/io";
 import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdOutlinePersonOff } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FaClock } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
 
 //imports de componentes
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
-
-
-
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 
 export default function clientForm() {
   const handleDate30DaysLater = () => {
