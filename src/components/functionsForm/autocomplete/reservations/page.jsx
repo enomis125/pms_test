@@ -1,40 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import axios from 'axios';
+import React, { useState } from 'react';
+import {
+    //imports de tabelas
+    Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
+    //imports de dropdown menu
+    Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
+    //imports de inputs
+    Input
+  } from "@nextui-org/react";
 
-export default function ReservationAutocomplete({ label, style, variant, onChange }) {
+  import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
+  } from "@nextui-org/modal";
 
-    const [reservations, setReservations] = useState([]);
+const SearchModalAutocomplete = ({ label, name, style, onChange }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [roomNumber, setRoomNumber] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/v1/hotel/frontOffice/reservations');
-                const reservationsData = response.data.response;
-                setReservations(reservationsData);
-            } catch (error) {
-                console.error('Error fetching reservations:', error);
-            }
-        };
-        fetchData();
-    }, []);
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleRoomNumberChange = (event) => {
+        setRoomNumber(event.target.value);
+    };
+
+    const handleSearch = () => {
+        onChange(roomNumber);
+        handleCloseModal();
+    };
 
     return (
-        <div className={style}>
-            <Autocomplete
-                label={label}
-                className="max-w-xs"
-                variant={variant}
-                onChange={(value) => {
-                    onChange(value);
-                }}
-            >
-                {reservations.map((reservation) => (
-                    <AutocompleteItem key={reservation.id} value={reservation} onClick={() => onChange(reservation)}>
-                        {reservation.checkInDate} - {reservation.checkOutDate}
-                    </AutocompleteItem>
-                ))}
-            </Autocomplete>
+        <div>
+            <Button onClick={handleOpenModal} className="bg-blue-500 text-white">
+                {label}
+            </Button>
+
+            <Modal open={isModalOpen} onClose={handleCloseModal}>
+                <ModalHeader>
+                    <span>Filtrar pelo número do quarto</span>
+                </ModalHeader>
+                <ModalBody>
+                    <Input
+                        label="Número do Quarto"
+                        placeholder="Insira o número do quarto"
+                        value={roomNumber}
+                        onChange={handleRoomNumberChange}
+                        fullWidth
+                    />
+                </ModalBody>
+                <ModalFooter>
+                    <Button auto flat color="error" onClick={handleCloseModal}>
+                        Cancelar
+                    </Button>
+                    <Button auto onClick={handleSearch}>
+                        Procurar
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
-}
+};
+
+export default SearchModalAutocomplete;

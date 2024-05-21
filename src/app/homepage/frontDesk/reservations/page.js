@@ -11,6 +11,8 @@ import {
   Input
 } from "@nextui-org/react";
 
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+
 //imports de icons
 import { GoGear } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -24,6 +26,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { MdOutlinePersonOff } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FaClock } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
 
 //imports de componentes
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
@@ -54,7 +57,9 @@ export default function clientForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [selectedButton, setSelectedButton] = React.useState(null);
-
+  const [roomNumberFilter, setRoomNumberFilter] = useState("");
+  const [lastNameFilter, setLastNameFilter] = useState("");
+  const [firstNameFilter, setFirstNameFilter] = useState("");
 
   useEffect(() => {
     setEndDate(handleDate30DaysLater());
@@ -102,7 +107,8 @@ export default function clientForm() {
   const handleStatusChange = async (reservationID, newStatus) => {
     try {
       await axios.put("/api/v1/frontOffice/reservations/" + reservationID, {
-        data: {reservationStatus: newStatus }});
+        data: { reservationStatus: newStatus }
+      });
       // Atualize o estado local da reserva após a alteração do status, se necessário
       // Você pode recarregar os dados ou atualizar apenas a reserva afetada
     } catch (error) {
@@ -192,12 +198,24 @@ export default function clientForm() {
           break;
       }
 
-      return isSameDay && isBeforeOrSameDay && isSelectedStatus;
+      const roomNumberMatches = roomNumberFilter
+        ? reservation.roomNumber.toString().includes(roomNumberFilter)
+        : true;
+
+      const lastNameMatches = lastNameFilter
+        ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName.toLowerCase().includes(lastNameFilter.toLowerCase())
+        : true;
+
+      const firstNameMatches = firstNameFilter
+        ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName.toLowerCase().includes(firstNameFilter.toLowerCase())
+        : true;
+
+      return isSameDay && isBeforeOrSameDay && isSelectedStatus && roomNumberMatches && lastNameMatches && firstNameMatches;
     });
 
     console.log("Reservas filtradas:", filteredReservations);
     return filteredReservations;
-  }, [reservation, startDate, endDate, selectedButton]);
+  }, [reservation, startDate, endDate, selectedButton, roomNumberFilter, lastNameFilter, firstNameFilter]);
 
 
 
@@ -238,6 +256,43 @@ export default function clientForm() {
     }
   };
 
+  const handleRoomNumberChange = (event) => {
+    const { value } = event.target;
+    setRoomNumberFilter(value);
+
+    const filteredReservations = reservation.filter((reservation) => {
+      const roomNumber = reservation.roomNumber.toString();
+      return roomNumber.includes(value);
+    });
+
+    setFilteredReservations(filteredReservations);
+  };
+
+  const handleLastNameChange = (event) => {
+    const { value } = event.target;
+    setLastNameFilter(value);
+
+    const filteredReservations = reservation.filter((reservation) => {
+      const lastName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "";
+      return lastName.toLowerCase().includes(value.toLowerCase());
+    });
+
+    setFilteredReservations(filteredReservations);
+  };
+
+  const handleFirstNameChange = (event) => {
+    const { value } = event.target;
+    setFirstNameFilter(value);
+
+    const filteredReservations = reservation.filter((reservation) => {
+      const firstName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "";
+      return firstName.toLowerCase().includes(value.toLowerCase());
+    });
+
+    setFilteredReservations(filteredReservations);
+  };
+
+
 
   //botoes que mudam de cor
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
@@ -270,14 +325,45 @@ export default function clientForm() {
               />
             </div>
             <div className="flex flex-row gap-12 pb-1.5">
-              <CountryAutocomplete
-                label="Procurar"
-                name={"Procurar"}
-                style={
-                  "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
-                }
-                onChange={(value) => handleSelect(value, "Procurar")}
-              />
+              <Popover className="bg-transparent">
+                <PopoverTrigger >
+                  <Button>Procurar </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="px-1 py-2">
+                    <InputFieldControlled
+                      type={"text"}
+                      id={"quartos"}
+                      name={"quartos"}
+                      label={"Procurar quarto"}
+                      ariaLabel={"Procurar quarto"}
+                      value={roomNumberFilter}
+                      onChange={handleRoomNumberChange}
+                      style={inputStyle}
+                    />
+                    <InputFieldControlled
+                      type={"text"}
+                      id={"apelido"}
+                      name={"apelido"}
+                      label={"Procurar apelido"}
+                      ariaLabel={"Procurar apelido"}
+                      value={lastNameFilter}
+                      onChange={handleLastNameChange} // Adicione esta linha
+                      style={inputStyle}
+                    />
+                    <InputFieldControlled
+                      type={"text"}
+                      id={"primeiroNome"}
+                      name={"primeiroNome"}
+                      label={"Procurar primeiro nome"}
+                      ariaLabel={"Procurar primeiro nome"}
+                      value={firstNameFilter}
+                      onChange={handleFirstNameChange}
+                      style={inputStyle}
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
               <InputFieldControlled
                 type={"date"}
                 id={"de"}
@@ -368,8 +454,11 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-64 uppercase" aria-label="Nome do Hóspede">
-                Nome do Hóspede
+              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-32 uppercase" aria-label="Nome">
+                Nome
+              </TableColumn>
+              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-32 uppercase" aria-label="Apelido">
+                Apelido
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
                 Check-In
@@ -377,7 +466,7 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-Out">
                 Check-Out
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Noites">
+              <TableColumn className="bg-primary-600 text-white font-bold px-24 uppercase" aria-label="Noites">
                 Noites
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Quarto">
@@ -416,12 +505,15 @@ export default function clientForm() {
                     />
                   </TableCell>
                   <TableCell className="px-4">
-                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
+                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "Nome não encontrado"}
+                  </TableCell>
+                  <TableCell className="px-4">
+                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "Apelido não encontrado"}
                   </TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-40">{reservation.nightCount}</TableCell>
-                  <TableCell className="px-40">{"alterar"}</TableCell>
+                  <TableCell className="px-40">{reservation.roomNumber}</TableCell>
                   <TableCell className="px-40">{"aa"}</TableCell>
                   <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
                   <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
