@@ -21,7 +21,7 @@ import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipolo
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
 
-import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
+import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
 
 const reservationsForm = ({
     idReservation,
@@ -52,7 +52,7 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert(startDate, endDate);
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert();
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
 
 

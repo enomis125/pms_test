@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -1186,7 +1186,7 @@ model ratecodedetails {
 
 model ratecodes {
   rategrpID      Int      @id @default(autoincrement())
-  ratergrpExID   Int      @default(-1)
+  ratergrpExID   String   @default("") @db.VarChar(255)
   raterName      String   @default("") @db.VarChar(15)
   gdsCode        String   @default("") @db.VarChar(20)
   promoCode      String   @default("") @db.VarChar(20)
@@ -1625,6 +1625,7 @@ model salutions {
 model seasons {
   seasonID  Int      @id @default(autoincrement())
   sortNo    Int      @default(-1)
+  desc      String   @default("") @db.VarChar(255)
   startDate DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
   endDate   DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
   bez       String   @default("") @db.VarChar(50)
@@ -1722,4 +1723,39 @@ model mpehide {
   type      Int @default(-1)
   ref       Int @default(-1)
   mpehotel  Int @default(-1)
+}
+
+model properties {
+  propertyID     Int    @id @default(autoincrement())
+  name           String @db.VarChar(250)
+  fiscalNumber   Int
+  email          String @db.VarChar(250)
+  phoneNumber    String @db.VarChar(45)
+  address1       String @db.VarChar(250)
+  country        String @db.VarChar(250)
+  district       String @db.VarChar(250)
+  zipCode        String @db.VarChar(45)
+  description    String @db.VarChar(250)
+  abbreviation   String @db.VarChar(10)
+  designation    String @db.VarChar(50)
+  organizationID Int
+  del            Int    @default(0)
+}
+
+model users {
+  userID         Int     @id @default(autoincrement())
+  name           String  @db.VarChar(250)
+  lastName       String  @db.VarChar(250)
+  email          String  @unique(map: "email_UNIQUE") @db.VarChar(250)
+  fiscalNumber   Int     @unique(map: "fiscalNumber_UNIQUE")
+  phoneNumber    Int     @unique(map: "phoneNumber_UNIQUE")
+  address1       String  @db.VarChar(250)
+  address2       String  @db.VarChar(250)
+  country        String  @db.VarChar(250)
+  district       String  @db.VarChar(250)
+  zipCode        String  @db.VarChar(45)
+  password       String  @db.VarChar(250)
+  organizationID Int
+  roleID         Int
+  admin          Boolean @default(dbgenerated("b'0'")) @db.Bit(1)
 }

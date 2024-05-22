@@ -10,9 +10,11 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isBetween from 'dayjs/plugin/isBetween';
 
 //imports de componentes
-import ReservationsForm from '@/components/modal/frontOffice/reservations/page';
+import ReservationsForm from '@/components/modal/frontOffice/reservations/multiReservations/page';
 import { FiPlus, FiX } from 'react-icons/fi';
 import { FaCalendarAlt } from 'react-icons/fa';
+import { FaBed } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -186,19 +188,19 @@ export default function CalendarPage() {
     if (isDragging) {
       setIsDragging(false);
       setShowModal(true);
+
+      const selectedTipology = roomTypeState.find(t => t.roomTypeID === selectionInfo.roomTypeID);
+      const tipologyName = selectedTipology ? selectedTipology.name : '';
+
       if (ctrlPressed) {
-        // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
         setEndDate2(date.format('YYYY-MM-DD'), () => {
-          // O estado endDate2 foi atualizado, agora você pode acessá-lo com segurança
-          setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: endDate2 }]);
+          setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: endDate2, tipologyName }]);
         });
       } else {
-        // Se a tecla Ctrl não está pressionada, defina startDate e endDate
         setEndDate(date.format('YYYY-MM-DD'));
-        // Usar o estado anterior para garantir que endDate tenha o valor atualizado
-        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: date.format('YYYY-MM-DD') }]);
+        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: date.format('YYYY-MM-DD'), tipologyName }]);
       }
-      // Limpar seleção após o uso
+
       setSelectionInfo({ roomTypeID: null, dates: [] });
     }
   };
@@ -264,43 +266,83 @@ export default function CalendarPage() {
 
   const [selectedRow, setSelectedRow] = useState(null);
 
-// Função para lidar com a seleção da linha
-const handleRowSelection = (rowIndex) => {
-  setSelectedRow(rowIndex);
-};
+  // Função para lidar com a seleção da linha
+  const handleRowSelection = (rowIndex) => {
+    setSelectedRow(rowIndex);
+  };
 
-const [selectedDatesInCurrentWeek, setSelectedDatesInCurrentWeek] = useState([]);
+  const updateDateRange = (index, field, value) => {
+    const updatedDates = [...selectedDates];
+    updatedDates[index][field] = value;
+    setSelectedDates(updatedDates);
+  };
+
   return (
     <div className='w-full'>
+      {/*EXIBE O FORM AO SELECIONAR CELULAS */}
+      {showModal && (
+  <>
+    <div className='absolute top-0 right-0 bg-lightBlue h-full w-[20%] z-10'>
+      {/*<FaCalendarAlt color='white' size={25}/>*/}
+      <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
+        {selectedDates.map((dateRange, index) => (
+          <div className={`bg-white text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
+            <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
+              <div className='flex flex-row items-center gap-4'>
+                <FaBed className='' size={25} color='gray' />
+                <p className='text-ml'>{dateRange.tipologyName}</p>
+              </div>
+              <div>
+                <FaRegTrashAlt className="cursor-pointer" size={15} color={'gray'} onClick={() => removeEvent(index)} />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 py-1">
+              <label>Check-In:</label>
+              <input
+                className='outline-none'
+                type="date"
+                value={dateRange.start}
+                onChange={(e) => updateDateRange(index, 'start', e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label>Check-Out:</label>
+              <input
+                className='outline-none'
+                type="date"
+                value={dateRange.end}
+                onChange={(e) => updateDateRange(index, 'end', e.target.value)}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
+        <ReservationsForm
+          formTypeModal={0}
+          buttonName={"RESERVAR"}
+          //buttonIcon={<FiPlus size={15} />}
+          editIcon={<FaCalendarAlt size={25} color="white" />}
+          buttonColor={"primary"}
+          modalHeader={"Inserir uma Reserva"}
+          startDate={`${startDate}`}
+          endDate={`${endDate}`}
+          selectedDates={selectedDates}
+        />
+        <button
+          className="text-sm"
+          onClick={handleToggleModal}>CANCELAR</button>
+      </div>
+    </div>
+  </>
+)}
+
+
       <div className='bg-primary-600 py-5'>
         <div className='flex justify-between'>
           <p className='text-ml text-white px-4'><b>Agenda de Tipologias</b></p>
           {/*<h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>*/}
           <div className='flex items-center gap-5'>
-            {/*EXIBE O FORM AO SELECIONAR CELULAS */}
-            {showModal && (
-              <>
-                {/*<FaCalendarAlt color='white' size={25}/>*/}
-                {selectedDates.map((dateRange, index) => (
-                  <div className="bg-white text-sm px-4 py-1 rounded-lg" key={index}>
-                    <FiX className="cursor-pointer ml-16" onClick={() => removeEvent(index)} />
-                    <p className="">{dayjs(dateRange.start).format('DD/MM/YYYY')}</p>
-                    <p className="">{dayjs(dateRange.end).format('DD/MM/YYYY')}</p>
-                  </div>
-
-                ))}
-                <ReservationsForm
-                  formTypeModal={0}
-                  buttonName={""}
-                  buttonIcon={<FiPlus size={15} />}
-                  editIcon={<FaCalendarAlt size={25} color="white" />}
-                  buttonColor={"white"}
-                  modalHeader={"Inserir uma Reserva"}
-                  startDate={`${startDate}`}
-                  endDate={`${endDate}`}
-                />
-              </>
-            )}
             <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
             <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>Today</p>
             <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextWeek} />
@@ -326,7 +368,8 @@ const [selectedDatesInCurrentWeek, setSelectedDatesInCurrentWeek] = useState([])
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map((roomType, rowIndex) => (
-            <tr key={roomType.roomTypeID} 
+            <tr key={roomType.roomTypeID}
+            onClick={() => handleRowSelection(rowIndex)}
             >
               <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
                 <span>{roomType.name}</span>
@@ -343,11 +386,9 @@ const [selectedDatesInCurrentWeek, setSelectedDatesInCurrentWeek] = useState([])
                     key={index}
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                     ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-                    ${selectedDates.some(dateRange => day.date.isBetween(dayjs(dateRange.start), dayjs(dateRange.end), null, '[]')) ? "bg-red-500" : ""}
                     ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${selectedRow === rowIndex ? "bg-red-500" : ""} 
+                    ${selectedRow === rowIndex ? "bg-red-500" : ""}
                     select-none`}
-                    onClick={() => handleRowSelection(rowIndex)}
                     onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
                     onMouseOver={() => handleMouseOver(day.date)}
                     onMouseUp={() => handleMouseUp(day.date)}>

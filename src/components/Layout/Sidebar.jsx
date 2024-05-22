@@ -47,7 +47,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontDesk/departures", label: "Partidas", active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/tipologyPlanv", label: "Plano de Tipologias", active: true
+                    ref: "/homepage/frontOffice/tipologyPlan", label: "Plano de Tipologias", active: true
                 },
                 {
                     ref: "#", label: "Housekeeping", active: true

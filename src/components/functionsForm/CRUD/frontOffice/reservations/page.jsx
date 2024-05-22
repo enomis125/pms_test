@@ -103,10 +103,10 @@ export default function reservationInsert(startDate, endDate) {
         
           event.preventDefault();
 
-        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+       { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
             alert("Preencha os campos corretamente");
             return;
-        }
+        }*/}
 
         if (filteredRoom) {
             try {
@@ -127,9 +127,7 @@ export default function reservationInsert(startDate, endDate) {
             } catch (error) {
               console.error('Erro ao enviar requisições:', error);
             }
-          } else {
-            alert("Quarto não encontrado");
-          }
+          } 
         }
 
     return {
