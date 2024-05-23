@@ -212,7 +212,13 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active: true,
             items: [
                 {
-                    ref: "/homepage/priceManagement", label: "Códigos de Preços", active: true
+                    ref: "/homepage/priceManagement/priceGroups", label: "Códigos de Preços", active: true
+                },
+                {
+                    ref: "/homepage/priceManagement/priceDescription", label: "Descrição de Códigos de Preços", active: true
+                },
+                {
+                    ref: "/homepage/priceManagement/seasons", label: "Épocas", active: true
                 },
                 
             ]

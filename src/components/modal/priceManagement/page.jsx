@@ -69,6 +69,7 @@ const priceManagementForm = ({
             isDismissable={false}
             isKeyboardDismissDisabled={true}
             hideCloseButton={true}
+            scrollBehavior="inside"
           >
             <ModalContent>
               {(onClose) => (
@@ -101,7 +102,7 @@ const priceManagementForm = ({
                         </Button>
                       </div>
                     </ModalHeader>
-                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                       <div className="flex flex-row gap-8">
                         <InputFieldControlled
                           type={"text"}
@@ -113,7 +114,7 @@ const priceManagementForm = ({
                         />
 
                         <InputFieldControlled
-                          type={"number"}
+                          type={"text"}
                           id={"RateCode"}
                           name={"RateCode"}
                           label={"Rate Code"}
@@ -268,6 +269,7 @@ const priceManagementForm = ({
             isDismissable={false}
             isKeyboardDismissDisabled={true}
             hideCloseButton={true}
+            scrollBehavior="inside"
           >
             <ModalContent>
               {(onClose) => (
@@ -315,7 +317,7 @@ const priceManagementForm = ({
                         />
 
                         <InputFieldControlled
-                          type={"number"}
+                          type={"text"}
                           id={"RateCode"}
                           name={"RateCode"}
                           label={"Rate Code"}

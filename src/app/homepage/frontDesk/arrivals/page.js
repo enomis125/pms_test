@@ -69,7 +69,7 @@ export default function clientForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals/" + guestId);
+      const res = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + guestId);
       const guestData = res.data.response;
       setGuestProfiles(guestData);
     };
@@ -354,7 +354,7 @@ export default function clientForm() {
                     />
                   </TableCell>
                   <TableCell className="px-4">
-                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
+                  {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
                   </TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
                   <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
