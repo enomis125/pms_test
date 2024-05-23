@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "@bitnoi.se/react-scheduler": "^0.2.0",
+    "@date-io/dayjs": "^3.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fullcalendar/core": "^6.1.11",
@@ -24,6 +26,7 @@
     "@prisma/extension-pulse": "^1.0.1",
     "axios": "^1.6.7",
     "date-fns": "^3.4.0",
+    "dayjs": "^1.11.11",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "lodash": "^4.17.21",
