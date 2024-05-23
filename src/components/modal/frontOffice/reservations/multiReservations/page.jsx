@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Tabs, Tab, Card, CardBody, input } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
@@ -43,6 +43,7 @@ const reservationsForm = ({
     startDate,
     endDate,
     selectedDates, // Recebendo selectedDates como prop
+    
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -161,7 +162,7 @@ const reservationsForm = ({
                                                     <Tabs aria-label="Options" >
                                                         {selectedDates.map((dateRange, index) => (
                                                             <Tab key={`client${index}`} title={`Client ${index + 1}`}>
-                                                                <div className="flex flex-row justify-between gap-2 bg-blue-200">
+                                                                <div className="flex flex-row justify-between gap-2">
                                                                     <div className="bg-white flex flex-col w-2/4 px-5 py-5 border border-neutral-200">
                                                                         <div className="">
                                                                             <h4 className="pb-5 text-black-100"><b>Stay Details</b></h4>
@@ -241,10 +242,20 @@ const reservationsForm = ({
                                                                             onChange={handleInputReservation}
                                                                         />
 
-                                                                        <TipologyAutocomplete
+                                                                        {/*<TipologyAutocomplete
                                                                             label="Room Type"
                                                                             style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"}
                                                                             onChange={(value) => handleTipologySelect(value)}
+                                                        />*/}
+
+                                                                        <InputFieldControlled 
+                                                                        type={"text"}
+                                                                        id={""}
+                                                                        name={"Tipologia"}
+                                                                        label={"Tipologia"}
+                                                                        ariaLabel={"Tipologia"}
+                                                                        style={inputStyle}
+                                                                        value={dateRange.tipologyName}
                                                                         />
 
                                                                         <InputFieldControlled

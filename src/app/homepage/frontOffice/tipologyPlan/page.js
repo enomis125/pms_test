@@ -256,26 +256,28 @@ export default function CalendarPage() {
     };
   }, []);
 
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  // Função para lidar com a seleção da linha
+  const handleRowSelection = (rowIndex, roomTypeName) => {
+    setSelectedRow(rowIndex);
+    setSelectedRoomType(roomTypeName);
+  };
 
   const removeEvent = (index) => {
-    // Remove o evento correspondente ao índice
     const updatedSelectedDates = [...selectedDates];
     updatedSelectedDates.splice(index, 1);
     setSelectedDates(updatedSelectedDates);
   };
-
-  const [selectedRow, setSelectedRow] = useState(null);
-
-  // Função para lidar com a seleção da linha
-  const handleRowSelection = (rowIndex) => {
-    setSelectedRow(rowIndex);
-  };
-
+  
   const updateDateRange = (index, field, value) => {
     const updatedDates = [...selectedDates];
     updatedDates[index][field] = value;
     setSelectedDates(updatedDates);
   };
+
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+
 
   return (
     <div className='w-full'>
@@ -328,6 +330,7 @@ export default function CalendarPage() {
           startDate={`${startDate}`}
           endDate={`${endDate}`}
           selectedDates={selectedDates}
+          selectedRoomType={selectedRoomType}
         />
         <button
           className="text-sm"
@@ -368,36 +371,32 @@ export default function CalendarPage() {
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map((roomType, rowIndex) => (
-            <tr key={roomType.roomTypeID}
-            onClick={() => handleRowSelection(rowIndex)}
-            >
-              <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-                <span>{roomType.name}</span>
-                <span>{roomCounts[roomType.roomTypeID] || 0}</span>
-              </td>
-              {/*CALCULA A DIFERENÇA ENTRE OS QUARTOS JA RESERVADOS E OS LIVRES PARA EXIBIR O NRM DE QUARTOS DISPONIVEIS */}
-              {weeks[currentWeekIndex].map((day, index) => {
-                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-                const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
+  <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex, roomType.name)}>
+    <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+      <span>{roomType.name}</span>
+      <span>{roomCounts[roomType.roomTypeID] || 0}</span>
+    </td>
+    {weeks[currentWeekIndex].map((day, index) => {
+      const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+      const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
 
-
-                return (
-                  <td
-                    key={index}
-                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-                    ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${selectedRow === rowIndex ? "bg-red-500" : ""}
-                    select-none`}
-                    onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
-                    onMouseOver={() => handleMouseOver(day.date)}
-                    onMouseUp={() => handleMouseUp(day.date)}>
-                    {availableRooms}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
+      return (
+        <td
+          key={index}
+          className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+          ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
+          ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
+          ${selectedRow === rowIndex ? "bg-red-500" : ""}
+          select-none`}
+          onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
+          onMouseOver={() => handleMouseOver(day.date)}
+          onMouseUp={() => handleMouseUp(day.date)}>
+          {availableRooms}
+        </td>
+      );
+    })}
+  </tr>
+))}
           <tr>
             {/*LINHA SEPARADORA DA GRELHA */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
