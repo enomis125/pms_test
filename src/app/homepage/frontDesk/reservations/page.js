@@ -319,9 +319,12 @@ export default function clientForm() {
               />
             </div>
             <div className="flex flex-row gap-12 pb-1.5">
-              <Popover className="bg-transparent">
-                <PopoverTrigger >
-                  <Button>Procurar </Button>
+              <Popover classname="bg-transparent">
+                <PopoverTrigger className="mt-4 ml-4 bg-transparent">
+                  <div className="flex items-center bg-transparent">
+                    <Button>Procurar</Button>
+                    <IoIosArrowDown className="ml-2" />
+                  </div>
                 </PopoverTrigger>
                 <PopoverContent>
                   <div className="px-1 py-2">
