@@ -5,8 +5,19 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken"
 
 export async function GET(request) {
+    const tokenCookie = cookies().get("jwt");
 
-    console.log(jwt.decode(cookies().get("jwt").value))
+    if (!tokenCookie) {
+        return new NextResponse(JSON.stringify({ status: 401, message: "Token não encontrado" }), { status: 401 });
+    }
+    const token = jwt.decode(tokenCookie.value);
 
-    return new NextResponse(JSON.stringify({ status: 200 }));
+    if (!token) {
+        return new NextResponse(JSON.stringify({ status: 400, message: "Token inválido" }), { status: 400 });
+    }
+
+    const propertyID = token.propertyID;
+    const connectionString = token.connectionString;
+
+    return new NextResponse(JSON.stringify({ status: 200, connectionString }), { status: 200 });
 }
