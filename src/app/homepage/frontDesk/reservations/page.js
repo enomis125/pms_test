@@ -151,20 +151,20 @@ export default function clientForm() {
       console.log("Sem dados de reserva disponíveis.");
       return [];
     }
-  
+
     console.log("Filtrando dados de reserva...");
-  
+
     const filteredReservations = reservation.filter((reservation) => {
       const checkInDate = new Date(reservation.checkInDate);
       const checkOutDate = new Date(reservation.checkOutDate);
       const filterStartDate = new Date(startDate);
       const filterEndDate = new Date(endDate);
-  
+
       const isSameDay =
         checkInDate.getFullYear() === filterStartDate.getFullYear() &&
         checkInDate.getMonth() === filterStartDate.getMonth() &&
         checkInDate.getDate() === filterStartDate.getDate();
-  
+
       const isBeforeOrSameDay =
         checkOutDate.getFullYear() < filterEndDate.getFullYear() ||
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
@@ -172,9 +172,9 @@ export default function clientForm() {
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
           checkOutDate.getMonth() === filterEndDate.getMonth() &&
           checkOutDate.getDate() <= filterEndDate.getDate());
-  
+
       let isSelectedStatus = true;
-  
+
       if (selectedButton !== null) {
         switch (selectedButton) {
           case 0: // Pendentes
@@ -196,26 +196,26 @@ export default function clientForm() {
             break;
         }
       }
-  
+
       const roomNumberMatches = roomNumberFilter
         ? reservation.roomNumber.toString().includes(roomNumberFilter)
         : true;
-  
+
       const lastNameMatches = lastNameFilter
         ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName.toLowerCase().includes(lastNameFilter.toLowerCase())
         : true;
-  
+
       const firstNameMatches = firstNameFilter
         ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName.toLowerCase().includes(firstNameFilter.toLowerCase())
         : true;
-  
+
       return isSameDay && isBeforeOrSameDay && isSelectedStatus && roomNumberMatches && lastNameMatches && firstNameMatches;
     });
-  
+
     console.log("Reservas filtradas:", filteredReservations);
     return filteredReservations;
   }, [reservation, startDate, endDate, selectedButton, roomNumberFilter, lastNameFilter, firstNameFilter]);
-  
+
 
 
 
@@ -366,51 +366,63 @@ export default function clientForm() {
 
   return (
     <main>
-      <div className="flex flex-col mt-1 py-3 px-6">
-        <p className="text-xs pb-3">Reservas</p>
-        <div className="flex flex-row">
-          {/**COMPONENTE DE SEARCH */}
-          <Input
-            className="mt-2 w-[30%]"
-            placeholder="Procurar..."
-            labelPlacement="outside"
-            aria-label="Pesquisar clientes"
-            startContent={
-              <FiSearch color={"black"} size={20} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-            }
-            value={searchValue}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            endContent={
-              <SearchModal
-                buttonIcon={<IoIosArrowDown size={20} color="black" />}
-                buttonColor={"transparent"}
-                inputs={inputs}
+      <div className="flex flex-col mt-3 py-3">
+        <p className="text-xs px-6">Reservas</p>
+        <div className="flex flex-row justify-between items-center mx-5">
+          <div className="flex flex-row">
+            <div className="flex flex-wrap md:flex-nowrap gap-4">
+              {/**COMPONENTE DE SEARCH */}
+              <Input
+                className="mt-2 w-[45%]"
+                placeholder="Procurar..."
+                labelPlacement="outside"
+                aria-label="Pesquisar clientes"
+                startContent={
+                  <FiSearch color={"black"} size={20} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
+                value={searchValue}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                endContent={
+                  <SearchModal
+                    buttonIcon={<IoIosArrowDown size={20} color="black" />}
+                    buttonColor={"transparent"}
+                    inputs={inputs}
 
+                  />
+                }
               />
-            }
-          />
-          <div className="flex flex-row px-6 gap-12 pb-1.5">
-          <InputFieldControlled
-                type={"date"}
-                id={"de"}
-                name={"De"}
-                label={"De:"}
-                ariaLabel={"De:"}
-                value={startDate}
-                onChange={handleStartDateChange}
-                style={inputStyle}
-              />
-              <InputFieldControlled
-                type={"date"}
-                id={"ate"}
-                name={"Até"}
-                label={"Até:"}
-                ariaLabel={"Até:"}
-                value={endDate}
-                onChange={handleEndDateChange}
-                style={inputStyle}
-              />
+              <div className="flex flex-row px-6 gap-12 pb-1.5">
+                <InputFieldControlled
+                  type={"date"}
+                  id={"de"}
+                  name={"De"}
+                  label={"De:"}
+                  ariaLabel={"De:"}
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  style={inputStyle}
+                />
+                <InputFieldControlled
+                  type={"date"}
+                  id={"ate"}
+                  name={"Até"}
+                  label={"Até:"}
+                  ariaLabel={"Até:"}
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  style={inputStyle}
+                />
+              </div>
+            </div>
           </div>
+          <ReservationsForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              editIcon={<FaCalendarAlt size={25} color="white" />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir uma Reserva"}
+            />
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
