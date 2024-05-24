@@ -13,6 +13,8 @@ export default function searchModal({
     handleClientSelect,
     handleSubmitReservation,
     reservation,
+    inputs,
+    onClearFilters,
 }) {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -35,29 +37,22 @@ export default function searchModal({
                                 <div className='bg-lightBlue mx-2 my-1 rounded-xl'>
                                     <ModalHeader className="flex flex-col gap-1 text-sm"><b>PESQUISAR POR</b></ModalHeader>
                                     <ModalBody>
-                                        <InputFieldControlled
-                                            type={"text"}
-                                            id={"search"}
-                                            name={"Search"}
-                                            label={""}
-                                            ariaLabel={"search"}
-                                            style={"w-full border-b-4 border-white-300 px-1 h-10 outline-none bg-transparent"}
-                                        />
-                                        <ClientFormAutocomplete
-                                            label={"Tipo de Documento"}
-                                            style={""}
-                                            variant={"flat"}
-                                            onChange={(value) => handleClientSelect(value)}
-                                        />
-                                        <ClientFormAutocomplete
-                                            label={"Tipo de Documento"}
-                                            style={""}
-                                            variant={"flat"}
-                                            onChange={(value) => handleClientSelect(value)}
-                                        />
+                                        {inputs.map((input, index) => (
+                                            <InputFieldControlled
+                                                key={index}
+                                                type="text"
+                                                id={input.id}
+                                                name={input.name}
+                                                label={input.label}
+                                                ariaLabel={input.ariaLabel}
+                                                value={input.value} // Certifique-se de passar o valor do input corretamente
+                                                onChange={input.onChange}
+                                                style="w-full border-b-4 border-white-300 px-1 h-10 outline-none bg-transparent"
+                                            />
+                                        ))}
                                     </ModalBody>
                                     <ModalFooter className='flex justify-center gap-5'>
-                                        <Button color="primary" onPress={onClose}>
+                                        <Button color="primary">
                                             Limpar Filtros
                                         </Button>
                                         <Button className='bg-green text-white' onPress={handleApplyFilters}>
