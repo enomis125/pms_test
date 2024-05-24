@@ -56,10 +56,11 @@ export default function clientForm() {
   const [endDate, setEndDate] = useState(""); // Valor inicial é 30 dias a partir da data atual
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredReservations, setFilteredReservations] = useState([]);
-  const [selectedButton, setSelectedButton] = React.useState(null);
+  const [selectedButton, setSelectedButton] = useState(null);
   const [roomNumberFilter, setRoomNumberFilter] = useState("");
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
+  const [currentReservationStatus, setCurrentReservationStatus] = useState(null);
 
   useEffect(() => {
     setEndDate(handleDate30DaysLater());
@@ -109,8 +110,8 @@ export default function clientForm() {
       await axios.put("/api/v1/frontOffice/reservations/" + reservationID, {
         data: { reservationStatus: newStatus }
       });
-      // Atualize o estado local da reserva após a alteração do status, se necessário
-      // Você pode recarregar os dados ou atualizar apenas a reserva afetada
+      setCurrentReservationStatus(newStatus);
+      // Outras operações, se necessário
     } catch (error) {
       console.error("Erro ao atualizar o status da reserva:", error.message);
     }
@@ -154,20 +155,20 @@ export default function clientForm() {
       console.log("Sem dados de reserva disponíveis.");
       return [];
     }
-
+  
     console.log("Filtrando dados de reserva...");
-
+  
     const filteredReservations = reservation.filter((reservation) => {
       const checkInDate = new Date(reservation.checkInDate);
       const checkOutDate = new Date(reservation.checkOutDate);
       const filterStartDate = new Date(startDate);
       const filterEndDate = new Date(endDate);
-
+  
       const isSameDay =
         checkInDate.getFullYear() === filterStartDate.getFullYear() &&
         checkInDate.getMonth() === filterStartDate.getMonth() &&
         checkInDate.getDate() === filterStartDate.getDate();
-
+  
       const isBeforeOrSameDay =
         checkOutDate.getFullYear() < filterEndDate.getFullYear() ||
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
@@ -175,47 +176,50 @@ export default function clientForm() {
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
           checkOutDate.getMonth() === filterEndDate.getMonth() &&
           checkOutDate.getDate() <= filterEndDate.getDate());
-
-      let isSelectedStatus = false;
-
-      switch (selectedButton) {
-        case 0: // Pendentes
-          isSelectedStatus = reservation.reservationStatus === 0;
-          break;
-        case 1: // Checked-in
-          isSelectedStatus = reservation.reservationStatus === 1;
-          break;
-        case 2: // Checked-Out
-          isSelectedStatus = reservation.reservationStatus === 2;
-          break;
-        case 3: // Canceladas
-          isSelectedStatus = reservation.reservationStatus === 3;
-          break;
-        case 4: // No-Show
-          isSelectedStatus = reservation.reservationStatus === 4;
-          break;
-        default:
-          break;
+  
+      let isSelectedStatus = true;
+  
+      if (selectedButton !== null) {
+        switch (selectedButton) {
+          case 0: // Pendentes
+            isSelectedStatus = reservation.reservationStatus === 0;
+            break;
+          case 1: // Checked-In
+            isSelectedStatus = reservation.reservationStatus === 1;
+            break;
+          case 2: // Checked-Out
+            isSelectedStatus = reservation.reservationStatus === 2;
+            break;
+          case 3: // Canceladas
+            isSelectedStatus = reservation.reservationStatus === 3;
+            break;
+          case 4: // No-Show
+            isSelectedStatus = reservation.reservationStatus === 4;
+            break;
+          default:
+            break;
+        }
       }
-
+  
       const roomNumberMatches = roomNumberFilter
         ? reservation.roomNumber.toString().includes(roomNumberFilter)
         : true;
-
+  
       const lastNameMatches = lastNameFilter
         ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName.toLowerCase().includes(lastNameFilter.toLowerCase())
         : true;
-
+  
       const firstNameMatches = firstNameFilter
         ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName.toLowerCase().includes(firstNameFilter.toLowerCase())
         : true;
-
+  
       return isSameDay && isBeforeOrSameDay && isSelectedStatus && roomNumberMatches && lastNameMatches && firstNameMatches;
     });
-
+  
     console.log("Reservas filtradas:", filteredReservations);
     return filteredReservations;
   }, [reservation, startDate, endDate, selectedButton, roomNumberFilter, lastNameFilter, firstNameFilter]);
+  
 
 
 
@@ -292,6 +296,66 @@ export default function clientForm() {
     setFilteredReservations(filteredReservations);
   };
 
+  const getDropdownMenu = (reservationStatus, reservationID) => {
+    switch (reservationStatus) {
+      case 0: // Pendentes
+        return (
+          <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+            <DropdownItem key="edit" aria-label="Editar detalhes">
+              <ReservationsForm
+                buttonName={"Editar"}
+                editIcon={<FiEdit3 size={25} />}
+                buttonColor={"transparent"}
+                modalHeader={"Editar Reserva"}
+                modalEditArrow={<BsArrowRight size={25} />}
+                modalEdit={`ID: ${reservationID}`}
+                formTypeModal={1}
+                idReservation={reservationID}
+                idGuest={reservation.guestNumber}
+                criado={reservation.createdAt}
+                editado={reservation.updatedAt}
+                editor={"teste"}
+              />
+            </DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 1)}>Check-In</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
+          </DropdownMenu>
+        );
+      case 1: // Checked-In
+        return (
+          <DropdownMenu aria-label="Static Actions" closeOnSelect={true}>
+            <DropdownItem key="edit" aria-label="Editar detalhes">
+              <ReservationsForm
+                buttonName={"Editar"}
+                editIcon={<FiEdit3 size={25} />}
+                buttonColor={"transparent"}
+                modalHeader={"Editar Reserva"}
+                modalEditArrow={<BsArrowRight size={25} />}
+                modalEdit={`ID: ${reservationID}`}
+                formTypeModal={1}
+                idReservation={reservationID}
+                idGuest={reservation.guestNumber}
+                criado={reservation.createdAt}
+                editado={reservation.updatedAt}
+                editor={"teste"}
+              />
+            </DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>Check-Out</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 0)}>Cancelar CI</DropdownItem>
+          </DropdownMenu>
+        );
+      case 2: //Check-Out
+      case 3: //Cancelada
+      case 4: // No-Show
+      default:
+        return (
+          <DropdownMenu aria-label="Static Actions" closeOnSelect={true}>
+            <DropdownItem onClick={() => handleDelete(reservationID)}>Excluir</DropdownItem>
+          </DropdownMenu>
+        );
+    }
+  };
 
 
   //botoes que mudam de cor
@@ -325,9 +389,12 @@ export default function clientForm() {
               />
             </div>
             <div className="flex flex-row gap-12 pb-1.5">
-              <Popover className="bg-transparent">
-                <PopoverTrigger >
-                  <Button>Procurar </Button>
+              <Popover classname="bg-transparent">
+                <PopoverTrigger className="mt-4 ml-4 border-b border-neutral-200 mb-2.5">
+                  <div className="flex items-center bg-transparent">
+                    <Button className=" bg-transparent">Procurar</Button>
+                    <IoIosArrowDown className="ml-14" />
+                  </div>
                 </PopoverTrigger>
                 <PopoverContent>
                   <div className="px-1 py-2">
@@ -520,35 +587,11 @@ export default function clientForm() {
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button
-                          variant="light"
-                          className="flex flex-row justify-end"
-                          aria-label="Opções"
-                        >
-                          <BsThreeDotsVertical size={20} className="text-gray-400" />
+                        <Button isIconOnly variant="light">
+                          <BsThreeDotsVertical />
                         </Button>
                       </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                        <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <ReservationsForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Reserva"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${reservation.reservationID}`}
-                            formTypeModal={1}
-                            idReservation={reservation.reservationID}
-                            idGuest={reservation.guestNumber}
-                            criado={reservation.createdAt}
-                            editado={reservation.updatedAt}
-                            editor={"teste"}
-                          />
-                        </DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 1)}>Check-In</DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 3)}>Cancelada</DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 4)}>NoShow</DropdownItem>
-                      </DropdownMenu>
+                      {getDropdownMenu(reservation.reservationStatus, reservation.reservationID)}
                     </Dropdown>
                   </TableCell>
                 </TableRow>
