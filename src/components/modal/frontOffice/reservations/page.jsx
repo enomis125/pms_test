@@ -21,7 +21,7 @@ import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipolo
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
 
-import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
+import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
 
 const reservationsForm = ({
     idReservation,

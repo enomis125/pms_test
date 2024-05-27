@@ -21,7 +21,7 @@ import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipolo
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
 
-import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
+import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
 
 const reservationsForm = ({
     idReservation,
@@ -43,6 +43,7 @@ const reservationsForm = ({
     startDate,
     endDate,
     selectedDates, // Recebendo selectedDates como prop
+    disabled,
     
 }) => {
 
@@ -52,19 +53,17 @@ const reservationsForm = ({
 
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
-    const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
     const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert(startDate, endDate);
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
 
     console.log(selectedDates);
-
     return (
         <>
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
+                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`} isDisabled={disabled}>
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -92,26 +91,7 @@ const reservationsForm = ({
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                             <div className="bg-white flex flex-col py-5 px-5 border boder-neutral-200 rounded-lg">
-                                                <div className="mb-10">
-                                                    <Input
-                                                        className="mt-2 w-[40%]"
-                                                        placeholder="Procurar..."
-                                                        labelPlacement="outside"
-                                                        aria-label="Pesquisar clientes"
-                                                        startContent={
-                                                            <FiSearch color={"black"} size={20} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                                                        }
-                                                        endContent={
-                                                            <SearchModal
-                                                                buttonIcon={<IoIosArrowDown size={20} color="black" />}
-                                                                buttonColor={"transparent"}
-                                                                handleClientSelect={handleClientSelect}
-                                                                handleSubmitReservation={handleSubmitReservation}
-                                                                reservation={reservation}
-                                                            />
-                                                        }
-                                                    />
-                                                </div>
+                     
                                                 <div className=" flex flex-row justify-between items-center">
                                                     {/*<ClientFormAutocomplete
                                                         label={"Documento"}

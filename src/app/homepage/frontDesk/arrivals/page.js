@@ -26,18 +26,14 @@ import { ImCross } from "react-icons/im";
 import { FaClock } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
-
-/* ESTA PAGINA É IGUAL A DAS RESERVAR EXATAMENTE IGUAL E NESTE MOMENTO ESTA A DAR DISPLAY
-A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
-
 //imports de componentes
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
 
-
+//import de funções
+import FilterButton from "@/components/functionsPages/filterUtils/page";
 
 export default function clientForm() {
   const [page, setPage] = React.useState(1);
@@ -56,6 +52,9 @@ export default function clientForm() {
   const [roomNumberFilter, setRoomNumberFilter] = useState("");
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
+
+
+  const handleButtonClick = FilterButton({ selectedButton, setSelectedButton });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -366,31 +365,31 @@ const inputs = [
         >
           <div className="flex flex-row gap-4 mb-2 -mt-4">
             <button
-              onClick={() => setSelectedButton(0)}
+              onClick={() => handleButtonClick(0)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Pendentes
             </button>
             <button
-              onClick={() => setSelectedButton(1)}
+              onClick={() => handleButtonClick(1)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-In
             </button>
             <button
-              onClick={() => setSelectedButton(2)}
+              onClick={() => handleButtonClick(2)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-Out
             </button>
             <button
-              onClick={() => setSelectedButton(3)}
+              onClick={() => handleButtonClick(3)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Canceladas
             </button>
             <button
-              onClick={() => setSelectedButton(4)}
+              onClick={() => handleButtonClick(4)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               No-Show
