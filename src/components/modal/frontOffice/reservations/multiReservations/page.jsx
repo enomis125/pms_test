@@ -44,7 +44,7 @@ const reservationsForm = ({
     endDate,
     selectedDates, // Recebendo selectedDates como prop
     disabled,
-    
+    guestName
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -54,7 +54,7 @@ const reservationsForm = ({
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert(startDate, endDate);
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect } = reservationInsert(guestName, startDate, endDate);
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
 
     console.log(selectedDates);

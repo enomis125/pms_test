@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function reservationInsert(startDate, endDate) {
+export default function reservationInsert(guestName, startDate, endDate) {
 
     const [filteredRoom, setFilteredRoom] = useState(null);
     const currentDate = new Date().toLocaleDateString('en-CA');
     const guestNumberDefault = 1;
+    console.log(guestName);
 
     //inserção na tabela client preference
     const [reservation, setReservation] = useState({
@@ -15,21 +16,21 @@ export default function reservationInsert(startDate, endDate) {
         NightCount: '',
         GuestNumber: guestNumberDefault,
         GuestID: '',
-        Name: '',
+        Name: guestName ? guestName : '',
         LastName: '',
         Language: '',
         Tipology: '',
         Room: '',
     })
     //preenchimento automatico do nome e do apelido atraves de autocomplete
-    const handleClientSelect = (clientForm) => {
+    /*const handleClientSelect = (clientForm) => {
         setReservation({
             ...reservation,
             Name: clientForm.firstName,
             LastName: clientForm.secondName,
             GuestID: clientForm.guestProfileID
         })
-    };
+    };*/
 
     //preenchimento automatico do país atraves de autocomplete
     const handleLanguageSelect = (language) => {
@@ -131,7 +132,7 @@ export default function reservationInsert(startDate, endDate) {
         }
 
     return {
-        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect
     };
 }
 
