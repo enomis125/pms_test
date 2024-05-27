@@ -34,7 +34,7 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
 
 
-export default function clientForm() {
+export default function reservations() {
   const handleDate30DaysLater = () => {
     const today = new Date();
     const next30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000); // Adiciona 30 dias à data atual
@@ -547,8 +547,11 @@ export default function clientForm() {
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button isIconOnly variant="light">
-                          <BsThreeDotsVertical />
+                      <Button
+                          variant="light"
+                          className="flex flex-row justify-end"
+                        >
+                          <BsThreeDotsVertical size={20} className="text-gray-400" />
                         </Button>
                       </DropdownTrigger>
                       {getDropdownMenu(reservation.reservationStatus, reservation.reservationID)}
