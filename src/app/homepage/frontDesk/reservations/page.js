@@ -62,7 +62,7 @@ export default function clientForm() {
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
   const [currentReservationStatus, setCurrentReservationStatus] = useState(null);
-  
+
 
   useEffect(() => {
     setEndDate(handleDate30DaysLater());
@@ -157,20 +157,20 @@ export default function clientForm() {
       console.log("Sem dados de reserva disponíveis.");
       return [];
     }
-  
+
     console.log("Filtrando dados de reserva...");
-  
+
     const filteredReservations = reservation.filter((reservation) => {
       const checkInDate = new Date(reservation.checkInDate);
       const checkOutDate = new Date(reservation.checkOutDate);
       const filterStartDate = new Date(startDate);
       const filterEndDate = new Date(endDate);
-  
+
       const isSameDay =
         checkInDate.getFullYear() === filterStartDate.getFullYear() &&
         checkInDate.getMonth() === filterStartDate.getMonth() &&
         checkInDate.getDate() === filterStartDate.getDate();
-  
+
       const isBeforeOrSameDay =
         checkOutDate.getFullYear() < filterEndDate.getFullYear() ||
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
@@ -178,50 +178,33 @@ export default function clientForm() {
         (checkOutDate.getFullYear() === filterEndDate.getFullYear() &&
           checkOutDate.getMonth() === filterEndDate.getMonth() &&
           checkOutDate.getDate() <= filterEndDate.getDate());
-  
+
       let isSelectedStatus = true;
-  
-      if (selectedButton !== null) {
-        switch (selectedButton) {
-          case 0: // Pendentes
-            isSelectedStatus = reservation.reservationStatus === 0;
-            break;
-          case 1: // Checked-In
-            isSelectedStatus = reservation.reservationStatus === 1;
-            break;
-          case 2: // Checked-Out
-            isSelectedStatus = reservation.reservationStatus === 2;
-            break;
-          case 3: // Canceladas
-            isSelectedStatus = reservation.reservationStatus === 3;
-            break;
-          case 4: // No-Show
-            isSelectedStatus = reservation.reservationStatus === 4;
-            break;
-          default:
-            break;
-        }
-      }
-  
+
+      
+    if (selectedButton !== null) {
+      isSelectedStatus = reservation.reservationStatus === selectedButton;
+    }
+
       const roomNumberMatches = roomNumberFilter
         ? reservation.roomNumber.toString().includes(roomNumberFilter)
         : true;
-  
+
       const lastNameMatches = lastNameFilter
         ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName.toLowerCase().includes(lastNameFilter.toLowerCase())
         : true;
-  
+
       const firstNameMatches = firstNameFilter
         ? guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName.toLowerCase().includes(firstNameFilter.toLowerCase())
         : true;
-  
+
       return isSameDay && isBeforeOrSameDay && isSelectedStatus && roomNumberMatches && lastNameMatches && firstNameMatches;
     });
-  
+
     console.log("Reservas filtradas:", filteredReservations);
     return filteredReservations;
   }, [reservation, startDate, endDate, selectedButton, roomNumberFilter, lastNameFilter, firstNameFilter]);
-  
+
 
 
 
@@ -266,17 +249,17 @@ export default function clientForm() {
     const { value } = event.target;
     setRoomNumberFilter(value);
   };
-  
+
   const handleLastNameChange = (event) => {
     const { value } = event.target;
     setLastNameFilter(value);
   };
-  
+
   const handleFirstNameChange = (event) => {
     const { value } = event.target;
     setFirstNameFilter(value);
   };
-  
+
   const getDropdownMenu = (reservationStatus, reservationID) => {
     switch (reservationStatus) {
       case 0: // Pendentes
@@ -338,15 +321,21 @@ export default function clientForm() {
     }
   };
 
-
+  const handleStatusButtonClick = (status) => {
+    if (selectedButton === status) {
+      setSelectedButton(null); // Desativa o filtro se o mesmo botão for clicado novamente
+    } else {
+      setSelectedButton(status); // Ativa o filtro
+    }
+  };
 
   //botoes que mudam de cor
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
   const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
- 
+
   const handleClearFilters = () => {
-    setRoomNumberFilter(""); 
-    setLastNameFilter(""); 
+    setRoomNumberFilter("");
+    setLastNameFilter("");
     setFirstNameFilter("");
   };
 
@@ -430,31 +419,31 @@ export default function clientForm() {
         >
           <div className="flex flex-row gap-4 mb-2">
             <button
-              onClick={() => setSelectedButton(0)}
+              onClick={() => handleStatusButtonClick(0)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Pendentes
             </button>
             <button
-              onClick={() => setSelectedButton(1)}
+              onClick={() => handleStatusButtonClick(1)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-In
             </button>
             <button
-              onClick={() => setSelectedButton(2)}
+              onClick={() => handleStatusButtonClick(2)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-Out
             </button>
             <button
-              onClick={() => setSelectedButton(3)}
+              onClick={() => handleStatusButtonClick(3)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Canceladas
             </button>
             <button
-              onClick={() => setSelectedButton(4)}
+              onClick={() => handleStatusButtonClick(4)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               No-Show

@@ -36,6 +36,7 @@ import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
 
 
 
@@ -96,28 +97,10 @@ export default function clientForm() {
 
       let isSelectedStatus = true;
 
-      if(selectedButton !== null){
-      switch (selectedButton) {
-        case 0: // Pendentes
-          isSelectedStatus = reservation.reservationStatus === 0;
-          break;
-        case 1: // Checked-in
-          isSelectedStatus = reservation.reservationStatus === 1;
-          break;
-        case 2: // Checked-Out
-          isSelectedStatus = reservation.reservationStatus === 2;
-          break;
-        case 3: // Canceladas
-          isSelectedStatus = reservation.reservationStatus === 3;
-          break;
-        case 4: // No-Show
-          isSelectedStatus = reservation.reservationStatus === 4;
-          break;
-        default:
-          break;
+      if (selectedButton !== null) {
+        isSelectedStatus = reservation.reservationStatus === selectedButton;
       }
-    }
-    
+
       const roomNumberMatches = roomNumberFilter
         ? reservation.roomNumber.toString().includes(roomNumberFilter)
         : true;
@@ -212,7 +195,8 @@ export default function clientForm() {
   const handleStatusChange = async (reservationID, newStatus) => {
     try {
       await axios.put("/api/v1/frontOffice/reservations/" + reservationID, {
-        data: {reservationStatus: newStatus }});
+        data: { reservationStatus: newStatus }
+      });
       // Atualize o estado local da reserva após a alteração do status, se necessário
       // Você pode recarregar os dados ou atualizar apenas a reserva afetada
     } catch (error) {
@@ -243,21 +227,21 @@ export default function clientForm() {
         return (
           <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
             <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <ReservationsForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Reserva"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${reservationID}`}
-                            formTypeModal={1}
-                            idReservation={reservationID}
-                            idGuest={reservation.guestNumber}
-                            criado={reservation.createdAt}
-                            editado={reservation.updatedAt}
-                            editor={"teste"}
-                          />
-                        </DropdownItem>
+              <ReservationsForm
+                buttonName={"Editar"}
+                editIcon={<FiEdit3 size={25} />}
+                buttonColor={"transparent"}
+                modalHeader={"Editar Reserva"}
+                modalEditArrow={<BsArrowRight size={25} />}
+                modalEdit={`ID: ${reservationID}`}
+                formTypeModal={1}
+                idReservation={reservationID}
+                idGuest={reservation.guestNumber}
+                criado={reservation.createdAt}
+                editado={reservation.updatedAt}
+                editor={"teste"}
+              />
+            </DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 1)}>Check-In</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
           </DropdownMenu>
@@ -266,21 +250,21 @@ export default function clientForm() {
         return (
           <DropdownMenu aria-label="Static Actions" closeOnSelect={true}>
             <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <ReservationsForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Reserva"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${reservationID}`}
-                            formTypeModal={1}
-                            idReservation={reservationID}
-                            idGuest={reservation.guestNumber}
-                            criado={reservation.createdAt}
-                            editado={reservation.updatedAt}
-                            editor={"teste"}
-                          />
-                        </DropdownItem>
+              <ReservationsForm
+                buttonName={"Editar"}
+                editIcon={<FiEdit3 size={25} />}
+                buttonColor={"transparent"}
+                modalHeader={"Editar Reserva"}
+                modalEditArrow={<BsArrowRight size={25} />}
+                modalEdit={`ID: ${reservationID}`}
+                formTypeModal={1}
+                idReservation={reservationID}
+                idGuest={reservation.guestNumber}
+                criado={reservation.createdAt}
+                editado={reservation.updatedAt}
+                editor={"teste"}
+              />
+            </DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>Check-Out</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 0)}>Cancelar CI</DropdownItem>
@@ -302,102 +286,74 @@ export default function clientForm() {
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
   const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
+  const handleStatusButtonClick = (status) => {
+    if (selectedButton === status) {
+      setSelectedButton(null); // Desativa o filtro se o mesmo botão for clicado novamente
+    } else {
+      setSelectedButton(status); // Ativa o filtro
+    }
+  };
+
+  const inputs = [
+    { id: 'quartos', name: 'quartos', label: 'Procurar quarto', ariaLabel: 'Procurar quarto', value: roomNumberFilter, onChange: handleRoomNumberChange, style: inputStyle },
+    { id: 'apelido', name: 'apelido', label: 'Procurar apelido', ariaLabel: 'Procurar apelido', value: lastNameFilter, onChange: handleLastNameChange, style: inputStyle },
+    { id: 'primeiroNome', name: 'primeiroNome', label: 'Procurar primeiro nome', ariaLabel: 'Procurar primeiro nome', value: firstNameFilter, onChange: handleFirstNameChange, style: inputStyle },
+  ]
+
+  const handleClearFilters = () => {
+    setRoomNumberFilter("");
+    setLastNameFilter("");
+    setFirstNameFilter("");
+  };
 
   return (
     <main>
       <div className="flex flex-col mt-1 py-3">
         <p className="text-xs px-6 pb-3">Fichas de Clientes</p>
-        <div className="flex flex-row justify-between items-center mx-5">
-          <div className="gap-12 grid-cols-2">
-            <div className="flex flex-wrap gap-12 py-2">
-              <InputFieldControlled
-                type={"text"}
-                id={"tipologias"}
-                name={"Tipologias"}
-                label={"Grupo de Tipologias"}
-                ariaLabel={"Grupo de Tipologias"}
-                style={inputStyle}
+        <div className="flex flex-row">
+          {/** COMPONENTE DE SEARCH */}
+          <Input
+            className="mt-2 ml-6 mb-6 w-[30%]"
+            placeholder="Procurar..."
+            labelPlacement="outside"
+            aria-label="Pesquisar clientes"
+            startContent={
+              <FiSearch
+                color={"black"}
+                size={20}
+                className="text-2xl text-default-400 pointer-events-none flex-shrink-0"
               />
-
-              <InputFieldControlled
-                type={"text"}
-                id={"procurar"}
-                name={"Procurar"}
-                label={"Procurar tudo"}
-                ariaLabel={"Procurar tudo"}
-                style={inputStyle}
+            }
+            value={searchValue}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            endContent={
+              <SearchModal
+                buttonIcon={<IoIosArrowDown size={20} color="black" />}
+                buttonColor={"transparent"}
+                inputs={inputs}
+                onClearFilters={handleClearFilters}
               />
-            </div>
-            <div className="flex flex-row gap-12 pb-1.5">
-            <Popover classname="bg-transparent">
-                <PopoverTrigger className="mt-4 ml-4 border-b border-neutral-200 mb-2.5">
-                  <div className="flex items-center bg-transparent">
-                    <Button className=" bg-transparent">Procurar</Button>
-                    <IoIosArrowDown className="ml-14" />
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <div className="px-1 py-2">
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"quartos"}
-                      name={"quartos"}
-                      label={"Procurar quarto"}
-                      ariaLabel={"Procurar quarto"}
-                      value={roomNumberFilter}
-                      onChange={handleRoomNumberChange}
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"apelido"}
-                      name={"apelido"}
-                      label={"Procurar apelido"}
-                      ariaLabel={"Procurar apelido"}
-                      value={lastNameFilter}
-                      onChange={handleLastNameChange} // Adicione esta linha
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"primeiroNome"}
-                      name={"primeiroNome"}
-                      label={"Procurar primeiro nome"}
-                      ariaLabel={"Procurar primeiro nome"}
-                      value={firstNameFilter}
-                      onChange={handleFirstNameChange}
-                      style={inputStyle}
-                    />
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <InputFieldControlled
-                type={"date"}
-                id={"de"}
-                name={"De"}
-                label={"De:"}
-                ariaLabel={"De:"}
-                value={currentDate} // Define o valor do campo como a data atual
-                style={inputStyle}
-              />
-              <InputFieldControlled
-                type={"date"}
-                id={"ate"}
-                name={"Até"}
-                label={"Até:"}
-                ariaLabel={"Até:"}
-                style={inputStyle}
-              />
-              <CountryAutocomplete
-                label="Quartos"
-                name={"Quartos"}
-                style={
-                  "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
-                }
-                onChange={(value) => handleSelect(value, "Quartos")}
-              />
-            </div>
-          </div>
+            }
+          />
+        </div>
+        <div className="flex flex-row gap-12 pb-1.5 ml-8">
+          <InputFieldControlled
+            type="date"
+            id="de"
+            name="De"
+            label="De:"
+            ariaLabel="De:"
+            value={currentDate} // Define o valor do campo como a data atual
+            style={inputStyle}
+          />
+          <InputFieldControlled
+            type="date"
+            id="ate"
+            name="Até"
+            label="Até:"
+            ariaLabel="Até:"
+            style={inputStyle}
+          />
         </div>
       </div>
 
@@ -417,19 +373,19 @@ export default function clientForm() {
               Pendentes
             </button>
             <button
-              onClick={() => setSelectedButton(1)}
+              onClick={() => handleStatusButtonClick(1)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-In
             </button>
             <button
-              onClick={() => setSelectedButton(2)}
+              onClick={() => handleStatusButtonClick(2)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-Out
             </button>
             <button
-          
+
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Canceladas
@@ -535,6 +491,6 @@ export default function clientForm() {
           </Table>
         </PaginationTable>
       </div>
-    </main>
+    </main >
   );
 }
