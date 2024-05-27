@@ -15,14 +15,19 @@ export default function searchModal({
     reservation,
     inputs,
     onClearFilters,
+    onApplyFilters,
 }) {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const handleApplyFilters = () => {
-        //handleSubmitReservation(); // 
-        onOpenChange(false); // fecha o modal
+ 
+
+    const handleClearFilters = () => {
+        inputs.forEach(input => {
+            input.onChange(''); // Resetando o valor de cada input para uma string vazia
+        });
     };
+    
 
     return (
         <>
@@ -52,10 +57,10 @@ export default function searchModal({
                                         ))}
                                     </ModalBody>
                                     <ModalFooter className='flex justify-center gap-5'>
-                                        <Button color="primary">
+                                        <Button color="primary" onPress={onClearFilters}>
                                             Limpar Filtros
                                         </Button>
-                                        <Button className='bg-green text-white' onPress={handleApplyFilters}>
+                                        <Button className='bg-green text-white'> 
                                             Aplicar Filtros
                                         </Button>
                                     </ModalFooter>

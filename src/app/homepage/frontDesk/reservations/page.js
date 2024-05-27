@@ -33,6 +33,7 @@ import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
 
 
 
@@ -61,6 +62,7 @@ export default function clientForm() {
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
   const [currentReservationStatus, setCurrentReservationStatus] = useState(null);
+  
 
   useEffect(() => {
     setEndDate(handleDate30DaysLater());
@@ -263,39 +265,18 @@ export default function clientForm() {
   const handleRoomNumberChange = (event) => {
     const { value } = event.target;
     setRoomNumberFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const roomNumber = reservation.roomNumber.toString();
-      return roomNumber.includes(value);
-    });
-
-    setFilteredReservations(filteredReservations);
   };
-
+  
   const handleLastNameChange = (event) => {
     const { value } = event.target;
     setLastNameFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const lastName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "";
-      return lastName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    setFilteredReservations(filteredReservations);
   };
-
+  
   const handleFirstNameChange = (event) => {
     const { value } = event.target;
     setFirstNameFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const firstName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "";
-      return firstName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    setFilteredReservations(filteredReservations);
   };
-
+  
   const getDropdownMenu = (reservationStatus, reservationID) => {
     switch (reservationStatus) {
       case 0: // Pendentes
@@ -358,82 +339,52 @@ export default function clientForm() {
   };
 
 
+
   //botoes que mudam de cor
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
   const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
+ 
+  const handleClearFilters = () => {
+    setRoomNumberFilter(""); 
+    setLastNameFilter(""); 
+    setFirstNameFilter("");
+  };
 
+  const inputs = [
+    { id: 'quartos', name: 'quartos', label: 'Procurar quarto', ariaLabel: 'Procurar quarto', value: roomNumberFilter, onChange: handleRoomNumberChange, style: inputStyle },
+    { id: 'apelido', name: 'apelido', label: 'Procurar apelido', ariaLabel: 'Procurar apelido', value: lastNameFilter, onChange: handleLastNameChange, style: inputStyle },
+    { id: 'primeiroNome', name: 'primeiroNome', label: 'Procurar primeiro nome', ariaLabel: 'Procurar primeiro nome', value: firstNameFilter, onChange: handleFirstNameChange, style: inputStyle },
+  ]
 
   return (
     <main>
       <div className="flex flex-col mt-1 py-3">
         <p className="text-xs px-6 pb-3">Fichas de Clientes</p>
+        <div className="flex flex-row">
+          {/** COMPONENTE DE SEARCH */}
+          <Input
+            className="mt-2 ml-6 mb-6 w-[30%]"
+            placeholder="Procurar..."
+            labelPlacement="outside"
+            aria-label="Pesquisar clientes"
+            startContent={
+              <FiSearch color={"black"} size={20} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+            }
+            value={searchValue}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            endContent={
+              <SearchModal
+                buttonIcon={<IoIosArrowDown size={20} color="black" />}
+                buttonColor={"transparent"}
+                inputs={inputs}
+                onClearFilters={handleClearFilters}
+              />
+            }
+          />
+        </div>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="gap-12 grid-cols-2">
-            <div className="flex flex-wrap gap-12 py-2">
-              <InputFieldControlled
-                type={"text"}
-                id={"tipologias"}
-                name={"Tipologias"}
-                label={"Grupo de Tipologias"}
-                ariaLabel={"Grupo de Tipologias"}
-                style={inputStyle}
-              />
-
-              <InputFieldControlled
-                type={"text"}
-                id={"procurar"}
-                name={"Procurar"}
-                label={"Procurar tudo"}
-                ariaLabel={"Procurar tudo"}
-                style={inputStyle}
-              />
-            </div>
-            <div className="flex flex-row gap-12 pb-1.5">
-              <Popover classname="bg-transparent">
-                <PopoverTrigger className="mt-4 ml-4 border-b border-neutral-200 mb-2.5">
-                  <div className="flex items-center bg-transparent">
-                    <Button className=" bg-transparent">Procurar</Button>
-                    <IoIosArrowDown className="ml-14" />
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <div className="px-1 py-2">
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"quartos"}
-                      name={"quartos"}
-                      label={"Procurar quarto"}
-                      ariaLabel={"Procurar quarto"}
-                      value={roomNumberFilter}
-                      onChange={handleRoomNumberChange}
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"apelido"}
-                      name={"apelido"}
-                      label={"Procurar apelido"}
-                      ariaLabel={"Procurar apelido"}
-                      value={lastNameFilter}
-                      onChange={handleLastNameChange} // Adicione esta linha
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"primeiroNome"}
-                      name={"primeiroNome"}
-                      label={"Procurar primeiro nome"}
-                      ariaLabel={"Procurar primeiro nome"}
-                      value={firstNameFilter}
-                      onChange={handleFirstNameChange}
-                      style={inputStyle}
-                    />
-                    <Button className=" bg-teal-400 mr-1">Aplicar filtros</Button>
-                    <Button className=" bg-teal-400">Limpar Filtros</Button>
-                  
-                  </div>
-                </PopoverContent>
-              </Popover>
+            <div className="flex flex-row gap-12 pb-1.5 ml-2.5">
               <InputFieldControlled
                 type={"date"}
                 id={"de"}

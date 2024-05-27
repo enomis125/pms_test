@@ -33,7 +33,7 @@ import SearchModal from "@/components/modal/frontOffice/reservations/searchModal
 
 
 export default function departures() {
-  
+
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -79,9 +79,9 @@ export default function departures() {
       console.log("Sem dados de reserva disponíveis.");
       return [];
     }
-  
+
     console.log("Filtrando dados de reserva...");
-  
+
     const filteredReservations = reservation.filter((reservation) => {
       const checkOutDateIncludes = reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase());
 
@@ -126,7 +126,7 @@ export default function departures() {
       return checkOutDateIncludes && isSelectedStatus && roomNumberMatches && lastNameMatches && firstNameMatches; // Alterado para checkOutDateIncludes
 
     });
-  
+
     return filteredReservations;
 
   }, [reservation, searchValue, selectedButton, roomNumberFilter, lastNameFilter, firstNameFilter]);
@@ -237,43 +237,6 @@ export default function departures() {
   };
 
 
-  const handleRoomNumberChange = (event) => {
-    const { value } = event.target;
-    setRoomNumberFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const roomNumber = reservation.roomNumber.toString();
-      return roomNumber.includes(value);
-    });
-
-    setFilteredReservations(filteredReservations);
-  };
-
-  const handleLastNameChange = (event) => {
-    const { value } = event.target;
-    setLastNameFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const lastName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "";
-      return lastName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    setFilteredReservations(filteredReservations);
-  };
-
-  const handleFirstNameChange = (event) => {
-    const { value } = event.target;
-    setFirstNameFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const firstName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "";
-      return firstName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    setFilteredReservations(filteredReservations);
-  };
-
-
   const getDropdownMenu = (reservationStatus, reservationID) => {
     switch (reservationStatus) {
       case 0: // Pendentes
@@ -348,13 +311,13 @@ export default function departures() {
     { id: 'apelido', name: 'apelido', label: 'Procurar apelido', ariaLabel: 'Procurar apelido', value: lastNameFilter, onChange: handleLastNameChange, style: inputStyle },
     { id: 'primeiroNome', name: 'primeiroNome', label: 'Procurar primeiro nome', ariaLabel: 'Procurar primeiro nome', value: firstNameFilter, onChange: handleFirstNameChange, style: inputStyle },
   ]
-  
+
   return (
     <main>
       <div className="flex flex-col mt-1 py-3 px-6">
         <p className="text-xs pb-3">Partidas</p>
         <div className="flex flex-row">
-          {/**COMPONENTE DE SEARCH */}
+          {/** COMPONENTE DE SEARCH */}
           <Input
             className="mt-2 w-[30%]"
             placeholder="Procurar..."
@@ -370,90 +333,72 @@ export default function departures() {
                 buttonIcon={<IoIosArrowDown size={20} color="black" />}
                 buttonColor={"transparent"}
                 inputs={inputs}
-
-
-              <InputFieldControlled
-                type={"text"}
-                id={"procurar"}
-                name={"Procurar"}
-                label={"Procurar tudo"}
-                ariaLabel={"Procurar tudo"}
-                style={inputStyle}
-              />
-            </div>
-            <div className="flex flex-row gap-12 pb-1.5">
-            <Popover classname="bg-transparent">
-                <PopoverTrigger className="mt-4 ml-4 border-b border-neutral-200 mb-2.5">
-                  <div className="flex items-center bg-transparent">
-                    <Button className=" bg-transparent">Procurar</Button>
-                    <IoIosArrowDown className="ml-14" />
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <div className="px-1 py-2">
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"quartos"}
-                      name={"quartos"}
-                      label={"Procurar quarto"}
-                      ariaLabel={"Procurar quarto"}
-                      value={roomNumberFilter}
-                      onChange={handleRoomNumberChange}
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"apelido"}
-                      name={"apelido"}
-                      label={"Procurar apelido"}
-                      ariaLabel={"Procurar apelido"}
-                      value={lastNameFilter}
-                      onChange={handleLastNameChange} // Adicione esta linha
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"primeiroNome"}
-                      name={"primeiroNome"}
-                      label={"Procurar primeiro nome"}
-                      ariaLabel={"Procurar primeiro nome"}
-                      value={firstNameFilter}
-                      onChange={handleFirstNameChange}
-                      style={inputStyle}
-                    />
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <InputFieldControlled
-                type={"date"}
-                id={"de"}
-                name={"De"}
-                label={"De:"}
-                ariaLabel={"De:"}
-                style={inputStyle}
-
               />
             }
           />
-          <div className="flex flex-row px-6 gap-12 pb-1.5">
-            <InputFieldControlled
-              type={"date"}
-              id={"de"}
-              name={"De"}
-              label={"De:"}
-              ariaLabel={"De:"}
-              style={inputStyle}
-            />
-            <InputFieldControlled
-              type={"date"}
-              id={"ate"}
-              name={"Até"}
-              label={"Até:"}
-              ariaLabel={"Até:"}
-              style={inputStyle}
-              value={currentDate} // Define o valor do campo como a data atual
-            />
-          </div>
+        </div>
+        <div className="flex flex-row gap-12 pb-1.5">
+          <Popover className="bg-transparent">
+            <PopoverTrigger className="mt-4 ml-4 border-b border-neutral-200 mb-2.5">
+              <div className="flex items-center bg-transparent">
+                <Button className="bg-transparent">Procurar</Button>
+                <IoIosArrowDown className="ml-14" />
+              </div>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className="px-1 py-2">
+                <InputFieldControlled
+                  type={"text"}
+                  id={"quartos"}
+                  name={"quartos"}
+                  label={"Procurar quarto"}
+                  ariaLabel={"Procurar quarto"}
+                  value={roomNumberFilter}
+                  onChange={handleRoomNumberChange}
+                  style={inputStyle}
+                />
+                <InputFieldControlled
+                  type={"text"}
+                  id={"apelido"}
+                  name={"apelido"}
+                  label={"Procurar apelido"}
+                  ariaLabel={"Procurar apelido"}
+                  value={lastNameFilter}
+                  onChange={handleLastNameChange}
+                  style={inputStyle}
+                />
+                <InputFieldControlled
+                  type={"text"}
+                  id={"primeiroNome"}
+                  name={"primeiroNome"}
+                  label={"Procurar primeiro nome"}
+                  ariaLabel={"Procurar primeiro nome"}
+                  value={firstNameFilter}
+                  onChange={handleFirstNameChange}
+                  style={inputStyle}
+                />
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div className="flex flex-row px-6 gap-12 pb-1.5">
+          <InputFieldControlled
+            type={"date"}
+            id={"de"}
+            name={"De"}
+            label={"De:"}
+            ariaLabel={"De:"}
+            style={inputStyle}
+          />
+          <InputFieldControlled
+            type={"date"}
+            id={"ate"}
+            name={"Até"}
+            label={"Até:"}
+            ariaLabel={"Até:"}
+            style={inputStyle}
+            value={currentDate} // Define o valor do campo como a data atual
+          />
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
