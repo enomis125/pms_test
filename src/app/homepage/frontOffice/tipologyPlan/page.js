@@ -282,10 +282,54 @@ export default function CalendarPage() {
 
   const handleInputChange = (event) => {
     setGuestName(event.target.value);
+    setSearchTerm(event.target.value);
+    setIsGuestNameValid(query.some(item => `${item.firstName} ${item.secondName}` === event.target.value)); // Verificar se o nome do hóspede corresponde a algum dos nomes na lista
   };
 
   // Função para verificar se o nome do hóspede foi inserido
   const isGuestNameEntered = guestName.trim() !== '';
+
+  //search try
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [query, setQuery] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isGuestNameValid, setIsGuestNameValid] = useState(false); // Novo estado para verificar se o nome do hóspede é válido
+
+  useEffect(() => {
+    const getData = async () => {
+      if (!dataFetched) {
+        setIsLoading(true);
+        try {
+          const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
+          const namesArray = res.data.response
+            .map(item => ({
+              secondName: item.secondName,
+              firstName: item.firstName
+            }))
+            .filter(item => item.secondName !== '' && item.firstName !== '');
+          setQuery(namesArray);
+          setDataFetched(true);
+        } catch (error) {
+          console.error("Erro ao encontrar as fichas de cliente:", error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    }
+    getData();
+  }, [dataFetched]);
+
+  const handleNameSelect = (selectedName) => {
+    setGuestName(selectedName);
+    setSearchTerm('');
+    setIsGuestNameValid(true);
+  };
+
+  const filteredResults = query.filter(item => {
+    const fullName = `${item.firstName} ${item.secondName}`.toLowerCase();
+    return fullName.includes(searchTerm.toLowerCase());
+  });
 
   return (
     <div className='w-full'>
@@ -307,6 +351,15 @@ export default function CalendarPage() {
                   onChange={handleInputChange}
                 />
               </div>
+              {searchTerm && (
+                <ul>
+                  {filteredResults.map((item, index) => (
+                    <li key={index} onClick={() => handleNameSelect(`${item.firstName} ${item.secondName}`)}>
+                      {item.firstName} {item.secondName}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             {/*<FaCalendarAlt color='white' size={25}/>*/}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
@@ -355,6 +408,7 @@ export default function CalendarPage() {
                 selectedDates={selectedDates}
                 selectedRoomType={selectedRoomType}
                 disabled={!isGuestNameEntered}
+                guestName={guestName}
               />
               <button
                 className="text-sm"
@@ -367,7 +421,7 @@ export default function CalendarPage() {
 
       <div className='bg-primary-600 py-5'>
         <div className='flex justify-between'>
-          <p className='text-ml text-white px-4'><b>Agenda de Tipologias</b></p>
+          <p className='text-ml text-white px-4'><b>Plano de Tipologias</b></p>
           {/*<h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>*/}
           <div className='flex items-center gap-5'>
             <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
