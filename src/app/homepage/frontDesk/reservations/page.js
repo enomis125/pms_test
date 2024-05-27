@@ -428,6 +428,9 @@ export default function clientForm() {
                       onChange={handleFirstNameChange}
                       style={inputStyle}
                     />
+                    <Button className=" bg-teal-400 mr-1">Aplicar filtros</Button>
+                    <Button className=" bg-teal-400">Limpar Filtros</Button>
+                  
                   </div>
                 </PopoverContent>
               </Popover>
