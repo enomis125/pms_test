@@ -412,7 +412,6 @@ export default function clientForm() {
         >
           <div className="flex flex-row gap-4 mb-2">
             <button
-              onClick={() => setSelectedButton(0)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Pendentes
@@ -430,13 +429,13 @@ export default function clientForm() {
               Checked-Out
             </button>
             <button
-              onClick={() => setSelectedButton(3)}
+          
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Canceladas
             </button>
             <button
-              onClick={() => setSelectedButton(4)}
+
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               No-Show
