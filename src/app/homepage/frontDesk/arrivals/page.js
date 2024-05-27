@@ -298,12 +298,6 @@ export default function clientForm() {
     }
   };
 
-  const inputs = [
-    { id: 'quartos', name: 'quartos', label: 'Procurar quarto', ariaLabel: 'Procurar quarto', value: roomNumberFilter, onChange: handleRoomNumberChange, style: inputStyle },
-    { id: 'apelido', name: 'apelido', label: 'Procurar apelido', ariaLabel: 'Procurar apelido', value: lastNameFilter, onChange: handleLastNameChange, style: inputStyle },
-    { id: 'primeiroNome', name: 'primeiroNome', label: 'Procurar primeiro nome', ariaLabel: 'Procurar primeiro nome', value: firstNameFilter, onChange: handleFirstNameChange, style: inputStyle },
-  ]
-
   const handleClearFilters = () => {
     setRoomNumberFilter("");
     setLastNameFilter("");
@@ -344,7 +338,6 @@ const inputs = [
                 buttonIcon={<IoIosArrowDown size={20} color="black" />}
                 buttonColor={"transparent"}
                 inputs={inputs}
-
                 onClearFilters={handleClearFilters}
               />
             }
