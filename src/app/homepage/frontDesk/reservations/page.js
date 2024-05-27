@@ -11,7 +11,6 @@ import {
   Input
 } from "@nextui-org/react";
 
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 
 //imports de icons
 import { GoGear } from "react-icons/go";
@@ -32,14 +31,13 @@ import { IoIosArrowDown } from "react-icons/io";
 import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+
 import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
 
 
-
-
-
-export default function clientForm() {
+export default function reservations() {
   const handleDate30DaysLater = () => {
     const today = new Date();
     const next30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000); // Adiciona 30 dias à data atual
@@ -138,15 +136,15 @@ export default function clientForm() {
   const getStatusIcon = (status) => {
     switch (status) {
       case 0:
-        return <FaClock size={28} />;
+        return <FaClock size={23} />;
       case 1:
-        return <PiAirplaneLandingFill size={28} />;
+        return <PiAirplaneLandingFill size={23} />;
       case 2:
-        return <PiAirplaneTakeoffFill size={28} />;
+        return <PiAirplaneTakeoffFill size={23} />;
       case 3:
-        return <ImCross size={28} />;
+        return <ImCross size={23} />;
       case 4:
-        return <MdOutlinePersonOff size={28} />;
+        return <MdOutlinePersonOff size={23} />;
       default:
         return "Status desconhecido";
     }
@@ -181,10 +179,12 @@ export default function clientForm() {
 
       let isSelectedStatus = true;
 
+
       
     if (selectedButton !== null) {
       isSelectedStatus = reservation.reservationStatus === selectedButton;
     }
+
 
       const roomNumberMatches = roomNumberFilter
         ? reservation.roomNumber.toString().includes(roomNumberFilter)
@@ -331,13 +331,14 @@ export default function clientForm() {
 
   //botoes que mudam de cor
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
-  const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
+
 
   const handleClearFilters = () => {
     setRoomNumberFilter("");
     setLastNameFilter("");
     setFirstNameFilter("");
   };
+
 
   const inputs = [
     { id: 'quartos', name: 'quartos', label: 'Procurar quarto', ariaLabel: 'Procurar quarto', value: roomNumberFilter, onChange: handleRoomNumberChange, style: inputStyle },
@@ -400,14 +401,41 @@ export default function clientForm() {
                 style={
                   "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
                 }
-                onChange={(value) => handleSelect(value, "Quartos")}
               />
-
+              <div className="flex flex-row px-6 gap-12 pb-1.5">
+                <InputFieldControlled
+                  type={"date"}
+                  id={"de"}
+                  name={"De"}
+                  label={"De:"}
+                  ariaLabel={"De:"}
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  style={inputStyle}
+                />
+                <InputFieldControlled
+                  type={"date"}
+                  id={"ate"}
+                  name={"Até"}
+                  label={"Até:"}
+                  ariaLabel={"Até:"}
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  style={inputStyle}
+                />
+              </div>
             </div>
           </div>
+          <ReservationsForm
+              formTypeModal={0}
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              editIcon={<FaCalendarAlt size={25} color="white" />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir uma Reserva"}
+            />
         </div>
       </div>
-
       <div className="mx-5 h-[65vh] min-h-full">
         <PaginationTable
           page={page}
@@ -417,7 +445,7 @@ export default function clientForm() {
           items={items}
           setPage={setPage}
         >
-          <div className="flex flex-row gap-4 mb-2">
+          <div className="flex flex-row gap-4 mb-2 -mt-4">
             <button
               onClick={() => handleStatusButtonClick(0)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -464,31 +492,31 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-32 uppercase" aria-label="Nome">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Nome">
                 Nome
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-32 uppercase" aria-label="Apelido">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Apelido">
                 Apelido
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[5%] uppercase" aria-label="Check-In">
                 Check-In
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-Out">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[6%] uppercase" aria-label="Check-Out">
                 Check-Out
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-24 uppercase" aria-label="Noites">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Noites">
                 Noites
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Quarto">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[10%] uppercase" aria-label="Quarto">
                 Quarto
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RT">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[10%] uppercase" aria-label="RT">
                 RT
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Pessoas">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Pessoas">
                 Pessoas
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Status">
+              <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Status">
                 Status
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
@@ -514,24 +542,27 @@ export default function clientForm() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4">
+                  <TableCell className="px-[3%]">
                     {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "Nome não encontrado"}
                   </TableCell>
-                  <TableCell className="px-4">
+                  <TableCell className="px-[3%]">
                     {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "Apelido não encontrado"}
                   </TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-40">{reservation.nightCount}</TableCell>
-                  <TableCell className="px-40">{reservation.roomNumber}</TableCell>
-                  <TableCell className="px-40">{"aa"}</TableCell>
-                  <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
+                  <TableCell className="px-[5%]">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[6%]">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.nightCount}</TableCell>
+                  <TableCell className="px-[10%]">{reservation.roomNumber}</TableCell>
+                  <TableCell className="px-[10%]">{"aa"}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.adultCount}</TableCell>
+                  <TableCell className="px-[8%]">{renderCell(reservation, "reservationStatus")}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button isIconOnly variant="light">
-                          <BsThreeDotsVertical />
+                      <Button
+                          variant="light"
+                          className="flex flex-row justify-end"
+                        >
+                          <BsThreeDotsVertical size={20} className="text-gray-400" />
                         </Button>
                       </DropdownTrigger>
                       {getDropdownMenu(reservation.reservationStatus, reservation.reservationID)}

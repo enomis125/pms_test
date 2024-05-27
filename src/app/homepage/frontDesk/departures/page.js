@@ -19,9 +19,6 @@ import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
 import { MdOutlinePersonOff } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FaClock } from "react-icons/fa";
-
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
-
 import { IoIosArrowDown } from "react-icons/io";
 
 
@@ -49,9 +46,13 @@ export default function departures() {
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
 
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`/api/v1/frontOffice/frontDesk/departures?endDate=${endDate}`);
+      const res = await axios.get(`/api/v1/frontOffice/frontDesk/departures`);
       const reservationsData = res.data.response;
       setReservation(reservationsData);
     };
@@ -88,9 +89,10 @@ export default function departures() {
       let isSelectedStatus = true;
 
       if (selectedButton !== null) {
-        isSelectedStatus = reservation.reservationStatus === selectedButton;
-      }
 
+        isSelectedStatus = reservation.reservationStatus === selectedButton;
+
+      }
 
       const roomNumberMatches = roomNumberFilter
         ? reservation.roomNumber.toString().includes(roomNumberFilter)
@@ -105,13 +107,11 @@ export default function departures() {
         : true;
 
       return checkOutDateIncludes && isSelectedStatus && roomNumberMatches && lastNameMatches && firstNameMatches; // Alterado para checkOutDateIncludes
-
     });
 
+
     return filteredReservations;
-
   }, [reservation, searchValue, selectedButton, roomNumberFilter, lastNameFilter, firstNameFilter]);
-
 
 
   const items = React.useMemo(() => {
@@ -224,7 +224,6 @@ export default function departures() {
         return (
           <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
             <DropdownItem key="edit" aria-label="Editar detalhes">
-
               <ReservationsForm
                 buttonName={"Editar"}
                 editIcon={<FiEdit3 size={25} />}
@@ -240,7 +239,6 @@ export default function departures() {
                 editor={"teste"}
               />
             </DropdownItem>
-
             <DropdownItem onClick={() => handleStatusChange(reservationID, 1)}>Check-In</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
           </DropdownMenu>
@@ -249,7 +247,6 @@ export default function departures() {
         return (
           <DropdownMenu aria-label="Static Actions" closeOnSelect={true}>
             <DropdownItem key="edit" aria-label="Editar detalhes">
-
               <ReservationsForm
                 buttonName={"Editar"}
                 editIcon={<FiEdit3 size={25} />}
@@ -265,7 +262,6 @@ export default function departures() {
                 editor={"teste"}
               />
             </DropdownItem>
-
             <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>Check-Out</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 0)}>Cancelar CI</DropdownItem>
@@ -329,6 +325,7 @@ export default function departures() {
                 buttonIcon={<IoIosArrowDown size={20} color="black" />}
                 buttonColor={"transparent"}
                 inputs={inputs}
+
                 onClearFilters={handleClearFilters}
               />
             }
@@ -352,6 +349,7 @@ export default function departures() {
             style={inputStyle}
             value={currentDate} // Define o valor do campo como a data atual
           />
+
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -410,10 +408,8 @@ export default function departures() {
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-
               <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Nome">
                 Nome
-
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Apelido">
                 Apelido
@@ -424,9 +420,7 @@ export default function departures() {
               <TableColumn className="bg-primary-600 text-white font-bold px-[6%] uppercase" aria-label="Check-Out">
                 Check-Out
               </TableColumn>
-
               <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Noites">
-
                 Noites
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[10%] uppercase" aria-label="Quarto">
@@ -464,25 +458,27 @@ export default function departures() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4">
+                  <TableCell className="px-[3%]">
                     {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "Nome não encontrado"}
                   </TableCell>
-                  <TableCell className="px-4">
+                  <TableCell className="px-[3%]">
                     {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "Apelido não encontrado"}
                   </TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-40">{reservation.nightCount}</TableCell>
-                  <TableCell className="px-40">{reservation.roomNumber}</TableCell>
-                  <TableCell className="px-40">{"aa"}</TableCell>
-                  <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
+                  <TableCell className="px-[5%]">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[6%]">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.nightCount}</TableCell>
+                  <TableCell className="px-[10%]">{reservation.roomNumber}</TableCell>
+                  <TableCell className="px-[10%]">{"aa"}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.adultCount}</TableCell>
+                  <TableCell className="px-[8%]">{renderCell(reservation, "reservationStatus")}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button isIconOnly variant="light">
-                          <BsThreeDotsVertical />
-
+                        <Button
+                          variant="light"
+                          className="flex flex-row justify-end"
+                        >
+                          <BsThreeDotsVertical size={20} className="text-gray-400" />
                         </Button>
                       </DropdownTrigger>
                       {getDropdownMenu(reservation.reservationStatus, reservation.reservationID)}
