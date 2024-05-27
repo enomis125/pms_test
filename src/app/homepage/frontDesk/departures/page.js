@@ -46,9 +46,13 @@ export default function departures() {
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
 
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`/api/v1/frontOffice/frontDesk/departures?endDate=${endDate}`);
+      const res = await axios.get(`/api/v1/frontOffice/frontDesk/departures`);
       const reservationsData = res.data.response;
       setReservation(reservationsData);
     };
@@ -340,7 +344,8 @@ export default function departures() {
               label={"Até:"}
               ariaLabel={"Até:"}
               style={inputStyle}
-              value={currentDate} // Define o valor do campo como a data atual
+              value={endDate}
+                  onChange={handleEndDateChange} // Define o valor do campo como a data atual
             />
           </div>
         </div>
