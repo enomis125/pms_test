@@ -33,6 +33,8 @@ import PaginationTable from "@/components/table/paginationTable/paginationTable"
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
 
+//import de funções
+import FilterButton from "@/components/functionsPages/filterUtils/page";
 
 export default function reservations() {
   const handleDate30DaysLater = () => {
@@ -57,6 +59,8 @@ export default function reservations() {
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
   const [currentReservationStatus, setCurrentReservationStatus] = useState(null);
+
+  const handleButtonClick = FilterButton({ selectedButton, setSelectedButton });
 
   useEffect(() => {
     setEndDate(handleDate30DaysLater());
@@ -416,13 +420,13 @@ export default function reservations() {
             </div>
           </div>
           <ReservationsForm
-              formTypeModal={0}
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              editIcon={<FaCalendarAlt size={25} color="white" />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir uma Reserva"}
-            />
+            formTypeModal={0}
+            buttonName={"Novo"}
+            buttonIcon={<FiPlus size={15} />}
+            editIcon={<FaCalendarAlt size={25} color="white" />}
+            buttonColor={"primary"}
+            modalHeader={"Inserir uma Reserva"}
+          />
         </div>
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
@@ -436,31 +440,31 @@ export default function reservations() {
         >
           <div className="flex flex-row gap-4 mb-2 -mt-4">
             <button
-              onClick={() => setSelectedButton(0)}
+              onClick={() => handleButtonClick(0)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Pendentes
             </button>
             <button
-              onClick={() => setSelectedButton(1)}
+              onClick={() => handleButtonClick(1)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-In
             </button>
             <button
-              onClick={() => setSelectedButton(2)}
+              onClick={() => handleButtonClick(2)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Checked-Out
             </button>
             <button
-              onClick={() => setSelectedButton(3)}
+              onClick={() => handleButtonClick(3)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Canceladas
             </button>
             <button
-              onClick={() => setSelectedButton(4)}
+              onClick={() => handleButtonClick(4)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               No-Show
@@ -547,7 +551,7 @@ export default function reservations() {
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
-                      <Button
+                        <Button
                           variant="light"
                           className="flex flex-row justify-end"
                         >

@@ -12,9 +12,8 @@ import isBetween from 'dayjs/plugin/isBetween';
 //imports de componentes
 import ReservationsForm from '@/components/modal/frontOffice/reservations/multiReservations/page';
 import { FiPlus, FiX } from 'react-icons/fi';
-import { FaCalendarAlt } from 'react-icons/fa';
-import { FaBed } from "react-icons/fa";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaRegTrashAlt, FaRegUserCircle, FaBed } from 'react-icons/fa';
+import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -269,7 +268,7 @@ export default function CalendarPage() {
     updatedSelectedDates.splice(index, 1);
     setSelectedDates(updatedSelectedDates);
   };
-  
+
   const updateDateRange = (index, field, value) => {
     const updatedDates = [...selectedDates];
     updatedDates[index][field] = value;
@@ -279,66 +278,91 @@ export default function CalendarPage() {
   const [selectedRoomType, setSelectedRoomType] = useState('');
 
 
+  const [guestName, setGuestName] = useState('');
+
+  const handleInputChange = (event) => {
+    setGuestName(event.target.value);
+  };
+
+  // Função para verificar se o nome do hóspede foi inserido
+  const isGuestNameEntered = guestName.trim() !== '';
+
   return (
     <div className='w-full'>
       {/*EXIBE O FORM AO SELECIONAR CELULAS */}
       {showModal && (
-  <>
-    <div className='absolute top-0 right-0 bg-lightBlue h-full w-[20%] z-10'>
-      {/*<FaCalendarAlt color='white' size={25}/>*/}
-      <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
-        {selectedDates.map((dateRange, index) => (
-          <div className={`bg-white text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
-            <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
+        <>
+          <div className='absolute top-0 right-0 bg-lightBlue h-full w-[20%] z-10'>
+            <div className='mt-20 px-4 text-black bg-white rounded-lg mx-2'>
               <div className='flex flex-row items-center gap-4'>
-                <FaBed className='' size={25} color='gray' />
-                <p className='text-ml'>{dateRange.tipologyName}</p>
-              </div>
-              <div>
-                <FaRegTrashAlt className="cursor-pointer" size={15} color={'gray'} onClick={() => removeEvent(index)} />
+                <FaRegUserCircle size={20} className={guestName.trim() === '' ? 'text-red-500' : 'text-black'} />
+                <InputFieldControlled
+                  type={"text"}
+                  id={"guestName"}
+                  name={"guestName"}
+                  label={"Nome do Hóspede *"}
+                  ariaLabel={"Guest Name"}
+                  style={"h-10 bg-transparent outline-none w-64"}
+                  value={guestName}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
-            <div className="flex flex-col gap-2 py-1">
-              <label>Check-In:</label>
-              <input
-                className='outline-none'
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => updateDateRange(index, 'start', e.target.value)}
-              />
+            {/*<FaCalendarAlt color='white' size={25}/>*/}
+            <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
+              {selectedDates.map((dateRange, index) => (
+                <div className={`bg-white text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
+                  <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
+                    <div className='flex flex-row items-center gap-4'>
+                      <FaBed className='' size={25} color='gray' />
+                      <p className='text-ml'>{dateRange.tipologyName}</p>
+                    </div>
+                    <div>
+                      <FaRegTrashAlt className="cursor-pointer" size={15} color={'gray'} onClick={() => removeEvent(index)} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2 py-1">
+                    <label>Check-In:</label>
+                    <input
+                      className='outline-none'
+                      type="date"
+                      value={dateRange.start}
+                      onChange={(e) => updateDateRange(index, 'start', e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label>Check-Out:</label>
+                    <input
+                      className='outline-none'
+                      type="date"
+                      value={dateRange.end}
+                      onChange={(e) => updateDateRange(index, 'end', e.target.value)}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="flex flex-col gap-2">
-              <label>Check-Out:</label>
-              <input
-                className='outline-none'
-                type="date"
-                value={dateRange.end}
-                onChange={(e) => updateDateRange(index, 'end', e.target.value)}
+            <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
+              <ReservationsForm
+                formTypeModal={0}
+                buttonName={"RESERVAR"}
+                //buttonIcon={<FiPlus size={15} />}
+                editIcon={<FaCalendarAlt size={25} color="white" />}
+                buttonColor={"primary"}
+                modalHeader={"Inserir uma Reserva"}
+                startDate={`${startDate}`}
+                endDate={`${endDate}`}
+                selectedDates={selectedDates}
+                selectedRoomType={selectedRoomType}
+                disabled={!isGuestNameEntered}
               />
+              <button
+                className="text-sm"
+                onClick={handleToggleModal}>CANCELAR</button>
             </div>
           </div>
-        ))}
-      </div>
-      <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
-        <ReservationsForm
-          formTypeModal={0}
-          buttonName={"RESERVAR"}
-          //buttonIcon={<FiPlus size={15} />}
-          editIcon={<FaCalendarAlt size={25} color="white" />}
-          buttonColor={"primary"}
-          modalHeader={"Inserir uma Reserva"}
-          startDate={`${startDate}`}
-          endDate={`${endDate}`}
-          selectedDates={selectedDates}
-          selectedRoomType={selectedRoomType}
-        />
-        <button
-          className="text-sm"
-          onClick={handleToggleModal}>CANCELAR</button>
-      </div>
-    </div>
-  </>
-)}
+        </>
+      )}
 
 
       <div className='bg-primary-600 py-5'>
@@ -371,32 +395,32 @@ export default function CalendarPage() {
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map((roomType, rowIndex) => (
-  <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex, roomType.name)}>
-    <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-      <span>{roomType.name}</span>
-      <span>{roomCounts[roomType.roomTypeID] || 0}</span>
-    </td>
-    {weeks[currentWeekIndex].map((day, index) => {
-      const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-      const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
+            <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex, roomType.name)}>
+              <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+                <span>{roomType.name}</span>
+                <span>{roomCounts[roomType.roomTypeID] || 0}</span>
+              </td>
+              {weeks[currentWeekIndex].map((day, index) => {
+                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+                const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
 
-      return (
-        <td
-          key={index}
-          className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                return (
+                  <td
+                    key={index}
+                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
           ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
           ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
           ${selectedRow === rowIndex ? "bg-red-500" : ""}
           select-none`}
-          onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
-          onMouseOver={() => handleMouseOver(day.date)}
-          onMouseUp={() => handleMouseUp(day.date)}>
-          {availableRooms}
-        </td>
-      );
-    })}
-  </tr>
-))}
+                    onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
+                    onMouseOver={() => handleMouseOver(day.date)}
+                    onMouseUp={() => handleMouseUp(day.date)}>
+                    {availableRooms}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
           <tr>
             {/*LINHA SEPARADORA DA GRELHA */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
