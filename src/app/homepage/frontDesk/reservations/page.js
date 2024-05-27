@@ -606,4 +606,3 @@ export default function clientForm() {
     </main>
   );
 }
-

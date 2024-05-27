@@ -47,7 +47,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontDesk/departures", label: "Partidas", active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/tipologyPlan", label: "Agenda de Tipologias", active: true
+                    ref: "/homepage/frontOffice/tipologyPlan", label: "Plano de Tipologias", active: true
                 },
                 {
                     ref: "#", label: "Housekeeping", active: true
@@ -212,7 +212,13 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active: true,
             items: [
                 {
-                    ref: "/homepage/priceManagement", label: "Códigos de Preços", active: true
+                    ref: "/homepage/priceManagement/priceGroups", label: "Códigos de Preços", active: true
+                },
+                {
+                    ref: "/homepage/priceManagement/priceDescription", label: "Descrição de Códigos de Preços", active: true
+                },
+                {
+                    ref: "/homepage/priceManagement/seasons", label: "Épocas", active: true
                 },
                 
             ]

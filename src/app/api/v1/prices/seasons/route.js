@@ -4,7 +4,7 @@ import prisma from "@/app/lib/prisma";
 
 export async function GET(request) {
 
-    const ratecodesRecords = await prisma.ratecodes.findMany()
+    const ratecodesRecords = await prisma.seasons.findMany()
 
     const response = ratecodesRecords
 
@@ -18,12 +18,14 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
         console.log(data)
-        const newRecord = await prisma.ratecodes.create({
+        const startDate = new Date(data.startDate);
+        const endDate = new Date(data.endDate);
+        const newRecord = await prisma.seasons.create({
             data: {
-                raterName: data.rateGroup,
-                ratergrpExID: data.rateCode,
-               // raterSpecial: parseInt(data.SpecialRate),
-                gdsCode: data.hotels
+                sortNo: parseInt(data.sortNo),
+                desc: data.desc,
+                startDate: startDate,
+                endDate: endDate
             }
             
         });

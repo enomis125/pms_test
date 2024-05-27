@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function reservationInsert() {
+export default function reservationInsert(startDate, endDate) {
 
     const [filteredRoom, setFilteredRoom] = useState(null);
     const currentDate = new Date().toLocaleDateString('en-CA');
@@ -10,8 +10,8 @@ export default function reservationInsert() {
 
     //inserção na tabela client preference
     const [reservation, setReservation] = useState({
-        CheckIn: currentDate, //para o checkin aparecer por default com a data atual do pc
-        CheckOut: '',
+        CheckIn: startDate ? startDate : currentDate, //para o checkin aparecer por default com a data atual do pc
+        CheckOut: endDate ? endDate : '',
         NightCount: '',
         GuestNumber: guestNumberDefault,
         GuestID: '',
@@ -103,10 +103,10 @@ export default function reservationInsert() {
         
           event.preventDefault();
 
-        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+       { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
             alert("Preencha os campos corretamente");
             return;
-        }
+        }*/}
 
         if (filteredRoom) {
             try {
@@ -127,9 +127,7 @@ export default function reservationInsert() {
             } catch (error) {
               console.error('Erro ao enviar requisições:', error);
             }
-          } else {
-            alert("Quarto não encontrado");
-          }
+          } 
         }
 
     return {

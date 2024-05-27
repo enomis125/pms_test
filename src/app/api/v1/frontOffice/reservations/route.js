@@ -29,7 +29,6 @@ export async function PUT(request) {
                 languageID: parseInt(data.languageID),
                 roomTypeNumber: parseInt(data.roomTypeNumber),
                 roomNumber: parseInt(data.roomNumber),
-                reservationStatus: parseInt(data.reservationStatus),
             }
         });
  
