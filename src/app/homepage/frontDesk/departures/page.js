@@ -19,9 +19,6 @@ import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
 import { MdOutlinePersonOff } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FaClock } from "react-icons/fa";
-
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
-
 import { IoIosArrowDown } from "react-icons/io";
 
 
@@ -79,16 +76,15 @@ export default function departures() {
       console.log("Sem dados de reserva disponíveis.");
       return [];
     }
-  
+
     console.log("Filtrando dados de reserva...");
-  
+
     const filteredReservations = reservation.filter((reservation) => {
       const checkOutDateIncludes = reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase());
 
       let isSelectedStatus = true;
 
       if (selectedButton !== null) {
-
         switch (selectedButton) {
           case 0: // Pendentes
             isSelectedStatus = reservation.reservationStatus === 0;
@@ -110,7 +106,6 @@ export default function departures() {
         }
       }
 
-
       const roomNumberMatches = roomNumberFilter
         ? reservation.roomNumber.toString().includes(roomNumberFilter)
         : true;
@@ -124,13 +119,10 @@ export default function departures() {
         : true;
 
       return checkOutDateIncludes && isSelectedStatus && roomNumberMatches && lastNameMatches && firstNameMatches; // Alterado para checkOutDateIncludes
-
     });
-  
+
     return filteredReservations;
-
   }, [reservation, searchValue, selectedButton, roomNumberFilter, lastNameFilter, firstNameFilter]);
-
 
 
   const items = React.useMemo(() => {
@@ -236,51 +228,12 @@ export default function departures() {
     }
   };
 
-
-  const handleRoomNumberChange = (event) => {
-    const { value } = event.target;
-    setRoomNumberFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const roomNumber = reservation.roomNumber.toString();
-      return roomNumber.includes(value);
-    });
-
-    setFilteredReservations(filteredReservations);
-  };
-
-  const handleLastNameChange = (event) => {
-    const { value } = event.target;
-    setLastNameFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const lastName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "";
-      return lastName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    setFilteredReservations(filteredReservations);
-  };
-
-  const handleFirstNameChange = (event) => {
-    const { value } = event.target;
-    setFirstNameFilter(value);
-
-    const filteredReservations = reservation.filter((reservation) => {
-      const firstName = guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "";
-      return firstName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    setFilteredReservations(filteredReservations);
-  };
-
-
   const getDropdownMenu = (reservationStatus, reservationID) => {
     switch (reservationStatus) {
       case 0: // Pendentes
         return (
           <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
             <DropdownItem key="edit" aria-label="Editar detalhes">
-
               <ReservationsForm
                 buttonName={"Editar"}
                 editIcon={<FiEdit3 size={25} />}
@@ -296,7 +249,6 @@ export default function departures() {
                 editor={"teste"}
               />
             </DropdownItem>
-
             <DropdownItem onClick={() => handleStatusChange(reservationID, 1)}>Check-In</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
           </DropdownMenu>
@@ -305,7 +257,6 @@ export default function departures() {
         return (
           <DropdownMenu aria-label="Static Actions" closeOnSelect={true}>
             <DropdownItem key="edit" aria-label="Editar detalhes">
-
               <ReservationsForm
                 buttonName={"Editar"}
                 editIcon={<FiEdit3 size={25} />}
@@ -321,7 +272,6 @@ export default function departures() {
                 editor={"teste"}
               />
             </DropdownItem>
-
             <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>Check-Out</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 0)}>Cancelar CI</DropdownItem>
@@ -370,67 +320,6 @@ export default function departures() {
                 buttonIcon={<IoIosArrowDown size={20} color="black" />}
                 buttonColor={"transparent"}
                 inputs={inputs}
-
-
-              <InputFieldControlled
-                type={"text"}
-                id={"procurar"}
-                name={"Procurar"}
-                label={"Procurar tudo"}
-                ariaLabel={"Procurar tudo"}
-                style={inputStyle}
-              />
-            </div>
-            <div className="flex flex-row gap-12 pb-1.5">
-            <Popover classname="bg-transparent">
-                <PopoverTrigger className="mt-4 ml-4 border-b border-neutral-200 mb-2.5">
-                  <div className="flex items-center bg-transparent">
-                    <Button className=" bg-transparent">Procurar</Button>
-                    <IoIosArrowDown className="ml-14" />
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <div className="px-1 py-2">
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"quartos"}
-                      name={"quartos"}
-                      label={"Procurar quarto"}
-                      ariaLabel={"Procurar quarto"}
-                      value={roomNumberFilter}
-                      onChange={handleRoomNumberChange}
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"apelido"}
-                      name={"apelido"}
-                      label={"Procurar apelido"}
-                      ariaLabel={"Procurar apelido"}
-                      value={lastNameFilter}
-                      onChange={handleLastNameChange} // Adicione esta linha
-                      style={inputStyle}
-                    />
-                    <InputFieldControlled
-                      type={"text"}
-                      id={"primeiroNome"}
-                      name={"primeiroNome"}
-                      label={"Procurar primeiro nome"}
-                      ariaLabel={"Procurar primeiro nome"}
-                      value={firstNameFilter}
-                      onChange={handleFirstNameChange}
-                      style={inputStyle}
-                    />
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <InputFieldControlled
-                type={"date"}
-                id={"de"}
-                name={"De"}
-                label={"De:"}
-                ariaLabel={"De:"}
-                style={inputStyle}
 
               />
             }
@@ -512,10 +401,8 @@ export default function departures() {
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-
               <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Nome">
                 Nome
-
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Apelido">
                 Apelido
@@ -526,9 +413,7 @@ export default function departures() {
               <TableColumn className="bg-primary-600 text-white font-bold px-[6%] uppercase" aria-label="Check-Out">
                 Check-Out
               </TableColumn>
-
               <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Noites">
-
                 Noites
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[10%] uppercase" aria-label="Quarto">
@@ -566,25 +451,27 @@ export default function departures() {
                       editor={"teste"}
                     />
                   </TableCell>
-                  <TableCell className="px-4">
+                  <TableCell className="px-[3%]">
                     {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "Nome não encontrado"}
                   </TableCell>
-                  <TableCell className="px-4">
+                  <TableCell className="px-[3%]">
                     {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "Apelido não encontrado"}
                   </TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-40">{reservation.nightCount}</TableCell>
-                  <TableCell className="px-40">{reservation.roomNumber}</TableCell>
-                  <TableCell className="px-40">{"aa"}</TableCell>
-                  <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
+                  <TableCell className="px-[5%]">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[6%]">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.nightCount}</TableCell>
+                  <TableCell className="px-[10%]">{reservation.roomNumber}</TableCell>
+                  <TableCell className="px-[10%]">{"aa"}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.adultCount}</TableCell>
+                  <TableCell className="px-[8%]">{renderCell(reservation, "reservationStatus")}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button isIconOnly variant="light">
-                          <BsThreeDotsVertical />
-
+                        <Button
+                          variant="light"
+                          className="flex flex-row justify-end"
+                        >
+                          <BsThreeDotsVertical size={20} className="text-gray-400" />
                         </Button>
                       </DropdownTrigger>
                       {getDropdownMenu(reservation.reservationStatus, reservation.reservationID)}
