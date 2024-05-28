@@ -21,18 +21,21 @@ const getPropertyIDFromToken = (token) => {
 const generatePrismaClient = (connectionString) => {
 
     if (!connectionString) {
+
         const tokenCookie = cookies().get("jwt");
 
         if (!tokenCookie) {
             return NextResponse.json({ status: 401, message: "Token not found" }, { status: 401 });
         }
 
-        const prisma = getPrismaClient(tokenCookie.value);
+        const prisma = getPrismaClient(tokenCookie.value, true);
 
         return prisma
     }
 
-    const prisma = getPrismaClient(connectionString);
+    const prisma = getPrismaClient(connectionString, false);
+
+    return prisma
 
 }
 

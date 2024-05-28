@@ -1,7 +1,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import prisma from "@/lib/prisma"
+import { generatePrismaClient } from '@/app/lib/utils'
 
 
 export async function GET(request) {
@@ -15,27 +15,17 @@ export async function GET(request) {
 
 export async function PUT(request) {
 
+    const { data } = await request.json();
+
+    const prisma = generatePrismaClient(data.connectionString)
+
     try {
-        const { data } = await request.json();
-        const response = await prisma.users.create({
-            data: {
-                name: data.Name,
-                lastName: data.LastName,
-                email: data.Email,
-                fiscalNumber: parseInt(data.FiscalNumber),
-                phoneNumber: parseInt(data.PhoneNumber),
-                address1: data.Address1,
-                address2: data.Address2,
-                country: data.Country,
-                district: data.District,
-                zipCode: data.ZipCode,
-                password: data.Password,
-                roleID: parseInt(data.RoleID),
-                organizationID: parseInt(data.OrganizationID)
-            }
+
+        const response = await prisma.users.createMany({
+            data: data.users
         });
 
-        return new NextResponse(JSON.stringify({ response, status: 200 }));
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });

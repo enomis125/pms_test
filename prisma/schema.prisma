@@ -364,7 +364,7 @@ model ratecodedetails {
 
 model reservationstatus {
   resID     Int      @id @default(autoincrement())
-  resbez    String   @default("") @db.VarChar(100)
+  status    String   @default("") @db.VarChar(100)
   reschar   Int      @default(-1)
   resmark   String   @default("") @db.VarChar(50)
   rgb       Int      @default(-1)
@@ -599,7 +599,7 @@ model ratecodes {
   gdsName        String   @default("") @db.VarChar(50)
   gdsDescrip     String   @default("") @db.VarChar(255)
   otagtyp        String   @default("") @db.VarChar(50)
-  otaCom         Decimal  @db.Decimal(19, 0)
+  otaCom         Decimal  @default(0) @db.Decimal(19, 0)
   otaQual        Int      @default(-1)
   otaType        Int      @default(-1)
   noYield        Int      @default(-1)
@@ -615,6 +615,7 @@ model ratecodes {
 model seasons {
   seasonID  Int      @id @default(autoincrement())
   sortNo    Int      @default(-1)
+  desc      String   @default("") @db.VarChar(255)
   startDate DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
   endDate   DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
   bez       String   @default("") @db.VarChar(50)
@@ -1714,4 +1715,46 @@ model country {
   countryNationality String @default("") @db.VarChar(250)
   countryEmission    String @default("") @db.VarChar(250)
   countryBilling     String @default("") @db.VarChar(250)
+}
+
+model mpehide {
+  mpeHideID Int @id @default(autoincrement())
+  type      Int @default(-1)
+  ref       Int @default(-1)
+  mpehotel  Int @default(-1)
+}
+
+model properties {
+  propertyID     Int    @id @default(autoincrement())
+  name           String @db.VarChar(250)
+  fiscalNumber   Int
+  email          String @db.VarChar(250)
+  phoneNumber    String @db.VarChar(45)
+  address1       String @db.VarChar(250)
+  country        String @db.VarChar(250)
+  district       String @db.VarChar(250)
+  zipCode        String @db.VarChar(45)
+  description    String @db.VarChar(250)
+  abbreviation   String @db.VarChar(10)
+  designation    String @db.VarChar(50)
+  organizationID Int
+  del            Int    @default(0)
+}
+
+model users {
+  userID         Int     @id @default(autoincrement())
+  name           String  @db.VarChar(250)
+  lastName       String  @db.VarChar(250)
+  email          String  @unique(map: "email_UNIQUE") @db.VarChar(250)
+  fiscalNumber   Int     @unique(map: "fiscalNumber_UNIQUE")
+  phoneNumber    Int     @unique(map: "phoneNumber_UNIQUE")
+  address1       String  @db.VarChar(250)
+  address2       String  @db.VarChar(250)
+  country        String  @db.VarChar(250)
+  district       String  @db.VarChar(250)
+  zipCode        String  @db.VarChar(45)
+  password       String  @db.VarChar(250)
+  organizationID Int
+  roleID         Int
+  admin          Boolean @default(dbgenerated("b'0'")) @db.Bit(1)
 }
