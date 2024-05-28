@@ -55,6 +55,25 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             ]
         },
 
+        "Housekeeping" :{
+            icon: <IoStorefront size={20}/>,
+            active:true,
+            items: [
+                {
+                    ref: "/homepage/housekeeping", label: "HouseKeeping", active: true
+                },
+                {
+                    ref: "/homepage/housekeeping/management", label: "Management", active: true
+                },
+                {
+                    ref: "/homepage/housekeeping/lastAndFound", label: "Last and Found", active: true
+                },
+                {
+                    ref: "/homepage/housekeeping/attendantSheets", label: "Attendant Sheets", active: true
+                },
+            ]
+        },
+
         "Settings": {
             icon: <IoSettings  size={20} />,
             active: true,
