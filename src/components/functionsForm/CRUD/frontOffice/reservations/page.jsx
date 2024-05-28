@@ -2,26 +2,46 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function reservationInsert(guestName, startDate, endDate) {
-
+export default function ReservationInsert(guestName, startDate, endDate) {
     const [filteredRoom, setFilteredRoom] = useState(null);
     const currentDate = new Date().toLocaleDateString('en-CA');
     const guestNumberDefault = 1;
-    console.log(guestName);
-
-    //inserção na tabela client preference
+  
+    // Separando o nome completo em primeiro e segundo nome
+    const nameParts = guestName.split(" ");
+    const firstName = nameParts.length > 0 ? nameParts[0] : "";
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+  
+    console.log("Primeiro Nome:", firstName);
+    console.log("Segundo Nome:", lastName);
+  
+    // Inserção na tabela client preference
     const [reservation, setReservation] = useState({
-        CheckIn: startDate ? startDate : currentDate, //para o checkin aparecer por default com a data atual do pc
-        CheckOut: endDate ? endDate : '',
-        NightCount: '',
-        GuestNumber: guestNumberDefault,
-        GuestID: '',
-        Name: guestName ? guestName : '',
-        LastName: '',
-        Language: '',
-        Tipology: '',
-        Room: '',
-    })
+      CheckIn: startDate ? startDate : currentDate,
+      CheckOut: endDate ? endDate : '',
+      NightCount: '',
+      GuestNumber: guestNumberDefault,
+      GuestID: '',
+      Language: '',
+      Tipology: '',
+      Room: '',
+    });
+  
+      // Atualiza o estado de firstName e lastName separadamente
+  const [name, setName] = useState({
+    firstName: firstName,
+    lastName: lastName,
+  });
+
+  useEffect(() => {
+    setName({ firstName, lastName });
+  }, [firstName, lastName]);
+
+    // Verifica se o estado reservation está sendo atualizado corretamente
+    useEffect(() => {
+      console.log("Estado de Reserva Atualizado:", reservation);
+    }, [reservation]);
+
     //preenchimento automatico do nome e do apelido atraves de autocomplete
     /*const handleClientSelect = (clientForm) => {
         setReservation({
@@ -132,7 +152,7 @@ export default function reservationInsert(guestName, startDate, endDate) {
         }
 
     return {
-        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name
     };
 }
 

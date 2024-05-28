@@ -54,7 +54,7 @@ const reservationsForm = ({
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect } = reservationInsert(guestName, startDate, endDate);
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name } = reservationInsert(guestName, startDate, endDate);
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
 
     console.log(selectedDates);
@@ -101,22 +101,22 @@ const reservationsForm = ({
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"name"}
-                                                        name={"Name"}
+                                                        name={"firstName"}
                                                         label={"Nome"}
                                                         ariaLabel={"Nome"}
                                                         style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                        value={reservation.Name}
+                                                        value={name.firstName}
                                                         onChange={handleInputReservation}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"surname"}
-                                                        name={"LastName"}
+                                                        name={"lastName"}
                                                         label={"Apelido"}
                                                         ariaLabel={"Apelido"}
                                                         style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                        value={reservation.LastName}
+                                                        value={name.lastName}
                                                         onChange={handleInputReservation}
                                                     />
 

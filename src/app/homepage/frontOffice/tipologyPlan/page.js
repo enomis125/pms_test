@@ -11,9 +11,12 @@ import isBetween from 'dayjs/plugin/isBetween';
 
 //imports de componentes
 import ReservationsForm from '@/components/modal/frontOffice/reservations/multiReservations/page';
+import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
+import ClientForm from "@/components/modal/frontOffice/reservations/clientForm/page";
+
 import { FiPlus, FiX } from 'react-icons/fi';
 import { FaCalendarAlt, FaRegTrashAlt, FaRegUserCircle, FaBed } from 'react-icons/fa';
-import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
+import { FaPlus } from "react-icons/fa6";
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -269,32 +272,27 @@ export default function CalendarPage() {
     setSelectedDates(updatedSelectedDates);
   };
 
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [guestName, setGuestName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [query, setQuery] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isGuestNameValid, setIsGuestNameValid] = useState(false);
+
   const updateDateRange = (index, field, value) => {
     const updatedDates = [...selectedDates];
     updatedDates[index][field] = value;
     setSelectedDates(updatedDates);
   };
 
-  const [selectedRoomType, setSelectedRoomType] = useState('');
-
-
-  const [guestName, setGuestName] = useState('');
-
   const handleInputChange = (event) => {
     setGuestName(event.target.value);
     setSearchTerm(event.target.value);
-    setIsGuestNameValid(query.some(item => `${item.firstName} ${item.secondName}` === event.target.value)); // Verificar se o nome do hóspede corresponde a algum dos nomes na lista
+    setIsGuestNameValid(query.some(item => `${item.firstName} ${item.secondName}` === event.target.value));
   };
 
-  // Função para verificar se o nome do hóspede foi inserido
   const isGuestNameEntered = guestName.trim() !== '';
-
-  //search try
-  const [isLoading, setIsLoading] = useState(true);
-  const [dataFetched, setDataFetched] = useState(false);
-  const [query, setQuery] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isGuestNameValid, setIsGuestNameValid] = useState(false); // Novo estado para verificar se o nome do hóspede é válido
 
   useEffect(() => {
     const getData = async () => {
@@ -323,7 +321,7 @@ export default function CalendarPage() {
   const handleNameSelect = (selectedName) => {
     setGuestName(selectedName);
     setSearchTerm('');
-    setIsGuestNameValid(true);
+    setIsGuestNameValid(filteredResults.some(item => `${item.firstName} ${item.secondName}` === selectedName));
   };
 
   const filteredResults = query.filter(item => {
@@ -331,14 +329,39 @@ export default function CalendarPage() {
     return fullName.includes(searchTerm.toLowerCase());
   });
 
+  const calculateNights = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = endDate - startDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : 0;
+  };
+
+  const formatDateToDisplay = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+    return `${day}-${month}-${year}`;
+  };
+
+  const formatDateToInput = (dateString) => {
+    const [day, month, year] = dateString.split('-');
+    return `20${year}-${month}-${day}`;
+  };
+
+  const handleDateChange = (index, field, value) => {
+    const formattedDate = formatDateToInput(value);
+    updateDateRange(index, field, formattedDate);
+  };
+
   return (
     <div className='w-full'>
-      {/*EXIBE O FORM AO SELECIONAR CELULAS */}
       {showModal && (
         <>
-          <div className='absolute top-0 right-0 bg-lightBlue h-full w-[20%] z-10'>
+          <div className='absolute top-0 right-0 bg-lightBlue h-full w-[22%] z-10'>
             <div className='mt-20 px-4 text-black bg-white rounded-lg mx-2'>
-              <div className='flex flex-row items-center gap-4'>
+              <div className='flex flex-row items-center justify-between flex-wrap'>
                 <FaRegUserCircle size={20} className={guestName.trim() === '' ? 'text-red-500' : 'text-black'} />
                 <InputFieldControlled
                   type={"text"}
@@ -346,10 +369,18 @@ export default function CalendarPage() {
                   name={"guestName"}
                   label={"Nome do Hóspede *"}
                   ariaLabel={"Guest Name"}
-                  style={"h-10 bg-transparent outline-none w-64"}
+                  style={"h-10 bg-transparent outline-none flex-grow"}
                   value={guestName}
                   onChange={handleInputChange}
                 />
+                <div className="flex-shrink-0">
+                  <ClientForm
+                    buttonIcon={<FaPlus size={15} color='blue' />}
+                    buttonColor={"transparent"}
+                    modalHeader={"Inserir Ficha de Cliente"}
+                    formTypeModal={0}
+                  />
+                </div>
               </div>
               {searchTerm && (
                 <ul>
@@ -361,7 +392,6 @@ export default function CalendarPage() {
                 </ul>
               )}
             </div>
-            {/*<FaCalendarAlt color='white' size={25}/>*/}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
               {selectedDates.map((dateRange, index) => (
                 <div className={`bg-white text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
@@ -374,26 +404,31 @@ export default function CalendarPage() {
                       <FaRegTrashAlt className="cursor-pointer" size={15} color={'gray'} onClick={() => removeEvent(index)} />
                     </div>
                   </div>
-                  <div className="flex flex-col gap-2 py-1">
-                    <label>Check-In:</label>
-                    <input
-                      className='outline-none'
-                      type="date"
-                      value={dateRange.start}
-                      onChange={(e) => updateDateRange(index, 'start', e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label>Check-Out:</label>
-                    <input
-                      className='outline-none'
-                      type="date"
-                      value={dateRange.end}
-                      onChange={(e) => updateDateRange(index, 'end', e.target.value)}
-                    />
+                  <div className='flex flex-row justify-between py-1'>
+                    <div className="flex flex-col gap-2">
+                      <label>In:</label>
+                      <input
+                        className='outline-none'
+                        type="text"
+                        value={formatDateToDisplay(dateRange.start)}
+                        onChange={(e) => handleDateChange(index, 'start', e.target.value)}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label>Out:</label>
+                      <input
+                        className='outline-none'
+                        type="text"
+                        value={formatDateToDisplay(dateRange.end)}
+                        onChange={(e) => handleDateChange(index, 'end', e.target.value)}
+                      />
                   </div>
                 </div>
-              ))}
+                <div className='flex flex-row justify-between items-center py-1'>
+                  <p className='text-sm'>Noites: {calculateNights(dateRange.start, dateRange.end)}</p>
+                </div>
+              </div>
+            ))}
             </div>
             <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
               <ReservationsForm
@@ -407,7 +442,7 @@ export default function CalendarPage() {
                 endDate={`${endDate}`}
                 selectedDates={selectedDates}
                 selectedRoomType={selectedRoomType}
-                disabled={!isGuestNameEntered}
+                disabled={!isGuestNameValid}
                 guestName={guestName}
               />
               <button
@@ -462,10 +497,10 @@ export default function CalendarPage() {
                   <td
                     key={index}
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-          ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-          ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
-          ${selectedRow === rowIndex ? "bg-red-500" : ""}
-          select-none`}
+                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
+                    ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
+                    ${selectedRow === rowIndex ? "bg-red-500" : ""}
+                    select-none`}
                     onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
                     onMouseOver={() => handleMouseOver(day.date)}
                     onMouseUp={() => handleMouseUp(day.date)}>
@@ -686,7 +721,8 @@ export default function CalendarPage() {
                 const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
                 return acc + occupiedRooms;
               }, 0);
-              const dailyOccupancyPercentage = totalAvailableRooms > 0 ? Math.round((totalOccupiedRooms / totalAvailableRooms) * 100) : 0;
+              const totalRooms = roomTypeState.reduce((acc, roomType) => acc + (roomCounts[roomType.roomTypeID] || 0), 0);
+              const dailyOccupancyPercentage = totalRooms > 0 ? Math.round((totalOccupiedRooms / totalRooms) * 100) : 0;
 
               return (
                 /*
