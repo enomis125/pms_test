@@ -36,7 +36,7 @@ import CountryAutocomplete from "@/components/functionsForm/autocomplete/country
 
 
 
-export default function clientForm() {
+export default function lostAndFoundForm() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -219,7 +219,7 @@ export default function clientForm() {
                 style={inputStyle}
               />
               <CountryAutocomplete
-                label="Quartos"
+                label="Quartos Nr."
                 name={"Quartos"}
                 style={
                   "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
@@ -275,29 +275,29 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-64 uppercase" aria-label="Nome do Hóspede">
-                Nome do Hóspede
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Nome do Hóspede">
+                DATA DE REGISTO
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
-                Check-In
+                ESTADO
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-Out">
-                Check-Out
+                QUARTO
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Noites">
-                Noites
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Noites">
+                LOCAL
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Quarto">
-                Quarto
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Quarto">
+                NOME DO HOSPEDE
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RT">
-                RT
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="RT">
+                ITEM OCORRÊNCIA
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Pessoas">
-                Pessoas
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Pessoas">
+                UTILIZADOR  
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Status">
-                Status
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Status">
+                ATUALIDO EM
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />

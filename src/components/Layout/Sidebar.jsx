@@ -66,7 +66,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/housekeeping/management", label: "Management", active: true
                 },
                 {
-                    ref: "/homepage/housekeeping/lastAndFound", label: "Last and Found", active: true
+                    ref: "/homepage/housekeeping/lostAndFound", label: "Lost and Found", active: true
                 },
                 {
                     ref: "/homepage/housekeeping/attendantSheets", label: "Attendant Sheets", active: true
