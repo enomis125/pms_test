@@ -20,6 +20,10 @@ import { IoPeopleSharp } from "react-icons/io5";
 import { FaBed } from "react-icons/fa6";
 import { TbTransferVertical } from "react-icons/tb";
 import { MdComputer } from "react-icons/md";
+import { ImWrench } from "react-icons/im";
+import { FaXmark } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
+import { GiVacuumCleaner } from "react-icons/gi";
 
 /* ESTA PAGINA É IGUAL A DAS RESERVAR EXATAMENTE IGUAL E NESTE MOMENTO ESTA A DAR DISPLAY
 A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
@@ -46,6 +50,8 @@ export default function managementForm() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [filteredReservations, setFilteredReservations] = useState([]);
     const [selectedButton, setSelectedButton] = React.useState(null);
+
+    const variants = ["flat"];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -184,65 +190,47 @@ export default function managementForm() {
                         className="h-full overflow-auto"
                     >
                         <TableHeader>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10  uppercase" aria-label="ID">
-                                <Input content={<FaArrowsRotate/> + "Filter Room"}/>
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Nome do Hóspede">
+                            <TableColumn className="bg-primary-600 text-white font-bold px-10  uppercase" aria-label="">
+                                <input className="bg-primary-600 text-white" color={"white"} type="text" placeholder="Filter Room" />
+                            </TableColumn>  
+                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
                                 <IoPeopleSharp size={25}/>
                             </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
+                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
                                 <FaBed size={25}/>
                             </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-Out">
+                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
                                 <TbTransferVertical size={25}/>
                             </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Noites">
+                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
                                     <MdComputer size={25}/>
                             </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Quarto">
-                                out of service
+                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase " aria-label="">
+                                <ImWrench  size={20}/> out of service
                             </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="RT">
-                                dirty
+                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase " aria-label="">
+                                <FaXmark  size={20}/> dirty
                             </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Pessoas">
-                                checked
+                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="">
+                                <FaCheck size={20}/> checked
                             </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Status">
-                                clean
+                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="">
+                                <GiVacuumCleaner  size={20}/> clean
                             </TableColumn>
                         </TableHeader>
                         <TableBody>
-                            {items.map((reservation, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className="text-left underline text-blue-600">
-                                        <ReservationsForm
-                                            buttonName={reservation.reservationID}
-                                            editIcon={<FiEdit3 size={25} />}
-                                            buttonColor={"transparent"}
-                                            modalHeader={"Editar Reserva"}
-                                            modalEditArrow={<BsArrowRight size={25} />}
-                                            modalEdit={`ID: ${reservation.reservationID}`}
-                                            formTypeModal={1}
-                                            idReservation={reservation.reservationID}
-                                            idGuest={reservation.guestNumber}
-                                            criado={reservation.createdAt}
-                                            editado={reservation.updatedAt}
-                                            editor={"teste"}
-                                        />
-                                    </TableCell>
-                                    <TableCell className="px-4">
-                                        {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
-                                    </TableCell>
-                                    <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                                    <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                                    <TableCell className="px-40">{reservation.nightCount}</TableCell>
-                                    <TableCell className="px-40">{"alterar"}</TableCell>
-                                    <TableCell className="px-40">{"aa"}</TableCell>
-                                    <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                                    <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
+                                <TableRow>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
                                 </TableRow>
-                            ))}
+                            
                         </TableBody>
                     </Table>
                 </PaginationTable>
