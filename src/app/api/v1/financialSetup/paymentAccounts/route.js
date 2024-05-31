@@ -19,12 +19,15 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
+        console.log(data)
 
         const newRecord = await prisma.paymentmethods.create({
             data: {
                 name: data.description,
                 mainGroup: parseInt(data.abreviature),
                 externalNumberShort: data.cod,
+                accountsGroupID: data.AccountGroup.toString(),
+                departmentID: data.DepartmentID
             }
         });
 

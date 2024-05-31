@@ -1,39 +1,43 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import {Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 import axios from 'axios';
 
-export default function languageAutocomplete({label, style}) {
+export default function languageAutocomplete({ label, style, onChange}) {
 
-    const [nationalities, setNationalities] = useState([]);
+    const [language, setLanguage] = useState([]);
 
     useEffect(() => {
-        const getData = () => {
-          axios.get('/api/v1/cardex/nationalities')
-            .then(res => {
-                setNationalities(res.data.response);
-            })
-            .catch(error => {
-              console.error('Error fetching data:', error);
-            });
+        const getData = async () => {
+            try {
+                const res = await axios.get('/api/v1/cardex/nationalities');
+                const filteredData = res.data.response.filter(language => language.nation !== "");
+                setLanguage(filteredData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
         getData();
-      }, []);
+    }, []);
 
-return (
-    <div className={style}>
-    <Autocomplete
-        label={label}
-        className="w-30 h-10"
-        variant="underlined"
-    >
-        {nationalities.map((nationalities) => (
-            <AutocompleteItem key={nationalities.codeNr} value={nationalities.nation}>
-                {nationalities.nation}
-            </AutocompleteItem>
-        ))}
-    </Autocomplete>
-</div>
-)
+    return (
+        <div className={style}>
+            <Autocomplete
+                label={label}
+                className="max-w-xs"
+                variant="underlined"
+                onChange={(value) => {
+                    onChange(value);
+                    //console.log("Selected value: ", value);
+                }}
+            >
+                {language.map((language) => (
+                    <AutocompleteItem key={language.codeNr} value={language} onClick={() => onChange(language)}>
+                        {language.nation}
+                    </AutocompleteItem>
+                ))}
+            </Autocomplete>
+        </div>
+    );
 }

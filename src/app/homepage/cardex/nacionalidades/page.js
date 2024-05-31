@@ -22,6 +22,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import NationalityForm from "@/components/modal/cardex/nationality/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function Salutation() {
@@ -29,11 +30,18 @@ export default function Salutation() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [nationality, setNationality] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/cardex/nationalities");
-      setNationality(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/cardex/nationalities");
+        setNationality(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -133,6 +141,8 @@ export default function Salutation() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -235,6 +245,7 @@ export default function Salutation() {
           ))}
         </TableBody>
       </Table>
+          )}
           </PaginationTable>
         </div>
       </main>

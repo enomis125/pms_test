@@ -48,6 +48,8 @@ export async function PATCH(request, context) {
                 nightCount: parseInt(data.nightCount),
                 adultCount: parseInt(data.adultCount),
                 updatedBy: userID
+                reservationStatus: parseInt(data.reservationStatus),
+
             }
         })
         return new NextResponse(JSON.stringify({ status: 200 }));
@@ -80,4 +82,30 @@ export async function DELETE(request, context) {
         await prisma.$disconnect();
     }
 
+
 }
+ 
+}
+
+export async function PUT(request, context) {
+    try {
+      const { id } = context.params;
+      const { data } = await request.json();
+      
+      const updateRecord = await prisma.reservations.update({
+        where: {
+          reservationID: parseInt(id),
+        },
+        data: {
+          reservationStatus: parseInt(data.reservationStatus),
+        }
+      });
+      
+      return new NextResponse(JSON.stringify({ status: 200 }));
+    } catch (error) {
+      return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+

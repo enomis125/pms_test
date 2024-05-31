@@ -22,6 +22,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import ProfessionForm from "@/components/modal/cardex/profession/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function Profession() {
@@ -29,11 +30,18 @@ export default function Profession() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [profession, setProfession] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/cardex/profession");
-      setProfession(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/cardex/profession");
+        setProfession(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -130,6 +138,8 @@ export default function Profession() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -220,6 +230,7 @@ export default function Profession() {
           ))}
         </TableBody>
       </Table>
+      )}
           </PaginationTable>
         </div>
       </main>

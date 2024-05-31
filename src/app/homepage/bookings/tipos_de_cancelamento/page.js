@@ -22,6 +22,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import CancelTypeForm from "@/components/modal/bookings/cancelType/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function cancelType() {
@@ -29,11 +30,18 @@ export default function cancelType() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [cancelType, setCancelType] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get("/api/v1/bookings/cancelationTypes");
-      setCancelType(res.data.response);
+      try{
+        const res = await axios.get("/api/v1/bookings/cancelationTypes");
+        setCancelType(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -128,6 +136,8 @@ export default function cancelType() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -210,6 +220,7 @@ export default function cancelType() {
           ))}
         </TableBody>
       </Table>
+          )}
           </PaginationTable>
         </div>
       </main>

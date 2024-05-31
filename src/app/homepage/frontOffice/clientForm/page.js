@@ -26,6 +26,7 @@ import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAge
 import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
 import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -319,7 +320,7 @@ export default function clientForm() {
               <TableBody>
                 {items.map((individual, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-right undeline text-blue-600">
+                    <TableCell className="text-left underline text-blue-600">
                       {individual.profileType === 0 ? (
                         <IndividualForm
                           buttonName={individual.guestProfileID}
@@ -333,9 +334,10 @@ export default function clientForm() {
                           idEmail={individual.email}
                           idPhone={individual.phoneNumber}
                           idNif={individual.nif}
-                          idAddress={individual.country}
+                          idAddress={individual.address}
                           idZipCode={individual.zipCode}
                           idLocality={individual.town}
+                          idCountry={individual.countryAddress || ''}
                           criado={individual.createdAt}
                           editado={individual.updatedAt}
                           editor={"teste"}
@@ -369,7 +371,7 @@ export default function clientForm() {
                               formTypeModal={1}
                               idAgency={individual.guestProfileID}
                               idNifAgency={individual.nif}
-                              idAddressAgency={individual.country}
+                              idAddressAgency={individual.address}
                               idZipCodeAgency={individual.zipCode}
                               idLocalityAgency={individual.town}
                               criado={individual.createdAt}
@@ -444,9 +446,10 @@ export default function clientForm() {
                                 idEmail={individual.email}
                                 idPhone={individual.phoneNumber}
                                 idNif={individual.nif}
-                                idAddress={individual.country}
+                                idAddress={individual.address}
                                 idZipCode={individual.zipCode}
                                 idLocality={individual.town}
+                                idCountry={individual.countryAddress || ''}
                                 criado={individual.createdAt}
                                 editado={individual.updatedAt}
                                 editor={"teste"}
@@ -480,7 +483,7 @@ export default function clientForm() {
                                     formTypeModal={1}
                                     idAgency={individual.guestProfileID}
                                     idNifAgency={individual.nif}
-                                    idAddressAgency={individual.country}
+                                    idAddressAgency={individual.address}
                                     idZipCodeAgency={individual.zipCode}
                                     idLocalityAgency={individual.town}
                                     criado={individual.createdAt}

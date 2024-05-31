@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import axios from 'axios';
 
-export default function ClientFormAutocomplete({ label, style, onChange }) {
+export default function ClientFormAutocomplete({ label, style, variant,  onChange }) {
 
     const [clientForm, setClientForm] = useState([]);
 
@@ -25,10 +25,10 @@ export default function ClientFormAutocomplete({ label, style, onChange }) {
         <Autocomplete
           label={label}
           className="max-w-xs"
-          variant="underlined"
+          variant={variant}
           onChange={(value) => {
             onChange(value);
-            console.log("Selected value: ", value);
+            //console.log("Selected value: ", value);
           }}
         >
           {clientForm.map((clientForm) => (

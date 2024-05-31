@@ -3,38 +3,71 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function roomsInsert(){
+export default function roomsInsert() {
 
     //inserção na tabela rooms
     const [room, setRoom] = useState({
         Label: '',
-        RoomType: '',
-        Description: ''
+        Description: '',
+        CharacteristcID: '',
+        RoomTypeID: ''
     })
+
+    //preenchimento automatico de tipologia atraves de autocomplete
+    const handleTipologySelect = (tipology) => {
+        setRoom({
+            ...room,
+            RoomTypeID: tipology.roomTypeID,
+        })
+    };
+
+    //preenchimento automatico das carateristicas atraves de autocomplete
+    const handleCaracteristicSelect = (caracteristics) => {
+        setRoom({
+            ...room,
+            CharacteristcID: [caracteristics.characteristicID],
+        })
+    };
 
     const handleInputRoom = (event) => {
         setRoom({ ...room, [event.target.name]: event.target.value })
     }
-    function handleSubmitRoom(event) {
+
+    async function handleSubmitRoom(event) {
         event.preventDefault()
-        if (!room.Label || !room.RoomType || !room.Description) {
+        if (!room.Label || !room.Description) {
             alert("Preencha os campos corretamente");
             return;
         }
-        axios.put('/api/v1/hotel/rooms', {
-            data: {
-                Label: room.Label,
-                RoomType: room.RoomType,
-                Description: room.Description
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-            console.log(room.Label)
-    }
 
-    return { 
-        handleInputRoom , handleSubmitRoom
+        try {
+
+            //alterar e concertar isto
+            const roomCreationInfo = await axios.put('/api/v1/hotel/rooms', {
+                data: {
+                    Label: room.Label,
+                    Description: room.Description,
+                    roomType: room.RoomTypeID,
+                }
+            });
+
+            const newRecordRoomID = await roomCreationInfo.data.newRecord.roomID.toString();
+            // Envio da solicitação para criar localidades
+            const caracteristicCreationInfo = await axios.put('/api/v1/hotel/rooms/roomCharacteristics', {
+                data: {
+                    characteristicID: room.CharacteristcID,
+                    roomID: newRecordRoomID,
+                }
+            });
+
+            console.log(roomCreationInfo, caracteristicCreationInfo); // Exibe a resposta do servidor no console
+        } catch (error) {
+            console.error('Erro ao enviar requisições:', error);
+        }
+
+    }
+    return {
+        handleInputRoom, handleSubmitRoom, handleCaracteristicSelect, handleTipologySelect
     };
 }
 
@@ -67,8 +100,8 @@ export function roomsEdit(idRoom) {
             .catch(err => console.log(err))
     }
 
-    return { 
-        handleUpdateRoom, setValuesRoom, valuesRoom 
+    return {
+        handleUpdateRoom, setValuesRoom, valuesRoom
     };
 }
 

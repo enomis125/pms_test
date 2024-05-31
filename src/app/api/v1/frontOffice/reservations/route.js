@@ -47,6 +47,9 @@ export async function PUT(request) {
                 guestNumber: parseInt(data.guestNumber),
                 propertyID: propertyID,
                 createdBy: userID
+                languageID: parseInt(data.languageID),
+                roomTypeNumber: parseInt(data.roomTypeNumber),
+                roomNumber: parseInt(data.roomNumber),
             }
         });
 

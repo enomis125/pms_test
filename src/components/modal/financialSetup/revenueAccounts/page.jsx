@@ -10,6 +10,10 @@ import revenueAccountInsert, { revenueAccountsEdit } from "@/components/function
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 
+import AccountGroupAutocomplete from "@/components/functionsForm/autocomplete/accountGroups/page";
+import TaxesAutocomplete from "@/components/functionsForm/autocomplete/taxes/page";
+import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
+
 
 
 const revenueAccountsForm = ({
@@ -29,7 +33,7 @@ const revenueAccountsForm = ({
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts } = revenueAccountInsert();
+    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes, handleDepartmentSelect } = revenueAccountInsert();
     const { handleUpdateRevenueAccount, setValuesRevenueAccounts, valuesRevenueAccounts } = revenueAccountsEdit(idRevenueAccount);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
@@ -50,7 +54,8 @@ const revenueAccountsForm = ({
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -63,7 +68,7 @@ const revenueAccountsForm = ({
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                                 </div>
                                             </ModalHeader>
-                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
 
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -92,21 +97,26 @@ const revenueAccountsForm = ({
                                                     onChange={handleInputRevenueAccounts}
                                                 />
 
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Departamento</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Grupo de Conta</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Taxa</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
+
+                                                <DepartmentAutocomplete
+                                                    label={"Departamento"}
+                                                    style={""}
+                                                    onChange={(value) => handleDepartmentSelect(value)}
+                                                />
+                                                <AccountGroupAutocomplete
+                                                    label={"Grupo de Conta"}
+                                                    style={""}
+                                                    onChange={(value) => handleSelect(value)}
+                                                />
+                                                <TaxesAutocomplete
+                                                    label={"Taxa"}
+                                                    style={""}
+                                                    name={"Taxes"}
+                                                    onChange={(value) => handleSelectTaxes(value)}
+                                                />
+
+                                                
+
                                                 <input type="text" placeholder="Valor"></input>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Propriedade</option>
@@ -192,11 +202,11 @@ const revenueAccountsForm = ({
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
-                                            <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Grupo de Conta</option>
-                                                <option value="1">Teste de opções</option>
-                                                <option value="2">Teste de opções</option>
-                                            </select>
+                                            <AccountGroupAutocomplete
+                                                    label={"Grupo de Conta"}
+                                                    style={""}
+                                                    onChange={(value) => handleSelect(value)}
+                                                />
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                 <option value="0">Taxa</option>
                                                 <option value="1">Teste de opções</option>

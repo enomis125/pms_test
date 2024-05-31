@@ -37,6 +37,7 @@ export async function PUT(request) {
 
     try {
         const { data } = await request.json();
+        console.log(data)
         const newRecord = await prisma.roomtypes.create({
             data: {
                 name: data.name,
@@ -45,6 +46,7 @@ export async function PUT(request) {
                 groupID: 11,
                 createdBy: userID,
                 propertyID: propertyID
+                groupID: parseInt(data.tipologyGroup),
             }
         });
 

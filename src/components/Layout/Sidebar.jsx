@@ -11,6 +11,7 @@ import { IoReceipt, IoStorefront  } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { FaHotel } from "react-icons/fa";
+import { IoMdPricetags } from "react-icons/io";
 import { PiUsersFourFill } from "react-icons/pi";
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
@@ -31,7 +32,22 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontOffice/clientForm", label: "Fichas de clientes", active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/reservations", label: "Reservas", active: true
+                    ref: "/homepage/frontDesk", label: "Front-Desk", active: true
+                },
+                {
+                    ref: "/homepage/frontDesk/reservations", label: "Reservas", active: true
+                },
+                {
+                    ref: "/homepage/frontDesk/arrivals", label: "Chegadas", active: true
+                },
+                {
+                    ref: "/homepage/frontDesk/guestlist", label: "Lista de Hóspedes", active: true
+                },
+                {
+                    ref: "/homepage/frontDesk/departures", label: "Partidas", active: true
+                },
+                {
+                    ref: "/homepage/frontOffice/tipologyPlan", label: "Plano de Tipologias", active: true
                 },
                 {
                     ref: "/homepage/frontOffice/roomsPlan", label: "Plano de Quartos", active: true
@@ -39,6 +55,25 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 {
                     ref: "#", label: "Housekeeping", active: true
                 }
+            ]
+        },
+
+        "Housekeeping" :{
+            icon: <IoStorefront size={20}/>,
+            active:true,
+            items: [
+                {
+                    ref: "/homepage/housekeeping", label: "HouseKeeping", active: true
+                },
+                {
+                    ref: "/homepage/housekeeping/management", label: "Management", active: true
+                },
+                {
+                    ref: "/homepage/housekeeping/lastAndFound", label: "Last and Found", active: true
+                },
+                {
+                    ref: "/homepage/housekeeping/attendantSheets", label: "Attendant Sheets", active: true
+                },
             ]
         },
 
@@ -191,6 +226,23 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 {
                     ref: "/homepage/financialSetup/void_charges", label: "Anulação de Cobranças", active: true
                 },
+            ]
+        },
+
+        "Gestão de Preços":{
+            icon: <IoMdPricetags  size={20} />,
+            active: true,
+            items: [
+                {
+                    ref: "/homepage/priceManagement/priceGroups", label: "Códigos de Preços", active: true
+                },
+                {
+                    ref: "/homepage/priceManagement/priceDescription", label: "Descrição de Códigos de Preços", active: true
+                },
+                {
+                    ref: "/homepage/priceManagement/seasons", label: "Épocas", active: true
+                },
+                
             ]
         }
     }

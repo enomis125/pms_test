@@ -51,10 +51,10 @@ export async function PUT(request) {
         const newRecord = await prisma.rooms.create({
             data: {
                 label: data.Label,
-                roomType: parseInt(data.RoomType),
                 description: data.Description,
                 createdBy: userID,
                 propertyID: propertyID
+                roomType: parseInt(data.roomType)
             }
         });
 

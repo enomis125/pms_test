@@ -2,34 +2,75 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function reservationInsert() {
+export default function reservationInsert(guestName, startDate, endDate) {
 
+    const [filteredRoom, setFilteredRoom] = useState(null);
     const currentDate = new Date().toLocaleDateString('en-CA');
     const guestNumberDefault = 1;
+    console.log(guestName);
 
     //inserção na tabela client preference
     const [reservation, setReservation] = useState({
-        CheckIn: currentDate, //para o checkin aparecer por default com a data atual do pc
-        CheckOut: '',
+        CheckIn: startDate ? startDate : currentDate, //para o checkin aparecer por default com a data atual do pc
+        CheckOut: endDate ? endDate : '',
         NightCount: '',
         GuestNumber: guestNumberDefault,
         GuestID: '',
-        Name: '',
-        LastName: ''
+        Name: guestName ? guestName : '',
+        LastName: '',
+        Language: '',
+        Tipology: '',
+        Room: '',
     })
-
     //preenchimento automatico do nome e do apelido atraves de autocomplete
-    const handleClientSelect = (clientForm) => {
-        //console.log("ID do guestProfile selecionado:", clientForm.firstName);
-        //console.log("ID do guestProfile selecionado:", clientForm.secondName);
-
+    /*const handleClientSelect = (clientForm) => {
         setReservation({
             ...reservation,
             Name: clientForm.firstName,
             LastName: clientForm.secondName,
             GuestID: clientForm.guestProfileID
         })
+    };*/
+
+    //preenchimento automatico do país atraves de autocomplete
+    const handleLanguageSelect = (language) => {
+        setReservation({
+            ...reservation,
+            Language: language.codeNr
+        });
     };
+
+    //preenchimento automatico do país atraves de autocomplete
+    const handleTipologySelect = (tipology) => {
+        setReservation({
+            ...reservation,
+            Tipology: tipology.roomTypeID
+        });
+    };
+
+    useEffect(() => {
+        const getData = async () => {
+          try {
+            if (reservation.Tipology && reservation.Room) {
+              const response = await axios.get("/api/v1/hotel/rooms");
+              const filteredRoom = response.data.response.find(room => room.label.toLowerCase() === reservation.Room.toLowerCase() && room.roomType === reservation.Tipology);
+      
+              if (filteredRoom) {
+                handleSubmitReservation(true, filteredRoom); // Passa true como primeiro parâmetro se a sala for encontrada
+                setFilteredRoom(filteredRoom); // Set the filteredRoom variable
+              } else {
+                handleSubmitReservation(false); // Passa false como primeiro parâmetro se a sala não for encontrada
+                setFilteredRoom(null); // Set the filteredRoom variable to null
+              }
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+      
+        getData();
+      }, [reservation.Tipology, reservation.Room]);
+
 
     const handleInputReservation = (event) => {
         setReservation({ ...reservation, [event.target.name]: event.target.value })
@@ -57,32 +98,41 @@ export default function reservationInsert() {
     }, [reservation.CheckIn, reservation.NightCount]);
 
     async function handleSubmitReservation(event) {
-        event.preventDefault()
+        if (!event.isTrusted) {
+            return;
+          }
+        
+          event.preventDefault();
 
-        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+       { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
             alert("Preencha os campos corretamente");
             return;
-        }
+        }*/}
 
-        try {
-            // Envio da solicitação para criar o indivíduo
-            const response = await axios.put('/api/v1/frontOffice/reservations', {
+        if (filteredRoom) {
+            try {
+              // Envio da solicitação para criar o indivíduo
+              const response = await axios.put('/api/v1/frontOffice/reservations', {
                 data: {
-                    checkInDate: reservation.CheckIn,
-                    checkOutDate: reservation.CheckOut,
-                    nightCount: reservation.NightCount,
-                    adultCount: reservation.GuestNumber,
-                    guestNumber: reservation.GuestID
+                  checkInDate: reservation.CheckIn,
+                  checkOutDate: reservation.CheckOut,
+                  nightCount: reservation.NightCount,
+                  adultCount: reservation.GuestNumber,
+                  guestNumber: reservation.GuestID,
+                  languageID: reservation.Language,
+                  roomTypeNumber: reservation.Tipology,
+                  roomNumber: reservation.Room,
                 }
-            });
-            //console.log(response); // Exibe a resposta do servidor no console
-        } catch (error) {
-            console.error('Erro ao enviar requisições:', error);
+              });
+              //console.log(response); // Exibe a resposta do servidor no console
+            } catch (error) {
+              console.error('Erro ao enviar requisições:', error);
+            }
+          } 
         }
 
-    }
     return {
-        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect
     };
 }
 
@@ -119,9 +169,11 @@ export function reservationEdit(idReservation, idGuest) {
 
                 const guestProfileResponse = await axios.get("/api/v1/frontOffice/clientForm/individuals/" + idGuest)
                 console.log(guestProfileResponse)
-                setValuesGuest({ ...valuesGuest, 
-                    Name: guestProfileResponse.data.response.firstName, 
-                    LastName: guestProfileResponse.data.response.secondName });
+                setValuesGuest({
+                    ...valuesGuest,
+                    Name: guestProfileResponse.data.response.firstName,
+                    LastName: guestProfileResponse.data.response.secondName
+                });
                 //console.log(reserveResponse); // Exibe as respostas do servidor no console
             } catch (error) {
                 console.error('Erro ao enviar requisições:', error);
@@ -139,7 +191,7 @@ export function reservationEdit(idReservation, idGuest) {
                 checkInDate: valuesReserve.CheckIn,
                 checkOutDate: valuesReserve.CheckOut,
                 nightCount: valuesReserve.NightCount,
-                guestNumber: valuesReserve.GuestNumber
+                adultCount: valuesReserve.GuestNumber
             }
         })
             .catch(err => console.log(err))

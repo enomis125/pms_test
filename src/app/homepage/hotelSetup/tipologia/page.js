@@ -22,6 +22,7 @@ import { BsArrowRight } from "react-icons/bs";
 //imports de componentes
 import TipologyForm from "@/components/modal/hotelSetup/tipology/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
+import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
  
  
 export default function Tipologys() {
@@ -29,11 +30,18 @@ export default function Tipologys() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [roomTypeState, setRoomTypeState] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get(`/api/v1/hotel/tipologys`);
-      setRoomTypeState(res.data.response);
+      try{
+        const res = await axios.get(`/api/v1/hotel/tipologys`);
+        setRoomTypeState(res.data.response);
+      } catch(error) {
+        console.error("Erro: ", error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, []);
@@ -130,6 +138,8 @@ export default function Tipologys() {
               }))
             }
           >
+            <LoadingBackdrop open={isLoading} />
+          {!isLoading && (
             <Table
             id="TableToPDF"
       isHeaderSticky={"true"}
@@ -228,6 +238,7 @@ export default function Tipologys() {
           ))}
         </TableBody>
       </Table>
+          )}
           </PaginationTable>
         </div>
       </main>
