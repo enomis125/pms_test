@@ -50,7 +50,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontOffice/tipologyPlan", label: "Plano de Tipologias", active: true
                 },
                 {
-                    ref: "#", label: "Housekeeping", active: true
+                    ref: "/homepage/frontOffice/reservationPlan", label: "Plano de Reservas", active: true
                 }
             ]
         },

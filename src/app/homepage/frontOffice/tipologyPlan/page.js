@@ -279,6 +279,7 @@ export default function CalendarPage() {
   const [query, setQuery] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isGuestNameValid, setIsGuestNameValid] = useState(false);
+  const [selectedGuestId, setSelectedGuestId] = useState('');
 
   const updateDateRange = (index, field, value) => {
     const updatedDates = [...selectedDates];
@@ -302,6 +303,7 @@ export default function CalendarPage() {
           const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
           const namesArray = res.data.response
             .map(item => ({
+              id: item.guestProfileID, 
               secondName: item.secondName,
               firstName: item.firstName
             }))
@@ -318,11 +320,16 @@ export default function CalendarPage() {
     getData();
   }, [dataFetched]);
 
-  const handleNameSelect = (selectedName) => {
+  const handleNameSelect = (selectedName, id) => {
     setGuestName(selectedName);
+    setSelectedGuestId(id);
     setSearchTerm('');
     setIsGuestNameValid(filteredResults.some(item => `${item.firstName} ${item.secondName}` === selectedName));
   };
+
+  useEffect(() => {
+    console.log("Selected Guest ID:", selectedGuestId);
+  }, [selectedGuestId]);
 
   const filteredResults = query.filter(item => {
     const fullName = `${item.firstName} ${item.secondName}`.toLowerCase();
@@ -337,7 +344,7 @@ export default function CalendarPage() {
     return diffDays > 0 ? diffDays : 0;
   };
 
-  const formatDateToDisplay = (dateString) => {
+  /*const formatDateToDisplay = (dateString) => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -353,13 +360,13 @@ export default function CalendarPage() {
   const handleDateChange = (index, field, value) => {
     const formattedDate = formatDateToInput(value);
     updateDateRange(index, field, formattedDate);
-  };
+  };*/
 
   return (
     <div className='w-full'>
       {showModal && (
         <>
-          <div className='absolute top-0 right-0 bg-lightBlue h-full w-[22%] z-10'>
+          <div className='fixed top-0 right-0 bg-lightBlue h-screen w-[22%] z-10'>
             <div className='mt-20 px-4 text-black bg-white rounded-lg mx-2'>
               <div className='flex flex-row items-center justify-between flex-wrap'>
                 <FaRegUserCircle size={20} className={guestName.trim() === '' ? 'text-red-500' : 'text-black'} />
@@ -382,10 +389,11 @@ export default function CalendarPage() {
                   />
                 </div>
               </div>
+              {/**AUTOCOMPLETE FEITO POR MUAH - pesquisa através de API */}
               {searchTerm && (
                 <ul>
                   {filteredResults.map((item, index) => (
-                    <li key={index} onClick={() => handleNameSelect(`${item.firstName} ${item.secondName}`)}>
+                    <li key={item.id} onClick={() => handleNameSelect(item.firstName + ' ' + item.secondName, item.id)}>
                       {item.firstName} {item.secondName}
                     </li>
                   ))}
@@ -404,28 +412,28 @@ export default function CalendarPage() {
                       <FaRegTrashAlt className="cursor-pointer" size={15} color={'gray'} onClick={() => removeEvent(index)} />
                     </div>
                   </div>
-                  <div className='flex flex-row justify-between py-1'>
+                  <div className='flex flex-row justify-around py-1'>
                     <div className="flex flex-col gap-2">
                       <label>In:</label>
                       <input
                         className='outline-none'
-                        type="text"
-                        value={formatDateToDisplay(dateRange.start)}
-                        onChange={(e) => handleDateChange(index, 'start', e.target.value)}
+                        type="date"
+                      value={dateRange.start}
+                      onChange={(e) => updateDateRange(index, 'start', e.target.value)}
                       />
                     </div>
                     <div className="flex flex-col gap-2">
                       <label>Out:</label>
                       <input
-                        className='outline-none'
-                        type="text"
-                        value={formatDateToDisplay(dateRange.end)}
-                        onChange={(e) => handleDateChange(index, 'end', e.target.value)}
+                        className='outline-none w-20'
+                        type="date"
+                      value={dateRange.end}
+                      onChange={(e) => updateDateRange(index, 'end', e.target.value)}
                       />
                   </div>
                 </div>
                 <div className='flex flex-row justify-between items-center py-1'>
-                  <p className='text-sm'>Noites: {calculateNights(dateRange.start, dateRange.end)}</p>
+                  <p className='text-sm px-3'>Noites: {calculateNights(dateRange.start, dateRange.end)}</p>
                 </div>
               </div>
             ))}
@@ -440,10 +448,12 @@ export default function CalendarPage() {
                 modalHeader={"Inserir uma Reserva"}
                 startDate={`${startDate}`}
                 endDate={`${endDate}`}
+                tipology={`${tipology}`}
                 selectedDates={selectedDates}
                 selectedRoomType={selectedRoomType}
                 disabled={!isGuestNameValid}
                 guestName={guestName}
+                guestId={selectedGuestId}
               />
               <button
                 className="text-sm"
@@ -452,7 +462,6 @@ export default function CalendarPage() {
           </div>
         </>
       )}
-
 
       <div className='bg-primary-600 py-5'>
         <div className='flex justify-between'>

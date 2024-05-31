@@ -1,27 +1,19 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Tabs, Tab, Card, CardBody, input } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Tabs, Tab} from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
-import { FiEdit3 } from "react-icons/fi";
-import { BsArrowRight } from "react-icons/bs";
-import { FiSearch } from "react-icons/fi";
-import { IoIosArrowDown } from "react-icons/io";
 
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
-import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
-//import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
-
-import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
+import reservationInsert from "@/components/functionsForm/CRUD/frontOffice/reservation/tipologyPlan/page";
 
 const reservationsForm = ({
     idReservation,
@@ -42,9 +34,11 @@ const reservationsForm = ({
     showModal,
     startDate,
     endDate,
+    tipology,
     selectedDates, // Recebendo selectedDates como prop
     disabled,
-    guestName
+    guestName,
+    guestId
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -54,10 +48,8 @@ const reservationsForm = ({
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name } = reservationInsert(guestName, startDate, endDate);
-    const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name } = reservationInsert(guestName, guestId, startDate, endDate, tipology, selectedDates);
 
-    console.log(selectedDates);
     return (
         <>
 

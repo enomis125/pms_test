@@ -19,7 +19,7 @@ import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipolo
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
+import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservation/page";
 
 import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
 
