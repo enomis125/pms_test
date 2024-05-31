@@ -53,7 +53,7 @@ export async function PUT(request) {
                 label: data.Label,
                 description: data.Description,
                 createdBy: userID,
-                propertyID: propertyID
+                propertyID: propertyID,
                 roomType: parseInt(data.roomType)
             }
         });
