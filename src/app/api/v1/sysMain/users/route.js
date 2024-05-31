@@ -6,7 +6,11 @@ import { generatePrismaClient } from '@/app/lib/utils'
 
 export async function GET(request) {
 
-    const users = await prisma.response.findMany();
+    const prisma = generatePrismaClient()
+
+    const users = await prisma.users.findMany();
+
+    const response = users
 
     prisma.$disconnect()
 

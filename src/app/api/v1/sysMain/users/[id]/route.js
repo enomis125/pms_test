@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import prisma from "@/lib/prisma"
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
 
 
 export async function GET(request, context) {
 
+    const prisma = generatePrismaClient()
+
     const { id } = context.params;
 
-    const response = await prisma.users.findMany({
+    const response = await prisma.users.findUnique({
         where: {
             userID: parseInt(id)
         }
@@ -22,54 +25,54 @@ export async function GET(request, context) {
     return new NextResponse(JSON.stringify({ response, status: 200 }));
 }
 
-export async function PATCH(request, context) {
-    try {
-        const { id } = context.params;
-        const { data } = await request.json();
+// export async function PATCH(request, context) {
+//     try {
+//         const { id } = context.params;
+//         const { data } = await request.json();
 
-        const updateRecord = await prisma.users.update({
-            where: {
-                userID: parseInt(id),
-            },
-            data: {
-                name: data.name,
-                lastName: data.lastName,
-                email: data.email,
-                fiscalNumber: parseInt(data.fiscalNumber),
-                phoneNumber: parseInt(data.phoneNumber),
-                address1: data.address1,
-                address2: data.address2,
-                country: data.country,
-                district: data.district,
-                zipCode: data.zipCode,
-                password: data.password,
-                roleID: parseInt(data.roleID)
-            }
-        })
-        return new NextResponse(JSON.stringify({ updateRecord, status: 200 }));
+//         const updateRecord = await prisma.users.update({
+//             where: {
+//                 userID: parseInt(id),
+//             },
+//             data: {
+//                 name: data.name,
+//                 lastName: data.lastName,
+//                 email: data.email,
+//                 fiscalNumber: parseInt(data.fiscalNumber),
+//                 phoneNumber: parseInt(data.phoneNumber),
+//                 address1: data.address1,
+//                 address2: data.address2,
+//                 country: data.country,
+//                 district: data.district,
+//                 zipCode: data.zipCode,
+//                 password: data.password,
+//                 roleID: parseInt(data.roleID)
+//             }
+//         })
+//         return new NextResponse(JSON.stringify({ updateRecord, status: 200 }));
 
-    } catch (error) {
-        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
-    } finally {
-        await prisma.$disconnect();
-    }
-}
+//     } catch (error) {
+//         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+//     } finally {
+//         await prisma.$disconnect();
+//     }
+// }
 
-export async function DELETE(request, context) {
+// export async function DELETE(request, context) {
 
-    try {
-        const { id } = context.params;
+//     try {
+//         const { id } = context.params;
 
-        const response = await prisma.users.delete({
-            where: {
-                userID: parseInt(id),
-            }
-        })
-        return new NextResponse(JSON.stringify({ status: 200 }));
+//         const response = await prisma.users.delete({
+//             where: {
+//                 userID: parseInt(id),
+//             }
+//         })
+//         return new NextResponse(JSON.stringify({ status: 200 }));
 
-    } catch (error) {
-        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
-    } finally {
-        await prisma.$disconnect();
-    }
-}
+//     } catch (error) {
+//         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+//     } finally {
+//         await prisma.$disconnect();
+//     }
+// }
