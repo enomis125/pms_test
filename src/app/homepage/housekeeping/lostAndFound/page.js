@@ -29,14 +29,15 @@ import { FaClock } from "react-icons/fa";
 A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
 
 //imports de componentes
-import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import LostandFoundForm from "@/components/modal/houseKeeping/lostAndFound/page"
 
 
 
 export default function lostAndFoundForm() {
+
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -228,6 +229,14 @@ export default function lostAndFoundForm() {
               />
             </div>
           </div>
+            <LostandFoundForm
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Perdidos e achados"}
+              modalIcons={"bg-red"}
+              formTypeModal={11}
+            ></LostandFoundForm>
         </div>
       </div>
 
@@ -304,71 +313,29 @@ export default function lostAndFoundForm() {
               </TableColumn>
             </TableHeader>
             <TableBody>
-              {items.map((reservation, index) => (
-                <TableRow key={index}>
-                  <TableCell className="text-left underline text-blue-600">
-                    <ReservationsForm
-                      buttonName={reservation.reservationID}
-                      editIcon={<FiEdit3 size={25} />}
-                      buttonColor={"transparent"}
-                      modalHeader={"Editar Reserva"}
-                      modalEditArrow={<BsArrowRight size={25} />}
-                      modalEdit={`ID: ${reservation.reservationID}`}
-                      formTypeModal={1}
-                      idReservation={reservation.reservationID}
-                      idGuest={reservation.guestNumber}
-                      criado={reservation.createdAt}
-                      editado={reservation.updatedAt}
-                      editor={"teste"}
-                    />
-                  </TableCell>
-                  <TableCell className="px-4">
-                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
-                  </TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-40">{reservation.nightCount}</TableCell>
-                  <TableCell className="px-40">{"alterar"}</TableCell>
-                  <TableCell className="px-40">{"aa"}</TableCell>
-                  <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
-                  <TableCell className="flex justify-end">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          variant="light"
-                          className="flex flex-row justify-end"
-                          aria-label="Opções"
-                        >
-                          <BsThreeDotsVertical size={20} className="text-gray-400" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                        <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <ReservationsForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Reserva"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${reservation.reservationID}`}
-                            formTypeModal={1}
-                            idReservation={reservation.reservationID}
-                            idGuest={reservation.guestNumber}
-                            criado={reservation.createdAt}
-                            editado={reservation.updatedAt}
-                            editor={"teste"}
-                          />
-                        </DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 1)}>Check-In</DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 3)}>Cancelada</DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 0)}>Cancelar CI</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Reativar</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </TableCell>
-                </TableRow>
-              ))}
+            <TableRow>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="flex justify-end">
+                                    <Dropdown>
+                                        <DropdownTrigger>
+                                            <Button
+                                                variant="light"
+                                                className="flex flex-row justify-end"
+                                            >
+                                                <BsThreeDotsVertical size={20} className="text-gray-400" />
+                                            </Button>
+                                        </DropdownTrigger>
+                                    </Dropdown>
+                                </TableCell>
+                                </TableRow>
             </TableBody>
           </Table>
         </PaginationTable>

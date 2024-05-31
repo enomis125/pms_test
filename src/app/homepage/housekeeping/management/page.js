@@ -191,7 +191,7 @@ export default function managementForm() {
                     >
                         <TableHeader>
                             <TableColumn className="bg-primary-600 text-white font-bold px-10  uppercase" aria-label="">
-                                <input className="bg-primary-600 text-white" color={"white"} type="text" placeholder="Filter Room" />
+                                <Input className="bg-primary-600 text-primary-600" type="text" placeholder="Filter Room" />
                             </TableColumn>  
                             <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
                                 <IoPeopleSharp size={25}/>
@@ -225,10 +225,10 @@ export default function managementForm() {
                                     <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
                                     <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
                                     <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">t</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
+                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
                                 </TableRow>
                             
                         </TableBody>
