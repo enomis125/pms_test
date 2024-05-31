@@ -2,12 +2,11 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function reservationInsert(guestName, startDate, endDate) {
+export default function reservationInsert(startDate, endDate) {
 
     const [filteredRoom, setFilteredRoom] = useState(null);
     const currentDate = new Date().toLocaleDateString('en-CA');
     const guestNumberDefault = 1;
-    console.log(guestName);
 
     //inserção na tabela client preference
     const [reservation, setReservation] = useState({
@@ -16,21 +15,21 @@ export default function reservationInsert(guestName, startDate, endDate) {
         NightCount: '',
         GuestNumber: guestNumberDefault,
         GuestID: '',
-        Name: guestName ? guestName : '',
+        Name: '',
         LastName: '',
         Language: '',
         Tipology: '',
         Room: '',
     })
     //preenchimento automatico do nome e do apelido atraves de autocomplete
-    /*const handleClientSelect = (clientForm) => {
+    const handleClientSelect = (clientForm) => {
         setReservation({
             ...reservation,
             Name: clientForm.firstName,
             LastName: clientForm.secondName,
             GuestID: clientForm.guestProfileID
         })
-    };*/
+    };
 
     //preenchimento automatico do país atraves de autocomplete
     const handleLanguageSelect = (language) => {
@@ -104,10 +103,10 @@ export default function reservationInsert(guestName, startDate, endDate) {
         
           event.preventDefault();
 
-       { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+        if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
             alert("Preencha os campos corretamente");
             return;
-        }*/}
+        }
 
         if (filteredRoom) {
             try {
@@ -128,11 +127,13 @@ export default function reservationInsert(guestName, startDate, endDate) {
             } catch (error) {
               console.error('Erro ao enviar requisições:', error);
             }
-          } 
+          } else {
+            alert("Quarto não encontrado");
+          }
         }
 
     return {
-        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect
     };
 }
 
