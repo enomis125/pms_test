@@ -365,7 +365,7 @@ export default function departures() {
         >
           <div className="flex flex-row gap-4 mb-2 -mt-4">
             <button
-              onClick={() => handleButtonClick(0)}
+             
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Pendentes
@@ -383,13 +383,13 @@ export default function departures() {
               Checked-Out
             </button>
             <button
-              onClick={() => handleButtonClick(3)}
+             
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               Canceladas
             </button>
             <button
-              onClick={() => handleButtonClick(4)}
+              
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
               No-Show
