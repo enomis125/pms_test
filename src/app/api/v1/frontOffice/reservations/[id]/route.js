@@ -47,7 +47,7 @@ export async function PATCH(request, context) {
                 checkOutDate: checkOutDate,
                 nightCount: parseInt(data.nightCount),
                 adultCount: parseInt(data.adultCount),
-                updatedBy: userID
+                updatedBy: userID,
                 reservationStatus: parseInt(data.reservationStatus),
 
             }
@@ -84,8 +84,7 @@ export async function DELETE(request, context) {
 
 
 }
- 
-}
+
 
 export async function PUT(request, context) {
     try {

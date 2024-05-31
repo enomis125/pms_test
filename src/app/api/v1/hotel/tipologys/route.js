@@ -45,7 +45,7 @@ export async function PUT(request) {
                 roomFeaturesDesc: data.roomFeaturesDesc,
                 groupID: 11,
                 createdBy: userID,
-                propertyID: propertyID
+                propertyID: propertyID,
                 groupID: parseInt(data.tipologyGroup),
             }
         });
