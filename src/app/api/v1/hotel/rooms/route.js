@@ -1,12 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generatePrismaClient } from '@/app/lib/utils'
+import { generatePrismaClient, getUserIDFromToken, getPropertyIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
 
 export async function GET(request) {
     try {
 
+        const tokenCookie = cookies().get("jwt");
+
         const prisma = generatePrismaClient()
 
+        const propertyID = getPropertyIDFromToken(tokenCookie.value)
+
         const roomsRecords = await prisma.rooms.findMany({
+            where: {
+                propertyID: propertyID
+            },
             include: {
                 roomtypes: {
                     select: {
@@ -27,24 +35,34 @@ export async function GET(request) {
     }
 }
 
-// export async function PUT(request) {
+export async function PUT(request) {
 
-//     try {
-//         const { data } = await request.json();
-//         //console.log(data.Label)
-//         const newRecord = await prisma.rooms.create({
-//             data: {
-//                 label: data.Label,
-//                 roomType: parseInt(data.RoomType),
-//                 description: data.Description,
-//             }
-//         });
+    const tokenCookie = cookies().get("jwt");
 
-//         return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
+    const prisma = generatePrismaClient()
 
-//     } catch (error) {
-//         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
-//     } finally {
-//         await prisma.$disconnect();
-//     }
-// }
+    const userID = getUserIDFromToken(tokenCookie.value)
+
+    const propertyID = getPropertyIDFromToken(tokenCookie.value)
+
+    try {
+        const { data } = await request.json();
+
+        const newRecord = await prisma.rooms.create({
+            data: {
+                label: data.Label,
+                roomType: parseInt(data.RoomType),
+                description: data.Description,
+                createdBy: userID,
+                propertyID: propertyID
+            }
+        });
+
+        return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
+
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
+}

@@ -18,6 +18,7 @@ export async function GET(request) {
 
     const propertyID = token.propertyID;
     const connectionString = token.connectionString;
+    const userID = token.userID;
 
-    return new NextResponse(JSON.stringify({ status: 200, connectionString }), { status: 200 });
+    return new NextResponse(JSON.stringify({ status: 200, connectionString, propertyID, userID }), { status: 200 });
 }

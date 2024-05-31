@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { getPrismaClient } from "@/app/lib/prisma";
-
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
 
 export async function GET(request) {
 
-    const tipologysRecords = await prisma.roomtypes.findMany()
+    const tokenCookie = cookies().get("jwt");
+
+    const prisma = generatePrismaClient()
+
+    const propertyID = getPropertyIDFromToken(tokenCookie.value)
+
+    const tipologysRecords = await prisma.roomtypes.findMany({
+        where: {
+            propertyID: propertyID
+        }
+    })
 
     const response = tipologysRecords
 
@@ -16,6 +26,15 @@ export async function GET(request) {
 
 export async function PUT(request) {
 
+    const tokenCookie = cookies().get("jwt");
+
+    const prisma = generatePrismaClient()
+
+    const userID = getUserIDFromToken(tokenCookie.value)
+
+    const propertyID = getPropertyIDFromToken(tokenCookie.value)
+
+
     try {
         const { data } = await request.json();
         const newRecord = await prisma.roomtypes.create({
@@ -23,7 +42,9 @@ export async function PUT(request) {
                 name: data.name,
                 desc: data.desc,
                 roomFeaturesDesc: data.roomFeaturesDesc,
-                groupID: 1
+                groupID: 11,
+                createdBy: userID,
+                propertyID: propertyID
             }
         });
 

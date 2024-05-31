@@ -28,7 +28,7 @@ export default function Navbar({ toggle, children, breadcrumbs }) {
     }
 
     return (
-        <nav className="bg-white w-full shadow-md sticky top-0 z-[81] h-16">
+        <nav className="bg-white w-full shadow-md sticky top-0 z-30 h-16">
             <div className="  w-full flex items-center justify-between py-4 px-6">
 
                 <div className="flex  items-center">

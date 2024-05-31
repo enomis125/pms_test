@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { getPrismaClient } from "@/app/lib/prisma";
 import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from "next/server";
+
 
 const getPropertyIDFromToken = (token) => {
 
@@ -16,6 +18,23 @@ const getPropertyIDFromToken = (token) => {
     const propertyID = decodedToken.propertyID;
 
     return propertyID
+}
+
+const getUserIDFromToken = (token) => {
+
+    if (!token) {
+        throw new Error("Token is required to initialize PrismaClient");
+    }
+
+    const decodedToken = jwt.decode(token);
+
+    if (!decodedToken || !decodedToken.userID) {
+        throw new Error("Invalid token");
+    }
+
+    const userID = decodedToken.userID;
+
+    return userID
 }
 
 const generatePrismaClient = (connectionString) => {
@@ -39,4 +58,4 @@ const generatePrismaClient = (connectionString) => {
 
 }
 
-export { getPropertyIDFromToken, generatePrismaClient };
+export { getPropertyIDFromToken, generatePrismaClient, getUserIDFromToken };

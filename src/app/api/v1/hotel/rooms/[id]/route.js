@@ -1,79 +1,80 @@
-// import { NextRequest, NextResponse } from "next/server";
-// import axios from "axios";
+import { NextRequest, NextResponse } from "next/server";
+import axios from "axios";
+import { generatePrismaClient, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
 
-// export async function GET(request, context) {
+export async function GET(request, context) {
 
-//     // console.log("1")
+    const prisma = generatePrismaClient()
 
-//     // const pathname = new URL(request.url).pathname;
+    const { id } = context.params;
 
-//     // const parts = pathname.split('/');
+    const response = await prisma.rooms.findUnique({
+        where: {
+            roomID: parseInt(id)
+        }
+    })
 
-//     // const id = parts[parts.length - 1];
+    if (!response) {
+        return new NextResponse(JSON.stringify({ status: 404 }));
+    }
 
-//     const { id } = context.params;
+    prisma.$disconnect()
 
-//     //console.log(id)
+    return new NextResponse(JSON.stringify({ response, status: 200 }));
+}
 
-//     const response = await prisma.rooms.findUnique({
-//         where: {
-//             roomID: parseInt(id)
-//         }
-//     })
+export async function PATCH(request, context) {
 
-//     if (!response) {
-//         return new NextResponse(JSON.stringify({ status: 404 }));
-//     }
+    const tokenCookie = cookies().get("jwt");
 
-//     prisma.$disconnect()
+    const prisma = generatePrismaClient()
 
-//     return new NextResponse(JSON.stringify({ response, status: 200 }));
-// }
+    const userID = getUserIDFromToken(tokenCookie.value)
 
-// export async function PATCH(request, context) {
+    try {
+        const { id } = context.params;
+        const { data } = await request.json();
 
-//     try {
-//         const { id } = context.params;
-//         const { data } = await request.json();
+        const updateRecord = await prisma.rooms.update({
+            where: {
+                roomID: parseInt(id),
+            },
+            data: {
+                label: data.label,
+                roomType: parseInt(data.roomType),
+                description: data.description,
+                updatedBy: userID
+            }
+        })
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
-//         const updateRecord = await prisma.rooms.update({
-//             where: {
-//                 roomID: parseInt(id),
-//             },
-//             data: {
-//                 label: data.label,
-//                 roomType: parseInt(data.roomType),
-//                 description: data.description
-//             }
-//         })
-//         return new NextResponse(JSON.stringify({ status: 200 }));
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
 
-//     } catch (error) {
-//         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
-//     } finally {
-//         await prisma.$disconnect();
-//     }
+}
 
-// }
+export async function DELETE(request, context) {
 
-// export async function DELETE(request, context) {
+    const prisma = generatePrismaClient()
 
-//     try {
-//         const { id } = context.params;
+    try {
+        const { id } = context.params;
 
-//         //console.log(id)
+        const deleteRecord = await prisma.rooms.delete({
+            where: {
+                roomID: parseInt(id),
+            }
+        })
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
-//         const deleteRecord = await prisma.rooms.delete({
-//             where: {
-//                 roomID: parseInt(id),
-//             }
-//         })
-//         return new NextResponse(JSON.stringify({ status: 200 }));
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
 
-//     } catch (error) {
-//         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
-//     } finally {
-//         await prisma.$disconnect();
-//     }
-
-// }
+}
