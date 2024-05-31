@@ -165,7 +165,7 @@ export default function clientForm() {
               modalEdit={"Particular"}
               modalIcons={"bg-red"}
               formTypeModal={0}
-            ></IndividualForm>
+            />
           )}
           {selectedComponent === 'CompanyForm' && (
             <CompanyForm

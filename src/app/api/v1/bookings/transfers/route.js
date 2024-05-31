@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import prisma from "@/app/lib/prisma";
+import { generatePrismaClient } from '@/app/lib/utils'
 
 export async function GET(request) {
 
-    const response = await prisma.transfers.findMany()
+    const prisma = generatePrismaClient()
 
+    const response = await prisma.transfers.findMany()
 
     prisma.$disconnect()
 
@@ -14,9 +15,11 @@ export async function GET(request) {
 
 export async function PUT(request) {
 
+    const prisma = generatePrismaClient()
+
     try {
         const { data } = await request.json();
-        //console.log(data.Label)
+
         const newRecord = await prisma.transfers.create({
             data: {
                 class: parseInt(data.class),
@@ -25,7 +28,7 @@ export async function PUT(request) {
             }
         });
 
-        return new NextResponse(JSON.stringify({newRecord, status: 200 }));
+        return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });

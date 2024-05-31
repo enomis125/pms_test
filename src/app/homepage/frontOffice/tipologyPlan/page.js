@@ -11,10 +11,12 @@ import isBetween from 'dayjs/plugin/isBetween';
 
 //imports de componentes
 import ReservationsForm from '@/components/modal/frontOffice/reservations/multiReservations/page';
+import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
+import ClientForm from "@/components/modal/frontOffice/reservations/clientForm/page";
+
 import { FiPlus, FiX } from 'react-icons/fi';
-import { FaCalendarAlt } from 'react-icons/fa';
-import { FaBed } from "react-icons/fa";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaRegTrashAlt, FaRegUserCircle, FaBed } from 'react-icons/fa';
+import { FaPlus } from "react-icons/fa6";
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -269,81 +271,201 @@ export default function CalendarPage() {
     updatedSelectedDates.splice(index, 1);
     setSelectedDates(updatedSelectedDates);
   };
-  
+
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [guestName, setGuestName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [query, setQuery] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isGuestNameValid, setIsGuestNameValid] = useState(false);
+  const [selectedGuestId, setSelectedGuestId] = useState('');
+
   const updateDateRange = (index, field, value) => {
     const updatedDates = [...selectedDates];
     updatedDates[index][field] = value;
     setSelectedDates(updatedDates);
   };
 
-  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const handleInputChange = (event) => {
+    setGuestName(event.target.value);
+    setSearchTerm(event.target.value);
+    setIsGuestNameValid(query.some(item => `${item.firstName} ${item.secondName}` === event.target.value));
+  };
 
+  const isGuestNameEntered = guestName.trim() !== '';
+
+  useEffect(() => {
+    const getData = async () => {
+      if (!dataFetched) {
+        setIsLoading(true);
+        try {
+          const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
+          const namesArray = res.data.response
+            .map(item => ({
+              id: item.guestProfileID, 
+              secondName: item.secondName,
+              firstName: item.firstName
+            }))
+            .filter(item => item.secondName !== '' && item.firstName !== '');
+          setQuery(namesArray);
+          setDataFetched(true);
+        } catch (error) {
+          console.error("Erro ao encontrar as fichas de cliente:", error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    }
+    getData();
+  }, [dataFetched]);
+
+  const handleNameSelect = (selectedName, id) => {
+    setGuestName(selectedName);
+    setSelectedGuestId(id);
+    setSearchTerm('');
+    setIsGuestNameValid(filteredResults.some(item => `${item.firstName} ${item.secondName}` === selectedName));
+  };
+
+  useEffect(() => {
+    console.log("Selected Guest ID:", selectedGuestId);
+  }, [selectedGuestId]);
+
+  const filteredResults = query.filter(item => {
+    const fullName = `${item.firstName} ${item.secondName}`.toLowerCase();
+    return fullName.includes(searchTerm.toLowerCase());
+  });
+
+  const calculateNights = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = endDate - startDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : 0;
+  };
+
+  /*const formatDateToDisplay = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+    return `${day}-${month}-${year}`;
+  };
+
+  const formatDateToInput = (dateString) => {
+    const [day, month, year] = dateString.split('-');
+    return `20${year}-${month}-${day}`;
+  };
+
+  const handleDateChange = (index, field, value) => {
+    const formattedDate = formatDateToInput(value);
+    updateDateRange(index, field, formattedDate);
+  };*/
 
   return (
     <div className='w-full'>
-      {/*EXIBE O FORM AO SELECIONAR CELULAS */}
       {showModal && (
-  <>
-    <div className='absolute top-0 right-0 bg-lightBlue h-full w-[20%] z-10'>
-      {/*<FaCalendarAlt color='white' size={25}/>*/}
-      <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
-        {selectedDates.map((dateRange, index) => (
-          <div className={`bg-white text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
-            <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
-              <div className='flex flex-row items-center gap-4'>
-                <FaBed className='' size={25} color='gray' />
-                <p className='text-ml'>{dateRange.tipologyName}</p>
+        <>
+          <div className='fixed top-0 right-0 bg-lightBlue h-screen w-[22%] z-10'>
+            <div className='mt-20 px-4 text-black bg-white rounded-lg mx-2'>
+              <div className='flex flex-row items-center justify-between flex-wrap'>
+                <FaRegUserCircle size={20} className={guestName.trim() === '' ? 'text-red-500' : 'text-black'} />
+                <InputFieldControlled
+                  type={"text"}
+                  id={"guestName"}
+                  name={"guestName"}
+                  label={"Nome do Hóspede *"}
+                  ariaLabel={"Guest Name"}
+                  style={"h-10 bg-transparent outline-none flex-grow"}
+                  value={guestName}
+                  onChange={handleInputChange}
+                />
+                <div className="flex-shrink-0">
+                  <ClientForm
+                    buttonIcon={<FaPlus size={15} color='blue' />}
+                    buttonColor={"transparent"}
+                    modalHeader={"Inserir Ficha de Cliente"}
+                    formTypeModal={0}
+                  />
+                </div>
               </div>
-              <div>
-                <FaRegTrashAlt className="cursor-pointer" size={15} color={'gray'} onClick={() => removeEvent(index)} />
+              {/**AUTOCOMPLETE FEITO POR MUAH - pesquisa através de API */}
+              {searchTerm && (
+                <ul>
+                  {filteredResults.map((item, index) => (
+                    <li key={item.id} onClick={() => handleNameSelect(item.firstName + ' ' + item.secondName, item.id)}>
+                      {item.firstName} {item.secondName}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
+              {selectedDates.map((dateRange, index) => (
+                <div className={`bg-white text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
+                  <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
+                    <div className='flex flex-row items-center gap-4'>
+                      <FaBed className='' size={25} color='gray' />
+                      <p className='text-ml'>{dateRange.tipologyName}</p>
+                    </div>
+                    <div>
+                      <FaRegTrashAlt className="cursor-pointer" size={15} color={'gray'} onClick={() => removeEvent(index)} />
+                    </div>
+                  </div>
+                  <div className='flex flex-row justify-around py-1'>
+                    <div className="flex flex-col gap-2">
+                      <label>In:</label>
+                      <input
+                        className='outline-none'
+                        type="date"
+                      value={dateRange.start}
+                      onChange={(e) => updateDateRange(index, 'start', e.target.value)}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label>Out:</label>
+                      <input
+                        className='outline-none w-20'
+                        type="date"
+                      value={dateRange.end}
+                      onChange={(e) => updateDateRange(index, 'end', e.target.value)}
+                      />
+                  </div>
+                </div>
+                <div className='flex flex-row justify-between items-center py-1'>
+                  <p className='text-sm px-3'>Noites: {calculateNights(dateRange.start, dateRange.end)}</p>
+                </div>
               </div>
+            ))}
             </div>
-            <div className="flex flex-col gap-2 py-1">
-              <label>Check-In:</label>
-              <input
-                className='outline-none'
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => updateDateRange(index, 'start', e.target.value)}
+            <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
+              <ReservationsForm
+                formTypeModal={0}
+                buttonName={"RESERVAR"}
+                //buttonIcon={<FiPlus size={15} />}
+                editIcon={<FaCalendarAlt size={25} color="white" />}
+                buttonColor={"primary"}
+                modalHeader={"Inserir uma Reserva"}
+                startDate={`${startDate}`}
+                endDate={`${endDate}`}
+                tipology={`${tipology}`}
+                selectedDates={selectedDates}
+                selectedRoomType={selectedRoomType}
+                disabled={!isGuestNameValid}
+                guestName={guestName}
+                guestId={selectedGuestId}
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label>Check-Out:</label>
-              <input
-                className='outline-none'
-                type="date"
-                value={dateRange.end}
-                onChange={(e) => updateDateRange(index, 'end', e.target.value)}
-              />
+              <button
+                className="text-sm"
+                onClick={handleToggleModal}>CANCELAR</button>
             </div>
           </div>
-        ))}
-      </div>
-      <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
-        <ReservationsForm
-          formTypeModal={0}
-          buttonName={"RESERVAR"}
-          //buttonIcon={<FiPlus size={15} />}
-          editIcon={<FaCalendarAlt size={25} color="white" />}
-          buttonColor={"primary"}
-          modalHeader={"Inserir uma Reserva"}
-          startDate={`${startDate}`}
-          endDate={`${endDate}`}
-          selectedDates={selectedDates}
-          selectedRoomType={selectedRoomType}
-        />
-        <button
-          className="text-sm"
-          onClick={handleToggleModal}>CANCELAR</button>
-      </div>
-    </div>
-  </>
-)}
-
+        </>
+      )}
 
       <div className='bg-primary-600 py-5'>
         <div className='flex justify-between'>
-          <p className='text-ml text-white px-4'><b>Agenda de Tipologias</b></p>
+          <p className='text-ml text-white px-4'><b>Plano de Tipologias</b></p>
           {/*<h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>*/}
           <div className='flex items-center gap-5'>
             <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
@@ -371,32 +493,32 @@ export default function CalendarPage() {
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map((roomType, rowIndex) => (
-  <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex, roomType.name)}>
-    <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-      <span>{roomType.name}</span>
-      <span>{roomCounts[roomType.roomTypeID] || 0}</span>
-    </td>
-    {weeks[currentWeekIndex].map((day, index) => {
-      const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-      const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
+            <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex, roomType.name)}>
+              <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+                <span>{roomType.name}</span>
+                <span>{roomCounts[roomType.roomTypeID] || 0}</span>
+              </td>
+              {weeks[currentWeekIndex].map((day, index) => {
+                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+                const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
 
-      return (
-        <td
-          key={index}
-          className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-          ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-          ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
-          ${selectedRow === rowIndex ? "bg-red-500" : ""}
-          select-none`}
-          onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
-          onMouseOver={() => handleMouseOver(day.date)}
-          onMouseUp={() => handleMouseUp(day.date)}>
-          {availableRooms}
-        </td>
-      );
-    })}
-  </tr>
-))}
+                return (
+                  <td
+                    key={index}
+                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
+                    ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
+                    ${selectedRow === rowIndex ? "bg-red-500" : ""}
+                    select-none`}
+                    onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
+                    onMouseOver={() => handleMouseOver(day.date)}
+                    onMouseUp={() => handleMouseUp(day.date)}>
+                    {availableRooms}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
           <tr>
             {/*LINHA SEPARADORA DA GRELHA */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
@@ -608,7 +730,8 @@ export default function CalendarPage() {
                 const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
                 return acc + occupiedRooms;
               }, 0);
-              const dailyOccupancyPercentage = totalAvailableRooms > 0 ? Math.round((totalOccupiedRooms / totalAvailableRooms) * 100) : 0;
+              const totalRooms = roomTypeState.reduce((acc, roomType) => acc + (roomCounts[roomType.roomTypeID] || 0), 0);
+              const dailyOccupancyPercentage = totalRooms > 0 ? Math.round((totalOccupiedRooms / totalRooms) * 100) : 0;
 
               return (
                 /*

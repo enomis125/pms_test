@@ -1,27 +1,19 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Tabs, Tab, Card, CardBody, input } from "@nextui-org/react";
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Tabs, Tab} from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
-import { FiEdit3 } from "react-icons/fi";
-import { BsArrowRight } from "react-icons/bs";
-import { FiSearch } from "react-icons/fi";
-import { IoIosArrowDown } from "react-icons/io";
 
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
-import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
-//import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservations/page";
-
-import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/searchClients/page";
+import reservationInsert from "@/components/functionsForm/CRUD/frontOffice/reservation/tipologyPlan/page";
 
 const reservationsForm = ({
     idReservation,
@@ -42,8 +34,11 @@ const reservationsForm = ({
     showModal,
     startDate,
     endDate,
+    tipology,
     selectedDates, // Recebendo selectedDates como prop
-    
+    disabled,
+    guestName,
+    guestId
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -52,19 +47,15 @@ const reservationsForm = ({
 
     //variaveis de estilo para inputs
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
-    const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert(startDate, endDate);
-    const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
-
-    console.log(selectedDates);
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name } = reservationInsert(guestName, guestId, startDate, endDate, tipology, selectedDates);
 
     return (
         <>
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
+                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`} isDisabled={disabled}>
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -92,26 +83,7 @@ const reservationsForm = ({
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                             <div className="bg-white flex flex-col py-5 px-5 border boder-neutral-200 rounded-lg">
-                                                <div className="mb-10">
-                                                    <Input
-                                                        className="mt-2 w-[40%]"
-                                                        placeholder="Procurar..."
-                                                        labelPlacement="outside"
-                                                        aria-label="Pesquisar clientes"
-                                                        startContent={
-                                                            <FiSearch color={"black"} size={20} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                                                        }
-                                                        endContent={
-                                                            <SearchModal
-                                                                buttonIcon={<IoIosArrowDown size={20} color="black" />}
-                                                                buttonColor={"transparent"}
-                                                                handleClientSelect={handleClientSelect}
-                                                                handleSubmitReservation={handleSubmitReservation}
-                                                                reservation={reservation}
-                                                            />
-                                                        }
-                                                    />
-                                                </div>
+                     
                                                 <div className=" flex flex-row justify-between items-center">
                                                     {/*<ClientFormAutocomplete
                                                         label={"Documento"}
@@ -121,22 +93,22 @@ const reservationsForm = ({
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"name"}
-                                                        name={"Name"}
+                                                        name={"firstName"}
                                                         label={"Nome"}
                                                         ariaLabel={"Nome"}
                                                         style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                        value={reservation.Name}
+                                                        value={name.firstName}
                                                         onChange={handleInputReservation}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"surname"}
-                                                        name={"LastName"}
+                                                        name={"lastName"}
                                                         label={"Apelido"}
                                                         ariaLabel={"Apelido"}
                                                         style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
-                                                        value={reservation.LastName}
+                                                        value={name.lastName}
                                                         onChange={handleInputReservation}
                                                     />
 

@@ -7,7 +7,7 @@ export async function GET(request) {
     const startOfToday = new Date(today.setHours(0, 0, 0, 0));
 
     const endOfPeriod = new Date(startOfToday);
-    endOfPeriod.setDate(startOfToday.getDate() + 10);
+    endOfPeriod.setDate(startOfToday.getDate() + 1);
 
 
     const response = await prisma.reservations.findMany({

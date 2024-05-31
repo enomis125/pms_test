@@ -1,54 +1,75 @@
-import React, { useState } from "react";
-import { Modal, ModalContent, ModalHeader, ModalAction } from "@nextui-org/modal";
+import React, { useState } from 'react'
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { IoIosArrowUp } from "react-icons/io";
 
-import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import ClientFormAutocomplete from "@/components/functionsForm/autocomplete/clientForm/page";
+import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
 
-export default function DateFilterModal({ open, onClose, onSubmit }) {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
 
-    const handleStartDateChange = (e) => {
-        setStartDate(e.target.value);
-    };
+export default function searchModal({
+    buttonName,
+    buttonIcon,
+    buttonColor,
+    handleClientSelect,
+    handleSubmitReservation,
+    reservation,
+}) {
 
-    const handleEndDateChange = (e) => {
-        setEndDate(e.target.value);
-    };
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const handleSubmit = () => {
-        onSubmit(startDate, endDate);
-        onClose();
+    const handleApplyFilters = () => {
+        //handleSubmitReservation(); // 
+        onOpenChange(false); // fecha o modal
     };
 
     return (
-        <Modal open={open} onClose={onClose}>
-            <ModalHeader>Selecione as Datas</ModalHeader>
-            <ModalContent>
-                <InputFieldControlled
-                    type={"date"}
-                    id={"de"}
-                    name={"De"}
-                    label={"De:"}
-                    ariaLabel={"De:"}
-                    value={startDate}
-                    onChange={handleStartDateChange}
-                    style={{ marginBottom: "10px" }}
-                />
-                <InputFieldControlled
-                    type={"date"}
-                    id={"ate"}
-                    name={"Até"}
-                    label={"Até:"}
-                    ariaLabel={"Até:"}
-                    value={endDate}
-                    onChange={handleEndDateChange}
-                    style={{ marginBottom: "10px" }}
-                />
-            </ModalContent>
-            <ModalAction passive onClick={onClose}>
-                Cancelar
-            </ModalAction>
-            <ModalAction onClick={handleSubmit}>Filtrar</ModalAction>
-        </Modal>
-    );
+        <>
+            <Button onPress={onOpen} color={buttonColor} className='flex justify-end'>
+                {buttonName} {buttonIcon}
+            </Button>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop='transparent' size='sm' placement='center' hideCloseButton='true'>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <div className='bg-white'>
+                                <div className='bg-lightBlue mx-2 my-1 rounded-xl'>
+                                    <ModalHeader className="flex flex-col gap-1 text-sm"><b>PESQUISAR POR</b></ModalHeader>
+                                    <ModalBody>
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"search"}
+                                            name={"Search"}
+                                            label={""}
+                                            ariaLabel={"search"}
+                                            style={"w-full border-b-4 border-white-300 px-1 h-10 outline-none bg-transparent"}
+                                        />
+                                        <ClientFormAutocomplete
+                                            label={"Tipo de Documento"}
+                                            style={""}
+                                            variant={"flat"}
+                                            onChange={(value) => handleClientSelect(value)}
+                                        />
+                                        <ClientFormAutocomplete
+                                            label={"Tipo de Documento"}
+                                            style={""}
+                                            variant={"flat"}
+                                            onChange={(value) => handleClientSelect(value)}
+                                        />
+                                    </ModalBody>
+                                    <ModalFooter className='flex justify-center gap-5'>
+                                        <Button color="primary" onPress={onClose}>
+                                            Limpar Filtros
+                                        </Button>
+                                        <Button className='bg-green text-white' onPress={handleApplyFilters}>
+                                            Aplicar Filtros
+                                        </Button>
+                                    </ModalFooter>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
+    )
 }
