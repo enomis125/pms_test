@@ -22,8 +22,10 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 import PriceManagementGroupAutocomplete from "@/components/functionsForm/autocomplete/priceManagent/page";
-import RateCodesGroupCodeAutocomplete from "@/components/functionsForm/autocomplete/rateCodes/groupCode/page";
 import RateCodesGroupNameAutocomplete from "@/components/functionsForm/autocomplete/rateCodes/name/page";
+import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
+import RoomsAutocomplete from "@/components/functionsForm/autocomplete/rooms/page";
+import SeasonsAutocomplete from "@/components/functionsForm/autocomplete/seasons/page";
 import priceDescriptionInsert from "@/components/functionsForm/CRUD/priceManagent/priceDescription/page";
 import { priceDescriptionEdit } from "@/components/functionsForm/CRUD/priceManagent/priceDescription/page";
 
@@ -44,10 +46,23 @@ const priceDescriptionForm = ({
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const { handleInputPriceDescription, handleSubmitPriceDescription, handleRateGroupSelect, handleRateNameSelect  } =
-    priceDescriptionInsert();
   const {
-    handleUpdatePriceDescription, setValuesPriceDescription, valuesPriceDescription
+    handleInputPriceDescription,
+    handleSubmitPriceDescription,
+    handleRoomsSelect,
+    handleRateNameSelect,
+    handleSeasonsSelect,
+    handleTQ1Select,
+    handleTQ2Select,
+    handleTQ3Select,
+    handleTQ4Select,
+    handleTQ5Select,
+    handleCheckboxChange
+  } = priceDescriptionInsert();
+  const {
+    handleUpdatePriceDescription,
+    setValuesPriceDescription,
+    valuesPriceDescription,
   } = priceDescriptionEdit(idPriceDescription);
   const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
@@ -105,231 +120,435 @@ const priceDescriptionForm = ({
                         </Button>
                       </div>
                     </ModalHeader>
-                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
-                      <Tabs aria-label="Options" items={2}>
-                        <Tab key="Detalhes" title="Detalhes">
-                          <div className="space-y-4">
-                            <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Referencia"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
+                    <ModalBody
+                      className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto"
+                      style={{ maxHeight: "80vh" }}
+                    >
+                      <div className="space-y-4">
+                        <div className="flex flex-row gap-8">
+                          <InputFieldControlled
+                            type={"text"}
+                            id={"mudar"}
+                            name={"mudar"}
+                            label={"Referencia"}
+                            style={"w-30 outline-none h-10 bg-slate-100"}
+                            onChange={handleInputPriceDescription}
+                          />
 
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"nome"}
-                                name={"Nome"}
-                                label={"Nome"}
-                                style={"w-30 outline-none h-10"}
-                                onChange={handleInputPriceDescription}
-                              />
+                          <InputFieldControlled
+                            type={"text"}
+                            id={"nome"}
+                            name={"Nome"}
+                            label={"Nome"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
 
-                              <RateCodesGroupNameAutocomplete
-                                label={"Grupo"}
-                                style={""}
-                                onChange={handleRateNameSelect}
-                              />
-                            </div>
+                          <RateCodesGroupNameAutocomplete
+                            label={"Grupo"}
+                            style={""}
+                            onChange={handleRateNameSelect}
+                          />
+                        </div>
 
-                            <div className="flex flex-row gap-8">
-                              <div className="w-30 outline-none h-10">
-                                <Checkbox value="">Fora da Validade</Checkbox>
-                              </div>
-                              <InputFieldControlled
-                                type={"date"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Inicio"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-
-                              <InputFieldControlled
-                                type={"date"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Fim"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                            </div>
-
-                            <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"number"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Min. noites"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-
-                              <InputFieldControlled
-                                type={"number"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Max. noites"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-
-                              <InputFieldControlled
-                                type={"number"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Min. ocupação"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-
-                              <InputFieldControlled
-                                type={"number"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Max. ocupação"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                            </div>
-
-                            <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Dispon. em Hotel Grupo"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Dispon. apenas em Hotel Especifico"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                            </div>
-
-                            <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Valida TQ (1)"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Valida TQ (2)"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                            
-
-                            <InputFieldControlled
-                              type={"text"}
-                              id={"mudar"}
-                              name={"mudar"}
-                              label={"Valida TQ (3)"}
-                              style={"w-30 outline-none h-10 bg-slate-100"}
-                              onChange={handleInputPriceDescription}
-                            />
-
-                            <InputFieldControlled
-                              type={"text"}
-                              id={"mudar"}
-                              name={"mudar"}
-                              label={"Valida TQ (4)"}
-                              style={"w-30 outline-none h-10 bg-slate-100"}
-                              onChange={handleInputPriceDescription}
-                            />
-
-                            <InputFieldControlled
-                              type={"text"}
-                              id={"mudar"}
-                              name={"mudar"}
-                              label={"Valida TQ (5)"}
-                              style={"w-30 outline-none h-10 bg-slate-100"}
-                              onChange={handleInputPriceDescription}
-                            />
+                        <div className="flex flex-row gap-8">
+                          <div className="w-30 outline-none h-10">
+                            <Checkbox value="">Fora da Validade</Checkbox>
                           </div>
+                          <InputFieldControlled
+                            type={"date"}
+                            id={"inicio"}
+                            name={"Inicio"}
+                            label={"Inicio"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
 
-                          <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Quarto"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                            </div>
+                          <InputFieldControlled
+                            type={"date"}
+                            id={"fim"}
+                            name={"Fim"}
+                            label={"Fim"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
+                        </div>
 
-                            <div className="flex flex-row gap-8">
-                              <p>Não Disponivel na Chegada</p>
-                              <Checkbox value="">SEG</Checkbox>
-                              <Checkbox value="">TER</Checkbox>
-                              <Checkbox value="">QUA</Checkbox>
-                              <Checkbox value="">QUI</Checkbox>
-                              <Checkbox value="">SEX</Checkbox>
-                              <Checkbox value="">SAB</Checkbox>
-                              <Checkbox value="">DOM</Checkbox>
-                            </div>
+                        <div className="flex flex-row gap-8">
+                          <InputFieldControlled
+                            type={"number"}
+                            id={"minNoites"}
+                            name={"MinNoites"}
+                            label={"Min. noites"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
 
-                            <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"CL"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                            </div>
-                            
-                            <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Texto (Int.)"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                            </div>
+                          <InputFieldControlled
+                            type={"number"}
+                            id={"maxNoites"}
+                            name={"MaxNoites"}
+                            label={"Max. noites"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
 
-                            <div className="flex flex-row gap-8">
-                              <InputFieldControlled
-                                type={"text"}
-                                id={"mudar"}
-                                name={"mudar"}
-                                label={"Numero Package"}
-                                style={"w-30 outline-none h-10 bg-slate-100"}
-                                onChange={handleInputPriceDescription}
-                              />
-                              <Checkbox value="">Package por Fatura</Checkbox>
-                            </div>
-                          </div>
-                        </Tab>
-                        <Tab key="tabelas" title="Tabelas">
-                          <p>teste</p>
-                          <p>teste</p>
-                          <p>teste</p>
-                          <p>teste</p>
-                          <p>teste</p>
-                          <p>teste</p>
-                        </Tab>
-                      </Tabs>
+                          <InputFieldControlled
+                            type={"number"}
+                            id={"minOcupacao"}
+                            name={"MinOcupacao"}
+                            label={"Min. ocupação"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
+
+                          <InputFieldControlled
+                            type={"number"}
+                            id={"maxOcupacao"}
+                            name={"MaxOcupacao"}
+                            label={"Max. ocupação"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
+                        </div>
+
+                        <div className="flex flex-row gap-8">
+                          <InputFieldControlled
+                            type={"text"}
+                            id={"mudar"}
+                            name={"mudar"}
+                            label={"Dispon. em Hotel Grupo"}
+                            style={"w-30 outline-none h-10 bg-slate-100"}
+                            onChange={handleInputPriceDescription}
+                          />
+
+                          <InputFieldControlled
+                            type={"text"}
+                            id={"mudar"}
+                            name={"mudar"}
+                            label={"Dispon. apenas em Hotel Especifico"}
+                            style={"w-30 outline-none h-10 bg-slate-100"}
+                            onChange={handleInputPriceDescription}
+                          />
+                        </div>
+
+                        <div className="flex flex-row gap-8">
+                          <TipologyAutocomplete
+                            label={"Valida TQ (1)"}
+                            style={""}
+                            onChange={handleTQ1Select}
+                          />
+
+                          <TipologyAutocomplete
+                            label={"Valida TQ (2)"}
+                            style={""}
+                            onChange={handleTQ2Select}
+                          />
+
+                          <TipologyAutocomplete
+                            label={"Valida TQ (3)"}
+                            style={""}
+                            onChange={handleTQ3Select}
+                          />
+
+                          <TipologyAutocomplete
+                            label={"Valida TQ (4)"}
+                            style={""}
+                            onChange={handleTQ4Select}
+                          />
+
+                          <TipologyAutocomplete
+                            label={"Valida TQ (5)"}
+                            style={""}
+                            onChange={handleTQ5Select}
+                          />
+                        </div>
+
+                        <div className="flex flex-row gap-8">
+                          <RoomsAutocomplete
+                            label={"Quarto"}
+                            style={""}
+                            onChange={handleRoomsSelect}
+                          />
+                        </div>
+
+                        <div className="flex flex-row gap-8">
+                          <p>Não Disponivel na Chegada</p>
+                          <Checkbox name={"An1"}
+                          onChange={event => handleCheckboxChange(event)}>SEG</Checkbox>
+                          <Checkbox name={"An2"}
+                          onChange={event => handleCheckboxChange(event)}>TER</Checkbox>
+                          <Checkbox name={"An3"}
+                          onChange={event => handleCheckboxChange(event)}>QUA</Checkbox>
+                          <Checkbox name={"An4"}
+                          onChange={event => handleCheckboxChange(event)}>QUI</Checkbox>
+                          <Checkbox name={"An5"}
+                          onChange={event => handleCheckboxChange(event)}>SEX</Checkbox>
+                          <Checkbox name={"An6"}
+                          onChange={event => handleCheckboxChange(event)}>SAB</Checkbox>
+                          <Checkbox name={"An7"}
+                          onChange={event => handleCheckboxChange(event)}>DOM</Checkbox>
+                        </div>
+
+                        <div className="flex flex-row gap-8">
+                          <InputFieldControlled
+                            type={"text"}
+                            id={"cl"}
+                            name={"CL"}
+                            label={"CL"}
+                            style={"w-30 outline-none h-10 bg-slate-100"}
+                            onChange={handleInputPriceDescription}
+                          />
+                        </div>
+
+                        <div className="flex flex-row gap-8">
+                          <InputFieldControlled
+                            type={"text"}
+                            id={"textoInt"}
+                            name={"TextoInt"}
+                            label={"Texto (Int.)"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
+                        </div>
+
+                        <div className="flex flex-row gap-8">
+                          <InputFieldControlled
+                            type={"text"}
+                            id={"numeroPackage"}
+                            name={"NumeroPackage"}
+                            label={"Numero Package"}
+                            style={"w-30 outline-none h-10"}
+                            onChange={handleInputPriceDescription}
+                          />
+                          <Checkbox value="">Package por Fatura</Checkbox>
+                        </div>
+                      </div>
+                      <br />
+                      <br />
+                      <br />
+                      <div className="flex flex-row gap-8">
+                        <SeasonsAutocomplete
+                          label={"Épocas"}
+                          style={""}
+                          onChange={handleSeasonsSelect}
+                        />
+                        <p>Fim de Semana</p>
+                        <Checkbox name={"We1"}
+                          onChange={event => handleCheckboxChange(event)}>SEG</Checkbox>
+                        <Checkbox name={"We2"}
+                          onChange={event => handleCheckboxChange(event)}>TER</Checkbox>
+                        <Checkbox name={"We3"}
+                          onChange={event => handleCheckboxChange(event)}>QUA</Checkbox>
+                        <Checkbox name={"We4"}
+                          onChange={event => handleCheckboxChange(event)}>QUI</Checkbox>
+                        <Checkbox name={"We5"}
+                          onChange={event => handleCheckboxChange(event)}>SEX</Checkbox>
+                        <Checkbox name={"We6"}
+                          onChange={event => handleCheckboxChange(event)}>SAB</Checkbox>
+                        <Checkbox name={"We7"}
+                          onChange={event => handleCheckboxChange(event)}>DOM</Checkbox>
+                      </div>
+                      <div className="flex flex-row gap-8">
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"preco1"}
+                          name={"Preco1"}
+                          label={"Preço 1"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"preco2"}
+                          name={"Preco2"}
+                          label={"Preço 2"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"preco3"}
+                          name={"Preco3"}
+                          label={"Preço 3"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"preco4"}
+                          name={"Preco4"}
+                          label={"Preço 4"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"preco5"}
+                          name={"Preco5"}
+                          label={"Preço 5"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"preco6"}
+                          name={"Preco6"}
+                          label={"Preço 6"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                      </div>
+                      <div className="flex flex-row gap-8">
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"minPreco1"}
+                          name={"MinPreco1"}
+                          label={"Min. Preço 1"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"minPreco2"}
+                          name={"MinPreco2"}
+                          label={"Min. Preço 2"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"minPreco3"}
+                          name={"MinPreco3"}
+                          label={"Min. Preço 3"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"minPreco4"}
+                          name={"MinPreco4"}
+                          label={"Min. Preço 4"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"minPreco5"}
+                          name={"MinPreco5"}
+                          label={"Min. Preço 5"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"minPreco6"}
+                          name={"MinPreco6"}
+                          label={"Min. Preço 6"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                      </div>
+                      <div className="flex flex-row gap-8">
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"wePreco1"}
+                          name={"WePreco1"}
+                          label={"We. Preço 1"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"wePreco2"}
+                          name={"WePreco2"}
+                          label={"We. Preço 2"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"wePreco3"}
+                          name={"WePreco3"}
+                          label={"We. Preço 3"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"wePreco4"}
+                          name={"WePreco4"}
+                          label={"We. Preço 4"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"wePreco5"}
+                          name={"WePreco5"}
+                          label={"We. Preço 5"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"wePreco6"}
+                          name={"WePreco6"}
+                          label={"We. Preço 6"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                      </div>
+                      <div className="flex flex-row gap-8">
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"weMinPreco1"}
+                          name={"WeMinPreco1"}
+                          label={"We. Min. Preço 1"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"weMinPreco2"}
+                          name={"WeMinPreco2"}
+                          label={"We. Min. Preço 2"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"weMinPreco3"}
+                          name={"WeMinPreco3"}
+                          label={"We. Min. Preço 3"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"weMinPreco4"}
+                          name={"WeMinPreco4"}
+                          label={"We. Min. Preço 4"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"weMinPreco5"}
+                          name={"WeMinPreco5"}
+                          label={"We. Min. Preço 5"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                        <InputFieldControlled
+                          type={"text"}
+                          id={"weMinPreco6"}
+                          name={"WeMinPreco6"}
+                          label={"We. Min. Preço 6"}
+                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          onChange={handleInputPriceDescription}
+                        />
+                      </div>
                     </ModalBody>
                   </form>
                 </>
