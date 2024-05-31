@@ -50,6 +50,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontOffice/tipologyPlan", label: "Plano de Tipologias", active: true
                 },
                 {
+                    ref: "/homepage/frontOffice/roomsPlan", label: "Plano de Quartos", active: true
+                },
+                {
                     ref: "#", label: "Housekeeping", active: true
                 }
             ]
