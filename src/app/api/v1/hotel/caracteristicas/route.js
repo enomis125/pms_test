@@ -11,7 +11,6 @@ export async function GET(request) {
 
     const propertyID = getPropertyIDFromToken(tokenCookie.value)
 
-
     const characteristicsRecords = await prisma.characteristics.findMany({
         where: {
             propertyID: propertyID

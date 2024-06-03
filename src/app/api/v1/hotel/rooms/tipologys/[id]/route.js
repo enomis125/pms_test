@@ -1,20 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import prisma from "@/app/lib/prisma";
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
+import { update } from "lodash";
 
 export async function GET(request, context) {
 
-    // console.log("1")
-
-    // const pathname = new URL(request.url).pathname;
-
-    // const parts = pathname.split('/');
-
-    // const id = parts[parts.length - 1];
-
     const { id } = context.params;
-
-    //console.log(id)
 
     const response = await prisma.rooms.findMany({
         where: {
@@ -23,15 +15,21 @@ export async function GET(request, context) {
     })
 
     if (!response) {
-        return new NextResponse(JSON.stringify({status: 404 }));
+        return new NextResponse(JSON.stringify({ status: 404 }));
     }
 
     prisma.$disconnect()
 
-    return new NextResponse(JSON.stringify({response, status: 200 }));
+    return new NextResponse(JSON.stringify({ response, status: 200 }));
 }
 
 export async function PATCH(request, context) {
+
+    const tokenCookie = cookies().get("jwt");
+
+    const prisma = generatePrismaClient()
+
+    const userID = getUserIDFromToken(tokenCookie.value)
 
     try {
         const { id } = context.params;
@@ -44,10 +42,11 @@ export async function PATCH(request, context) {
             data: {
                 label: data.label,
                 roomType: parseInt(data.roomType),
-                description: data.description
+                description: data.description,
+                updatedBy: userID
             }
         })
-        return new NextResponse(JSON.stringify({status: 200 }));
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
