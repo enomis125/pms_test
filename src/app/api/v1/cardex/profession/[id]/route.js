@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { generatePrismaClient } from '@/app/lib/utils'
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
 
 export async function GET(request, context) {
 
@@ -25,7 +26,11 @@ export async function GET(request, context) {
 
 export async function PATCH(request, context) {
 
+    const tokenCookie = cookies().get("jwt");
+
     const prisma = generatePrismaClient()
+
+    const userID = getUserIDFromToken(tokenCookie.value)
 
     try {
         const { id } = context.params;
@@ -38,7 +43,8 @@ export async function PATCH(request, context) {
             data: {
                 gruppe: parseInt(data.group),
                 abreviature: data.abreviature,
-                description: data.description
+                description: data.description,
+                updatedBy: userID
             }
         })
         return new NextResponse(JSON.stringify({ status: 200 }));

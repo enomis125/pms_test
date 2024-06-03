@@ -20,7 +20,7 @@ dayjs.extend(isBetween);
 
 export default function CalendarPage() {
   const [today, setToday] = useState(dayjs());
-  const [weeks, setWeeks] = useState(generateMonth(today.month(), today.year())); // Use generateMonth
+  const [weeks, setWeeks] = useState(generateMonth(today.month(), today.year()));
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [reservationRange, setReservationRange] = useState({ start: null, end: null });
@@ -99,6 +99,7 @@ export default function CalendarPage() {
 
   const handleMouseDown = (date) => {
     setDragStart(date);
+    setDragEnd(date); // Reset dragEnd when starting a new drag
     setIsDragging(true);
   };
 
@@ -116,11 +117,21 @@ export default function CalendarPage() {
       setShowModal(true);
       setIsDragging(false);
       setDragStart(null);
+      setDragEnd(null);
+      alert(`Intervalo selecionado: ${startDate} - ${endDate}`);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false);
+      setDragStart(null);
+      setDragEnd(null);
     }
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full' onMouseLeave={handleMouseLeave}>
       <div className='flex justify-between'>
         <h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>
         <div className='flex items-center gap-5'>
