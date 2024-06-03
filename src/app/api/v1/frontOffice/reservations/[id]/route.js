@@ -81,7 +81,9 @@ export async function DELETE(request, context) {
     } finally {
         await prisma.$disconnect();
     }
+
 }
+
 
 export async function PUT(request, context) {
     try {

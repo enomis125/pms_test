@@ -2107,6 +2107,7 @@ model properties {
   rooms                 rooms[]
   roomtypes             roomtypes[]
   roomtypesgroups       roomtypesgroups[]
+
 }
 
 model users {
@@ -2151,6 +2152,7 @@ model users {
   customerPreferences_customerPreferences_updatedByTousers     customerPreferences[]   @relation("customerPreferences_updatedByTousers")
   departments_departments_createdByTousers                     departments[]           @relation("departments_createdByTousers")
   departments_departments_updatedByTousers                     departments[]           @relation("departments_updatedByTousers")
+
   doctypes_doctypes_createdByTousers                           doctypes[]              @relation("doctypes_createdByTousers")
   doctypes_doctypes_updatedByTousers                           doctypes[]              @relation("doctypes_updatedByTousers")
   formsofknowledge_formsofknowledge_createdByTousers           formsofknowledge[]      @relation("formsofknowledge_createdByTousers")
