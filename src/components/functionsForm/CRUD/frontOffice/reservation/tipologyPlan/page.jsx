@@ -113,50 +113,41 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
         if (reservation.CheckIn && reservation.NightCount) {
             const checkInDate = new Date(reservation.CheckIn);
             const checkOutDate = new Date(checkInDate.getTime() + (parseInt(reservation.NightCount) * 24 * 60 * 60 * 1000));
-            const checkOutDateString = checkOutDate.toISOString().split('T')[0];
-            setReservation({ ...reservation, CheckOut: checkOutDateString });
+            //const checkOutDateString = checkOutDate.toISOString().split('T')[0];
+            //setReservation({ ...reservation, CheckOut: checkOutDateString });
         }
     }, [reservation.CheckIn, reservation.NightCount]);
 
     
     async function handleSubmitReservation(event) {
       if (!event.isTrusted) {
-        return;
-      }
-  
-      event.preventDefault();
-  
-      { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
-              alert("Preencha os campos corretamente");
-              return;
-          }*/}
-      const reservationCopy = { ...reservation };
-  
-      try {
-        // Iterar sobre selectedDates
-        selectedDates.forEach(async (dateRange, index) => {
-          const startDate = new Date(dateRange.start);
-          const endDate = new Date(dateRange.end);
-  
-          const reservationData = {
-            checkInDate: startDate.toISOString().split('T')[0],
-            checkOutDate: endDate.toISOString().split('T')[0],
-            nightCount: reservationCopy.NightCount,
-            adultCount: reservationCopy.GuestNumber,
-            guestNumber: reservationCopy.GuestID,
-            roomTypeNumber: reservationCopy.Tipology,
-          };
-  
-          console.log("RESPONSE", reservationData)
-          // Envio da solicitação para criar a reserva
-          const response = await axios.put('/api/v1/frontOffice/reservations/tipologyPlan', reservationData);
-  
-          console.log(response); // Exibe a resposta do servidor no console
-        });
-      } catch (error) {
-        console.error('Erro ao enviar requisições:', error);
-      }
-    }
+          return;
+        }
+      
+        event.preventDefault();
+
+     { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+          alert("Preencha os campos corretamente");
+          return;
+      }*/}
+
+          try {
+            // Envio da solicitação para criar o indivíduo
+            const response = await axios.put('/api/v1/frontOffice/reservations/tipologyPlan', {
+              data: {
+                checkInDate: reservation.CheckIn,
+                checkOutDate: reservation.CheckOut,
+                nightCount: reservation.NightCount,
+                adultCount: reservation.GuestNumber,
+                guestNumber: reservation.GuestID,
+                roomTypeNumber: reservation.Tipology,
+              }
+            });
+            console.log(response); // Exibe a resposta do servidor no console
+          } catch (error) {
+            console.error('Erro ao enviar requisições:', error);
+          }
+        }
 
     return {
         handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name
