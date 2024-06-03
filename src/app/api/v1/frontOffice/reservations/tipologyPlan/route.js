@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import prisma from "@/app/lib/prisma";
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
  
 export async function GET(request) {
  
@@ -12,6 +13,12 @@ export async function GET(request) {
 }
  
 export async function PUT(request) {
+
+    const tokenCookie = cookies().get("jwt");
+
+    const prisma = generatePrismaClient()
+
+    const userID = getUserIDFromToken(tokenCookie.value)
  
     try {
         const { data } = await request.json();
@@ -27,6 +34,7 @@ export async function PUT(request) {
                 adultCount: parseInt(data.adultCount),
                 guestNumber: parseInt(data.guestNumber),
                 roomTypeNumber: parseInt(data.roomTypeNumber),
+                createdBy: userID
             }
         });
  
