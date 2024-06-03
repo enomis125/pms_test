@@ -47,7 +47,7 @@ export async function PATCH(request, context) {
                 checkOutDate: checkOutDate,
                 nightCount: parseInt(data.nightCount),
                 adultCount: parseInt(data.adultCount),
-                updatedBy: userID
+                updatedBy: userID,
                 reservationStatus: parseInt(data.reservationStatus),
 
             }
@@ -81,31 +81,27 @@ export async function DELETE(request, context) {
     } finally {
         await prisma.$disconnect();
     }
-
-
-}
- 
 }
 
 export async function PUT(request, context) {
     try {
-      const { id } = context.params;
-      const { data } = await request.json();
-      
-      const updateRecord = await prisma.reservations.update({
-        where: {
-          reservationID: parseInt(id),
-        },
-        data: {
-          reservationStatus: parseInt(data.reservationStatus),
-        }
-      });
-      
-      return new NextResponse(JSON.stringify({ status: 200 }));
+        const { id } = context.params;
+        const { data } = await request.json();
+
+        const updateRecord = await prisma.reservations.update({
+            where: {
+                reservationID: parseInt(id),
+            },
+            data: {
+                reservationStatus: parseInt(data.reservationStatus),
+            }
+        });
+
+        return new NextResponse(JSON.stringify({ status: 200 }));
     } catch (error) {
-      return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
     } finally {
-      await prisma.$disconnect();
+        await prisma.$disconnect();
     }
-  }
+}
 

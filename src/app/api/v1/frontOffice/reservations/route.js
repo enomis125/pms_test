@@ -46,7 +46,7 @@ export async function PUT(request) {
                 adultCount: parseInt(data.adultCount),
                 guestNumber: parseInt(data.guestNumber),
                 propertyID: propertyID,
-                createdBy: userID
+                createdBy: userID,
                 languageID: parseInt(data.languageID),
                 roomTypeNumber: parseInt(data.roomTypeNumber),
                 roomNumber: parseInt(data.roomNumber),

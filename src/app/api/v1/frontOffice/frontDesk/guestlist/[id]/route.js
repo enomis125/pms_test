@@ -1,44 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import prisma from "@/app/lib/prisma";
- 
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
+
 export async function GET(request, context) {
- 
-    // console.log("1")
- 
-    // const pathname = new URL(request.url).pathname;
- 
-    // const parts = pathname.split('/');
- 
-    // const id = parts[parts.length - 1];
- 
+
     const { id } = context.params;
- 
+
     console.log(id)
- 
+
     const response = await prisma.reservations.findUnique({
         where: {
             reservationID: parseInt(id)
         }
     })
- 
+
     if (!response) {
-        return new NextResponse(JSON.stringify({status: 404 }));
+        return new NextResponse(JSON.stringify({ status: 404 }));
     }
- 
+
     prisma.$disconnect()
- 
-    return new NextResponse(JSON.stringify({response, status: 200 }));
+
+    return new NextResponse(JSON.stringify({ response, status: 200 }));
 }
- 
+
 export async function PATCH(request, context) {
- 
+
     try {
         const { id } = context.params;
         const { data } = await request.json();
         const checkInDate = new Date(data.checkInDate);
         const checkOutDate = new Date(data.checkOutDate);
-        
+
         const updateRecord = await prisma.reservations.update({
             where: {
                 reservationID: parseInt(id),
@@ -50,34 +43,34 @@ export async function PATCH(request, context) {
                 adultCount: parseInt(data.adultCount)
             }
         })
-        return new NextResponse(JSON.stringify({status: 200 }));
- 
+        return new NextResponse(JSON.stringify({ status: 200 }));
+
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
     } finally {
         await prisma.$disconnect();
     }
- 
+
 }
- 
+
 export async function DELETE(request, context) {
- 
+
+    const prisma = generatePrismaClient()
+
     try {
         const { id } = context.params;
- 
-        //console.log(id)
- 
+
         const deleteRecord = await prisma.reservations.delete({
             where: {
                 reservationID: parseInt(id),
             }
         })
-        return new NextResponse(JSON.stringify({status: 200 }));
- 
+        return new NextResponse(JSON.stringify({ status: 200 }));
+
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
     } finally {
         await prisma.$disconnect();
     }
- 
+
 }

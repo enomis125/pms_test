@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import prisma from "@/app/lib/prisma";
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
+import { cookies } from 'next/headers';
 
 export async function GET(request) {
+
+    const prisma = generatePrismaClient()
 
     const ratecodesRecords = await prisma.seasons.findMany()
 
@@ -15,9 +18,15 @@ export async function GET(request) {
 
 export async function PUT(request) {
 
+    const tokenCookie = cookies().get("jwt");
+
+    const prisma = generatePrismaClient()
+
+    const userID = getUserIDFromToken(tokenCookie.value)
+
     try {
         const { data } = await request.json();
-        console.log(data)
+
         const startDate = new Date(data.startDate);
         const endDate = new Date(data.endDate);
         const newRecord = await prisma.seasons.create({
@@ -25,9 +34,10 @@ export async function PUT(request) {
                 sortNo: parseInt(data.sortNo),
                 desc: data.desc,
                 startDate: startDate,
-                endDate: endDate
+                endDate: endDate,
+                createdBy: userID
             }
-            
+
         });
 
         return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
