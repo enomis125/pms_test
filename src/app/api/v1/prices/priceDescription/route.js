@@ -40,7 +40,7 @@ export async function PUT(request) {
         const newRecord = await prisma.ratecodedetails.create({
             data: {
                 propertyID: propertyID,
-                createdBy: userID
+                createdBy: userID,
                 //Linha 2
                 validFrom: validFrom,
                 validUntil: validUntil,
