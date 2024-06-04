@@ -11,27 +11,40 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     const nameParts = guestName.split(" ");
     const firstName = nameParts.length > 0 ? nameParts[0] : "";
     const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
-    const id = guestId;
-    const tipologyID = tipology;
-
-    console.log("Primeiro Nome:", firstName);
-    console.log("Segundo Nome:", lastName);
-    console.log("ID:", id);
-    console.log("tipologia:", tipologyID);
-
-
-    // Inserção na tabela client preference
-    const [reservation, setReservation] = useState({
+  
+    console.log("First Name:", firstName);
+    console.log("Last Name:", lastName);
+    console.log("Guest ID:", guestId);
+    console.log("Tipology ID:", tipology);
+  
+    const initialReservationState = {
       CheckIn: startDate ? startDate : currentDate,
       CheckOut: endDate ? endDate : '',
       NightCount: '',
       GuestNumber: guestNumberDefault,
-      GuestID: id,
+      GuestID: guestId,
       Language: '',
-      Tipology: tipologyID,
+      Tipology: tipology,
       Room: '',
-    });
-
+    };
+  
+    // Inserting into the client preference table
+    const [reservation, setReservation] = useState(initialReservationState);
+  
+    useEffect(() => {
+      setReservation(prevState => ({
+        ...prevState,
+        Tipology: tipology,
+        GuestID: guestId
+      }));
+    }, [tipology, guestId]);
+  
+    useEffect(() => {
+      console.log("Updated Reservation:", reservation);
+    }, [reservation]);
+  
+    console.log("CARALHO: ", reservation.CheckOut);
+    console.log("Reservation State on Initial Render:", reservation);
       // Atualiza o estado de firstName e lastName separadamente
   const [name, setName] = useState({
     firstName: firstName,
@@ -97,66 +110,47 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
         setReservation({ ...reservation, [event.target.name]: event.target.value })
     }
 
-    //para o nrm de noites aparecer ao detemrinar o checkin e chekout
+    // Para o número de noites aparecer ao determinar o checkin e checkout
     useEffect(() => {
-        if (reservation.CheckIn && reservation.CheckOut) {
-            const checkInDate = new Date(reservation.CheckIn);
-            const checkOutDate = new Date(reservation.CheckOut);
-            const diffTime = Math.abs(checkOutDate - checkInDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            setReservation({ ...reservation, NightCount: diffDays.toString() });
-        }
-    }, [reservation.CheckIn, reservation.CheckOut]);
-
-    //para o checkout aparecer apos determinar o checkin e o nrm de noites
-    useEffect(() => {
-        if (reservation.CheckIn && reservation.NightCount) {
-            const checkInDate = new Date(reservation.CheckIn);
-            const checkOutDate = new Date(checkInDate.getTime() + (parseInt(reservation.NightCount) * 24 * 60 * 60 * 1000));
-            const checkOutDateString = checkOutDate.toISOString().split('T')[0];
-            setReservation({ ...reservation, CheckOut: checkOutDateString });
-        }
-    }, [reservation.CheckIn, reservation.NightCount]);
+      if (reservation.CheckIn && reservation.CheckOut) {
+          const checkInDate = new Date(reservation.CheckIn);
+          const checkOutDate = new Date(reservation.CheckOut);
+          const diffTime = Math.abs(checkOutDate - checkInDate);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          setReservation({ ...reservation, NightCount: diffDays.toString() });
+      }
+  }, [reservation.CheckIn, reservation.CheckOut]);
 
     
     async function handleSubmitReservation(event) {
       if (!event.isTrusted) {
-        return;
-      }
-  
-      event.preventDefault();
-  
-      { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
-              alert("Preencha os campos corretamente");
-              return;
-          }*/}
-      const reservationCopy = { ...reservation };
-  
-      try {
-        // Iterar sobre selectedDates
-        selectedDates.forEach(async (dateRange, index) => {
-          const startDate = new Date(dateRange.start);
-          const endDate = new Date(dateRange.end);
-  
-          const reservationData = {
-            checkInDate: startDate.toISOString().split('T')[0],
-            checkOutDate: endDate.toISOString().split('T')[0],
-            nightCount: reservationCopy.NightCount,
-            adultCount: reservationCopy.GuestNumber,
-            guestNumber: reservationCopy.GuestID,
-            roomTypeNumber: reservationCopy.Tipology,
-          };
-  
-          console.log("RESPONSE", reservationData)
-          // Envio da solicitação para criar a reserva
-          const response = await axios.put('/api/v1/frontOffice/reservations/tipologyPlan', reservationData);
-  
-          console.log(response); // Exibe a resposta do servidor no console
-        });
-      } catch (error) {
-        console.error('Erro ao enviar requisições:', error);
-      }
-    }
+          return;
+        }
+      
+        event.preventDefault();
+
+     { /*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+          alert("Preencha os campos corretamente");
+          return;
+      }*/}
+
+          try {
+            // Envio da solicitação para criar o indivíduo
+            const response = await axios.put('/api/v1/frontOffice/reservations/tipologyPlan', {
+              data: {
+                checkInDate: reservation.CheckIn,
+                checkOutDate: reservation.CheckOut,
+                nightCount: reservation.NightCount,
+                adultCount: reservation.GuestNumber,
+                guestNumber: reservation.GuestID,
+                roomTypeNumber: reservation.Tipology,
+              }
+            });
+            console.log(response); // Exibe a resposta do servidor no console
+          } catch (error) {
+            console.error('Erro ao enviar requisições:', error);
+          }
+        }
 
     return {
         handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name
