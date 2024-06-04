@@ -19,6 +19,8 @@ export async function PUT(request) {
     const prisma = generatePrismaClient()
 
     const userID = getUserIDFromToken(tokenCookie.value)
+    
+    const propertyID = getPropertyIDFromToken(tokenCookie.value)
  
     try {
         const { data } = await request.json();
@@ -34,7 +36,8 @@ export async function PUT(request) {
                 adultCount: parseInt(data.adultCount),
                 guestNumber: parseInt(data.guestNumber),
                 roomTypeNumber: parseInt(data.roomTypeNumber),
-                createdBy: userID
+                createdBy: userID,
+                propertyID: propertyID,
             }
         });
  
