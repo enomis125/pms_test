@@ -8,27 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model characteristics {
-  characteristicID                       Int                     @id @default(autoincrement())
-  propertyID                             Int
-  description                            String                  @default("") @db.VarChar(1000)
-  abreviature                            String                  @default("") @db.VarChar(4)
-  details                                String                  @default("") @db.VarChar(250)
-  active                                 Int                     @default(1)
-  createdAt                              DateTime                @default(now()) @db.Timestamp(0)
-  createdBy                              Int
-  updatedAt                              DateTime                @default(now()) @db.Timestamp(0)
-  updatedBy                              Int?
-  properties                             properties              @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "characteristics_properties")
-  users_characteristics_createdByTousers users                   @relation("characteristics_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "characteristics_users_1")
-  users_characteristics_updatedByTousers users?                  @relation("characteristics_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "characteristics_users_2")
-  rooms_characteristics                  rooms_characteristics[]
-
-  @@index([propertyID], map: "characteristics_properties_idx")
-  @@index([createdBy], map: "characteristics_users_1_idx")
-  @@index([updatedBy], map: "characteristics_users_2_idx")
-}
-
 model accountsGroups {
   accountsGroupsID                      Int      @id @default(autoincrement())
   name                                  String   @default("") @db.VarChar(60)
@@ -128,9 +107,9 @@ model blockedRooms {
   users_blockedRooms_createdByTousers users      @relation("blockedRooms_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "blockedRooms_users_1")
   users_blockedRooms_updatedByTousers users?     @relation("blockedRooms_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "blockedRooms_users_2")
 
+  @@index([propertyID], map: "blockedRooms_properties_idx")
   @@index([roomTypeID], map: "blockedRooms_roomTypes")
   @@index([roomID], map: "blockedRooms_rooms")
-  @@index([propertyID], map: "blockedRooms_properties_idx")
   @@index([createdBy], map: "blockedRooms_users_1_idx")
   @@index([updatedBy], map: "blockedRooms_users_2_idx")
 }
@@ -320,6 +299,27 @@ model cashiers {
   @@index([propertyID], map: "cashiers_properties_idx")
   @@index([createdBy], map: "cashiers_users_1_idx")
   @@index([updatedBy], map: "cashiers_users_2_idx")
+}
+
+model characteristics {
+  characteristicID                       Int                     @id @default(autoincrement())
+  propertyID                             Int
+  description                            String                  @default("") @db.VarChar(1000)
+  abreviature                            String                  @default("") @db.VarChar(4)
+  details                                String                  @default("") @db.VarChar(250)
+  active                                 Int                     @default(1)
+  createdAt                              DateTime                @default(now()) @db.Timestamp(0)
+  createdBy                              Int
+  updatedAt                              DateTime                @default(now()) @db.Timestamp(0)
+  updatedBy                              Int?
+  properties                             properties              @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "characteristics_properties")
+  users_characteristics_createdByTousers users                   @relation("characteristics_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "characteristics_users_1")
+  users_characteristics_updatedByTousers users?                  @relation("characteristics_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "characteristics_users_2")
+  rooms_characteristics                  rooms_characteristics[]
+
+  @@index([propertyID], map: "characteristics_properties_idx")
+  @@index([createdBy], map: "characteristics_users_1_idx")
+  @@index([updatedBy], map: "characteristics_users_2_idx")
 }
 
 model come {
@@ -989,6 +989,24 @@ model member {
   @@index([updatedBy], map: "member_users_2_idx")
 }
 
+model mpehide {
+  mpeHideID                      Int        @id @default(autoincrement())
+  type                           Int        @default(-1)
+  ref                            Int        @default(-1)
+  propertyID                     Int        @default(-1)
+  createdAt                      DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                      Int
+  updatedAt                      DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                      Int?
+  properties                     properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_properties")
+  users_mpehide_createdByTousers users      @relation("mpehide_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_users_1")
+  users_mpehide_updatedByTousers users?     @relation("mpehide_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_users_2")
+
+  @@index([propertyID], map: "mpehide_properties_idx")
+  @@index([createdBy], map: "mpehide_users_1_idx")
+  @@index([updatedBy], map: "mpehide_users_2_idx")
+}
+
 model nationalities {
   abkuerz                              String   @default("") @db.VarChar(20)
   land                                 String   @default("") @db.VarChar(20)
@@ -1274,6 +1292,38 @@ model profession {
 
   @@index([createdBy], map: "profession_users_1_idx")
   @@index([updatedBy], map: "profession_users_2_idx")
+}
+
+model properties {
+  propertyID            Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar(250)
+  fiscalNumber          Int
+  email                 String                  @db.VarChar(250)
+  phoneNumber           String                  @db.VarChar(45)
+  address1              String                  @db.VarChar(250)
+  country               String                  @db.VarChar(250)
+  district              String                  @db.VarChar(250)
+  zipCode               String                  @db.VarChar(45)
+  description           String                  @db.VarChar(250)
+  abbreviation          String                  @db.VarChar(10)
+  designation           String                  @db.VarChar(50)
+  organizationID        Int
+  del                   Int                     @default(0)
+  blockedRooms          blockedRooms[]
+  cancelledReservations cancelledReservations[]
+  cashiers              cashiers[]
+  characteristics       characteristics[]
+  departments           departments[]
+  maintenance           maintenance[]
+  market                market[]
+  mpehide               mpehide[]
+  oldReservations       oldReservations[]       @ignore
+  ratecodedetails       ratecodedetails[]
+  reservations          reservations[]
+  revenueAccounts       revenueAccounts[]
+  rooms                 rooms[]
+  roomtypes             roomtypes[]
+  roomtypesgroups       roomtypesgroups[]
 }
 
 model ratecodedetails {
@@ -1819,8 +1869,8 @@ model rooms {
   users_rooms_updatedByTousers users?                  @relation("rooms_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "rooms_users_2")
   rooms_characteristics        rooms_characteristics[]
 
-  @@index([roomType], map: "rooms_roomTypes")
   @@index([propertyID], map: "rooms_properties_idx")
+  @@index([roomType], map: "rooms_roomTypes")
   @@index([createdBy, updatedBy], map: "rooms_users_1_idx")
   @@index([updatedBy], map: "rooms_users_2_idx")
 }
@@ -1887,8 +1937,8 @@ model roomtypes {
   users_roomtypes_createdByTousers users           @relation("roomtypes_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "roomTypes_users_1")
   users_roomtypes_updatedByTousers users?          @relation("roomtypes_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "roomTypes_users_2")
 
-  @@index([groupID], map: "roomTypes_roomTypesGroups")
   @@index([propertyID], map: "roomTypes_properties_idx")
+  @@index([groupID], map: "roomTypes_roomTypesGroups")
   @@index([createdBy], map: "roomTypes_users_1_idx")
   @@index([updatedBy], map: "roomTypes_users_2_idx")
 }
@@ -2039,77 +2089,6 @@ model transfers {
   @@index([updatedBy], map: "transfers_users_2_idx")
 }
 
-model vipcode {
-  identifier                     String   @default("") @db.VarChar(20)
-  description                    String   @default("") @db.VarChar(40)
-  customerCode                   Int      @id @default(autoincrement())
-  reservationBlock               Int      @default(-1)
-  reservationReminder            Int      @default(-1)
-  reservationText                String   @default("") @db.VarChar(120)
-  visibleInFrontOffice           Int      @default(-1)
-  sortingKey                     String   @default("") @db.VarChar(10)
-  createdAt                      DateTime @default(now()) @db.Timestamp(0)
-  createdBy                      Int
-  updatedAt                      DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                      Int?
-  users_vipcode_createdByTousers users    @relation("vipcode_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_1")
-  users_vipcode_updatedByTousers users?   @relation("vipcode_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_2")
-
-  @@index([createdBy], map: "vipcode_users_1_idx")
-  @@index([updatedBy], map: "vipcode_users_2_idx")
-}
-
-model mpehide {
-  mpeHideID                      Int        @id @default(autoincrement())
-  type                           Int        @default(-1)
-  ref                            Int        @default(-1)
-  propertyID                     Int        @default(-1)
-  createdAt                      DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                      Int
-  updatedAt                      DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                      Int?
-  properties                     properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_properties")
-  users_mpehide_createdByTousers users      @relation("mpehide_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_users_1")
-  users_mpehide_updatedByTousers users?     @relation("mpehide_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_users_2")
-
-  @@index([propertyID], map: "mpehide_properties_idx")
-  @@index([createdBy], map: "mpehide_users_1_idx")
-  @@index([updatedBy], map: "mpehide_users_2_idx")
-}
-
-model properties {
-  propertyID            Int                     @id @default(autoincrement())
-  name                  String                  @db.VarChar(250)
-  fiscalNumber          Int
-  email                 String                  @db.VarChar(250)
-  phoneNumber           String                  @db.VarChar(45)
-  address1              String                  @db.VarChar(250)
-  country               String                  @db.VarChar(250)
-  district              String                  @db.VarChar(250)
-  zipCode               String                  @db.VarChar(45)
-  description           String                  @db.VarChar(250)
-  abbreviation          String                  @db.VarChar(10)
-  designation           String                  @db.VarChar(50)
-  organizationID        Int
-  del                   Int                     @default(0)
-  blockedRooms          blockedRooms[]
-  cancelledReservations cancelledReservations[]
-  cashiers              cashiers[]
-  characteristics       characteristics[]
-  departments           departments[]
-  maintenance           maintenance[]
-  market                market[]
-  mpehide               mpehide[]
-  oldReservations       oldReservations[]       @ignore
-  ratecodedetails       ratecodedetails[]
-  reservations          reservations[]
-  revenueAccounts       revenueAccounts[]
-  rooms                 rooms[]
-  roomtypes             roomtypes[]
-  roomtypesgroups       roomtypesgroups[]
-
-}
-
 model users {
   userID                                                       Int                     @id @default(autoincrement())
   name                                                         String                  @db.VarChar(250)
@@ -2152,7 +2131,6 @@ model users {
   customerPreferences_customerPreferences_updatedByTousers     customerPreferences[]   @relation("customerPreferences_updatedByTousers")
   departments_departments_createdByTousers                     departments[]           @relation("departments_createdByTousers")
   departments_departments_updatedByTousers                     departments[]           @relation("departments_updatedByTousers")
-
   doctypes_doctypes_createdByTousers                           doctypes[]              @relation("doctypes_createdByTousers")
   doctypes_doctypes_updatedByTousers                           doctypes[]              @relation("doctypes_updatedByTousers")
   formsofknowledge_formsofknowledge_createdByTousers           formsofknowledge[]      @relation("formsofknowledge_createdByTousers")
@@ -2234,4 +2212,24 @@ model users {
   transfers_transfers_updatedByTousers                         transfers[]             @relation("transfers_updatedByTousers")
   vipcode_vipcode_createdByTousers                             vipcode[]               @relation("vipcode_createdByTousers")
   vipcode_vipcode_updatedByTousers                             vipcode[]               @relation("vipcode_updatedByTousers")
+}
+
+model vipcode {
+  identifier                     String   @default("") @db.VarChar(20)
+  description                    String   @default("") @db.VarChar(40)
+  customerCode                   Int      @id @default(autoincrement())
+  reservationBlock               Int      @default(-1)
+  reservationReminder            Int      @default(-1)
+  reservationText                String   @default("") @db.VarChar(120)
+  visibleInFrontOffice           Int      @default(-1)
+  sortingKey                     String   @default("") @db.VarChar(10)
+  createdAt                      DateTime @default(now()) @db.Timestamp(0)
+  createdBy                      Int
+  updatedAt                      DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                      Int?
+  users_vipcode_createdByTousers users    @relation("vipcode_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_1")
+  users_vipcode_updatedByTousers users?   @relation("vipcode_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_2")
+
+  @@index([createdBy], map: "vipcode_users_1_idx")
+  @@index([updatedBy], map: "vipcode_users_2_idx")
 }
