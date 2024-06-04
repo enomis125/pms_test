@@ -2097,17 +2097,17 @@ model properties {
   cashiers              cashiers[]
   characteristics       characteristics[]
   departments           departments[]
+  lostAndFound          lostAndFound[]
   maintenance           maintenance[]
   market                market[]
   mpehide               mpehide[]
-  oldReservations       oldReservations[]       @ignore
+  oldReservations       oldReservations[]        @ignore
   ratecodedetails       ratecodedetails[]
   reservations          reservations[]
   revenueAccounts       revenueAccounts[]
   rooms                 rooms[]
   roomtypes             roomtypes[]
   roomtypesgroups       roomtypesgroups[]
-
 }
 
 model users {
@@ -2152,7 +2152,6 @@ model users {
   customerPreferences_customerPreferences_updatedByTousers     customerPreferences[]   @relation("customerPreferences_updatedByTousers")
   departments_departments_createdByTousers                     departments[]           @relation("departments_createdByTousers")
   departments_departments_updatedByTousers                     departments[]           @relation("departments_updatedByTousers")
-
   doctypes_doctypes_createdByTousers                           doctypes[]              @relation("doctypes_createdByTousers")
   doctypes_doctypes_updatedByTousers                           doctypes[]              @relation("doctypes_updatedByTousers")
   formsofknowledge_formsofknowledge_createdByTousers           formsofknowledge[]      @relation("formsofknowledge_createdByTousers")
@@ -2179,6 +2178,8 @@ model users {
   hear_hear_updatedByTousers                                   hear[]                  @relation("hear_updatedByTousers")
   knowledgemethod_knowledgemethod_createdByTousers             knowledgemethod[]       @relation("knowledgemethod_createdByTousers")
   knowledgemethod_knowledgemethod_updatedByTousers             knowledgemethod[]       @relation("knowledgemethod_updatedByTousers")
+  lostAndFound_lostAndFound_createdByTousers                   lostAndFound[]          @relation("lostAndFound_createdByTousers")
+  lostAndFound_lostAndFound_updatedByTousers                   lostAndFound[]          @relation("lostAndFound_updatedByTousers")
   maintenance_maintenance_createdByTousers                     maintenance[]           @relation("maintenance_createdByTousers")
   maintenance_maintenance_updatedByTousers                     maintenance[]           @relation("maintenance_updatedByTousers")
   market_market_createdByTousers                               market[]                @relation("market_createdByTousers")
@@ -2234,4 +2235,36 @@ model users {
   transfers_transfers_updatedByTousers                         transfers[]             @relation("transfers_updatedByTousers")
   vipcode_vipcode_createdByTousers                             vipcode[]               @relation("vipcode_createdByTousers")
   vipcode_vipcode_updatedByTousers                             vipcode[]               @relation("vipcode_updatedByTousers")
+}
+
+model lostAndFound {
+  referenceNumber                     Int        @id @default(-1)
+  propertyID                          Int
+  roomNumber                          Int        @default(-1)
+  customerID                          Int        @default(-1)
+  description                         String     @default("") @db.VarChar(254)
+  date                                DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  userName                            String     @default("") @db.VarChar(50)
+  isFound                             Int        @default(-1)
+  foundDate                           DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  foundByUser                         String     @default("") @db.VarChar(50)
+  foundText                           String     @default("") @db.VarChar(254)
+  reportReference                     Int        @default(-1)
+  location                            String     @default("") @db.VarChar(128)
+  document                            String     @default("") @db.VarChar(254)
+  submissionDate                      DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  submittedByUser                     String     @default("") @db.VarChar(50)
+  foundLocation                       String     @default("") @db.VarChar(254)
+  localText                           String     @default("") @db.VarChar(1000)
+  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                           Int
+  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                           Int?
+  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_properties")
+  users_lostAndFound_createdByTousers users      @relation("lostAndFound_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_1")
+  users_lostAndFound_updatedByTousers users?     @relation("lostAndFound_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_2")
+
+  @@index([propertyID], map: "lostAndFound_properties_idx")
+  @@index([createdBy], map: "lostAndFound_users_1_idx")
+  @@index([updatedBy], map: "lostAndFound_users_2_idx")
 }
