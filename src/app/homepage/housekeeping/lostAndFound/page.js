@@ -42,7 +42,7 @@ export default function lostAndFoundForm() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [reservation, setReservation] = useState([]);
-  const [reservationStatus, setReservationStatus] = useState([]);
+  const [lostAndFound, setLostAndFound] = useState([]);
   const [guestId, setGuestId] = useState([]);
   const [guestProfiles, setGuestProfiles] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10)); // Data atual no formato ISO: YYYY-MM-DD
@@ -54,28 +54,28 @@ export default function lostAndFoundForm() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals");
-      const reservationsData = res.data.response;
-      setReservation(reservationsData);
+      const response = await axios.get("/api/v1/housekeeping/lostAndFound");
+      const lostAndFoundData = response.data.response;
+      setLostAndFound(lostAndFoundData);
     };
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const newGuestIds = reservation.map(reservation => reservation.guestNumber);
-    setGuestId(newGuestIds);
-  }, [reservation]);
+  // useEffect(() => {
+  //   const newGuestIds = reservation.map(reservation => reservation.guestNumber);
+  //   setGuestId(newGuestIds);
+  // }, [reservation]);
 
-  console.log("Ids dos hóspedes:", guestId);
+  // console.log("Ids dos hóspedes:", guestId);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals/" + guestId);
-      const guestData = res.data.response;
-      setGuestProfiles(guestData);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals/" + guestId);
+  //     const guestData = res.data.response;
+  //     setGuestProfiles(guestData);
+  //   };
+  //   fetchData();
+  // }, []);
 
   const filteredItems = React.useMemo(() => {
     if (!reservation || !Array.isArray(reservation)) {
@@ -157,7 +157,8 @@ export default function lostAndFoundForm() {
   const handleStatusChange = async (reservationID, newStatus) => {
     try {
       await axios.put("/api/v1/frontOffice/reservations/" + reservationID, {
-        data: {reservationStatus: newStatus }});
+        data: { reservationStatus: newStatus }
+      });
       // Atualize o estado local da reserva após a alteração do status, se necessário
       // Você pode recarregar os dados ou atualizar apenas a reserva afetada
     } catch (error) {
@@ -229,14 +230,14 @@ export default function lostAndFoundForm() {
               />
             </div>
           </div>
-            <LostandFoundForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Perdidos e achados"}
-              modalIcons={"bg-red"}
-              formTypeModal={11}
-            ></LostandFoundForm>
+          <LostandFoundForm
+            buttonName={"Novo"}
+            buttonIcon={<FiPlus size={15} />}
+            buttonColor={"primary"}
+            modalHeader={"Inserir Perdidos e achados"}
+            modalIcons={"bg-red"}
+            formTypeModal={11}
+          ></LostandFoundForm>
         </div>
       </div>
 
@@ -303,7 +304,7 @@ export default function lostAndFoundForm() {
                 ITEM OCORRÊNCIA
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Pessoas">
-                UTILIZADOR  
+                UTILIZADOR
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Status">
                 ATUALIDO EM
@@ -313,29 +314,52 @@ export default function lostAndFoundForm() {
               </TableColumn>
             </TableHeader>
             <TableBody>
-            <TableRow>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="">teste</TableCell>
-                                    <TableCell className="flex justify-end">
-                                    <Dropdown>
-                                        <DropdownTrigger>
-                                            <Button
-                                                variant="light"
-                                                className="flex flex-row justify-end"
-                                            >
-                                                <BsThreeDotsVertical size={20} className="text-gray-400" />
-                                            </Button>
-                                        </DropdownTrigger>
-                                    </Dropdown>
-                                </TableCell>
-                                </TableRow>
+            {items.map((reservation, index) => (
+                <TableRow key={index}>
+                  <TableCell className="text-left underline text-blue-600">
+                    <ReservationsForm
+                      buttonName={reservation.reservationID}
+                      editIcon={<FiEdit3 size={25} />}
+                      buttonColor={"transparent"}
+                      modalHeader={"Editar Reserva"}
+                      modalEditArrow={<BsArrowRight size={25} />}
+                      modalEdit={`ID: ${reservation.reservationID}`}
+                      formTypeModal={1}
+                      idReservation={reservation.reservationID}
+                      idGuest={reservation.guestNumber}
+                      criado={reservation.createdAt}
+                      editado={reservation.updatedAt}
+                      editor={"teste"}
+                    />
+                  </TableCell>
+                  <TableCell className="px-[3%]">
+                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "Nome não encontrado"}
+                  </TableCell>
+                  <TableCell className="px-[3%]">
+                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "Apelido não encontrado"}
+                  </TableCell>
+                  <TableCell className="px-[5%]">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[6%]">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.nightCount}</TableCell>
+                  <TableCell className="px-[10%]">{reservation.roomNumber}</TableCell>
+                  <TableCell className="px-[10%]">{"aa"}</TableCell>
+                  <TableCell className="px-[8%]">{reservation.adultCount}</TableCell>
+                  <TableCell className="px-[8%]">{renderCell(reservation, "reservationStatus")}</TableCell>
+                  <TableCell className="flex justify-end">
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          variant="light"
+                          className="flex flex-row justify-end"
+                        >
+                          <BsThreeDotsVertical size={20} className="text-gray-400" />
+                        </Button>
+                      </DropdownTrigger>
+                      {getDropdownMenu(reservation.reservationStatus, reservation.reservationID)}
+                    </Dropdown>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </PaginationTable>
