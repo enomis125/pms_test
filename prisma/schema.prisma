@@ -898,6 +898,38 @@ model knowledgemethod {
   @@index([updatedBy], map: "knowledgemethod_users_2_idx")
 }
 
+model lostAndFound {
+  referenceNumber                     Int        @id @default(-1)
+  propertyID                          Int
+  roomNumber                          Int        @default(-1)
+  customerID                          Int        @default(-1)
+  description                         String     @default("") @db.VarChar(254)
+  date                                DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  userName                            String     @default("") @db.VarChar(50)
+  isFound                             Int        @default(-1)
+  foundDate                           DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  foundByUser                         String     @default("") @db.VarChar(50)
+  foundText                           String     @default("") @db.VarChar(254)
+  reportReference                     Int        @default(-1)
+  location                            String     @default("") @db.VarChar(128)
+  document                            String     @default("") @db.VarChar(254)
+  submissionDate                      DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  submittedByUser                     String     @default("") @db.VarChar(50)
+  foundLocation                       String     @default("") @db.VarChar(254)
+  localText                           String     @default("") @db.VarChar(1000)
+  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                           Int
+  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                           Int?
+  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_properties")
+  users_lostAndFound_createdByTousers users      @relation("lostAndFound_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_1")
+  users_lostAndFound_updatedByTousers users?     @relation("lostAndFound_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_2")
+
+  @@index([propertyID], map: "lostAndFound_properties_idx")
+  @@index([createdBy], map: "lostAndFound_users_1_idx")
+  @@index([updatedBy], map: "lostAndFound_users_2_idx")
+}
+
 model maintenance {
   maintenanceID                      Int        @id @default(autoincrement())
   propertyID                         Int
@@ -1058,8 +1090,8 @@ model nationalities {
   @@index([updatedBy], map: "nationalities_users_2_idx")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model oldReservations {
+  resID                          Int        @id @default(autoincrement())
   propertyID                     Int
   arrivalDate                    DateTime   @db.DateTime(0)
   departureDate                  DateTime   @db.DateTime(0)
@@ -1187,13 +1219,12 @@ model oldReservations {
   @@index([propertyID], map: "oldReservations_properties_idx")
   @@index([createdBy], map: "oldReservations_users_1_idx")
   @@index([updatedBy], map: "oldReservations_users_2_idx")
-  @@ignore
 }
 
 model paymentmethods {
   externalNumberShort                          String   @default("\"") @db.VarChar(10)
   name                                         String   @default("\"") @db.VarChar(40)
-  primary                                      Int      @id @default(autoincrement())
+  primary                                      Int      @id
   mainGroup                                    Int      @default(-1)
   paymentType                                  Int      @default(-1)
   salesBookEntryLimit                          Int      @default(-1)
@@ -1314,10 +1345,11 @@ model properties {
   cashiers              cashiers[]
   characteristics       characteristics[]
   departments           departments[]
+  lostAndFound          lostAndFound[]
   maintenance           maintenance[]
   market                market[]
   mpehide               mpehide[]
-  oldReservations       oldReservations[]       @ignore
+  oldReservations       oldReservations[]
   ratecodedetails       ratecodedetails[]
   reservations          reservations[]
   revenueAccounts       revenueAccounts[]
@@ -2157,6 +2189,8 @@ model users {
   hear_hear_updatedByTousers                                   hear[]                  @relation("hear_updatedByTousers")
   knowledgemethod_knowledgemethod_createdByTousers             knowledgemethod[]       @relation("knowledgemethod_createdByTousers")
   knowledgemethod_knowledgemethod_updatedByTousers             knowledgemethod[]       @relation("knowledgemethod_updatedByTousers")
+  lostAndFound_lostAndFound_createdByTousers                   lostAndFound[]          @relation("lostAndFound_createdByTousers")
+  lostAndFound_lostAndFound_updatedByTousers                   lostAndFound[]          @relation("lostAndFound_updatedByTousers")
   maintenance_maintenance_createdByTousers                     maintenance[]           @relation("maintenance_createdByTousers")
   maintenance_maintenance_updatedByTousers                     maintenance[]           @relation("maintenance_updatedByTousers")
   market_market_createdByTousers                               market[]                @relation("market_createdByTousers")
@@ -2171,7 +2205,7 @@ model users {
   mpehide_mpehide_updatedByTousers                             mpehide[]               @relation("mpehide_updatedByTousers")
   nationalities_nationalities_createdByTousers                 nationalities[]         @relation("nationalities_createdByTousers")
   nationalities_nationalities_updatedByTousers                 nationalities[]         @relation("nationalities_updatedByTousers")
-  oldReservations                                              oldReservations[]       @ignore
+  oldReservations                                              oldReservations[]
   paymentmethods_paymentmethods_createdByTousers               paymentmethods[]        @relation("paymentmethods_createdByTousers")
   paymentmethods_paymentmethods_updatedByTousers               paymentmethods[]        @relation("paymentmethods_updatedByTousers")
   profession_profession_createdByTousers                       profession[]            @relation("profession_createdByTousers")
