@@ -6,6 +6,8 @@ import { update } from "lodash";
 
 export async function GET(request, context) {
 
+    const prisma = generatePrismaClient()
+
     const { id } = context.params;
 
     const response = await prisma.rooms.findMany({
