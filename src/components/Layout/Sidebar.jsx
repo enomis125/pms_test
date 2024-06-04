@@ -13,6 +13,7 @@ import { IoSettings } from "react-icons/io5";
 import { FaHotel } from "react-icons/fa";
 import { IoMdPricetags } from "react-icons/io";
 import { PiUsersFourFill } from "react-icons/pi";
+import { MdOutlineCleaningServices } from "react-icons/md";
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
 
@@ -57,7 +58,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
         },
 
         "Housekeeping" :{
-            icon: <IoStorefront size={20}/>,
+            icon: <MdOutlineCleaningServices size={20}/>,
             active:true,
             items: [
                 {
@@ -67,7 +68,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/housekeeping/management", label: "Management", active: true
                 },
                 {
-                    ref: "/homepage/housekeeping/lastAndFound", label: "Last and Found", active: true
+                    ref: "/homepage/housekeeping/lostAndFound", label: "Lost and Found", active: true
                 },
                 {
                     ref: "/homepage/housekeeping/attendantSheets", label: "Attendant Sheets", active: true

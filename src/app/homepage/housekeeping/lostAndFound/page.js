@@ -29,14 +29,15 @@ import { FaClock } from "react-icons/fa";
 A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
 
 //imports de componentes
-import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import LostandFoundForm from "@/components/modal/houseKeeping/lostAndFound/page"
 
 
 
-export default function clientForm() {
+export default function lostAndFoundForm() {
+
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -219,7 +220,7 @@ export default function clientForm() {
                 style={inputStyle}
               />
               <CountryAutocomplete
-                label="Quartos"
+                label="Quartos Nr."
                 name={"Quartos"}
                 style={
                   "flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"
@@ -228,6 +229,14 @@ export default function clientForm() {
               />
             </div>
           </div>
+            <LostandFoundForm
+              buttonName={"Novo"}
+              buttonIcon={<FiPlus size={15} />}
+              buttonColor={"primary"}
+              modalHeader={"Inserir Perdidos e achados"}
+              modalIcons={"bg-red"}
+              formTypeModal={11}
+            ></LostandFoundForm>
         </div>
       </div>
 
@@ -275,100 +284,58 @@ export default function clientForm() {
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
                 ID
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-4 w-64 uppercase" aria-label="Nome do Hóspede">
-                Nome do Hóspede
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Nome do Hóspede">
+                DATA DE REGISTO
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
-                Check-In
+                ESTADO
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-Out">
-                Check-Out
+                QUARTO
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Noites">
-                Noites
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Noites">
+                LOCAL
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="Quarto">
-                Quarto
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Quarto">
+                NOME DO HOSPEDE
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-40 uppercase" aria-label="RT">
-                RT
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="RT">
+                ITEM OCORRÊNCIA
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Pessoas">
-                Pessoas
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Pessoas">
+                UTILIZADOR  
               </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold px-[12%] uppercase" aria-label="Status">
-                Status
+              <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Status">
+                ATUALIDO EM
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
               </TableColumn>
             </TableHeader>
             <TableBody>
-              {items.map((reservation, index) => (
-                <TableRow key={index}>
-                  <TableCell className="text-left underline text-blue-600">
-                    <ReservationsForm
-                      buttonName={reservation.reservationID}
-                      editIcon={<FiEdit3 size={25} />}
-                      buttonColor={"transparent"}
-                      modalHeader={"Editar Reserva"}
-                      modalEditArrow={<BsArrowRight size={25} />}
-                      modalEdit={`ID: ${reservation.reservationID}`}
-                      formTypeModal={1}
-                      idReservation={reservation.reservationID}
-                      idGuest={reservation.guestNumber}
-                      criado={reservation.createdAt}
-                      editado={reservation.updatedAt}
-                      editor={"teste"}
-                    />
-                  </TableCell>
-                  <TableCell className="px-4">
-                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName + " " + (guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "") || "Nome não encontrado"}
-                  </TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-10">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-40">{reservation.nightCount}</TableCell>
-                  <TableCell className="px-40">{"alterar"}</TableCell>
-                  <TableCell className="px-40">{"aa"}</TableCell>
-                  <TableCell className="px-[12%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[12%]">{renderCell(reservation, "reservationStatus")}</TableCell>
-                  <TableCell className="flex justify-end">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          variant="light"
-                          className="flex flex-row justify-end"
-                          aria-label="Opções"
-                        >
-                          <BsThreeDotsVertical size={20} className="text-gray-400" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                        <DropdownItem key="edit" aria-label="Editar detalhes">
-                          <ReservationsForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Reserva"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${reservation.reservationID}`}
-                            formTypeModal={1}
-                            idReservation={reservation.reservationID}
-                            idGuest={reservation.guestNumber}
-                            criado={reservation.createdAt}
-                            editado={reservation.updatedAt}
-                            editor={"teste"}
-                          />
-                        </DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 1)}>Check-In</DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 3)}>Cancelada</DropdownItem>
-                        <DropdownItem onClick={() => handleStatusChange(reservation.reservationID, 0)}>Cancelar CI</DropdownItem>
-                        <DropdownItem key="view" aria-label="Ver detalhes">Reativar</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </TableCell>
-                </TableRow>
-              ))}
+            <TableRow>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="">teste</TableCell>
+                                    <TableCell className="flex justify-end">
+                                    <Dropdown>
+                                        <DropdownTrigger>
+                                            <Button
+                                                variant="light"
+                                                className="flex flex-row justify-end"
+                                            >
+                                                <BsThreeDotsVertical size={20} className="text-gray-400" />
+                                            </Button>
+                                        </DropdownTrigger>
+                                    </Dropdown>
+                                </TableCell>
+                                </TableRow>
             </TableBody>
           </Table>
         </PaginationTable>
