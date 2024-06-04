@@ -1090,8 +1090,8 @@ model nationalities {
   @@index([updatedBy], map: "nationalities_users_2_idx")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model oldReservations {
+  resID                          Int        @id @default(autoincrement())
   propertyID                     Int
   arrivalDate                    DateTime   @db.DateTime(0)
   departureDate                  DateTime   @db.DateTime(0)
@@ -1219,13 +1219,12 @@ model oldReservations {
   @@index([propertyID], map: "oldReservations_properties_idx")
   @@index([createdBy], map: "oldReservations_users_1_idx")
   @@index([updatedBy], map: "oldReservations_users_2_idx")
-  @@ignore
 }
 
 model paymentmethods {
   externalNumberShort                          String   @default("\"") @db.VarChar(10)
   name                                         String   @default("\"") @db.VarChar(40)
-  primary                                      Int      @id @default(autoincrement())
+  primary                                      Int      @id
   mainGroup                                    Int      @default(-1)
   paymentType                                  Int      @default(-1)
   salesBookEntryLimit                          Int      @default(-1)
@@ -1350,7 +1349,7 @@ model properties {
   maintenance           maintenance[]
   market                market[]
   mpehide               mpehide[]
-  oldReservations       oldReservations[]       @ignore
+  oldReservations       oldReservations[]
   ratecodedetails       ratecodedetails[]
   reservations          reservations[]
   revenueAccounts       revenueAccounts[]
@@ -2206,7 +2205,7 @@ model users {
   mpehide_mpehide_updatedByTousers                             mpehide[]               @relation("mpehide_updatedByTousers")
   nationalities_nationalities_createdByTousers                 nationalities[]         @relation("nationalities_createdByTousers")
   nationalities_nationalities_updatedByTousers                 nationalities[]         @relation("nationalities_updatedByTousers")
-  oldReservations                                              oldReservations[]       @ignore
+  oldReservations                                              oldReservations[]
   paymentmethods_paymentmethods_createdByTousers               paymentmethods[]        @relation("paymentmethods_createdByTousers")
   paymentmethods_paymentmethods_updatedByTousers               paymentmethods[]        @relation("paymentmethods_updatedByTousers")
   profession_profession_createdByTousers                       profession[]            @relation("profession_createdByTousers")
