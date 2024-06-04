@@ -898,6 +898,38 @@ model knowledgemethod {
   @@index([updatedBy], map: "knowledgemethod_users_2_idx")
 }
 
+model lostAndFound {
+  referenceNumber                     Int        @id @default(-1)
+  propertyID                          Int
+  roomNumber                          Int        @default(-1)
+  customerID                          Int        @default(-1)
+  description                         String     @default("") @db.VarChar(254)
+  date                                DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  userName                            String     @default("") @db.VarChar(50)
+  isFound                             Int        @default(-1)
+  foundDate                           DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  foundByUser                         String     @default("") @db.VarChar(50)
+  foundText                           String     @default("") @db.VarChar(254)
+  reportReference                     Int        @default(-1)
+  location                            String     @default("") @db.VarChar(128)
+  document                            String     @default("") @db.VarChar(254)
+  submissionDate                      DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  submittedByUser                     String     @default("") @db.VarChar(50)
+  foundLocation                       String     @default("") @db.VarChar(254)
+  localText                           String     @default("") @db.VarChar(1000)
+  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                           Int
+  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                           Int?
+  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_properties")
+  users_lostAndFound_createdByTousers users      @relation("lostAndFound_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_1")
+  users_lostAndFound_updatedByTousers users?     @relation("lostAndFound_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_2")
+
+  @@index([propertyID], map: "lostAndFound_properties_idx")
+  @@index([createdBy], map: "lostAndFound_users_1_idx")
+  @@index([updatedBy], map: "lostAndFound_users_2_idx")
+}
+
 model maintenance {
   maintenanceID                      Int        @id @default(autoincrement())
   propertyID                         Int
@@ -1314,6 +1346,7 @@ model properties {
   cashiers              cashiers[]
   characteristics       characteristics[]
   departments           departments[]
+  lostAndFound          lostAndFound[]
   maintenance           maintenance[]
   market                market[]
   mpehide               mpehide[]
@@ -2089,77 +2122,6 @@ model transfers {
   @@index([updatedBy], map: "transfers_users_2_idx")
 }
 
-model vipcode {
-  identifier                     String   @default("") @db.VarChar(20)
-  description                    String   @default("") @db.VarChar(40)
-  customerCode                   Int      @id @default(autoincrement())
-  reservationBlock               Int      @default(-1)
-  reservationReminder            Int      @default(-1)
-  reservationText                String   @default("") @db.VarChar(120)
-  visibleInFrontOffice           Int      @default(-1)
-  sortingKey                     String   @default("") @db.VarChar(10)
-  createdAt                      DateTime @default(now()) @db.Timestamp(0)
-  createdBy                      Int
-  updatedAt                      DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                      Int?
-  users_vipcode_createdByTousers users    @relation("vipcode_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_1")
-  users_vipcode_updatedByTousers users?   @relation("vipcode_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_2")
-
-  @@index([createdBy], map: "vipcode_users_1_idx")
-  @@index([updatedBy], map: "vipcode_users_2_idx")
-}
-
-model mpehide {
-  mpeHideID                      Int        @id @default(autoincrement())
-  type                           Int        @default(-1)
-  ref                            Int        @default(-1)
-  propertyID                     Int        @default(-1)
-  createdAt                      DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                      Int
-  updatedAt                      DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                      Int?
-  properties                     properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_properties")
-  users_mpehide_createdByTousers users      @relation("mpehide_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_users_1")
-  users_mpehide_updatedByTousers users?     @relation("mpehide_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "mpehide_users_2")
-
-  @@index([propertyID], map: "mpehide_properties_idx")
-  @@index([createdBy], map: "mpehide_users_1_idx")
-  @@index([updatedBy], map: "mpehide_users_2_idx")
-}
-
-model properties {
-  propertyID            Int                     @id @default(autoincrement())
-  name                  String                  @db.VarChar(250)
-  fiscalNumber          Int
-  email                 String                  @db.VarChar(250)
-  phoneNumber           String                  @db.VarChar(45)
-  address1              String                  @db.VarChar(250)
-  country               String                  @db.VarChar(250)
-  district              String                  @db.VarChar(250)
-  zipCode               String                  @db.VarChar(45)
-  description           String                  @db.VarChar(250)
-  abbreviation          String                  @db.VarChar(10)
-  designation           String                  @db.VarChar(50)
-  organizationID        Int
-  del                   Int                     @default(0)
-  blockedRooms          blockedRooms[]
-  cancelledReservations cancelledReservations[]
-  cashiers              cashiers[]
-  characteristics       characteristics[]
-  departments           departments[]
-  lostAndFound          lostAndFound[]
-  maintenance           maintenance[]
-  market                market[]
-  mpehide               mpehide[]
-  oldReservations       oldReservations[]        @ignore
-  ratecodedetails       ratecodedetails[]
-  reservations          reservations[]
-  revenueAccounts       revenueAccounts[]
-  rooms                 rooms[]
-  roomtypes             roomtypes[]
-  roomtypesgroups       roomtypesgroups[]
-}
-
 model users {
   userID                                                       Int                     @id @default(autoincrement())
   name                                                         String                  @db.VarChar(250)
@@ -2287,34 +2249,22 @@ model users {
   vipcode_vipcode_updatedByTousers                             vipcode[]               @relation("vipcode_updatedByTousers")
 }
 
-model lostAndFound {
-  referenceNumber                     Int        @id @default(-1)
-  propertyID                          Int
-  roomNumber                          Int        @default(-1)
-  customerID                          Int        @default(-1)
-  description                         String     @default("") @db.VarChar(254)
-  date                                DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  userName                            String     @default("") @db.VarChar(50)
-  isFound                             Int        @default(-1)
-  foundDate                           DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  foundByUser                         String     @default("") @db.VarChar(50)
-  foundText                           String     @default("") @db.VarChar(254)
-  reportReference                     Int        @default(-1)
-  location                            String     @default("") @db.VarChar(128)
-  document                            String     @default("") @db.VarChar(254)
-  submissionDate                      DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  submittedByUser                     String     @default("") @db.VarChar(50)
-  foundLocation                       String     @default("") @db.VarChar(254)
-  localText                           String     @default("") @db.VarChar(1000)
-  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                           Int
-  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                           Int?
-  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_properties")
-  users_lostAndFound_createdByTousers users      @relation("lostAndFound_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_1")
-  users_lostAndFound_updatedByTousers users?     @relation("lostAndFound_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "lostAndFound_users_2")
+model vipcode {
+  identifier                     String   @default("") @db.VarChar(20)
+  description                    String   @default("") @db.VarChar(40)
+  customerCode                   Int      @id @default(autoincrement())
+  reservationBlock               Int      @default(-1)
+  reservationReminder            Int      @default(-1)
+  reservationText                String   @default("") @db.VarChar(120)
+  visibleInFrontOffice           Int      @default(-1)
+  sortingKey                     String   @default("") @db.VarChar(10)
+  createdAt                      DateTime @default(now()) @db.Timestamp(0)
+  createdBy                      Int
+  updatedAt                      DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                      Int?
+  users_vipcode_createdByTousers users    @relation("vipcode_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_1")
+  users_vipcode_updatedByTousers users?   @relation("vipcode_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "vipcode_users_2")
 
-  @@index([propertyID], map: "lostAndFound_properties_idx")
-  @@index([createdBy], map: "lostAndFound_users_1_idx")
-  @@index([updatedBy], map: "lostAndFound_users_2_idx")
+  @@index([createdBy], map: "vipcode_users_1_idx")
+  @@index([updatedBy], map: "vipcode_users_2_idx")
 }
