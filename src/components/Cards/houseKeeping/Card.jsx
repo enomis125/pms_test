@@ -30,10 +30,10 @@ const Cartao = ({ title, description, counter1, counter2, counter3, counter4, ic
         <CardHeader className="flex gap-3">
           <div className="flex w-full justify-between">
             <div className="flex flex-col border-slate-100">
-            <div className="text-emerald-800 text-[75px] ml-20 font-bold">{counter1}</div>
-              <div className="text-lime-500 text-[75px] ml-20 font-bold">{counter2}</div>
-              <div className="text-red-600 text-[75px] ml-20 font-bold">{counter3}</div>
-              <div className="text-stone-600 text-[75px] ml-20 font-bold">{counter4}</div>
+            <div className="text-emerald-800 text-[60px] ml-20 font-bold">{counter1}</div>
+              <div className="text-lime-500 text-[60px] ml-20 font-bold">{counter2}</div>
+              <div className="text-red-600 text-[60px] ml-20 font-bold">{counter3}</div>
+              <div className="text-stone-600 text-[60px] ml-20 font-bold">{counter4}</div>
             </div>
             <div className="flex justify-end items-center gap-2">
               <Button
@@ -68,7 +68,7 @@ const Cartao = ({ title, description, counter1, counter2, counter3, counter4, ic
           <div className="my-4 h-6 flex">
             <div className="w-4/5">
               <div className="text-xs">{description}</div>
-              <div className="flex text-4xl font-bold justify-center mr-28">
+              <div className="flex text-xl font-bold justify-center mr-28">
                 <label className="text-xl font-semibold">{title}</label>
               </div>
             </div>

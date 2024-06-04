@@ -63,25 +63,25 @@ const lostAndFoundFormForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                            <div className="flex flex-col ">
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"description"}
+                                                    name={"Desc"}
+                                                    label={"Data Registo"}
+                                                    ariaLabel={"Data Registo"}
+                                                    style={"w-full outline-none h-10"}
+                                                    onChange={handleInputRoomtype} />
 
-                                            <InputFieldControlled
-                                                type={"text"}
-                                                id={"description"}
-                                                name={"Desc"}
-                                                label={"Data Registo"}
-                                                ariaLabel={"Data Registo"}
-                                                style={"w-full outline-none h-10"}
-                                                onChange={handleInputRoomtype} />
-
-                                            <InputFieldControlled
-                                                type={"text"}
-                                                id={"abreviature"}
-                                                name={"Name"}
-                                                label={"Estado"}
-                                                ariaLabel={"Estado"}
-                                                style={"w-full outline-none h-10"}
-                                                onChange={handleInputRoomtype} />
-
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Name"}
+                                                    label={"Estado"}
+                                                    ariaLabel={"Estado"}
+                                                    style={"w-full outline-none h-10"}
+                                                    onChange={handleInputRoomtype} />
+                                            </div>
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"details"}
@@ -91,23 +91,25 @@ const lostAndFoundFormForm = ({
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
-                                            <InputFieldControlled
-                                                type={"text"}
-                                                id={"details"}
-                                                name={"RoomFeaturesDesc"}
-                                                label={"Local"}
-                                                ariaLabel={"Local"}
-                                                style={"w-full outline-none h-10"}
-                                                onChange={handleInputRoomtype} />
+                                            <div className="flex flex-col">
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"RoomFeaturesDesc"}
+                                                    label={"Local"}
+                                                    ariaLabel={"Local"}
+                                                    style={"w-full outline-none h-10"}
+                                                    onChange={handleInputRoomtype} />
 
-                                            <InputFieldControlled
-                                                type={"text"}
-                                                id={"details"}
-                                                name={"RoomFeaturesDesc"}
-                                                label={"Nome do Hóspede"}
-                                                ariaLabel={"Nome do Hóspede"}
-                                                style={"w-full outline-none h-10"}
-                                                onChange={handleInputRoomtype} />
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"RoomFeaturesDesc"}
+                                                    label={"Nome do Hóspede"}
+                                                    ariaLabel={"Nome do Hóspede"}
+                                                    style={"w-full outline-none h-10"}
+                                                    onChange={handleInputRoomtype} />
+                                            </div>
 
                                             <InputFieldControlled
                                                 type={"text"}
@@ -118,15 +120,16 @@ const lostAndFoundFormForm = ({
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
-                                            <InputFieldControlled
-                                                type={"text"}
-                                                id={"details"}
-                                                name={"RoomFeaturesDesc"}
-                                                label={"Utilizador"}
-                                                ariaLabel={"Utilizador"}
-                                                style={"w-full outline-none h-10"}
-                                                onChange={handleInputRoomtype} />
-
+                                            <div className="flex flex-col">
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"details"}
+                                                    name={"RoomFeaturesDesc"}
+                                                    label={"Utilizador"}
+                                                    ariaLabel={"Utilizador"}
+                                                    style={"w-full outline-none h-10"}
+                                                    onChange={handleInputRoomtype} />
+                                            </div>
                                         </ModalBody>
                                     </form>
                                 </>
