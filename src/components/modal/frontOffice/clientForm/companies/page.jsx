@@ -40,9 +40,6 @@ const companyForm = ({
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 

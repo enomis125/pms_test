@@ -14,11 +14,12 @@ import { BsArrowRight } from "react-icons/bs";
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
+import CompanyForm from "../companies/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import companiesInsert from "@/components/functionsForm/CRUD/frontOffice/clientForm/companies/page";
+import companiesInsert, { companiesEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/companies/page";
 
 
 const companyForm = ({
@@ -38,20 +39,61 @@ const companyForm = ({
     editor
 }) => {
 
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    useEffect(() => {
+      onOpen(); // Abre o modal quando o componente é montado
+    }, [onOpen]);
+
+
+    const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
     //variaveis de estilo para inputs
     const inputStyle = "border-b-2 border-gray-300 px-1 h-10 outline-none text-sm::placeholder my-2"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
     
     const { handleInputCompany, handleSubmiCompany } = companiesInsert();
+    const { handleUpdateCompany, setValuesCompany, valuesCompany, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone } = companiesEdit(idCompany, idEmail, idPhone);
 
 
     return (
         <>
-                    <Modal>
+            {formTypeModal === 0 && ( //individuals insert
+                <>
+                    <Modal
+                        classNames={{
+                            base: "max-h-screen",
+                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            body: "h-full",
+                        }}
+                        size="full"
+                        className="bg-neutral-100"
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
                         <ModalContent>
+                            {(onClose) => (
                                 <>
+                                    <form onSubmit={handleSubmiCompany}>
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                            <div className="flex flex-row justify-start gap-4">
+                                                {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
+                                            </div>
+                                            <div className='flex flex-row items-center mr-5'>
+                                                <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                                <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
+                                            </div>
+                                        </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
+                                            {/*<div className="h-1">
+                                                <CompanyForm
+                                                    buttonName={"Empresas"}
+                                                    modalHeader={"Inserir Ficha de Cliente"}
+                                                    modalEditArrow={<BsArrowRight size={25} />}
+                                                    modalEdit={"Empresa"}
+                                                    buttonColor={"transparent"}
+                                                    formTypeModal={1}
+                                                />
+                            </div>*/}
                                             <div className="bg-white flex flex-row justify-start space-x-4 items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -466,10 +508,15 @@ const companyForm = ({
                                                 </div>
                                             </div>
                                         </ModalBody>
-                                    </>
+                                    </form>
+                                </>
+                            )}
                         </ModalContent>
                     </Modal>
                 </>
+            )}
+
+        </>
     );
 };
 

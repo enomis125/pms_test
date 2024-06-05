@@ -12,11 +12,12 @@ import isBetween from 'dayjs/plugin/isBetween';
 //imports de componentes
 import ReservationsForm from '@/components/modal/frontOffice/reservations/multiReservations/page';
 import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
-import ClientForm from "@/components/modal/frontOffice/reservations/clientForm/page";
+import ClientForm from "@/components/modal/frontOffice/reservations/clientForm/tabForm";
 
 import { FiPlus, FiX } from 'react-icons/fi';
 import { FaCalendarAlt, FaRegTrashAlt, FaRegUserCircle, FaBed } from 'react-icons/fa';
 import { FaPlus } from "react-icons/fa6";
+import Modal from '@/components/modal/confirmationBoxs/page';
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -28,6 +29,7 @@ export default function CalendarPage() {
   const [weeks, setWeeks] = useState(generateDate(today.month(), today.year()));
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
+
   const [reservationRange, setReservationRange] = useState({ start: null, end: null });
 
   const [roomTypeState, setRoomTypeState] = useState([]);
@@ -36,6 +38,7 @@ export default function CalendarPage() {
   const [selectionInfo, setSelectionInfo] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
   const [selectionRows, setSelectionRows] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
   const [availability, setAvailability] = useState({});
+  const [updatedAvailability, setUpdatedAvailability] = useState({});
 
   const [dragStart, setDragStart] = useState(null);
   const [dragEnd, setDragEnd] = useState(null);
@@ -80,8 +83,29 @@ export default function CalendarPage() {
     getData();
   }, []);
 
+  useEffect(() => {
+    // Atualizar o updatedAvailability sempre que o availability for atualizado
+    setUpdatedAvailability(prev => {
+      const newUpdatedAvailability = { ...prev };
+      for (const roomTypeID in availability) {
+        for (const date in availability[roomTypeID]) {
+          newUpdatedAvailability[roomTypeID] = {
+            ...newUpdatedAvailability[roomTypeID],
+            [date]: availability[roomTypeID][date]
+          };
+        }
+      }
+      return newUpdatedAvailability;
+    });
+  }, [availability]);
+
+  const [totalOverbookings, setTotalOverbookings] = useState({});
+  const [overbookings, setOverbookings] = useState({});
+
   const updateAvailability = () => {
     let updatedAvailability = {};
+    let dailyOverbookings = {};
+
     roomTypeState.forEach(roomType => {
       weeks[currentWeekIndex].forEach(day => {
         const dayFormat = day.date.format('YYYY-MM-DD');
@@ -99,10 +123,22 @@ export default function CalendarPage() {
           updatedAvailability[roomType.roomTypeID] = {};
         }
         updatedAvailability[roomType.roomTypeID][dayFormat] = availableRooms;
+
+        // Inicializar a contagem de overbookings diários se não existir
+        if (!dailyOverbookings[dayFormat]) {
+          dailyOverbookings[dayFormat] = 0;
+        }
+
+        // Calcular overbookings
+        if (availableRooms < 0) {
+          dailyOverbookings[dayFormat] += Math.abs(availableRooms); // Adiciona a quantidade de overbookings
+        }
       });
     });
 
     setAvailability(updatedAvailability);
+    setTotalOverbookings(dailyOverbookings);
+    setOverbookings(dailyOverbookings);
   }
 
   useEffect(() => {
@@ -168,6 +204,9 @@ export default function CalendarPage() {
   const handleMouseDown = (date, roomTypeID, rowIndex, columnIndex) => {
     const formattedDate = date.format('YYYY-MM-DD');
     setSelectionInfo({ roomTypeID, dates: [formattedDate] });
+
+      // Check if there are available rooms for the selected date and room type
+  const availableRooms = updatedAvailability[roomTypeID][formattedDate];
     setIsDragging(true);
     setIsSelecting(true);
     setStartDate(formattedDate);
@@ -182,7 +221,7 @@ export default function CalendarPage() {
         dates: [...prev.dates, formattedDate]
       }));
       setStartDate2(formattedDate);
-    }
+  }
   };
 
   const handleMouseOver = (date, rowIndex, columnIndex) => {
@@ -549,10 +588,10 @@ export default function CalendarPage() {
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                     ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
                     ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-300" : ""}  
+                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}  
                     select-none`}
                     onMouseDown={() => {
-   {   /*                if (availableRooms <= 0) {
+                      {   /*                if (availableRooms <= 0) {
                         showAlert("QUARTOS INSUFICIENTES");
                       }*/}
                       setIsSelecting(true);
@@ -605,7 +644,30 @@ export default function CalendarPage() {
             })}
           </tr>
           <tr>
-            {/*CALCULA O NRM DE QUARTOS DISPONIVEIS*/}
+            {/* CALCULA O NÚMERO DE QUARTOS DISPONÍVEIS */}
+            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+              <span>Total Available</span>
+            </td>
+            {weeks[currentWeekIndex].map((day, index) => {
+              const totalAvailable = roomTypeState.reduce((acc, roomType) => {
+                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+                return acc + Math.max(0, availableRooms); // Considerar apenas quartos disponíveis (não negativos)
+              }, 0);
+              return (
+                <td
+                  key={index}
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
+                    }`}
+                >
+                  {totalAvailable}
+                </td>
+              );
+            })}
+          </tr>
+          {/** CALCULA O NUMERO DE QUARTOS DISPONIVEIS - PONDERAR NA REUNIAO SE DEVE APARECER EM NEGATIVO, POSITIVO, ETC
+           * APAGAR EM CASO DE NAO SER PRECISO
+                      <tr>
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Available</span>
             </td>
@@ -625,17 +687,24 @@ export default function CalendarPage() {
               );
             })}
           </tr>
+           
+           */}
           <tr>
-            {/*TOTAL OVERBOOKING */}
+            {/* TOTAL OVERBOOKING */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Overbooking</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
+              const dayFormat = day.date.format('YYYY-MM-DD');
+              const totalOverbooking = totalOverbookings[dayFormat] || 0;
               return (
                 <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
+                  key={index}
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
+                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
+                  `}>
+                  {totalOverbooking}
+                </td>
               );
             })}
           </tr>
@@ -758,13 +827,14 @@ export default function CalendarPage() {
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
-                return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
+                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+                return acc + Math.max(0, availableRooms); // Considerar apenas quartos disponíveis (não negativos)
               }, 0);
               return (
                 <td
                   key={index}
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
+                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}
                 >
                   {totalAvailable}

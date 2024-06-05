@@ -9,17 +9,20 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
+import axios from 'axios';
 
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import RateGroupAutocomplete from "@/components/functionsForm/autocomplete/rateCode/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservation/page";
+import PriceFilterReservation from "@/components/functionsForm/CRUD/frontOffice/reservation/priceFilters/page";
 
 import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
 
@@ -52,18 +55,18 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert();
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect, GuestNumberNrm, NightNrm } = reservationInsert();
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
-
+    const { handleRateCode, prices, setPrices, mp } = PriceFilterReservation(GuestNumberNrm, NightNrm);
 
     return (
         <>
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                        <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
-                            {buttonName} {buttonIcon}
-                        </Button>
+                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
+                        {buttonName} {buttonIcon}
+                    </Button>
                     <Modal
                         classNames={{
                             base: "max-h-screen",
@@ -255,7 +258,12 @@ const reservationsForm = ({
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Rate Details</b></h4>
                                                     </div>
-                                                    <CountryAutocomplete label="Rate Code" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <RateGroupAutocomplete 
+                                                    label="Rate Code" 
+                                                    style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} 
+                                                    onChange={(value) => handleRateCode(value)}
+                                                    />
+
                                                     <div className="flex flex-row gap-5">
                                                         <InputFieldControlled
                                                             type={"text"}
@@ -355,12 +363,14 @@ const reservationsForm = ({
                                                     />
 
                                                     <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"charges"}
-                                                        name={"Charges"}
-                                                        label={"Charges:"}
-                                                        ariaLabel={"Charges:"}
+                                                        type="text"
+                                                        id="charges"
+                                                        name="Charges"
+                                                        label="Charges:"
+                                                        ariaLabel="Charges:"
                                                         style={inputStyle}
+                                                        value={prices.Charges}
+                                                        onChange={handleInputReservation}
                                                     />
 
                                                     <InputFieldControlled
