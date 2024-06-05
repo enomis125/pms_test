@@ -205,25 +205,31 @@ export default function CalendarPage() {
     if (isDragging) {
       setIsDragging(false);
       setShowModal(true);
-  
+      setFinalSelectedCells(selectedCells);
+      const formattedDate = date.format('YYYY-MM-DD');
+      const selectedTipology = roomTypeState.find(t => t.roomTypeID === selectionInfo.roomTypeID);
+      const tipologyName = selectedTipology ? selectedTipology.name : '';
       if (ctrlPressed) {
         // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
         setEndDate2(date.format('YYYY-MM-DD'), () => {
           // O estado endDate2 foi atualizado, agora você pode acessá-lo com segurança
-          setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: endDate2 }]);
+          setSelectedDates((prevDates) => [...prevDates,
+          { start: startDate, end: formattedDate, tipologyName },
+          { start: startDate2, end: formattedDate, tipologyName },
+          ]);
         });
       } else {
         // Se a tecla Ctrl não está pressionada, defina startDate e endDate
         setEndDate(date.format('YYYY-MM-DD'));
         // Usar o estado anterior para garantir que endDate tenha o valor atualizado
-        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: date.format('YYYY-MM-DD') }]);
+        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: formattedDate, tipologyName }]);
       }
-  
+
       // Limpar seleção após o uso
       setSelectionInfo({ roomTypeID: null, dates: [] });
     }
   };
-  
+
 
   useEffect(() => {
     if (!isDragging && startDate && endDate) {
@@ -390,6 +396,10 @@ export default function CalendarPage() {
   };*/
   const [isSelecting, setIsSelecting] = useState(false);
 
+  const showAlert = (message) => {
+    alert(message);
+  };
+
   return (
     <div className='w-full'>
       {showModal && (
@@ -537,11 +547,14 @@ export default function CalendarPage() {
                   <td
                     key={index}
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                      ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-                      ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                      ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-300" : ""}  
-                      select-none`}
+                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
+                    ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
+                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-300" : ""}  
+                    select-none`}
                     onMouseDown={() => {
+   {   /*                if (availableRooms <= 0) {
+                        showAlert("QUARTOS INSUFICIENTES");
+                      }*/}
                       setIsSelecting(true);
                       handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
                       setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
@@ -550,6 +563,9 @@ export default function CalendarPage() {
                       if (isSelecting) {
                         handleMouseOver(day.date, rowIndex, index);
                         setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                        {/*if (availableRooms <= 0) {
+                          showAlert("QUARTOS INSUFICIENTES");
+                        }*/}
                       }
                     }}
                     onMouseUp={() => {
