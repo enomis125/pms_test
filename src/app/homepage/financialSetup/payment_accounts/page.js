@@ -30,7 +30,7 @@ export default function Characteristics() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [reservChange, setReservChange] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);s
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     const getData = async () => {

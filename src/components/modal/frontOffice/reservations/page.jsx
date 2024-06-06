@@ -297,58 +297,16 @@ const reservationsForm = ({
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"allotment"}
-                                                        name={"Allotment"}
-                                                        label={"Allotment"}
-                                                        ariaLabel={"Allotment"}
+                                                        id={"Price"}
+                                                        name={"Price"}
+                                                        label={"Price"}
+                                                        ariaLabel={"Price"}
                                                         style={inputStyle}
+                                                        value={prices.Price}
+                                                        onChange={handleInputReservation}
                                                     />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
-                                                    <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Segmentation</b></h4>
-                                                    </div>
-
-                                                    <CountryAutocomplete label="Market Code" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
-                                                    <CountryAutocomplete label="Distrib. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
-                                                    <CountryAutocomplete label="Comm. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
-                                                    <CountryAutocomplete label="Travel Reason" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
-
-                                                </div>
-                                            </div>
-                                            {/*segunda linha de comboboxs */}
-                                            <div className="flex flex-row justify-between gap-2">
-                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
-                                                    <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Traces</b></h4>
-                                                    </div>
-
-                                                </div>
-                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
-                                                    <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Notes</b></h4>
-                                                    </div>
-
-                                                </div>
-                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
-                                                    <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>User Defined</b></h4>
-                                                    </div>
-
-
-                                                </div>
-                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
-                                                    <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Attachements</b></h4>
-                                                    </div>
-
-
-                                                </div>
-
-                                            </div>
-                                            {/*terceira linha de comboboxs */}
-                                            <div className="flex flex-col justify-between gap-2">
-                                                <div className="bg-white flex flex-col w-1/3 px-5 py-5 border border-neutral-200">
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Billing</b></h4>
                                                     </div>
@@ -390,6 +348,50 @@ const reservationsForm = ({
                                                         ariaLabel={"Forecast:"}
                                                         style={inputStyle}
                                                     />
+
+                                                </div>
+                                            </div>
+                                            {/*segunda linha de comboboxs */}
+                                            <div className="flex flex-row justify-between gap-2">
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Traces</b></h4>
+                                                    </div>
+
+                                                </div>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Notes</b></h4>
+                                                    </div>
+
+                                                </div>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>User Defined</b></h4>
+                                                    </div>
+
+
+                                                </div>
+                                                <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Attachements</b></h4>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                            {/*terceira linha de comboboxs */}
+                                            <div className="flex flex-col justify-between gap-2">
+                                            <div className="bg-white flex flex-col w-1/3 px-5 py-5 border border-neutral-200">
+                                                    <div className="">
+                                                        <h4 className="pb-5 text-black-100"><b>Segmentation</b></h4>
+                                                    </div>
+
+                                                    <CountryAutocomplete label="Market Code" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label="Distrib. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label="Comm. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label="Travel Reason" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
 
                                                 </div>
                                             </div>

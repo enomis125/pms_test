@@ -4,6 +4,7 @@ import axios from 'axios';
 export default function usePriceFilterReservation(GuestNumberNrm, NightNrm) {
     const [prices, setPrices] = useState({
         Charges: '',
+        Price: '',
         RateCode: ''
     });
 
@@ -50,7 +51,8 @@ export default function usePriceFilterReservation(GuestNumberNrm, NightNrm) {
                 console.log(`Matched ${mpFieldName} multiplied by NightNrm:`, totalMp);
                 setPrices(prevPrices => ({
                     ...prevPrices,
-                    Charges: totalMp.toString() // Atualiza o estado Charges com o valor totalMp convertido para string
+                    Charges: totalMp.toString(), // Atualiza o estado Charges com o valor totalMp convertido para string
+                    Price: mpValue,
                 }));
             } else {
                 console.log("No matching item found for RateCode:", prices.RateCode);

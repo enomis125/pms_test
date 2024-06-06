@@ -9,6 +9,20 @@ import { LuPlus } from "react-icons/lu";
 import { BsArrowReturnRight } from "react-icons/bs";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
+//imports de crud insert
+import departmentInsert from "@/components/functionsForm/CRUD/financialSetup/departments/page";
+import cashiersInsert from "@/components/functionsForm/CRUD/financialSetup/cashiers/page";
+import accountGroupInsert from "@/components/functionsForm/CRUD/financialSetup/accountGroups/page";
+import paymentAccountsInsert from "@/components/functionsForm/CRUD/financialSetup/paymentAccounts/page";
+import revenueAccountInsert from "@/components/functionsForm/CRUD/financialSetup/revenueAccounts/page";
+import taxesInsert from "@/components/functionsForm/CRUD/financialSetup/taxes/page";
+
+//imports de autocompletes
+import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
+import AccountGroupAutocomplete from "@/components/functionsForm/autocomplete/accountGroups/page";
+import TaxesAutocomplete from "@/components/functionsForm/autocomplete/taxes/page";
+
+
 /*
 os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:
 0 - mmodal
@@ -24,32 +38,14 @@ const formModals = ({ idDepartment,
 }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    //inserção na tabela departments
-    const [department, setDepartment] = useState({
-        Abreviature: '',
-        Description: '',
-        Order: ''
-    })
+    const { handleInputDepartments, handleSubmitDepartments } = departmentInsert();
+    const { handleInputCashiers, handleSubmitCashiers } = cashiersInsert();
+    const { handleInputAccountGroups, handleSubmitAccountGroups } = accountGroupInsert();
+    const { handleInputPaymentAccounts, handleSubmitPaymentAccounts, handleSelect, handleDepartmentSelect } = paymentAccountsInsert();
+    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelectAccount, handleSelectTaxes, handleDepartmentSelectRevenue } = revenueAccountInsert();
+    const { handleInputTaxes, handleSubmitTaxes } = taxesInsert();
 
-    const handleInputDepartments = (event) => {
-        setDepartment({ ...department, [event.target.name]: event.target.value })
-    }
-    function handleSubmitDepartments(event) {
-        event.preventDefault()
-        if (!department.Label) {
-            alert("Preencha os campos corretamente");
-            return;
-        }
-        axios.put('/api/v1/hotel/tipologyGroup', {
-            data: {
-                abreviature: department.Abreviature,
-                description: department.Description,
-                order: department.Order,
-            }
-        })
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
-    }
+
 
     return (
         <>
@@ -125,7 +121,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitAccountGroups}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -185,12 +181,12 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside" className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitRevenueAccounts}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -226,21 +222,23 @@ const formModals = ({ idDepartment,
                                                     onChange={handleInputRevenueAccounts}
                                                 />
 
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Departamento</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Grupo de Conta</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Taxa</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
+                                                <DepartmentAutocomplete
+                                                    label={"Departamento"}
+                                                    style={""}
+                                                    onChange={(value) => handleDepartmentSelectRevenue(value)}
+                                                />
+                                                <AccountGroupAutocomplete
+                                                    label={"Grupo de Conta"}
+                                                    style={""}
+                                                    onChange={(value) => handleSelectAccount(value)}
+                                                />
+                                                <TaxesAutocomplete
+                                                    label={"Taxa"}
+                                                    style={""}
+                                                    name={"Taxes"}
+                                                    onChange={(value) => handleSelectTaxes(value)}
+                                                />
+
                                                 <input type="text" placeholder="Valor"></input>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Propriedade</option>
@@ -264,7 +262,7 @@ const formModals = ({ idDepartment,
 
             {formTypeModal === 40 && ( //payment account modal
                 <>
-                    <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
+                    <Button onPress={onOpen} isIconOnly className="bg-primary-100 -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
@@ -272,7 +270,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitPaymentAccounts}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -308,16 +306,16 @@ const formModals = ({ idDepartment,
                                                     onChange={handleInputPaymentAccounts}
                                                 />
 
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Departamento</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
-                                                <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Grupo de Conta</option>
-                                                    <option value="1">Teste de opções</option>
-                                                    <option value="2">Teste de opções</option>
-                                                </select>
+                                                <DepartmentAutocomplete
+                                                    label={"Departamentos"}
+                                                    style={""}
+                                                    onChange={(value) => handleDepartmentSelect(value)}
+                                                />
+                                                <AccountGroupAutocomplete
+                                                    label={"Grupo de Conta"}
+                                                    style={""}
+                                                    onChange={(value) => handleSelect(value)}
+                                                />
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
                                                     <option value="0">Tipo</option>
                                                     <option value="1">Teste de opções</option>
@@ -349,7 +347,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitTaxes}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -434,7 +432,7 @@ const formModals = ({ idDepartment,
                             {(onClose) => (
                                 <>
                                     <>
-                                        <form onSubmit={handleSubmitDepartments}>
+                                        <form onSubmit={handleSubmitCashiers}>
                                             <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -507,10 +505,36 @@ const formModals = ({ idDepartment,
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <input type="text" name="Cod" placeholder="Cod." className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Abreviature" placeholder="Abreviatura" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" placeholder="Propriedades" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
-                                                <input type="text" name="Description" placeholder="Descrição" className="w-full bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4"></input>
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"cod"}
+                                                    name={"Cod"}
+                                                    label={"Cod."}
+                                                    ariaLabel={"Cod."}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"abreviature"}
+                                                    name={"Abreviature"}
+                                                    label={"Abreviatura"}
+                                                    ariaLabel={"Abreviatura"}
+                                                />
+
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"Properties"}
+                                                    name={"Properties"}
+                                                    label={"Propriedades"}
+                                                    ariaLabel={"Descrição"}
+                                                />
+                                                <InputFieldControlled
+                                                    type={"text"}
+                                                    id={"Description"}
+                                                    name={"Description"}
+                                                    label={"Descrição"}
+                                                    ariaLabel={"Descrição"}
+                                                />
                                             </ModalBody>
                                         </form>
                                     </>

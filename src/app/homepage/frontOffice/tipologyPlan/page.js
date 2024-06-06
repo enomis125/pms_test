@@ -12,12 +12,18 @@ import isBetween from 'dayjs/plugin/isBetween';
 //imports de componentes
 import ReservationsForm from '@/components/modal/frontOffice/reservations/multiReservations/page';
 import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
-import ClientForm from "@/components/modal/frontOffice/reservations/clientForm/tabForm";
+import IndividualForm from "@/components/modal/frontOffice/clientForm/individuals/page";
+import CompanyForm from "@/components/modal/frontOffice/clientForm/companies/page";
+import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAgency/page";
+import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
+import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 
 import { FiPlus, FiX } from 'react-icons/fi';
 import { FaCalendarAlt, FaRegTrashAlt, FaRegUserCircle, FaBed } from 'react-icons/fa';
 import { FaPlus } from "react-icons/fa6";
 import Modal from '@/components/modal/confirmationBoxs/page';
+
+import { MdOutlineZoomOut } from "react-icons/md";
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -205,8 +211,8 @@ export default function CalendarPage() {
     const formattedDate = date.format('YYYY-MM-DD');
     setSelectionInfo({ roomTypeID, dates: [formattedDate] });
 
-      // Check if there are available rooms for the selected date and room type
-  const availableRooms = updatedAvailability[roomTypeID][formattedDate];
+    // Check if there are available rooms for the selected date and room type
+    const availableRooms = updatedAvailability[roomTypeID][formattedDate];
     setIsDragging(true);
     setIsSelecting(true);
     setStartDate(formattedDate);
@@ -221,7 +227,7 @@ export default function CalendarPage() {
         dates: [...prev.dates, formattedDate]
       }));
       setStartDate2(formattedDate);
-  }
+    }
   };
 
   const handleMouseOver = (date, rowIndex, columnIndex) => {
@@ -329,15 +335,8 @@ export default function CalendarPage() {
   // Função para lidar com a seleção da linha
   const handleRowSelection = (rowIndex) => {
     const filteredCells = selectedCells.filter(cell => cell.row === rowIndex);
-    //showAlert(filteredCells);
     setSelectedCells(filteredCells);
   };
-
-  // Função para mostrar um alerta com a linha e as células selecionadas
-  /*const showAlert = (filteredCells) => {
-    const selectedCellsInfo = filteredCells.map(cell => `Linha ${cell.row + 1}, Coluna ${cell.column + 1}`).join(', ');
-    alert(`Linha selecionada: ${filteredCells[0].row + 1}, Células selecionadas: ${selectedCellsInfo}`);
-  };*/
 
   const removeEvent = (index) => {
     const updatedSelectedDates = [...selectedDates];
@@ -439,6 +438,9 @@ export default function CalendarPage() {
     alert(message);
   };
 
+  //FILTRO DE BOTOES 
+  const [showButton, setShowButton] = useState(false);
+
   return (
     <div className='w-full'>
       {showModal && (
@@ -458,11 +460,11 @@ export default function CalendarPage() {
                   onChange={handleInputChange}
                 />
                 <div className="flex-shrink-0">
-                  <ClientForm
-                    buttonIcon={<FaPlus size={15} color='blue' />}
-                    buttonColor={"transparent"}
-                    modalHeader={"Inserir Ficha de Cliente"}
-                    formTypeModal={0}
+                  <FaPlus
+                    size={15}
+                    color='blue'
+                    className='cursor-pointer'
+                    onClick={() => setShowButton(!showButton)}
                   />
                 </div>
               </div>
@@ -477,6 +479,51 @@ export default function CalendarPage() {
                 </ul>
               )}
             </div>
+            {/* FILTROS PARA TIPOS DE GUEST FORMS */}
+            {showButton && (
+              <div className="flex flex-row justify-center mt-2 gap-2">
+                <div className='w-[30%] rounded-2xl bg-blue-600 text-white border-2 border-blue-600'>
+                  <IndividualForm
+                    buttonName={"Individuais"}
+                    buttonColor={"transparent"}
+                    buttonClass={"text-xs px-1"}
+                    formTypeModal={0}
+                  />
+                </div>
+                <div className='w-[30%] rounded-2xl bg-blue-600 text-white border-2 border-blue-600'>
+                  <CompanyForm
+                    buttonName={"Empresas"}
+                    buttonColor={"transparent"}
+                    buttonClass={"text-xs px-1"}
+                    formTypeModal={0}
+                  />
+                </div>
+                <div className='w-[30%] rounded-2xl bg-blue-600 text-white border-2 border-blue-600'>
+                  <TravelGroupForm
+                    buttonName={"Agência Viagens"}
+                    buttonColor={"transparent"}
+                    buttonClass={"text-xs px-1"}
+                    formTypeModal={0}
+                  />
+                </div>
+                <div className='w-[30%] rounded-2xl bg-blue-600 text-white border-2 border-blue-600'>
+                  <GroupForm
+                    buttonName={"Grupos"}
+                    buttonColor={"transparent"}
+                    buttonClass={"text-xs px-1"}
+                    formTypeModal={0}
+                  />
+                </div>
+                <div className='w-[30%] rounded-2xl bg-blue-600 text-white border-2 border-blue-600'>
+                  <OthersForm
+                    buttonName={"Outros"}
+                    buttonColor={"transparent"}
+                    buttonClass={"text-xs px-1"}
+                    formTypeModal={0}
+                  />
+                </div>
+              </div>
+            )}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
               {selectedDates.map((dateRange, index) => (
                 <div className={`bg-white text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
@@ -545,6 +592,7 @@ export default function CalendarPage() {
           <p className='text-ml text-white px-4'><b>Plano de Tipologias</b></p>
           {/*<h1 className='text-sm'>{months[today.month()]}, {today.year()}</h1>*/}
           <div className='flex items-center gap-5'>
+            <MdOutlineZoomOut size={20} color='white' className='cursor-pointer'/>
             <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
             <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>Today</p>
             <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextWeek} />
@@ -557,11 +605,12 @@ export default function CalendarPage() {
             {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
             <th className='w-[15%] bg-tableCol text-left px-4'>Tipologias</th>
             {weeks[currentWeekIndex].map((day, index) => (
-              <td key={index} className={`h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
+              <td key={index} className={`w-[5%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
               ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
                 <div className='flex flex-col justify-center text-center'>
                   <span className="text-xs text-gray-400">{daysOfWeek[day.date.day()]}</span>
-                  <span className='text-sm font-bold'>{day.date.format('DD.MM.YY')}</span>
+                  <span className='text-sm font-bold'>{day.date.format('DD')}</span>
+                  <span className='text-xs text-gray-400'>{months[day.date.month()]}</span>
                 </div>
               </td>
             ))}
@@ -588,7 +637,7 @@ export default function CalendarPage() {
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                     ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
                     ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}  
+                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-300" : ""}  
                     select-none`}
                     onMouseDown={() => {
                       {   /*                if (availableRooms <= 0) {
@@ -650,29 +699,6 @@ export default function CalendarPage() {
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
-                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-                return acc + Math.max(0, availableRooms); // Considerar apenas quartos disponíveis (não negativos)
-              }, 0);
-              return (
-                <td
-                  key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}
-                >
-                  {totalAvailable}
-                </td>
-              );
-            })}
-          </tr>
-          {/** CALCULA O NUMERO DE QUARTOS DISPONIVEIS - PONDERAR NA REUNIAO SE DEVE APARECER EM NEGATIVO, POSITIVO, ETC
-           * APAGAR EM CASO DE NAO SER PRECISO
-                      <tr>
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Total Available</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              const totalAvailable = roomTypeState.reduce((acc, roomType) => {
                 return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
               return (
@@ -687,8 +713,6 @@ export default function CalendarPage() {
               );
             })}
           </tr>
-           
-           */}
           <tr>
             {/* TOTAL OVERBOOKING */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
@@ -823,18 +847,17 @@ export default function CalendarPage() {
           <tr>
             {/*CALCULA O NRM DE QUARTOS FISICOS DISPONIVEIS*/}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Physically Available</span>
+              <span>Total Available</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
-                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-                return acc + Math.max(0, availableRooms); // Considerar apenas quartos disponíveis (não negativos)
+                return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
               return (
                 <td
                   key={index}
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
+                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}
                 >
                   {totalAvailable}

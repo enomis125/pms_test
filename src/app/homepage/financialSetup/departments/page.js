@@ -35,15 +35,15 @@ export default function Departments() {
  
   useEffect(() => {
     const getData = async () => {
-      try{
+      try {
         const res = await axios.get("/api/v1/financialSetup/departments");
-        console.log(res)
-      } catch(error) {
-        console.error("Erro: ", error.message);
+        console.log(res);
+        setDepartment(res.data.response); // Move this line inside the try block
+      } catch (error) {
+        console.error("Error: ", error.message);
       } finally {
         setIsLoading(false);
       }
-      setDepartment(res.data.response);
     };
     getData();
   }, []);
