@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { generateDate, months, daysOfWeek } from '@/app/util/weekcalendar';
+import { generateDate, months, daysOfWeek } from '@/app/util/tipologyPlan/week/weekcalendar';
 import dayjs from 'dayjs';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import axios from 'axios';
@@ -26,6 +26,7 @@ import Modal from '@/components/modal/confirmationBoxs/page';
 import { MdOutlineZoomOut } from "react-icons/md";
 
 import { Popover, PopoverTrigger, PopoverContent, Button, Input } from "@nextui-org/react";
+import { getMonth } from 'date-fns';
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -66,36 +67,36 @@ export default function CalendarPage() {
   const [cellsSelection, setCellsSelection] = useState([]);
 
 
-    //FILTRO DE BOTOES 
-    const [showButton, setShowButton] = useState(false);
+  //FILTRO DE BOTOES 
+  const [showButton, setShowButton] = useState(false);
 
-    const currentYear = dayjs().year();
-    const currentMonth = dayjs().month();
-    const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
-    const [selectedYear, setSelectedYear] = useState(currentYear);
-    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const currentYear = dayjs().year();
+  const currentMonth = dayjs().month();
+  const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
-    const [totalOverbookings, setTotalOverbookings] = useState({});
-    const [overbookings, setOverbookings] = useState({});
+  const [totalOverbookings, setTotalOverbookings] = useState({});
+  const [overbookings, setOverbookings] = useState({});
 
-    const [finalSelectedCells, setFinalSelectedCells] = useState([]);
+  const [finalSelectedCells, setFinalSelectedCells] = useState([]);
 
-    const [ctrlPressed, setCtrlPressed] = useState(false);
-    const [selectedColumn, setSelectedColumn] = useState(null);
+  const [ctrlPressed, setCtrlPressed] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState(null);
 
-    const [selectedRoomType, setSelectedRoomType] = useState('');
-    const [guestName, setGuestName] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
-    const [dataFetched, setDataFetched] = useState(false);
-    const [query, setQuery] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [isGuestNameValid, setIsGuestNameValid] = useState(false);
-    const [selectedGuestId, setSelectedGuestId] = useState('');
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [guestName, setGuestName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [query, setQuery] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isGuestNameValid, setIsGuestNameValid] = useState(false);
+  const [selectedGuestId, setSelectedGuestId] = useState('');
 
-    const [isSelecting, setIsSelecting] = useState(false);
-    const [groupReservation, setRoomRevervation] = useState({}); // Estado para armazenar o número de quartos associados a cada tipo de quarto
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [groupReservation, setRoomRevervation] = useState({}); // Estado para armazenar o número de quartos associados a cada tipo de quarto
 
-    const [nights, setNights] = useState([]);
+  const [nights, setNights] = useState([]);
 
   const handleToggleModal = () => {
     setShowModal(!showModal);
@@ -239,23 +240,23 @@ export default function CalendarPage() {
     updateAvailability();  // Atualiza a disponibilidade
   };
 
-    // Função para lidar com a atualização do número de quartos associados a um determinado tipo de quarto
-    const handleRoomCountUpdate = (roomTypeID, count) => {
-      setRoomRevervation(prevCounts => ({
-        ...prevCounts,
-        [roomTypeID]: count
-      }));
-      console.log(`Número de quartos atualizado para o tipo de quarto ${roomTypeID}: ${count}`);
-    };
+  // Função para lidar com a atualização do número de quartos associados a um determinado tipo de quarto
+  const handleRoomCountUpdate = (roomTypeID, count) => {
+    setRoomRevervation(prevCounts => ({
+      ...prevCounts,
+      [roomTypeID]: count
+    }));
+    console.log(`Número de quartos atualizado para o tipo de quarto ${roomTypeID}: ${count}`);
+  };
 
-    //calcula o nrm de noites
-    const calculateNights = (start, end) => {
-      const startDate = new Date(start);
-      const endDate = new Date(end);
-      const diffTime = endDate - startDate;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays > 0 ? diffDays : 0;
-    };
+  //calcula o nrm de noites
+  const calculateNights = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = endDate - startDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : 0;
+  };
 
   const handleMouseDown = (date, roomTypeID, rowIndex, columnIndex) => {
     const formattedDate = date.format('YYYY-MM-DD');
@@ -305,12 +306,12 @@ export default function CalendarPage() {
       const selectedTipology = roomTypeState.find(t => t.roomTypeID === selectionInfo.roomTypeID);
       const tipologyName = selectedTipology ? selectedTipology.name : '';
       const tipologyID = selectedTipology ? selectedTipology.roomTypeID : '';
-       // Extrair o segundo número (valor) do objeto groupReservation
-    const groupNumber = Object.values(groupReservation)[0] || '';
-      
-       // Calcular o número de noites
-       const numberNights = calculateNights(startDate, formattedDate);
-       setNights(numberNights);
+      // Extrair o segundo número (valor) do objeto groupReservation
+      const groupNumber = Object.values(groupReservation)[0] || '';
+
+      // Calcular o número de noites
+      const numberNights = calculateNights(startDate, formattedDate);
+      setNights(numberNights);
 
       if (ctrlPressed) {
         // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
@@ -485,9 +486,9 @@ export default function CalendarPage() {
     setWeeks(generateDate(selectedMonth, selectedYear));
   }, [selectedYear, selectedMonth]);
 
-    const handleZoomOutClick = () => {
-      window.location.href = '/homepage/frontOffice/tipologyPlan/zoomOut';
-    }
+  const handleZoomOutClick = () => {
+    window.location.href = '/homepage/frontOffice/tipologyPlan/zoomOut';
+  }
 
   return (
     <div className='w-full'>
@@ -530,37 +531,37 @@ export default function CalendarPage() {
             {/* FILTROS PARA TIPOS DE GUEST FORMS */}
             {showButton && (
               <div className="flex flex-col justify-center mt-2 gap-2">
-  
-                  <IndividualForm
-                    buttonName={"Individuais"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <CompanyForm
-                    buttonName={"Empresas"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <GroupForm
-                    buttonName={"Grupos"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <TravelGroupForm
-                    buttonName={"Agência Viagens"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <OthersForm
-                    buttonName={"Outros"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
+
+                <IndividualForm
+                  buttonName={"Individuais"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  formTypeModal={0}
+                />
+                <CompanyForm
+                  buttonName={"Empresas"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  formTypeModal={0}
+                />
+                <GroupForm
+                  buttonName={"Grupos"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  formTypeModal={0}
+                />
+                <TravelGroupForm
+                  buttonName={"Agência Viagens"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  formTypeModal={0}
+                />
+                <OthersForm
+                  buttonName={"Outros"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  formTypeModal={0}
+                />
               </div>
             )}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
@@ -631,7 +632,7 @@ export default function CalendarPage() {
         <div className='flex justify-between items-center'>
           <p className='text-ml text-white px-4'><b>Plano de Tipologias</b></p>
           <div className='flex items-center gap-5'>
-          <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
+            <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
             {!showModal && (
               <Popover placement="bottom" showArrow offset={10}>
                 <PopoverTrigger>
@@ -649,15 +650,16 @@ export default function CalendarPage() {
                       <p className="text-small font-bold text-foreground" {...titleProps}>
                         FILTRO DE MÊS E ANO
                       </p>
-                      <div className="mt-2 flex flex-row justify-around">
-                        <select value={selectedMonth} onChange={(e) => handleMonthChange(e.target.value)} className='w-[45%] outline-none'>
-                          {months.map((month, index) => (
-                            <option key={index} value={index}>{month}</option>
-                          ))}
-                        </select>
+                      <div className="mt-2 flex flex-col justify-around">
                         <select value={selectedYear} onChange={(e) => handleYearChange(e.target.value)} className='w-[45%] outline-none'>
                           {years.map((year) => (
                             <option key={year} value={year}>{year}</option>
+                          ))}
+                        </select>
+
+                        <select value={selectedMonth} onChange={(e) => handleMonthChange(e.target.value)} className='w-[45%] outline-none'>
+                          {months.map((month, index) => (
+                            <option key={index} value={index}>{month}</option>
                           ))}
                         </select>
                       </div>
@@ -696,13 +698,13 @@ export default function CalendarPage() {
               <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
                 <span>{roomType.name}</span>
                 <div className='flex flex-row items-center gap-2'>
-                <span>{roomCounts[roomType.roomTypeID] || 0}</span>
-                <span><BiSolidPencil size={15} color='gray' onClick={() => {
-                const newCount = prompt("Enter the number of rooms:");
-                if (newCount !== null && !isNaN(newCount)) {
-                  handleRoomCountUpdate(roomType.roomTypeID, parseInt(newCount));
-                }
-              }} /></span>
+                  <span>{roomCounts[roomType.roomTypeID] || 0}</span>
+                  <span><BiSolidPencil size={15} color='gray' onClick={() => {
+                    const newCount = prompt("Enter the number of rooms:");
+                    if (newCount !== null && !isNaN(newCount)) {
+                      handleRoomCountUpdate(roomType.roomTypeID, parseInt(newCount));
+                    }
+                  }} /></span>
                 </div>
               </td>
               {weeks[currentWeekIndex].map((day, index) => {

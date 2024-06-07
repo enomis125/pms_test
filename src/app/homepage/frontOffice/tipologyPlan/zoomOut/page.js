@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { generateMonth, months, daysOfWeek } from '@/app/util/reservationPlan/weekcalendar';
+import { generateMonth, months, daysOfWeek } from '@/app/util/tipologyPlan/month/monthcalendar';
 import dayjs from 'dayjs';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import axios from 'axios';
@@ -42,7 +42,6 @@ export default function CalendarPage() {
   const [roomCounts, setRoomCounts] = useState({});
   const [reservation, setReservation] = useState([]);
   const [selectionInfo, setSelectionInfo] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
-  const [selectionRows, setSelectionRows] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
   const [availability, setAvailability] = useState({});
   const [updatedAvailability, setUpdatedAvailability] = useState({});
 
@@ -342,7 +341,7 @@ export default function CalendarPage() {
     }
   }, [isDragging, startDate, endDate, tipology]);
 
-  const setCurrentWeekToCurrentDate = () => {
+  /*const setCurrentWeekToCurrentDate = () => {
     const currentToday = dayjs();  // Pega a data atual
     const newWeeks = generateMonth(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
     setWeeks(newWeeks);
@@ -354,7 +353,7 @@ export default function CalendarPage() {
     const newCurrentWeekIndex = Math.floor(daysSinceStartOfMonth / 7);
 
     setCurrentWeekIndex(newCurrentWeekIndex);  // Atualiza o índice da semana
-  };
+  };*/
 
 
   // Função para lidar com o pressionamento da tecla Ctrl
@@ -676,9 +675,9 @@ export default function CalendarPage() {
         <thead>
           <tr>
             {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
-            <th className='w-[15%] bg-tableCol text-left px-4'>Tipologias</th>
+            <th className='w-[10%] bg-tableCol text-left px-4'>Tipologias</th>
             {weeks.days.map((day, index) => (
-              <td key={index} className={`w-[5%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
+              <td key={index} className={`w-[3%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
               ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
                 <div className='flex flex-col justify-center text-center'>
                   <span className="text-xs text-gray-400">{daysOfWeek[day.date.day()]}</span>
