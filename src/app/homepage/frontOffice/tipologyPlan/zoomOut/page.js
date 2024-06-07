@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { generateDate, months, daysOfWeek } from '@/app/util/weekcalendar';
+import { generateMonth, months, daysOfWeek } from '@/app/util/reservationPlan/weekcalendar';
 import dayjs from 'dayjs';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import axios from 'axios';
@@ -34,7 +34,7 @@ dayjs.extend(isBetween);
 
 export default function CalendarPage() {
   const [today, setToday] = useState(dayjs());
-  const [weeks, setWeeks] = useState(generateDate(today.month(), today.year()));
+  const [weeks, setWeeks] = useState(generateMonth(today.month(), today.year()));
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
@@ -147,7 +147,7 @@ export default function CalendarPage() {
     let dailyOverbookings = {};
 
     roomTypeState.forEach(roomType => {
-      weeks[currentWeekIndex].forEach(day => {
+      weeks.days.forEach(day => {
         const dayFormat = day.date.format('YYYY-MM-DD');
         const filteredReservations = reservation.filter(res =>
           dayjs(res.checkInDate).startOf('day').isSameOrBefore(day.date) &&
@@ -192,7 +192,7 @@ export default function CalendarPage() {
 
     if (currentWeekIndex === 0) {
       newToday = today.subtract(1, 'month');
-      const newWeeks = generateDate(newToday.month(), newToday.year());
+      const newWeeks = generateMonth(newToday.month(), newToday.year());
       newIndex = newWeeks.length - 1;  // Vá para a última semana do mês anterior
       setWeeks(newWeeks);  // Atualize weeks
     }
@@ -208,7 +208,7 @@ export default function CalendarPage() {
 
     if (currentWeekIndex === weeks.length - 1) {
       newToday = today.add(1, 'month');
-      const newWeeks = generateDate(newToday.month(), newToday.year());
+      const newWeeks = generateMonth(newToday.month(), newToday.year());
       newIndex = 0;  // Vá para a primeira semana do próximo mês
       setWeeks(newWeeks);  // Atualize weeks
     }
@@ -222,7 +222,7 @@ export default function CalendarPage() {
   const goToCurrentWeek = () => {
     const currentToday = dayjs();  // Pega a data atual
     setToday(currentToday);  // Atualiza o estado today para a data atual
-    const newWeeks = generateDate(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
+    const newWeeks = generateMonth(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
     setWeeks(newWeeks);
 
     // Calcula o índice da semana que contém o dia atual
@@ -344,7 +344,7 @@ export default function CalendarPage() {
 
   const setCurrentWeekToCurrentDate = () => {
     const currentToday = dayjs();  // Pega a data atual
-    const newWeeks = generateDate(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
+    const newWeeks = generateMonth(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
     setWeeks(newWeeks);
     setToday(currentToday);
 
@@ -482,11 +482,11 @@ export default function CalendarPage() {
   };
 
   useEffect(() => {
-    setWeeks(generateDate(selectedMonth, selectedYear));
+    setWeeks(generateMonth(selectedMonth, selectedYear));
   }, [selectedYear, selectedMonth]);
 
     const handleZoomOutClick = () => {
-      window.location.href = '/homepage/frontOffice/tipologyPlan/zoomOut';
+      window.location.href = '/homepage/frontOffice/tipologyPlan';
     }
 
   return (
@@ -677,7 +677,7 @@ export default function CalendarPage() {
           <tr>
             {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
             <th className='w-[15%] bg-tableCol text-left px-4'>Tipologias</th>
-            {weeks[currentWeekIndex].map((day, index) => (
+            {weeks.days.map((day, index) => (
               <td key={index} className={`w-[5%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
               ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
                 <div className='flex flex-col justify-center text-center'>
@@ -705,7 +705,7 @@ export default function CalendarPage() {
               }} /></span>
                 </div>
               </td>
-              {weeks[currentWeekIndex].map((day, index) => {
+              {weeks.days.map((day, index) => {
                 const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
                 const formattedDate = day.date.format('YYYY-MM-DD');
                 const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
@@ -750,7 +750,7 @@ export default function CalendarPage() {
           <tr>
             {/*LINHA SEPARADORA DA GRELHA */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -764,7 +764,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Day Use</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -778,7 +778,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Available</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
                 return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
@@ -799,7 +799,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Overbooking</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const dayFormat = day.date.format('YYYY-MM-DD');
               const totalOverbooking = totalOverbookings[dayFormat] || 0;
               return (
@@ -818,7 +818,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Non Ded/Not Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -832,7 +832,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Non Ded/Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -846,7 +846,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Deduct/Not Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -860,7 +860,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Deduct/Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -874,7 +874,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Out of Order</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -888,7 +888,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Option - Deduct</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -902,7 +902,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Option - Non Deduct</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -916,7 +916,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Confirmed - Deduct</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -930,7 +930,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Available</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
                 return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
@@ -954,7 +954,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Ocupação %</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const totalAvailableRooms = roomTypeState.reduce((acc, roomType) => {
                 return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
