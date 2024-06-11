@@ -24,7 +24,6 @@ export async function PUT(request) {
 
     const userID = getUserIDFromToken(tokenCookie.value)
 
-
     try {
         const { data } = await request.json();
         console.log(data)
