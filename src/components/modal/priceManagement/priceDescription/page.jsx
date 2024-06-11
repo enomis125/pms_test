@@ -128,10 +128,10 @@ const priceDescriptionForm = ({
                         <div className="flex flex-row gap-8">
                           <InputFieldControlled
                             type={"text"}
-                            id={"mudar"}
-                            name={"mudar"}
+                            id={"ref"}
+                            name={"Ref"}
                             label={"Referencia"}
-                            style={"w-30 outline-none h-10 bg-slate-100"}
+                            style={"w-30 outline-none h-10"}
                             onChange={handleInputPriceDescription}
                           />
 

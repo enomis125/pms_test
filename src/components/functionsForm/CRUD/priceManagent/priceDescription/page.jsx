@@ -172,6 +172,7 @@ export default function priceDescriptionInsert() {
       .put(`/api/v1/prices/priceDescription`, {
         data: {
           //Linha 1
+          ref: priceDescription.Ref,
           nome: priceDescription.Nome,
           rateCodeName: priceDescription.RateCodeName,
           //Linha 2

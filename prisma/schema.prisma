@@ -386,13 +386,10 @@ model contacts {
   @@index([updatedBy], map: "contacts_users_2_idx")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model counters {
   tableName String @db.VarChar(255)
   counter   Int?   @default(0)
   counterID Int    @id @default(autoincrement())
-
-  @@ignore
 }
 
 model country {

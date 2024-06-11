@@ -85,34 +85,6 @@ export default function lostAndFoundForm() {
 
     console.log("Filtrando dados de reserva...");
 
-    const filteredReservations = reservation.filter((reservation) => {
-      const checkInDateIncludes = reservation.checkInDate && reservation.checkInDate.toLowerCase().includes(searchValue.toLowerCase());
-      const checkOutDateIncludes = reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase());
-
-      let isSelectedStatus = false;
-
-      switch (selectedButton) {
-        case 0: // Pendentes
-          isSelectedStatus = reservation.reservationStatus === 0;
-          break;
-        case 1: // Checked-in
-          isSelectedStatus = reservation.reservationStatus === 1;
-          break;
-        case 2: // Checked-Out
-          isSelectedStatus = reservation.reservationStatus === 2;
-          break;
-        case 3: // Canceladas
-          isSelectedStatus = reservation.reservationStatus === 3;
-          break;
-        case 4: // No-Show
-          isSelectedStatus = reservation.reservationStatus === 4;
-          break;
-        default:
-          break;
-      }
-
-      return (checkInDateIncludes || checkOutDateIncludes) && isSelectedStatus;
-    });
 
     return filteredReservations;
   }, [reservation, searchValue, selectedButton]);
@@ -166,22 +138,6 @@ export default function lostAndFoundForm() {
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 0:
-        return <FaClock size={28} />;
-      case 1:
-        return <PiAirplaneLandingFill size={28} />;
-      case 2:
-        return <PiAirplaneTakeoffFill size={28} />;
-      case 3:
-        return <ImCross size={28} />;
-      case 4:
-        return <MdOutlinePersonOff size={28} />;
-      default:
-        return "Status desconhecido";
-    }
-  };
 
   //botoes que mudam de cor
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
@@ -307,44 +263,24 @@ export default function lostAndFoundForm() {
                 UTILIZADOR
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Status">
-                ATUALIDO EM
+                ATUALIZADO EM
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
               </TableColumn>
             </TableHeader>
             <TableBody>
-            {items.map((reservation, index) => (
+              {lostAndFound.map((lostAndFound, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-left underline text-blue-600">
-                    <ReservationsForm
-                      buttonName={reservation.reservationID}
-                      editIcon={<FiEdit3 size={25} />}
-                      buttonColor={"transparent"}
-                      modalHeader={"Editar Reserva"}
-                      modalEditArrow={<BsArrowRight size={25} />}
-                      modalEdit={`ID: ${reservation.reservationID}`}
-                      formTypeModal={1}
-                      idReservation={reservation.reservationID}
-                      idGuest={reservation.guestNumber}
-                      criado={reservation.createdAt}
-                      editado={reservation.updatedAt}
-                      editor={"teste"}
-                    />
-                  </TableCell>
-                  <TableCell className="px-[3%]">
-                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.firstName || "Nome não encontrado"}
-                  </TableCell>
-                  <TableCell className="px-[3%]">
-                    {guestProfiles.find(profile => profile.guestProfileID === reservation.guestNumber)?.secondName || "Apelido não encontrado"}
-                  </TableCell>
-                  <TableCell className="px-[5%]">{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-[6%]">{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                  <TableCell className="px-[8%]">{reservation.nightCount}</TableCell>
-                  <TableCell className="px-[10%]">{reservation.roomNumber}</TableCell>
-                  <TableCell className="px-[10%]">{"aa"}</TableCell>
-                  <TableCell className="px-[8%]">{reservation.adultCount}</TableCell>
-                  <TableCell className="px-[8%]">{renderCell(reservation, "reservationStatus")}</TableCell>
+                  <TableCell className="">{lostAndFound.referenceNumber}</TableCell>
+                  <TableCell className="">{lostAndFound.foundDate}</TableCell>
+                  <TableCell className="">{lostAndFound.isFound}</TableCell>
+                  <TableCell className="">{lostAndFound.roomNumber}</TableCell>
+                  <TableCell className="">{lostAndFound.location}</TableCell>
+                  <TableCell className="">{lostAndFound.userName}</TableCell>
+                  <TableCell className="">{lostAndFound.description}</TableCell>
+                  <TableCell className="">{lostAndFound.foundByUser}</TableCell>
+                  <TableCell className="">{lostAndFound.updatedAt}</TableCell>
                   <TableCell className="flex justify-end">
                     <Dropdown>
                       <DropdownTrigger>
@@ -355,7 +291,6 @@ export default function lostAndFoundForm() {
                           <BsThreeDotsVertical size={20} className="text-gray-400" />
                         </Button>
                       </DropdownTrigger>
-                      {getDropdownMenu(reservation.reservationStatus, reservation.reservationID)}
                     </Dropdown>
                   </TableCell>
                 </TableRow>

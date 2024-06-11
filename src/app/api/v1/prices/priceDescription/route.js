@@ -40,7 +40,13 @@ export async function PUT(request) {
         }
         return value;
     }
-
+  
+    function removeComma(value) { //Preparação dos valores para o campo com tipo decimal (19,2)
+        if (typeof value === 'string') {
+            return parseFloat(value.replace(',', '.'));
+        }
+        return value;
+    }
     
     try {
         const { data } = await request.json();
@@ -55,6 +61,9 @@ export async function PUT(request) {
                 rateCodeDetName: data.nome,
                 propertyID: propertyID,
                 createdBy: userID,
+                //Linha 1
+                rateCodeID: parseInt(data.rateCodeName),
+                rateCodeDetName: data.nome,
                 //Linha 2
                 validFrom: validFrom,
                 validUntil: validUntil,

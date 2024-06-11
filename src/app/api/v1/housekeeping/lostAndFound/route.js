@@ -33,6 +33,7 @@ export async function PUT(request) {
                 hotelCode: parseInt(data.hotelCode),
                 roomNumber: parseInt(data.roomNumber),
                 customerID: parseInt(data.customerID),
+                referenceNumber: parseInt(data.referenceNumber),
                 date: data.date,
                 userName: data.userName,
                 isFound: parseInt(data.isFound),
