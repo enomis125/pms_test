@@ -87,7 +87,7 @@ const seasonsForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -103,7 +103,7 @@ const seasonsForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>
@@ -192,7 +192,7 @@ const seasonsForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -208,7 +208,7 @@ const seasonsForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>

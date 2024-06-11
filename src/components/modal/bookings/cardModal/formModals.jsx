@@ -17,6 +17,8 @@ import cancelTypeInsert from "@/components/functionsForm/CRUD/bookings/cancelTyp
 import cancelReasonInsert from "@/components/functionsForm/CRUD/bookings/cancelReason/page";
 import reserveChangeInsert from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
 
+import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+
 
 /*
 os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:

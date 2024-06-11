@@ -33,7 +33,7 @@ const revenueAccountsForm = ({
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes, handleDepartmentSelect } = revenueAccountInsert();
+    const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelectAccount, handleSelectTaxes, handleDepartmentSelectRevenue } = revenueAccountInsert();
     const { handleUpdateRevenueAccount, setValuesRevenueAccounts, valuesRevenueAccounts } = revenueAccountsEdit(idRevenueAccount);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
@@ -101,12 +101,12 @@ const revenueAccountsForm = ({
                                                 <DepartmentAutocomplete
                                                     label={"Departamento"}
                                                     style={""}
-                                                    onChange={(value) => handleDepartmentSelect(value)}
+                                                    onChange={(value) => handleDepartmentSelectRevenue(value)}
                                                 />
                                                 <AccountGroupAutocomplete
                                                     label={"Grupo de Conta"}
                                                     style={""}
-                                                    onChange={(value) => handleSelect(value)}
+                                                    onChange={(value) => handleSelectAccount(value)}
                                                 />
                                                 <TaxesAutocomplete
                                                     label={"Taxa"}

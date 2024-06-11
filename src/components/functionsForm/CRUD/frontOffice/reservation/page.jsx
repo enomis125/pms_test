@@ -21,6 +21,9 @@ export default function reservationInsert(startDate, endDate) {
         Tipology: '',
         Room: '',
     })
+
+    const GuestNumberNrm = reservation.GuestNumber;
+    const NightNrm = reservation.NightCount;
     //preenchimento automatico do nome e do apelido atraves de autocomplete
     const handleClientSelect = (clientForm) => {
         setReservation({
@@ -133,7 +136,8 @@ export default function reservationInsert(startDate, endDate) {
         }
 
     return {
-        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect, 
+        GuestNumberNrm, NightNrm
     };
 }
 
