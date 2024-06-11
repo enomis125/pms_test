@@ -163,26 +163,41 @@ export default function CalendarPage() {
     updateAvailability();  // Atualiza a disponibilidade
   };
 
+  const [finalSelectedCells, setFinalSelectedCells] = useState([]);
 
-  const handleMouseDown = (date, roomTypeID) => {
-    setSelectionInfo({ roomTypeID, dates: [date.format('YYYY-MM-DD')] });
+  const handleMouseDown = (date, roomTypeID, rowIndex, columnIndex) => {
+    const formattedDate = date.format('YYYY-MM-DD');
+    setSelectionInfo({ roomTypeID, dates: [formattedDate] });
     setIsDragging(true);
-    setStartDate(date.format('YYYY-MM-DD'));
+    setIsSelecting(true);
+    setStartDate(formattedDate);
+    setSelectedRow(rowIndex);
+    setSelectedColumn(columnIndex); // Definir a coluna selecionada
+    setSelectedCells([{ row: rowIndex, column: columnIndex }]);
+    const newSelectedCell = { row: rowIndex, column: columnIndex, date };
+    setCellsSelection([...cellsSelection, newSelectedCell]);
     if (ctrlPressed) {
-      setSelectionRows({ roomTypeID, dates: [date.format('YYYY-MM-DD')] });
-      setIsDragging(true);
-      setStartDate2(date.format('YYYY-MM-DD'));
+      setSelectionInfo(prev => ({
+        roomTypeID: prev.roomTypeID,
+        dates: [...prev.dates, formattedDate]
+      }));
+      setStartDate2(formattedDate);
     }
   };
 
-  const handleMouseOver = (date) => {
+  const handleMouseOver = (date, rowIndex, columnIndex) => {
     if (isDragging && selectionInfo.roomTypeID) {
       setTipology(selectionInfo.roomTypeID);
-      const newDates = [...selectionInfo.dates];
-      if (!newDates.includes(date.format('YYYY-MM-DD'))) {
-        newDates.push(date.format('YYYY-MM-DD'));
+      const formattedDate = date.format('YYYY-MM-DD');
+      setSelectedCells(prevCells => [...prevCells, { row: rowIndex, column: columnIndex }]);
+      if (!selectionInfo.dates.includes(formattedDate)) {
+        setSelectionInfo(prev => ({
+          ...prev,
+          dates: [...prev.dates, formattedDate]
+        }));
       }
-      setSelectionInfo(prev => ({ ...prev, dates: newDates }));
+      setSelectedRow(rowIndex); // Atualizar a linha selecionada
+      setSelectedColumn(columnIndex); // Atualizar a coluna selecionada
     }
   };
 
@@ -190,19 +205,27 @@ export default function CalendarPage() {
     if (isDragging) {
       setIsDragging(false);
       setShowModal(true);
-
+      setFinalSelectedCells(selectedCells);
+      const formattedDate = date.format('YYYY-MM-DD');
       const selectedTipology = roomTypeState.find(t => t.roomTypeID === selectionInfo.roomTypeID);
       const tipologyName = selectedTipology ? selectedTipology.name : '';
-
       if (ctrlPressed) {
+        // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
         setEndDate2(date.format('YYYY-MM-DD'), () => {
-          setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: endDate2, tipologyName }]);
+          // O estado endDate2 foi atualizado, agora você pode acessá-lo com segurança
+          setSelectedDates((prevDates) => [...prevDates,
+          { start: startDate, end: formattedDate, tipologyName },
+          { start: startDate2, end: formattedDate, tipologyName },
+          ]);
         });
       } else {
+        // Se a tecla Ctrl não está pressionada, defina startDate e endDate
         setEndDate(date.format('YYYY-MM-DD'));
-        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: date.format('YYYY-MM-DD'), tipologyName }]);
+        // Usar o estado anterior para garantir que endDate tenha o valor atualizado
+        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: formattedDate, tipologyName }]);
       }
 
+      // Limpar seleção após o uso
       setSelectionInfo({ roomTypeID: null, dates: [] });
     }
   };
@@ -231,6 +254,8 @@ export default function CalendarPage() {
   };
 
   const [ctrlPressed, setCtrlPressed] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState(null);
+
 
   // Função para lidar com o pressionamento da tecla Ctrl
   const handleKeyDown = (event) => {
@@ -259,12 +284,21 @@ export default function CalendarPage() {
   }, []);
 
   const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedCells, setSelectedCells] = useState([]);
+  const [cellsSelection, setCellsSelection] = useState([]);
 
   // Função para lidar com a seleção da linha
-  const handleRowSelection = (rowIndex, roomTypeName) => {
-    setSelectedRow(rowIndex);
-    setSelectedRoomType(roomTypeName);
+  const handleRowSelection = (rowIndex) => {
+    const filteredCells = selectedCells.filter(cell => cell.row === rowIndex);
+    //showAlert(filteredCells);
+    setSelectedCells(filteredCells);
   };
+
+  // Função para mostrar um alerta com a linha e as células selecionadas
+  /*const showAlert = (filteredCells) => {
+    const selectedCellsInfo = filteredCells.map(cell => `Linha ${cell.row + 1}, Coluna ${cell.column + 1}`).join(', ');
+    alert(`Linha selecionada: ${filteredCells[0].row + 1}, Células selecionadas: ${selectedCellsInfo}`);
+  };*/
 
   const removeEvent = (index) => {
     const updatedSelectedDates = [...selectedDates];
@@ -293,7 +327,6 @@ export default function CalendarPage() {
     setIsGuestNameValid(query.some(item => `${item.firstName} ${item.secondName}` === event.target.value));
   };
 
-  const isGuestNameEntered = guestName.trim() !== '';
 
   useEffect(() => {
     const getData = async () => {
@@ -303,7 +336,7 @@ export default function CalendarPage() {
           const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
           const namesArray = res.data.response
             .map(item => ({
-              id: item.guestProfileID, 
+              id: item.guestProfileID,
               secondName: item.secondName,
               firstName: item.firstName
             }))
@@ -361,6 +394,11 @@ export default function CalendarPage() {
     const formattedDate = formatDateToInput(value);
     updateDateRange(index, field, formattedDate);
   };*/
+  const [isSelecting, setIsSelecting] = useState(false);
+
+  const showAlert = (message) => {
+    alert(message);
+  };
 
   return (
     <div className='w-full'>
@@ -418,25 +456,25 @@ export default function CalendarPage() {
                       <input
                         className='outline-none'
                         type="date"
-                      value={dateRange.start}
-                      onChange={(e) => updateDateRange(index, 'start', e.target.value)}
+                        value={dateRange.start}
+                        onChange={(e) => updateDateRange(index, 'start', e.target.value)}
                       />
                     </div>
                     <div className="flex flex-col gap-2">
                       <label>Out:</label>
                       <input
-                        className='outline-none w-20'
+                        className='outline-none'
                         type="date"
-                      value={dateRange.end}
-                      onChange={(e) => updateDateRange(index, 'end', e.target.value)}
+                        value={dateRange.end}
+                        onChange={(e) => updateDateRange(index, 'end', e.target.value)}
                       />
+                    </div>
+                    <div className='flex flex-row justify-between items-center py-1'>
+                      <p className='text-sm px-3 text-center'>N: {calculateNights(dateRange.start, dateRange.end)}</p>
+                    </div>
                   </div>
                 </div>
-                <div className='flex flex-row justify-between items-center py-1'>
-                  <p className='text-sm px-3'>Noites: {calculateNights(dateRange.start, dateRange.end)}</p>
-                </div>
-              </div>
-            ))}
+              ))}
             </div>
             <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
               <ReservationsForm
@@ -493,26 +531,47 @@ export default function CalendarPage() {
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map((roomType, rowIndex) => (
-            <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex, roomType.name)}>
+            <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex)}>
               <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
                 <span>{roomType.name}</span>
                 <span>{roomCounts[roomType.roomTypeID] || 0}</span>
               </td>
               {weeks[currentWeekIndex].map((day, index) => {
                 const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-                const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
+                const formattedDate = day.date.format('YYYY-MM-DD');
+                const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
+
+                const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
 
                 return (
                   <td
                     key={index}
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                     ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-                    ${selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${selectedRow === rowIndex ? "bg-red-500" : ""}
+                    ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
+                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-300" : ""}  
                     select-none`}
-                    onMouseDown={() => handleMouseDown(day.date, roomType.roomTypeID)}
-                    onMouseOver={() => handleMouseOver(day.date)}
-                    onMouseUp={() => handleMouseUp(day.date)}>
+                    onMouseDown={() => {
+   {   /*                if (availableRooms <= 0) {
+                        showAlert("QUARTOS INSUFICIENTES");
+                      }*/}
+                      setIsSelecting(true);
+                      handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
+                      setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                    }}
+                    onMouseOver={() => {
+                      if (isSelecting) {
+                        handleMouseOver(day.date, rowIndex, index);
+                        setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                        {/*if (availableRooms <= 0) {
+                          showAlert("QUARTOS INSUFICIENTES");
+                        }*/}
+                      }
+                    }}
+                    onMouseUp={() => {
+                      setIsSelecting(false);
+                      handleMouseUp(day.date);
+                    }}>
                     {availableRooms}
                   </td>
                 );
