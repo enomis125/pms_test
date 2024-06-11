@@ -473,18 +473,54 @@ export default function CalendarPage() {
   };
 
   const handleYearChange = (year) => {
-    setSelectedYear(parseInt(year, 10));
-    // Redirecionar a grelha para o ano selecionado
+    const newYear = parseInt(year, 10);
+    setSelectedYear(newYear);
+
+    // Atualiza a data para o primeiro dia do novo ano e mês atual
+    const newToday = dayjs().year(newYear).month(selectedMonth).date(1);
+    setToday(newToday);
+
+    // Regenera as semanas para o novo ano e mês
+    const newWeeks = generateDate(newToday.month(), newToday.year());
+    setWeeks(newWeeks);
+
+    // Atualiza o índice da semana para a primeira semana do novo mês e ano
+    setCurrentWeekIndex(0);
+
+    updateAvailability(); // Atualiza a disponibilidade
   };
 
   const handleMonthChange = (month) => {
-    setSelectedMonth(parseInt(month, 10));
-    // Redirecionar a grelha para o mês selecionado
+    const newMonth = parseInt(month, 10);
+    setSelectedMonth(newMonth);
+
+    // Atualiza a data para o primeiro dia do novo mês e ano atual
+    const newToday = dayjs().year(selectedYear).month(newMonth).date(1);
+    setToday(newToday);
+
+    // Regenera as semanas para o novo mês e ano
+    const newWeeks = generateDate(newToday.month(), newToday.year());
+    setWeeks(newWeeks);
+
+    // Atualiza o índice da semana para a primeira semana do novo mês e ano
+    setCurrentWeekIndex(0);
+
+    updateAvailability(); // Atualiza a disponibilidade
   };
 
+  // useEffect para atualizar os dados quando o mês ou o ano é alterado
   useEffect(() => {
-    setWeeks(generateDate(selectedMonth, selectedYear));
-  }, [selectedYear, selectedMonth]);
+    const newToday = dayjs().year(selectedYear).month(selectedMonth).date(1);
+    setToday(newToday);
+
+    const newWeeks = generateDate(newToday.month(), newToday.year());
+    setWeeks(newWeeks);
+
+    // Atualiza o índice da semana para a primeira semana do novo mês e ano
+    setCurrentWeekIndex(0);
+
+    updateAvailability(); // Atualiza a disponibilidade
+  }, [selectedYear, selectedMonth]);  // Executa o efeito quando selectedYear ou selectedMonth mudar
 
   const handleZoomOutClick = () => {
     window.location.href = '/homepage/frontOffice/tipologyPlan/zoomOut';
@@ -530,42 +566,42 @@ export default function CalendarPage() {
             </div>
             {/* FILTROS PARA TIPOS DE GUEST FORMS */}
             {showButton && (
-              <div className="flex flex-col justify-center mt-2 gap-2">
-
+              <div className="flex flex-col justify-center items-center mt-2 gap-2 px-4">
+                <p className='text-xs text-gray-500'>Escolha o tipo de ficha, por favor:</p>
                 <IndividualForm
                   buttonName={"Individuais"}
                   buttonColor={"transparent"}
-                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
                 <CompanyForm
                   buttonName={"Empresas"}
                   buttonColor={"transparent"}
-                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
                 <GroupForm
                   buttonName={"Grupos"}
                   buttonColor={"transparent"}
-                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
                 <TravelGroupForm
                   buttonName={"Agência Viagens"}
                   buttonColor={"transparent"}
-                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
                 <OthersForm
                   buttonName={"Outros"}
                   buttonColor={"transparent"}
-                  buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
+                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
               </div>
             )}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
-              <p className='text-sm text-gray-500 px-4'>Detalhes da reserva</p>
+              <p className='text-xs text-gray-500 px-4'>Detalhes da reserva</p>
               {selectedDates.map((dateRange, index) => (
                 <div className={`bg-white border border-gray-300 text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
                   <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
@@ -644,24 +680,31 @@ export default function CalendarPage() {
                     />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px]">
+                <PopoverContent className="w-[250px]">
                   {(titleProps) => (
                     <div className="px-1 py-2 w-full">
                       <p className="text-small font-bold text-foreground" {...titleProps}>
-                        FILTRO DE MÊS E ANO
+                        FILTRAR POR MÊS E ANO
                       </p>
                       <div className="mt-2 flex flex-col justify-around">
-                        <select value={selectedYear} onChange={(e) => handleYearChange(e.target.value)} className='w-[45%] outline-none'>
+                        <select value={selectedYear} onChange={(e) => handleYearChange(e.target.value)} className='w-full outline-none'>
                           {years.map((year) => (
                             <option key={year} value={year}>{year}</option>
                           ))}
                         </select>
-
-                        <select value={selectedMonth} onChange={(e) => handleMonthChange(e.target.value)} className='w-[45%] outline-none'>
+                        {/**EXIBIÇÃO DOS MESES EM 3 COLUNAS E 4 LINHAS */}
+                        <div className="mt-4 grid grid-cols-4 gap-2">
                           {months.map((month, index) => (
-                            <option key={index} value={index}>{month}</option>
+                            <button
+                              key={index}
+                              onClick={() => handleMonthChange(index)}
+                              className={`p-2 text-center rounded-full w-12 h-12 hover:bg-primary`}
+                            >
+                              {month}
+                            </button>
                           ))}
-                        </select>
+                        </div>
+
                       </div>
                     </div>
                   )}

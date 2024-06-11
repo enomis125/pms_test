@@ -35,7 +35,7 @@ dayjs.extend(isBetween);
 export default function CalendarPage() {
   const [today, setToday] = useState(dayjs());
   const [weeks, setWeeks] = useState(generateMonth(today.month(), today.year()));
-  const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   const [roomTypeState, setRoomTypeState] = useState([]);
@@ -65,36 +65,36 @@ export default function CalendarPage() {
   const [cellsSelection, setCellsSelection] = useState([]);
 
 
-    //FILTRO DE BOTOES 
-    const [showButton, setShowButton] = useState(false);
+  //FILTRO DE BOTOES 
+  const [showButton, setShowButton] = useState(false);
 
-    const currentYear = dayjs().year();
-    const currentMonth = dayjs().month();
-    const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
-    const [selectedYear, setSelectedYear] = useState(currentYear);
-    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const currentYear = dayjs().year();
+  const currentMonth = dayjs().month();
+  const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
-    const [totalOverbookings, setTotalOverbookings] = useState({});
-    const [overbookings, setOverbookings] = useState({});
+  const [totalOverbookings, setTotalOverbookings] = useState({});
+  const [overbookings, setOverbookings] = useState({});
 
-    const [finalSelectedCells, setFinalSelectedCells] = useState([]);
+  const [finalSelectedCells, setFinalSelectedCells] = useState([]);
 
-    const [ctrlPressed, setCtrlPressed] = useState(false);
-    const [selectedColumn, setSelectedColumn] = useState(null);
+  const [ctrlPressed, setCtrlPressed] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState(null);
 
-    const [selectedRoomType, setSelectedRoomType] = useState('');
-    const [guestName, setGuestName] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
-    const [dataFetched, setDataFetched] = useState(false);
-    const [query, setQuery] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [isGuestNameValid, setIsGuestNameValid] = useState(false);
-    const [selectedGuestId, setSelectedGuestId] = useState('');
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [guestName, setGuestName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [query, setQuery] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isGuestNameValid, setIsGuestNameValid] = useState(false);
+  const [selectedGuestId, setSelectedGuestId] = useState('');
 
-    const [isSelecting, setIsSelecting] = useState(false);
-    const [groupReservation, setRoomRevervation] = useState({}); // Estado para armazenar o número de quartos associados a cada tipo de quarto
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [groupReservation, setRoomRevervation] = useState({}); // Estado para armazenar o número de quartos associados a cada tipo de quarto
 
-    const [nights, setNights] = useState([]);
+  const [nights, setNights] = useState([]);
 
   const handleToggleModal = () => {
     setShowModal(!showModal);
@@ -182,79 +182,69 @@ export default function CalendarPage() {
 
   useEffect(() => {
     updateAvailability(); // Recalculate whenever dependencies change
-  }, [roomTypeState, roomCounts, reservation, currentWeekIndex]);
+  }, [roomTypeState, roomCounts, reservation, currentMonthIndex]);
 
-  // Funções para navegar entre as semanas
-  const goToPreviousWeek = () => {
-    let newToday = today;
-    let newIndex = currentWeekIndex - 1;
+// Funções para navegar entre os meses
+const goToPreviousMonth = () => {
+  let newToday = today.subtract(1, 'month');
+  let newIndex = currentMonthIndex - 1;
 
-    if (currentWeekIndex === 0) {
-      newToday = today.subtract(1, 'month');
-      const newWeeks = generateMonth(newToday.month(), newToday.year());
-      newIndex = newWeeks.length - 1;  // Vá para a última semana do mês anterior
-      setWeeks(newWeeks);  // Atualize weeks
-    }
+  if (currentMonthIndex === 1) {
+    newToday = today.subtract(1, 'year');
+    newIndex = 11; // Vá para o último mês do ano anterior
+  }
 
-    setToday(newToday);
-    setCurrentWeekIndex(newIndex);
-    updateAvailability(); // Atualize a disponibilidade quando a semana mudar
+  setToday(newToday);
+  setCurrentMonthIndex(newIndex);
+  setSelectedMonth(newToday.month()); // Atualize o estado selectedMonth
+  updateAvailability(); // Atualize a disponibilidade quando o mês mudar
+};
+
+const goToNextMonth = () => {
+  let newToday = today.add(1, 'month');
+  let newIndex = currentMonthIndex + 1;
+
+  if (currentMonthIndex === 1) {
+    newToday = today.add(1, 'year');
+    newIndex = 0; // Vá para o primeiro mês do próximo ano
+  }
+
+  setToday(newToday);
+  setCurrentMonthIndex(newIndex);
+  setSelectedMonth(newToday.month()); // Atualize o estado selectedMonth
+  updateAvailability(); // Atualize a disponibilidade quando o mês mudar
+};
+
+const goToCurrentMonth = () => {
+  const currentToday = dayjs(); // Pega a data atual
+  setToday(currentToday); // Atualiza o estado today para a data atual
+  const newWeeks = generateMonth(currentToday.month(), currentToday.year()); // Regenera as semanas para o mês atual
+  setWeeks(newWeeks);
+
+  // Calcula o índice do mês que contém o dia atual
+  const currentMonthIndex = currentToday.month();
+
+  setCurrentMonthIndex(currentMonthIndex); // Atualiza o índice do mês
+  updateAvailability(); // Atualiza a disponibilidade
+};
+
+  // Função para lidar com a atualização do número de quartos associados a um determinado tipo de quarto
+  const handleRoomCountUpdate = (roomTypeID, count) => {
+    setRoomRevervation(prevCounts => ({
+      ...prevCounts,
+      [roomTypeID]: count
+    }));
+    console.log(`Número de quartos atualizado para o tipo de quarto ${roomTypeID}: ${count}`);
   };
 
-  const goToNextWeek = () => {
-    let newToday = today;
-    let newIndex = currentWeekIndex + 1;
-
-    if (currentWeekIndex === weeks.length - 1) {
-      newToday = today.add(1, 'month');
-      const newWeeks = generateMonth(newToday.month(), newToday.year());
-      newIndex = 0;  // Vá para a primeira semana do próximo mês
-      setWeeks(newWeeks);  // Atualize weeks
-    }
-
-    setToday(newToday);
-    setCurrentWeekIndex(newIndex);
-    updateAvailability(); // Atualize a disponibilidade quando a semana mudar
+  //calcula o nrm de noites
+  const calculateNights = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = endDate - startDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : 0;
   };
-
-
-  const goToCurrentWeek = () => {
-    const currentToday = dayjs();  // Pega a data atual
-    setToday(currentToday);  // Atualiza o estado today para a data atual
-    const newWeeks = generateMonth(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
-    setWeeks(newWeeks);
-
-    // Calcula o índice da semana que contém o dia atual
-    const startOfMonth = currentToday.startOf('month');
-    const daysSinceStartOfMonth = currentToday.diff(startOfMonth, 'day');
-    const currentWeekIndex = Math.floor(daysSinceStartOfMonth / 7);
-
-    // Encontre a semana que contém o dia de hoje
-    const weekIndex = newWeeks.findIndex(week =>
-      week.some(day => day.date.isSame(currentToday, 'day'))
-    );
-
-    setCurrentWeekIndex(weekIndex);  // Atualiza o índice da semana
-    updateAvailability();  // Atualiza a disponibilidade
-  };
-
-    // Função para lidar com a atualização do número de quartos associados a um determinado tipo de quarto
-    const handleRoomCountUpdate = (roomTypeID, count) => {
-      setRoomRevervation(prevCounts => ({
-        ...prevCounts,
-        [roomTypeID]: count
-      }));
-      console.log(`Número de quartos atualizado para o tipo de quarto ${roomTypeID}: ${count}`);
-    };
-
-    //calcula o nrm de noites
-    const calculateNights = (start, end) => {
-      const startDate = new Date(start);
-      const endDate = new Date(end);
-      const diffTime = endDate - startDate;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays > 0 ? diffDays : 0;
-    };
 
   const handleMouseDown = (date, roomTypeID, rowIndex, columnIndex) => {
     const formattedDate = date.format('YYYY-MM-DD');
@@ -304,12 +294,12 @@ export default function CalendarPage() {
       const selectedTipology = roomTypeState.find(t => t.roomTypeID === selectionInfo.roomTypeID);
       const tipologyName = selectedTipology ? selectedTipology.name : '';
       const tipologyID = selectedTipology ? selectedTipology.roomTypeID : '';
-       // Extrair o segundo número (valor) do objeto groupReservation
-    const groupNumber = Object.values(groupReservation)[0] || '';
-      
-       // Calcular o número de noites
-       const numberNights = calculateNights(startDate, formattedDate);
-       setNights(numberNights);
+      // Extrair o segundo número (valor) do objeto groupReservation
+      const groupNumber = Object.values(groupReservation)[0] || '';
+
+      // Calcular o número de noites
+      const numberNights = calculateNights(startDate, formattedDate);
+      setNights(numberNights);
 
       if (ctrlPressed) {
         // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
@@ -448,45 +438,63 @@ export default function CalendarPage() {
     return fullName.includes(searchTerm.toLowerCase());
   });
 
-  /*const formatDateToDisplay = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear()).slice(-2);
-    return `${day}-${month}-${year}`;
-  };
-
-  const formatDateToInput = (dateString) => {
-    const [day, month, year] = dateString.split('-');
-    return `20${year}-${month}-${day}`;
-  };
-
-  const handleDateChange = (index, field, value) => {
-    const formattedDate = formatDateToInput(value);
-    updateDateRange(index, field, formattedDate);
-  };*/
-
   const showAlert = (message) => {
     alert(message);
   };
 
   const handleYearChange = (year) => {
-    setSelectedYear(parseInt(year, 10));
-    // Redirecionar a grelha para o ano selecionado
+    const newYear = parseInt(year, 10);
+    setSelectedYear(newYear);
+
+    // Atualiza a data para o primeiro dia do novo ano e mês atual
+    const newToday = dayjs().year(newYear).month(selectedMonth).date(1);
+    setToday(newToday);
+
+    // Regenera as semanas para o novo ano e mês
+    const newWeeks = generateMonth(newToday.month(), newToday.year());
+    setWeeks(newWeeks);
+
+    // Atualiza o índice da semana para a primeira semana do novo mês e ano
+    setCurrentMonthIndex(0);
+
+    updateAvailability(); // Atualiza a disponibilidade
   };
 
   const handleMonthChange = (month) => {
-    setSelectedMonth(parseInt(month, 10));
-    // Redirecionar a grelha para o mês selecionado
+    const newMonth = parseInt(month, 10);
+    setSelectedMonth(newMonth);
+
+    // Atualiza a data para o primeiro dia do novo mês e ano atual
+    const newToday = dayjs().year(selectedYear).month(newMonth).date(1);
+    setToday(newToday);
+
+    // Regenera as semanas para o novo mês e ano
+    const newWeeks = generateMonth(newToday.month(), newToday.year());
+    setWeeks(newWeeks);
+
+    // Atualiza o índice da semana para a primeira semana do novo mês e ano
+    setCurrentMonthIndex(0);
+
+    updateAvailability(); // Atualiza a disponibilidade
   };
 
+  // useEffect para atualizar os dados quando o mês ou o ano é alterado
   useEffect(() => {
-    setWeeks(generateMonth(selectedMonth, selectedYear));
-  }, [selectedYear, selectedMonth]);
+    const newToday = dayjs().year(selectedYear).month(selectedMonth).date(1);
+    setToday(newToday);
 
-    const handleZoomOutClick = () => {
-      window.location.href = '/homepage/frontOffice/tipologyPlan';
-    }
+    const newWeeks = generateMonth(newToday.month(), newToday.year());
+    setWeeks(newWeeks);
+
+    // Atualiza o índice da semana para a primeira semana do novo mês e ano
+    setCurrentMonthIndex(0);
+
+    updateAvailability(); // Atualiza a disponibilidade
+  }, [selectedYear, selectedMonth]);  // Executa o efeito quando selectedYear ou selectedMonth mudar
+
+  const handleZoomOutClick = () => {
+    window.location.href = '/homepage/frontOffice/tipologyPlan';
+  }
 
   return (
     <div className='w-full'>
@@ -528,38 +536,42 @@ export default function CalendarPage() {
             </div>
             {/* FILTROS PARA TIPOS DE GUEST FORMS */}
             {showButton && (
-              <div className="flex flex-col justify-center mt-2 gap-2">
-  
-                  <IndividualForm
-                    buttonName={"Individuais"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <CompanyForm
-                    buttonName={"Empresas"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <GroupForm
-                    buttonName={"Grupos"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <TravelGroupForm
-                    buttonName={"Agência Viagens"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
-                  <OthersForm
-                    buttonName={"Outros"}
-                    buttonColor={"transparent"}
-                    buttonClass={"h-5 px-1 rounded-2xl bg-blue-600 text-xs text-white border-2 border-blue-600"}
-                    formTypeModal={0}
-                  />
+              <div className="flex flex-col justify-center items-center mt-2 gap-2 px-4">
+                <p className='text-xs text-gray-500'>Escolha o tipo de ficha, por favor:</p>
+                <div className='flex flex-row gap-2'>
+                <IndividualForm
+                  buttonName={"Individuais"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                  formTypeModal={0}
+                />
+                <CompanyForm
+                  buttonName={"Empresas"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                  formTypeModal={0}
+                />
+                <GroupForm
+                  buttonName={"Grupos"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                  formTypeModal={0}
+                />
+                </div>
+                <div className='flex flex-row gap-2'>
+                <TravelGroupForm
+                  buttonName={"Agência Viagens"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                  formTypeModal={0}
+                />
+                <OthersForm
+                  buttonName={"Outros"}
+                  buttonColor={"transparent"}
+                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                  formTypeModal={0}
+                />
+                </div>
               </div>
             )}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
@@ -630,7 +642,7 @@ export default function CalendarPage() {
         <div className='flex justify-between items-center'>
           <p className='text-ml text-white px-4'><b>Plano de Tipologias</b></p>
           <div className='flex items-center gap-5'>
-          <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
+            <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
             {!showModal && (
               <Popover placement="bottom" showArrow offset={10}>
                 <PopoverTrigger>
@@ -642,32 +654,40 @@ export default function CalendarPage() {
                     />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px]">
+                <PopoverContent className="w-[250px]">
                   {(titleProps) => (
                     <div className="px-1 py-2 w-full">
                       <p className="text-small font-bold text-foreground" {...titleProps}>
-                        FILTRO DE MÊS E ANO
+                        FILTRAR POR MÊS E ANO
                       </p>
-                      <div className="mt-2 flex flex-row justify-around">
-                        <select value={selectedMonth} onChange={(e) => handleMonthChange(e.target.value)} className='w-[45%] outline-none'>
-                          {months.map((month, index) => (
-                            <option key={index} value={index}>{month}</option>
-                          ))}
-                        </select>
-                        <select value={selectedYear} onChange={(e) => handleYearChange(e.target.value)} className='w-[45%] outline-none'>
+                      <div className="mt-2 flex flex-col justify-around">
+                        <select value={selectedYear} onChange={(e) => handleYearChange(e.target.value)} className='w-full outline-none'>
                           {years.map((year) => (
                             <option key={year} value={year}>{year}</option>
                           ))}
                         </select>
+                        {/**EXIBIÇÃO DOS MESES EM 3 COLUNAS E 4 LINHAS */}
+                        <div className="mt-4 grid grid-cols-4 gap-2">
+                          {months.map((month, index) => (
+                            <button
+                              key={index}
+                              onClick={() => handleMonthChange(index)}
+                              className={`p-2 text-center rounded-full w-12 h-12 hover:bg-primary`}
+                            >
+                              {month}
+                            </button>
+                          ))}
+                        </div>
+
                       </div>
                     </div>
                   )}
                 </PopoverContent>
               </Popover>
             )}
-            <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
-            <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>Today</p>
-            <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextWeek} />
+            <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousMonth} />
+            <p className='cursor-pointer text-white' onClick={goToCurrentMonth}>Today</p>
+            <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextMonth} />
           </div>
         </div>
       </div>
@@ -695,13 +715,13 @@ export default function CalendarPage() {
               <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
                 <span>{roomType.name}</span>
                 <div className='flex flex-row items-center gap-2'>
-                <span>{roomCounts[roomType.roomTypeID] || 0}</span>
-                <span><BiSolidPencil size={15} color='gray' onClick={() => {
-                const newCount = prompt("Enter the number of rooms:");
-                if (newCount !== null && !isNaN(newCount)) {
-                  handleRoomCountUpdate(roomType.roomTypeID, parseInt(newCount));
-                }
-              }} /></span>
+                  <span>{roomCounts[roomType.roomTypeID] || 0}</span>
+                  <span><BiSolidPencil size={15} color='gray' onClick={() => {
+                    const newCount = prompt("Enter the number of rooms:");
+                    if (newCount !== null && !isNaN(newCount)) {
+                      handleRoomCountUpdate(roomType.roomTypeID, parseInt(newCount));
+                    }
+                  }} /></span>
                 </div>
               </td>
               {weeks.days.map((day, index) => {
@@ -974,7 +994,7 @@ export default function CalendarPage() {
                 */
                 <td
                   key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-xs border-l-3 border-r-3 border-b-2 rounded-lg 
                   ${dailyOccupancyPercentage <= 49 ? "bg-green bg-opacity-30" : ""} 
                   ${dailyOccupancyPercentage >= 50 && dailyOccupancyPercentage <= 69 ? "bg-yellow-100" : ""} 
                   ${dailyOccupancyPercentage >= 70 ? "bg-red-200" : ""} 
