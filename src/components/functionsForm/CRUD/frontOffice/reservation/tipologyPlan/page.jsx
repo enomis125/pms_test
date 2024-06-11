@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -21,7 +21,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     Language: '',
     Tipology: '',
     Room: '',
-    GroupNumber: '',
+    GroupNumber: selectedDates && selectedDates[0] && selectedDates[0].groupNumber ? selectedDates[0].groupNumber : 0, // Define como 0 se vazio
   };
 
   // Inserting into the client preference table
@@ -84,10 +84,9 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     getData();
   }, [reservation.Tipology, reservation.Room]);
 
-
   const handleInputReservation = (event) => {
-    setReservation({ ...reservation, [event.target.name]: event.target.value })
-  }
+    setReservation({ ...reservation, [event.target.name]: event.target.value });
+  };
 
   const handleSubmitReservationForTab = (tabIndex, reservationData) => {
     axios.put(`/api/v1/frontOffice/reservations/tipologyPlan`, {
@@ -98,6 +97,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
         adultCount: reservationData.GuestNumber,
         guestNumber: reservationData.GuestID,
         roomTypeNumber: reservationData.Tipology,
+        groupNumber: reservationData.GroupNumber,
       }
     })
       .then(response => {
@@ -116,7 +116,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     event.preventDefault();
 
     // Verifica se todos os campos estão preenchidos
-    {/*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+    {/*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.GuestID || !reservation.Tipology) {
       alert("Preencha os campos corretamente");
       return;
     }*/}
@@ -130,6 +130,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
         GuestNumber: reservation.GuestNumber,
         GuestID: reservation.GuestID,
         Tipology: dateRange.tipologyID,
+        GroupNumber: dateRange.groupNumber || 0, // Define como 0 se vazio
       });
     });
   }
