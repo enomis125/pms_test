@@ -1,0 +1,138 @@
+{
+    "Index": {
+        "general": {
+            "search": "Search...",
+            "newRecord": "New",
+            "editRecord": "Edit",
+            "removeRecord": "Remove",
+            "viewRecord": "View",
+            "loadingStatus": "Loading..."
+        },
+        "pagination": {
+            "noRecords": "0 results",
+            "pageRecords": "Records per Page:",
+            "of": "of"
+        },
+        "sidebar": {
+            "frontoffice": {
+                "label": "Front Office",
+                "frontOffice": "Front Office",
+                "clientFiles": "Client Files",
+                "frontDesk": "Front-Desk",
+                "reservations": "Reservations",
+                "arrivals": "Arrivals",
+                "guestList": "Guest List",
+                "departures": "Departures",
+                "tipologiesPlan": "Tipologies Plan",
+                "reservationsPlan": "Reservations Plan"
+            },
+            "housekeeping": {
+                "label": "Housekeeping",
+                "housekeeping": "Housekeeping",
+                "management": "Management",
+                "lostAndFound": "Lost And Found",
+                "attendantSheets": "Attendant Sheets"
+            },
+            "settings": {
+                "label": "Settings",
+                "companyLabel": "Company",
+                "chargeAccountsLabel": "Charge Accounts"
+            },
+            "hotel": {
+                "label": "Hotel",
+                "tipologiesGroup": "Tipologies Group",
+                "tipologies": "Tipologies",
+                "rooms": "Rooms",
+                "characteristics": "Characteristics",
+                "maintenance": "Maintenance"
+            },
+            "cardex": {
+                "label": "Cardex",
+                "cardex": "Cardex",
+                "salutions": "Salutions",
+                "nationalities": "Nationalities",
+                "knowledgeMethod": "Knowledge Method",
+                "profession": "Profession",
+                "idDocument": "Identification Document",
+                "languages": "Languages",
+                "clientPreferences": "Client Preferences",
+                "members": "Members",
+                "marketing": "Marketing",
+                "vipTypes": "VIP Types"
+            },
+            "bookings": {
+                "label": "Bookings",
+                "bookings": "Bookings",
+                "bookingStatus": "Booking Status",
+                "marketSegments": "Market Segments",
+                "marketSources": "Market Sources",
+                "formsOfKnowledge": "Forms of Knowledge",
+                "bookingReasons": "Booking Reasons",
+                "substitutionCodes": "Substitution Codes",
+                "cancelationReasons": "Cancelation Reasons",
+                "pickupTypes": "Pickup Types",
+                "bookingChangeTypes": "Booking Change Types",
+                "cancelationTypes": "Cancelation Types"
+            },
+            "financial": {
+                "label": "Financial",
+                "financial": "Financial",
+                "departments": "Departments",
+                "accountsGroups": "Accounts Groups",
+                "revenueAccounts": "Revenue Accounts",
+                "paymentAccounts": "Payment Accounts",
+                "taxes": "Taxes",
+                "cashiers": "Cashiers",
+                "voidCharges": "Void Charges"
+            },
+            "priceManagement": {
+                "label": "Price Management",
+                "priceCodes": "Price Codes",
+                "priceCodesDescription": "Price Codes Description",
+                "seasons": "Seasons"
+            }
+        },
+        "frontOffice": {
+            "frontOffice": {
+                "generalCard": "General",
+                "individualCard": "Individuals",
+                "businessCard": "Businesses",
+                "travelAgencyCard": "Travel Agencies",
+                "groupsCard": "Groups",
+                "othersCard": "Others"
+            },
+            "clientFiles": {
+                "label": "Client Files",
+                "nameLabel": "Name",
+                "lastNameLabel": "Last Name",
+                "salutionLabel": "Salution",
+                "languageLabel": "Language",
+                "datatable": {
+                    "id": "ID",
+                    "fileType": "FILE TYPE",
+                    "name": "NAME",
+                    "lastName": "LAST NAME",
+                    "address": "ADDRESS",
+                    "email": "EMAIL",
+                    "phoneNumber": "PHONE NUMBER"
+                },
+                "cards": {
+                    "individual": "Individual",
+                    "business": "Business",
+                    "travelAgency": "Travel Agency",
+                    "groups": "Groups",
+                    "others": "Others"
+                },
+                "new": {
+                    "modalHeader": "New Client File"
+                },
+                "edit": {
+                    "modalHeader": "Edit Client File"
+                },
+                "view": {
+                    "modalHeader": "View Client File"
+                }
+            }
+        }
+    }
+}
