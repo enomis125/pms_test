@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { generateDate, months, daysOfWeek } from '@/app/util/tipologyPlan/week/weekcalendar';
+import { generateMonth, months, daysOfWeek } from '@/app/util/tipologyPlan/month/monthcalendar';
 import dayjs from 'dayjs';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import axios from 'axios';
@@ -25,8 +25,9 @@ import Modal from '@/components/modal/confirmationBoxs/page';
 
 import { MdOutlineZoomOut } from "react-icons/md";
 
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+
 import { Popover, PopoverTrigger, PopoverContent, Button, Input } from "@nextui-org/react";
-import { getMonth } from 'date-fns';
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -35,15 +36,14 @@ dayjs.extend(isBetween);
 
 export default function CalendarPage() {
   const [today, setToday] = useState(dayjs());
-  const [weeks, setWeeks] = useState(generateDate(today.month(), today.year()));
-  const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
+  const [weeks, setWeeks] = useState(generateMonth(today.month(), today.year()));
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   const [roomTypeState, setRoomTypeState] = useState([]);
   const [roomCounts, setRoomCounts] = useState({});
   const [reservation, setReservation] = useState([]);
   const [selectionInfo, setSelectionInfo] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
-  const [selectionRows, setSelectionRows] = useState({ roomTypeID: null, dates: [] }); //seleção de uma linha
   const [availability, setAvailability] = useState({});
   const [updatedAvailability, setUpdatedAvailability] = useState({});
 
@@ -148,7 +148,7 @@ export default function CalendarPage() {
     let dailyOverbookings = {};
 
     roomTypeState.forEach(roomType => {
-      weeks[currentWeekIndex].forEach(day => {
+      weeks.days.forEach(day => {
         const dayFormat = day.date.format('YYYY-MM-DD');
         const filteredReservations = reservation.filter(res =>
           dayjs(res.checkInDate).startOf('day').isSameOrBefore(day.date) &&
@@ -184,60 +184,50 @@ export default function CalendarPage() {
 
   useEffect(() => {
     updateAvailability(); // Recalculate whenever dependencies change
-  }, [roomTypeState, roomCounts, reservation, currentWeekIndex]);
+  }, [roomTypeState, roomCounts, reservation, currentMonthIndex]);
 
-  // Funções para navegar entre as semanas
-  const goToPreviousWeek = () => {
-    let newToday = today;
-    let newIndex = currentWeekIndex - 1;
+  // Funções para navegar entre os meses
+  const goToPreviousMonth = () => {
+    let newToday = today.subtract(1, 'month');
+    let newIndex = currentMonthIndex - 1;
 
-    if (currentWeekIndex === 0) {
-      newToday = today.subtract(1, 'month');
-      const newWeeks = generateDate(newToday.month(), newToday.year());
-      newIndex = newWeeks.length - 1;  // Vá para a última semana do mês anterior
-      setWeeks(newWeeks);  // Atualize weeks
+    if (currentMonthIndex === 1) {
+      newToday = today.subtract(1, 'year');
+      newIndex = 11; // Vá para o último mês do ano anterior
     }
 
     setToday(newToday);
-    setCurrentWeekIndex(newIndex);
-    updateAvailability(); // Atualize a disponibilidade quando a semana mudar
+    setCurrentMonthIndex(newIndex);
+    setSelectedMonth(newToday.month()); // Atualize o estado selectedMonth
+    updateAvailability(); // Atualize a disponibilidade quando o mês mudar
   };
 
-  const goToNextWeek = () => {
-    let newToday = today;
-    let newIndex = currentWeekIndex + 1;
+  const goToNextMonth = () => {
+    let newToday = today.add(1, 'month');
+    let newIndex = currentMonthIndex + 1;
 
-    if (currentWeekIndex === weeks.length - 1) {
-      newToday = today.add(1, 'month');
-      const newWeeks = generateDate(newToday.month(), newToday.year());
-      newIndex = 0;  // Vá para a primeira semana do próximo mês
-      setWeeks(newWeeks);  // Atualize weeks
+    if (currentMonthIndex === 1) {
+      newToday = today.add(1, 'year');
+      newIndex = 0; // Vá para o primeiro mês do próximo ano
     }
 
     setToday(newToday);
-    setCurrentWeekIndex(newIndex);
-    updateAvailability(); // Atualize a disponibilidade quando a semana mudar
+    setCurrentMonthIndex(newIndex);
+    setSelectedMonth(newToday.month()); // Atualize o estado selectedMonth
+    updateAvailability(); // Atualize a disponibilidade quando o mês mudar
   };
 
-
-  const goToCurrentWeek = () => {
-    const currentToday = dayjs();  // Pega a data atual
-    setToday(currentToday);  // Atualiza o estado today para a data atual
-    const newWeeks = generateDate(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
+  const goToCurrentMonth = () => {
+    const currentToday = dayjs(); // Pega a data atual
+    setToday(currentToday); // Atualiza o estado today para a data atual
+    const newWeeks = generateMonth(currentToday.month(), currentToday.year()); // Regenera as semanas para o mês atual
     setWeeks(newWeeks);
 
-    // Calcula o índice da semana que contém o dia atual
-    const startOfMonth = currentToday.startOf('month');
-    const daysSinceStartOfMonth = currentToday.diff(startOfMonth, 'day');
-    const currentWeekIndex = Math.floor(daysSinceStartOfMonth / 7);
+    // Calcula o índice do mês que contém o dia atual
+    const currentMonthIndex = currentToday.month();
 
-    // Encontre a semana que contém o dia de hoje
-    const weekIndex = newWeeks.findIndex(week =>
-      week.some(day => day.date.isSame(currentToday, 'day'))
-    );
-
-    setCurrentWeekIndex(weekIndex);  // Atualiza o índice da semana
-    updateAvailability();  // Atualiza a disponibilidade
+    setCurrentMonthIndex(currentMonthIndex); // Atualiza o índice do mês
+    updateAvailability(); // Atualiza a disponibilidade
   };
 
   // Função para lidar com a atualização do número de quartos associados a um determinado tipo de quarto
@@ -343,9 +333,9 @@ export default function CalendarPage() {
     }
   }, [isDragging, startDate, endDate, tipology]);
 
-  const setCurrentWeekToCurrentDate = () => {
+  /*const setCurrentWeekToCurrentDate = () => {
     const currentToday = dayjs();  // Pega a data atual
-    const newWeeks = generateDate(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
+    const newWeeks = generateMonth(currentToday.month(), currentToday.year());  // Regenera as semanas para o mês atual
     setWeeks(newWeeks);
     setToday(currentToday);
 
@@ -355,7 +345,7 @@ export default function CalendarPage() {
     const newCurrentWeekIndex = Math.floor(daysSinceStartOfMonth / 7);
 
     setCurrentWeekIndex(newCurrentWeekIndex);  // Atualiza o índice da semana
-  };
+  };*/
 
 
   // Função para lidar com o pressionamento da tecla Ctrl
@@ -450,30 +440,17 @@ export default function CalendarPage() {
     return fullName.includes(searchTerm.toLowerCase());
   });
 
-  /*const formatDateToDisplay = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear()).slice(-2);
-    return `${day}-${month}-${year}`;
-  };
-
-  const formatDateToInput = (dateString) => {
-    const [day, month, year] = dateString.split('-');
-    return `20${year}-${month}-${day}`;
-  };
-
-  const handleDateChange = (index, field, value) => {
-    const formattedDate = formatDateToInput(value);
-    updateDateRange(index, field, formattedDate);
-  };*/
-
   const showAlert = (message) => {
     alert(message);
   };
 
-  const handleYearChange = (year) => {
-    const newYear = parseInt(year, 10);
+  const handleYearChange = (action) => {
+    let newYear;
+    if (action === 'increment') {
+      newYear = selectedYear + 1;
+    } else if (action === 'decrement') {
+      newYear = selectedYear - 1;
+    }
     setSelectedYear(newYear);
 
     // Atualiza a data para o primeiro dia do novo ano e mês atual
@@ -481,11 +458,11 @@ export default function CalendarPage() {
     setToday(newToday);
 
     // Regenera as semanas para o novo ano e mês
-    const newWeeks = generateDate(newToday.month(), newToday.year());
+    const newWeeks = generateMonth(newToday.month(), newToday.year());
     setWeeks(newWeeks);
 
     // Atualiza o índice da semana para a primeira semana do novo mês e ano
-    setCurrentWeekIndex(0);
+    setCurrentMonthIndex(0);
 
     updateAvailability(); // Atualiza a disponibilidade
   };
@@ -499,11 +476,11 @@ export default function CalendarPage() {
     setToday(newToday);
 
     // Regenera as semanas para o novo mês e ano
-    const newWeeks = generateDate(newToday.month(), newToday.year());
+    const newWeeks = generateMonth(newToday.month(), newToday.year());
     setWeeks(newWeeks);
 
     // Atualiza o índice da semana para a primeira semana do novo mês e ano
-    setCurrentWeekIndex(0);
+    setCurrentMonthIndex(0);
 
     updateAvailability(); // Atualiza a disponibilidade
   };
@@ -513,17 +490,17 @@ export default function CalendarPage() {
     const newToday = dayjs().year(selectedYear).month(selectedMonth).date(1);
     setToday(newToday);
 
-    const newWeeks = generateDate(newToday.month(), newToday.year());
+    const newWeeks = generateMonth(newToday.month(), newToday.year());
     setWeeks(newWeeks);
 
     // Atualiza o índice da semana para a primeira semana do novo mês e ano
-    setCurrentWeekIndex(0);
+    setCurrentMonthIndex(0);
 
     updateAvailability(); // Atualiza a disponibilidade
   }, [selectedYear, selectedMonth]);  // Executa o efeito quando selectedYear ou selectedMonth mudar
 
   const handleZoomOutClick = () => {
-    window.location.href = '/homepage/frontOffice/tipologyPlan/zoomOut';
+    window.location.href = '/homepage/frontOffice/tipology_Plan';
   }
 
   return (
@@ -567,41 +544,45 @@ export default function CalendarPage() {
             {/* FILTROS PARA TIPOS DE GUEST FORMS */}
             {showButton && (
               <div className="flex flex-col justify-center items-center mt-2 gap-2 px-4">
-                <p className='text-xs text-gray-500'>Escolha o tipo de ficha, por favor:</p>
-                <IndividualForm
-                  buttonName={"Individuais"}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
-                <CompanyForm
-                  buttonName={"Empresas"}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
-                <GroupForm
-                  buttonName={"Grupos"}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
-                <TravelGroupForm
-                  buttonName={"Agência Viagens"}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
-                <OthersForm
-                  buttonName={"Outros"}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
+                <p className='text-xs text-gray-500'>Choose the type of guest, please:</p>
+                <div className='flex flex-row gap-2'>
+                  <IndividualForm
+                    buttonName={"Individuais"}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                  <CompanyForm
+                    buttonName={"Empresas"}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                  <GroupForm
+                    buttonName={"Grupos"}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                </div>
+                <div className='flex flex-row gap-2'>
+                  <TravelGroupForm
+                    buttonName={"Agência Viagens"}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                  <OthersForm
+                    buttonName={"Outros"}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                </div>
               </div>
             )}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
-              <p className='text-xs text-gray-500 px-4'>Detalhes da reserva</p>
+              <p className='text-sm text-gray-500 px-4'>Reservation details</p>
               {selectedDates.map((dateRange, index) => (
                 <div className={`bg-white border border-gray-300 text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
                   <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
@@ -642,7 +623,7 @@ export default function CalendarPage() {
             <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
               <ReservationsForm
                 formTypeModal={0}
-                buttonName={"RESERVAR"}
+                buttonName={"RESERVE"}
                 //buttonIcon={<FiPlus size={15} />}
                 editIcon={<FaCalendarAlt size={25} color="white" />}
                 buttonColor={"primary"}
@@ -658,7 +639,7 @@ export default function CalendarPage() {
               />
               <button
                 className="text-sm"
-                onClick={handleToggleModal}>CANCELAR</button>
+                onClick={handleToggleModal}>CANCEL</button>
             </div>
           </div>
         </>
@@ -666,7 +647,7 @@ export default function CalendarPage() {
 
       <div className={`bg-primary-600 ${showModal ? 'py-4' : 'py-2'}`}>
         <div className='flex justify-between items-center'>
-          <p className='text-ml text-white px-4'><b>Plano de Tipologias</b></p>
+          <p className='text-ml text-white px-4'><b>Typology Plan</b></p>
           <div className='flex items-center gap-5'>
             <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
             {!showModal && (
@@ -683,15 +664,21 @@ export default function CalendarPage() {
                 <PopoverContent className="w-[250px]">
                   {(titleProps) => (
                     <div className="px-1 py-2 w-full">
-                      <p className="text-small font-bold text-foreground" {...titleProps}>
-                        FILTRAR POR MÊS E ANO
-                      </p>
-                      <div className="mt-2 flex flex-col justify-around">
-                        <select value={selectedYear} onChange={(e) => handleYearChange(e.target.value)} className='w-full outline-none'>
-                          {years.map((year) => (
-                            <option key={year} value={year}>{year}</option>
-                          ))}
-                        </select>
+                    <p className="text-small font-bold text-foreground" {...titleProps}>
+                      FILTER BY MONTH AND YEAR
+                    </p>
+                    <div className="mt-2 flex flex-col justify-around">
+                      <div className="flex items-center justify-between">
+                        <span className='text-center font-bold'>{selectedYear}</span>
+                        <div className='flex flex-row gap-4'>
+                        <button onClick={() => handleYearChange('decrement')} className='p-2'>
+                          <IoIosArrowUp size={10} />
+                        </button>
+                        <button onClick={() => handleYearChange('increment')} className='p-2'>
+                          <IoIosArrowDown size={10} />
+                        </button>
+                        </div>
+                      </div>
                         {/**EXIBIÇÃO DOS MESES EM 3 COLUNAS E 4 LINHAS */}
                         <div className="mt-4 grid grid-cols-4 gap-2">
                           {months.map((month, index) => (
@@ -711,9 +698,9 @@ export default function CalendarPage() {
                 </PopoverContent>
               </Popover>
             )}
-            <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
-            <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>Today</p>
-            <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextWeek} />
+            <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousMonth} />
+            <p className='cursor-pointer text-white' onClick={goToCurrentMonth}>Today</p>
+            <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextMonth} />
           </div>
         </div>
       </div>
@@ -721,9 +708,9 @@ export default function CalendarPage() {
         <thead>
           <tr>
             {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
-            <th className='w-[15%] bg-tableCol text-left px-4'>Tipologias</th>
-            {weeks[currentWeekIndex].map((day, index) => (
-              <td key={index} className={`w-[5%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
+            <th className='w-[10%] bg-tableCol text-left px-4'>Typologys</th>
+            {weeks.days.map((day, index) => (
+              <td key={index} className={`w-[3%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
               ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
                 <div className='flex flex-col justify-center text-center'>
                   <span className="text-xs text-gray-400">{daysOfWeek[day.date.day()]}</span>
@@ -750,7 +737,7 @@ export default function CalendarPage() {
                   }} /></span>
                 </div>
               </td>
-              {weeks[currentWeekIndex].map((day, index) => {
+              {weeks.days.map((day, index) => {
                 const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
                 const formattedDate = day.date.format('YYYY-MM-DD');
                 const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
@@ -795,7 +782,7 @@ export default function CalendarPage() {
           <tr>
             {/*LINHA SEPARADORA DA GRELHA */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -809,7 +796,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Day Use</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -823,7 +810,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Available</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
                 return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
@@ -844,7 +831,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Overbooking</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const dayFormat = day.date.format('YYYY-MM-DD');
               const totalOverbooking = totalOverbookings[dayFormat] || 0;
               return (
@@ -863,7 +850,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Non Ded/Not Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -877,7 +864,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Non Ded/Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -891,7 +878,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Deduct/Not Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -905,7 +892,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Allot - Deduct/Pu</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -919,7 +906,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Out of Order</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -933,7 +920,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Option - Deduct</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -947,7 +934,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Option - Non Deduct</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -961,7 +948,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Confirmed - Deduct</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               return (
                 <td
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
@@ -975,7 +962,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Total Available</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
                 return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
@@ -999,7 +986,7 @@ export default function CalendarPage() {
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
               <span>Ocupação %</span>
             </td>
-            {weeks[currentWeekIndex].map((day, index) => {
+            {weeks.days.map((day, index) => {
               const totalAvailableRooms = roomTypeState.reduce((acc, roomType) => {
                 return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
               }, 0);
@@ -1020,7 +1007,7 @@ export default function CalendarPage() {
                 */
                 <td
                   key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-xs border-l-3 border-r-3 border-b-2 rounded-lg 
                   ${dailyOccupancyPercentage <= 49 ? "bg-green bg-opacity-30" : ""} 
                   ${dailyOccupancyPercentage >= 50 && dailyOccupancyPercentage <= 69 ? "bg-yellow-100" : ""} 
                   ${dailyOccupancyPercentage >= 70 ? "bg-red-200" : ""} 

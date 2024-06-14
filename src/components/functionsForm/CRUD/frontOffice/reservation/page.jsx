@@ -50,28 +50,36 @@ export default function reservationInsert(startDate, endDate) {
         });
     };
 
+    //preenchimento automatico dos quartos atraves de autocomplete
+    const handleRoomSelect = (room) => {
+        setReservation({
+            ...reservation,
+            Room: room.label
+        });
+    };
+
     useEffect(() => {
         const getData = async () => {
-          try {
-            if (reservation.Tipology && reservation.Room) {
-              const response = await axios.get("/api/v1/hotel/rooms");
-              const filteredRoom = response.data.response.find(room => room.label.toLowerCase() === reservation.Room.toLowerCase() && room.roomType === reservation.Tipology);
-      
-              if (filteredRoom) {
-                handleSubmitReservation(true, filteredRoom); // Passa true como primeiro parâmetro se a sala for encontrada
-                setFilteredRoom(filteredRoom); // Set the filteredRoom variable
-              } else {
-                handleSubmitReservation(false); // Passa false como primeiro parâmetro se a sala não for encontrada
-                setFilteredRoom(null); // Set the filteredRoom variable to null
-              }
+            try {
+                if (reservation.Tipology && reservation.Room) {
+                    const response = await axios.get("/api/v1/hotel/rooms");
+                    const filteredRoom = response.data.response.find(room => room.label.toLowerCase() === reservation.Room.toLowerCase() && room.roomType === reservation.Tipology);
+
+                    if (filteredRoom) {
+                        handleSubmitReservation(true, filteredRoom); // Passa true como primeiro parâmetro se a sala for encontrada
+                        setFilteredRoom(filteredRoom); // Set the filteredRoom variable
+                    } else {
+                        handleSubmitReservation(false); // Passa false como primeiro parâmetro se a sala não for encontrada
+                        setFilteredRoom(null); // Set the filteredRoom variable to null
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
         };
-      
+
         getData();
-      }, [reservation.Tipology, reservation.Room]);
+    }, [reservation.Tipology, reservation.Room]);
 
 
     const handleInputReservation = (event) => {
@@ -102,9 +110,9 @@ export default function reservationInsert(startDate, endDate) {
     async function handleSubmitReservation(event) {
         if (!event.isTrusted) {
             return;
-          }
-        
-          event.preventDefault();
+        }
+
+        event.preventDefault();
 
         if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
             alert("Preencha os campos corretamente");
@@ -113,30 +121,30 @@ export default function reservationInsert(startDate, endDate) {
 
         if (filteredRoom) {
             try {
-              // Envio da solicitação para criar o indivíduo
-              const response = await axios.put('/api/v1/frontOffice/reservations', {
-                data: {
-                  checkInDate: reservation.CheckIn,
-                  checkOutDate: reservation.CheckOut,
-                  nightCount: reservation.NightCount,
-                  adultCount: reservation.GuestNumber,
-                  guestNumber: reservation.GuestID,
-                  languageID: reservation.Language,
-                  roomTypeNumber: reservation.Tipology,
-                  roomNumber: reservation.Room,
-                }
-              });
-              //console.log(response); // Exibe a resposta do servidor no console
+                // Envio da solicitação para criar o indivíduo
+                const response = await axios.put('/api/v1/frontOffice/reservations', {
+                    data: {
+                        checkInDate: reservation.CheckIn,
+                        checkOutDate: reservation.CheckOut,
+                        nightCount: reservation.NightCount,
+                        adultCount: reservation.GuestNumber,
+                        guestNumber: reservation.GuestID,
+                        languageID: reservation.Language,
+                        roomTypeNumber: reservation.Tipology,
+                        roomNumber: reservation.Room,
+                    }
+                });
+                //console.log(response); // Exibe a resposta do servidor no console
             } catch (error) {
-              console.error('Erro ao enviar requisições:', error);
+                console.error('Erro ao enviar requisições:', error);
             }
-          } else {
+        } else {
             alert("Quarto não encontrado");
-          }
         }
+    }
 
     return {
-        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect, 
+        handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect, handleRoomSelect,
         GuestNumberNrm, NightNrm
     };
 }
