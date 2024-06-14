@@ -18,6 +18,8 @@ import CountryAutocomplete from "@/components/functionsForm/autocomplete/country
 import RateGroupAutocomplete from "@/components/functionsForm/autocomplete/rateCode/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
+import RoomsAutocomplete from "@/components/functionsForm/autocomplete/rooms/page";
+
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
@@ -55,7 +57,7 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect, GuestNumberNrm, NightNrm } = reservationInsert();
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect, handleRoomSelect,  GuestNumberNrm, NightNrm } = reservationInsert();
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
     const { handleRateCode, prices, setPrices, mp } = PriceFilterReservation(GuestNumberNrm, NightNrm);
 
@@ -227,14 +229,11 @@ const reservationsForm = ({
                                                     <div className="flex justify-between items-center">
                                                         <h4 className="pb-5 text-black-100"><b>Room Details</b></h4>
                                                     </div>
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"room"}
-                                                        name={"Room"}
-                                                        label={"Room"}
-                                                        ariaLabel={"Room"}
-                                                        style={inputStyle}
-                                                        onChange={handleInputReservation}
+
+                                                    <RoomsAutocomplete
+                                                        label="Room"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleRoomSelect(value)}
                                                     />
 
                                                     <TipologyAutocomplete

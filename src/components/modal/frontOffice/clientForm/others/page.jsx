@@ -1,5 +1,5 @@
 "use client"
-import Reac from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
@@ -10,13 +10,23 @@ import { BsArrowRight } from "react-icons/bs";
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
+import CompanyForm from "../companies/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import othersInsert, {othersEdit} from "@/components/functionsForm/CRUD/frontOffice/clientForm/others/page";
 
-const othersForm = ({
+const individualForm = ({
+    idOthers,
+    idCountry,
+    idEmail,
+    idPhone,
+    idNif,
+    idAddress,
+    idZipCode,
+    idLocality,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -39,6 +49,12 @@ const othersForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
+    //import de funções
+    const { handleInputOthers, handleSubmitOthers, handleSelect, handleLanguageSelect } = othersInsert();
+    const { handleUpdateOther, setValuesOther, valuesOther, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone,
+        setValuesNif, valuesNif, setValuesAddress, valuesAddress, setValuesZipCode, valuesZipCode, setValuesLocality, valuesLocality,
+        setCountry, country
+    } = othersEdit(idOthers, idEmail, idPhone, idNif, idAddress, idZipCode, idLocality, idCountry);
 
     return (
         <>
@@ -60,7 +76,7 @@ const othersForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form>
+                                    <form onSubmit={handleSubmitOthers}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -72,6 +88,16 @@ const othersForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
+                                            {/*<div className="h-1">
+                                                <CompanyForm
+                                                    buttonName={"Empresas"}
+                                                    modalHeader={"Inserir Ficha de Cliente"}
+                                                    modalEditArrow={<BsArrowRight size={25} />}
+                                                    modalEdit={"Empresa"}
+                                                    buttonColor={"transparent"}
+                                                    formTypeModal={1}
+                                                />
+                            </div>*/}
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -80,6 +106,7 @@ const othersForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    onChange={handleInputOthers}
                                                 />
 
                                                 <InputFieldControlled
@@ -89,6 +116,7 @@ const othersForm = ({
                                                     label={"Apelido"}
                                                     ariaLabel={"Apelido"}
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    onChange={handleInputOthers}
                                                 />
 
                                                 <InputFieldControlled
@@ -100,7 +128,11 @@ const othersForm = ({
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                 />
 
-                                                <LanguageAutocomplete label={"Idioma"} style={""} />
+                                                <LanguageAutocomplete
+                                                    label={"Idioma"}
+                                                    style={""}
+                                                    onChange={(value) => handleLanguageSelect(value)}
+                                                />
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
@@ -111,29 +143,32 @@ const othersForm = ({
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"MainAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"zipCode"}
-                                                        name={"ZipCode"}
+                                                        name={"MainZipCode"}
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
 
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"local"}
-                                                        name={"Local"}
+                                                        name={"MainLocality"}
                                                         label={"Localidade"}
                                                         ariaLabel={"Localidade"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -143,10 +178,16 @@ const othersForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                        <CountryAutocomplete
+                                                            label="País"
+                                                            name={"CountryAddress"}
+                                                            style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                            onChange={(value) => handleSelect(value, "CountryAddress")}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -160,6 +201,7 @@ const othersForm = ({
                                                         label={"E-mail Pessoal"}
                                                         ariaLabel={"E-mail Pessoal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -169,6 +211,7 @@ const othersForm = ({
                                                         label={"E-mail Trabalho"}
                                                         ariaLabel={"E-mail Trabalho"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -178,6 +221,7 @@ const othersForm = ({
                                                         label={"Telemóvel Pessoal"}
                                                         ariaLabel={"Telemóvel Pessoal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -187,6 +231,7 @@ const othersForm = ({
                                                         label={"Telemóvel Trabalho"}
                                                         ariaLabel={"Telemóvel Trabalho"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -196,6 +241,7 @@ const othersForm = ({
                                                         label={"Casa"}
                                                         ariaLabel={"Casa"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                 </div>
@@ -210,6 +256,7 @@ const othersForm = ({
                                                         label={"Data de Nascimento"}
                                                         ariaLabel={"Data de Nascimento"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -219,18 +266,25 @@ const othersForm = ({
                                                         label={"Local de Nascimento"}
                                                         ariaLabel={"Local de Nascimento"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"natural"}
-                                                        name={"Natural"}
+                                                        name={"NaturalLocality"}
                                                         label={"Naturalidade"}
                                                         ariaLabel={"Naturalidade"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
-                                                    <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="Nacionalidade"
+                                                        name={"CountryNationality"}
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleSelect(value, "CountryNationality")}
+                                                    />
                                                     {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -244,6 +298,7 @@ const othersForm = ({
                                                         label={"Cartão de Cidadão"}
                                                         ariaLabel={"Cartão de Cidadão"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -253,6 +308,7 @@ const othersForm = ({
                                                         label={"Emitido em:"}
                                                         ariaLabel={"Emitido em:"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -262,9 +318,15 @@ const othersForm = ({
                                                         label={"Expira em:"}
                                                         ariaLabel={"Expira em:"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
-                                                    <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País de emissão"
+                                                        name={"CountryEmission"}
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleSelect(value, "CountryEmission")}
+                                                    />
 
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -273,6 +335,7 @@ const othersForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                 </div>
@@ -290,6 +353,7 @@ const othersForm = ({
                                                         label={"Empresa"}
                                                         ariaLabel={"Empresa"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
@@ -299,38 +363,47 @@ const othersForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"BillingAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        onChange={handleInputOthers}
                                                     />
 
                                                     <div className="flex flex-row gap-5">
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"zipCode"}
-                                                            name={"ZipCode"}
+                                                            name={"BillingZipCode"}
                                                             label={"Cod.-Postal"}
                                                             ariaLabel={"Cod.-Postal"}
                                                             style={sharedLineInputStyle}
+                                                            onChange={handleInputOthers}
                                                         />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"local"}
-                                                            name={"Local"}
+                                                            name={"BillinigLocality"}
                                                             label={"Localidade"}
                                                             ariaLabel={"Localidade"}
                                                             style={sharedLineInputStyle}
+                                                            onChange={handleInputOthers}
                                                         />
 
                                                     </div>
-                                                    <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País"
+                                                        name={"CountryBilling"}
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleSelect(value, "CountryBilling")}
+                                                    />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
@@ -544,7 +617,7 @@ const othersForm = ({
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <form>
+                                    <form onSubmit={(e) => handleUpdateOther(e)}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
@@ -556,6 +629,16 @@ const othersForm = ({
                                             </div>
                                         </ModalHeader>
                                         <ModalBody className="flex flex-col mx-5 my-5 space-y-8 overflow-y-auto" style={{ maxHeight: '80vh' }}>
+                                            {/*<div className="h-1">
+                                                <CompanyForm
+                                                    buttonName={"Empresas"}
+                                                    modalHeader={"Inserir Ficha de Cliente"}
+                                                    modalEditArrow={<BsArrowRight size={25} />}
+                                                    modalEdit={"Empresa"}
+                                                    buttonColor={"transparent"}
+                                                    formTypeModal={1}
+                                                />
+                            </div>*/}
                                             <div className="bg-white flex flex-row justify-between items-center py-5 px-5 border boder-neutral-200">
                                                 <InputFieldControlled
                                                     type={"text"}
@@ -564,6 +647,8 @@ const othersForm = ({
                                                     label={"Nome"}
                                                     ariaLabel={"Nome"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={valuesOther.FirstName}
+                                                    onChange={e => setValuesOther({ ...valuesOther, FirstName: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
@@ -573,6 +658,8 @@ const othersForm = ({
                                                     label={"Apelido"}
                                                     ariaLabel={"Apelido"}
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
+                                                    value={valuesOther.LastName}
+                                                    onChange={e => setValuesOther({ ...valuesOther, LastName: e.target.value })}
                                                 />
 
                                                 <InputFieldControlled
@@ -595,10 +682,12 @@ const othersForm = ({
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"MainAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        value={valuesAddress.MainAddress}
+                                                        onChange={e => setValuesAddress({ ...valuesAddress, MainAddress: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -608,6 +697,8 @@ const othersForm = ({
                                                         label={"Código-Postal"}
                                                         ariaLabel={"Código-Postal"}
                                                         style={inputStyle}
+                                                        value={valuesZipCode.mainZipCode}
+                                                        onChange={e => setValuesZipCode({ ...valuesZipCode, mainZipCode: e.target.value })}
 
                                                     />
 
@@ -618,6 +709,8 @@ const othersForm = ({
                                                         label={"Localidade"}
                                                         ariaLabel={"Localidade"}
                                                         style={inputStyle}
+                                                        value={valuesLocality.MainLocality}
+                                                        onChange={e => setValuesLocality({ ...valuesLocality, MainLocality: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -627,10 +720,19 @@ const othersForm = ({
                                                         label={"Estado-Região"}
                                                         ariaLabel={"Estado-Região"}
                                                         style={inputStyle}
+                                                        value={valuesOther.Region}
+                                                        onChange={e => setValuesOther({ ...valuesOther, Region: e.target.value })}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                        <CountryAutocomplete
+                                                            label="País"
+                                                            name={"CountryAddress"}
+                                                            style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                            value={country.CountryAddress} // Valor controlado
+                                                            onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                            fieldName="CountryAddress" // Nome do campo
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -644,6 +746,8 @@ const othersForm = ({
                                                         label={"E-mail Pessoal"}
                                                         ariaLabel={"E-mail Pessoal"}
                                                         style={inputStyle}
+                                                        value={valuesEmail.PersonalEmail}
+                                                        onChange={e => setValuesEmail({ ...valuesEmail, PersonalEmail: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -653,7 +757,8 @@ const othersForm = ({
                                                         label={"E-mail Trabalho"}
                                                         ariaLabel={"E-mail Trabalho"}
                                                         style={inputStyle}
-
+                                                        value={valuesEmail.WorkEmail}
+                                                        onChange={e => setValuesEmail({ ...valuesEmail, WorkEmail: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -663,6 +768,8 @@ const othersForm = ({
                                                         label={"Telemóvel Pessoal"}
                                                         ariaLabel={"Telemóvel Pessoal"}
                                                         style={inputStyle}
+                                                        value={valuesPhone.PersonalPhone}
+                                                        onChange={e => setValuesPhone({ ...valuesPhone, PersonalPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -672,6 +779,8 @@ const othersForm = ({
                                                         label={"Telemóvel Trabalho"}
                                                         ariaLabel={"Telemóvel Trabalho"}
                                                         style={inputStyle}
+                                                        value={valuesPhone.WorkPhone}
+                                                        onChange={e => setValuesPhone({ ...valuesPhone, WorkPhone: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -681,6 +790,8 @@ const othersForm = ({
                                                         label={"Casa"}
                                                         ariaLabel={"Casa"}
                                                         style={inputStyle}
+                                                        value={valuesOther.TelephoneNumber}
+                                                        onChange={e => setValuesOther({ ...valuesOther, TelephoneNumber: e.target.value })}
                                                     />
 
                                                 </div>
@@ -695,6 +806,8 @@ const othersForm = ({
                                                         label={"Data de Nascimento"}
                                                         ariaLabel={"Data de Nascimento"}
                                                         style={inputStyle}
+                                                        value={valuesOther.Birthday}
+                                                        onChange={e => setValuesOther({ ...valuesOther, Birthday: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -704,6 +817,8 @@ const othersForm = ({
                                                         label={"Local de Nascimento"}
                                                         ariaLabel={"Local de Nascimento"}
                                                         style={inputStyle}
+                                                        value={valuesOther.BirthTown}
+                                                        onChange={e => setValuesOther({ ...valuesOther, BirthTown: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -713,9 +828,17 @@ const othersForm = ({
                                                         label={"Naturalidade"}
                                                         ariaLabel={"Naturalidade"}
                                                         style={inputStyle}
+                                                        value={valuesLocality.NaturalLocality}
+                                                        onChange={e => setValuesLocality({ ...valuesLocality, NaturalLocality: e.target.value })}
                                                     />
 
-                                                    <CountryAutocomplete label="Nacionalidade" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="Nacionalidade"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        value={country.CountryNationality} // Valor controlado
+                                                        onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                        fieldName="CountryNationality" // Nome do campo
+                                                    />
                                                     {/*<GenderAutocomplete label="Género" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}/>*/}
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
@@ -729,6 +852,8 @@ const othersForm = ({
                                                         label={"Cartão de Cidadão"}
                                                         ariaLabel={"Cartão de Cidadão"}
                                                         style={inputStyle}
+                                                        value={valuesOther.CC}
+                                                        onChange={e => setValuesOther({ ...valuesOther, CC: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -738,6 +863,8 @@ const othersForm = ({
                                                         label={"Emitido em:"}
                                                         ariaLabel={"Emitido em:"}
                                                         style={inputStyle}
+                                                        value={valuesOther.IssueDate}
+                                                        onChange={e => setValuesOther({ ...valuesOther, IssueDate: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -747,9 +874,17 @@ const othersForm = ({
                                                         label={"Expira em:"}
                                                         ariaLabel={"Expira em:"}
                                                         style={inputStyle}
+                                                        value={valuesOther.ExpiryDateDoc}
+                                                        onChange={e => setValuesOther({ ...valuesOther, ExpiryDateDoc: e.target.value })}
                                                     />
 
-                                                    <CountryAutocomplete label="País de emissão" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País de emissão"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        value={country.CountryEmission} // Valor controlado
+                                                        onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                        fieldName="CountryEmission" // Nome do campo
+                                                    />
 
                                                     <InputFieldControlled
                                                         type={"text"}
@@ -758,6 +893,8 @@ const othersForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
+                                                        value={valuesNif.GuestPersonalNif}
+                                                        onChange={e => setValuesNif({ ...valuesNif, GuestPersonalNif: e.target.value })}
                                                     />
 
                                                 </div>
@@ -775,6 +912,8 @@ const othersForm = ({
                                                         label={"Empresa"}
                                                         ariaLabel={"Empresa"}
                                                         style={inputStyle}
+                                                        value={valuesOther.Company}
+                                                        onChange={e => setValuesOther({ ...valuesOther, Company: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
@@ -784,25 +923,31 @@ const othersForm = ({
                                                         label={"Nr. Identificação fiscal"}
                                                         ariaLabel={"Nr. Identificação fiscal"}
                                                         style={inputStyle}
+                                                        value={valuesNif.GuestCompanyNif}
+                                                        onChange={e => setValuesNif({ ...valuesNif, GuestCompanyNif: e.target.value })}
                                                     />
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
-                                                        name={"Address"}
+                                                        name={"BillingAddress"}
                                                         label={"Morada"}
                                                         ariaLabel={"Morada"}
                                                         style={inputStyle}
+                                                        value={valuesAddress.BillingAddress}
+                                                        onChange={e => setValuesAddress({ ...valuesAddress, BillingAddress: e.target.value })}
                                                     />
 
                                                     <div className="flex flex-row gap-5">
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"zipCode"}
-                                                            name={"ZipCode"}
+                                                            name={"billingZipCode"}
                                                             label={"Cod.-Postal"}
                                                             ariaLabel={"Cod.-Postal"}
                                                             style={sharedLineInputStyle}
+                                                            value={valuesZipCode.billinigZipCode}
+                                                            onChange={e => setValuesZipCode({ ...valuesZipCode, billinigZipCode: e.target.value })}
                                                         />
 
                                                         <InputFieldControlled
@@ -812,10 +957,18 @@ const othersForm = ({
                                                             label={"Localidade"}
                                                             ariaLabel={"Localidade"}
                                                             style={sharedLineInputStyle}
+                                                            value={valuesLocality.BillinigLocality}
+                                                            onChange={e => setValuesLocality({ ...valuesLocality, BillinigLocality: e.target.value })}
                                                         />
 
                                                     </div>
-                                                    <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete
+                                                        label="País"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"}
+                                                        value={country.CountryBilling} // Valor controlado
+                                                        onChange={(newValue, fieldName) => setCountry({ ...country, [fieldName]: newValue.land })} // Atualiza o valor controlado
+                                                        fieldName="CountryBilling" // Nome do campo
+                                                    />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
@@ -1015,4 +1168,4 @@ const othersForm = ({
     );
 };
 
-export default othersForm;
+export default individualForm;

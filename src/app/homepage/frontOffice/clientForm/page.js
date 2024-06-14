@@ -403,7 +403,7 @@ export default function clientForm() {
                                   modalEditArrow={<BsArrowRight size={25} />}
                                   modalEdit={`ID: ${individual.guestProfileID}`}
                                   formTypeModal={1}
-                                  idIndividual={individual.guestProfileID}
+                                  idOthers={individual.guestProfileID}
                                   criado={individual.createdAt}
                                   editado={individual.updatedAt}
                                   editor={"teste"}
@@ -464,7 +464,7 @@ export default function clientForm() {
                                   modalEditArrow={<BsArrowRight size={25} />}
                                   modalEdit={`ID: ${individual.guestProfileID}`}
                                   formTypeModal={1}
-                                  idIndividual={individual.guestProfileID}
+                                  idCompany={individual.guestProfileID}
                                   idEmail={individual.email}
                                   idPhone={individual.phoneNumber}
                                   criado={individual.createdAt}
@@ -515,7 +515,7 @@ export default function clientForm() {
                                         modalEditArrow={<BsArrowRight size={25} />}
                                         modalEdit={`ID: ${individual.guestProfileID}`}
                                         formTypeModal={1}
-                                        idIndividual={individual.guestProfileID}
+                                        idOthers={individual.guestProfileID}
                                         criado={individual.createdAt}
                                         editado={individual.updatedAt}
                                         editor={"teste"}
