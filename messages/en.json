@@ -132,6 +132,54 @@
                 "view": {
                     "modalHeader": "View Client File"
                 }
+            },
+            "plans": {
+                "datatable": {
+                    "today": "Today"
+                },
+                "modals": {
+                    "filter": "FILTER BY MONTH AND YEAR",
+                    "reservationDetails": "Reservation details",
+                    "guestDetails": "Choose the type of guest, please:",
+                    "guestName": "Guest Name *",
+                    "in": "In:",
+                    "out": "Out:",
+                    "reserve": "RESERVE",
+                    "cancel": "CANCEL",
+                    "reservationHeader": "Enter a Reservation",
+                    "buttons": {
+                        "individuals": "Individuals",
+                        "companys": "Companys",
+                        "groups": "Groups",
+                        "travelAgencys": "Travel Agencys",
+                        "others": "Others"
+                    }
+                }
+            },
+            "typologyPlan": {
+                "label": "Typology Plan",
+                "datatable": {
+                    "typologys": "Typologys",
+                    "dayUse": "Day Use",
+                    "totalAvailable": "Total Available",
+                    "totalOverbooking": "Total Overbooking",
+                    "allotNonDedNotPu": "Allot - Non Ded/Not Pu",
+                    "allotNonDedPu": "Allot - Non Ded/Pu",
+                    "allotDeductNotPu": "Allot - Deduct/Not Pu",
+                    "allotDeductPu": "Allot - Deduct/Pu",
+                    "outOfOrder": "Out of Order",
+                    "optionDeduct": "Option - Deduct",
+                    "optionNonDeduct": "Option - Non Deduct",
+                    "confirmedDeduct": "Confirmed - Deduct",
+                    "physicallyAvailable": "Physically Available",
+                    "occupation": "Occupation %"
+                }
+            },
+            "roomsPlan": {
+                "label": "Rooms Plan",
+                "datatable": {
+                    "rooms": "Rooms"
+                }
             }
         }
     }

@@ -30,6 +30,8 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { Popover, PopoverTrigger, PopoverContent, Button, Input } from "@nextui-org/react";
 import { getMonth } from 'date-fns';
 
+import { useTranslations } from 'next-intl';
+
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -100,6 +102,8 @@ export default function CalendarPage() {
 
   const [nights, setNights] = useState([]);
 
+  const t = useTranslations('Index');
+   
   const handleToggleModal = () => {
     setShowModal(!showModal);
   };
@@ -543,7 +547,7 @@ export default function CalendarPage() {
                   type={"text"}
                   id={"guestName"}
                   name={"guestName"}
-                  label={"Nome do Hóspede *"}
+                  label={t("frontOffice.plans.modals.guestName")}
                   ariaLabel={"Guest Name"}
                   style={"h-10 bg-transparent outline-none flex-grow "}
                   value={guestName}
@@ -572,22 +576,22 @@ export default function CalendarPage() {
             {/* FILTROS PARA TIPOS DE GUEST FORMS */}
             {showButton && (
               <div className="flex flex-col justify-center items-center mt-2 gap-2 px-4">
-                <p className='text-xs text-gray-500'>Choose the type of guest, please:</p>
+                <p className='text-xs text-gray-500'>{t("frontOffice.plans.modals.guestDetails")}</p>
                 <div className='flex flex-row gap-2'>
                 <IndividualForm
-                  buttonName={"Individuais"}
+                  buttonName={t("frontOffice.frontOffice.individualCard")}
                   buttonColor={"transparent"}
                   buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
                 <CompanyForm
-                  buttonName={"Empresas"}
+                  buttonName={t("frontOffice.frontOffice.businessCard")}
                   buttonColor={"transparent"}
                   buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
                 <GroupForm
-                  buttonName={"Grupos"}
+                  buttonName={t("frontOffice.frontOffice.groupsCard")}
                   buttonColor={"transparent"}
                   buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
@@ -595,13 +599,13 @@ export default function CalendarPage() {
                 </div>
                 <div className='flex flex-row gap-2'>
                 <TravelGroupForm
-                  buttonName={"Agência Viagens"}
+                  buttonName={t("frontOffice.frontOffice.travelAgencyCard")}
                   buttonColor={"transparent"}
                   buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
                 />
                 <OthersForm
-                  buttonName={"Outros"}
+                  buttonName={t("frontOffice.frontOffice.othersCard")}
                   buttonColor={"transparent"}
                   buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
                   formTypeModal={0}
@@ -610,7 +614,7 @@ export default function CalendarPage() {
               </div>
             )}
             <div className='mt-20' style={{ maxHeight: 'calc(100% - 8rem)', overflowY: 'auto' }}>
-              <p className='text-xs text-gray-500 px-4'>Reservation details</p>
+              <p className='text-xs text-gray-500 px-4'>{t("frontOffice.plans.modals.reservationDetails")}</p>
               {selectedDates.map((dateRange, index) => (
                 <div className={`bg-white border border-gray-300 text-sm px-4 py-1 rounded-lg mt-4 mx-2 ${index === selectedDates.length - 1 ? 'mb-10' : ''}`} key={index}>
                   <div className='flex flex-row items-center justify-between border-b-3 border-gray py-2'>
@@ -624,7 +628,7 @@ export default function CalendarPage() {
                   </div>
                   <div className='flex flex-row justify-around py-1'>
                     <div className="flex flex-col gap-2">
-                      <label>In:</label>
+                      <label>{t("frontOffice.plans.modals.in")}</label>
                       <input
                         className='outline-none'
                         type="date"
@@ -633,7 +637,7 @@ export default function CalendarPage() {
                       />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <label>Out:</label>
+                      <label>{t("frontOffice.plans.modals.out")}</label>
                       <input
                         className='outline-none'
                         type="date"
@@ -651,11 +655,11 @@ export default function CalendarPage() {
             <div className='absolute bottom-0 w-full flex justify-center gap-40 p-4 bg-lightBlue'>
               <ReservationsForm
                 formTypeModal={0}
-                buttonName={"RESERVE"}
+                buttonName={t("frontOffice.plans.modals.reserve")}
                 //buttonIcon={<FiPlus size={15} />}
                 editIcon={<FaCalendarAlt size={25} color="white" />}
                 buttonColor={"primary"}
-                modalHeader={"Enter a Reservation"}
+                modalHeader={t("frontOffice.plans.modals.reservationHeader")}
                 startDate={`${startDate}`}
                 endDate={`${endDate}`}
                 tipology={`${tipology}`}
@@ -667,7 +671,7 @@ export default function CalendarPage() {
               />
               <button
                 className="text-sm"
-                onClick={handleToggleModal}>CANCEL</button>
+                onClick={handleToggleModal}>{t("frontOffice.plans.modals.cancel")}</button>
             </div>
           </div>
         </>
@@ -675,7 +679,7 @@ export default function CalendarPage() {
 
       <div className={`bg-primary-600 ${showModal ? 'py-4' : 'py-2'}`}>
         <div className='flex justify-between items-center'>
-          <p className='text-ml text-white px-4'><b>Typology Plan</b></p>
+          <p className='text-ml text-white px-4'><b>{t("frontOffice.typologyPlan.label")}</b></p>
           <div className='flex items-center gap-5'>
             <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
             {!showModal && (
@@ -693,7 +697,7 @@ export default function CalendarPage() {
                   {(titleProps) => (
                     <div className="px-1 py-2 w-full">
                     <p className="text-small font-bold text-foreground" {...titleProps}>
-                      FILTER BY MONTH AND YEAR
+                    {t("frontOffice.frontOffice.plans.modals.filter")}
                     </p>
                     <div className="mt-2 flex flex-col justify-around">
                       <div className="flex items-center justify-between">
@@ -726,7 +730,7 @@ export default function CalendarPage() {
               </Popover>
             )}
             <GrFormPrevious className='w-5 h-5 cursor-pointer text-white' onClick={goToPreviousWeek} />
-            <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>Today</p>
+            <p className='cursor-pointer text-white' onClick={goToCurrentWeek}>{t("frontOffice.plans.datatable.today")}</p>
             <GrFormNext className='w-5 h-5 cursor-pointer text-white' onClick={goToNextWeek} />
           </div>
         </div>
@@ -735,7 +739,7 @@ export default function CalendarPage() {
         <thead>
           <tr>
             {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
-            <th className='w-[15%] bg-tableCol text-left px-4'>Typologys</th>
+            <th className='w-[15%] bg-tableCol text-left px-4'>{t("frontOffice.typologyPlan.datatable.typologys")}</th>
             {weeks[currentWeekIndex].map((day, index) => (
               <td key={index} className={`w-[5%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
               ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
@@ -821,7 +825,7 @@ export default function CalendarPage() {
           <tr>
             {/*DAY USE LINHA */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Day Use</span>
+              <span>{t("frontOffice.typologyPlan.datatable.dayUse")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -835,7 +839,7 @@ export default function CalendarPage() {
           <tr>
             {/* CALCULA O NÚMERO DE QUARTOS DISPONÍVEIS */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Total Available</span>
+              <span>{t("frontOffice.typologyPlan.datatable.totalAvailable")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
@@ -856,7 +860,7 @@ export default function CalendarPage() {
           <tr>
             {/* TOTAL OVERBOOKING */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Total Overbooking</span>
+              <span>{t("frontOffice.typologyPlan.datatable.totalOverbooking")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               const dayFormat = day.date.format('YYYY-MM-DD');
@@ -875,7 +879,7 @@ export default function CalendarPage() {
           <tr>
             {/*ALLOT - NON DED/NOT PU */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Allot - Non Ded/Not Pu</span>
+              <span>{t("frontOffice.typologyPlan.datatable.allotNonDedNotPu")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -889,7 +893,7 @@ export default function CalendarPage() {
           <tr>
             {/*ALLOT - NON DED/PU */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Allot - Non Ded/Pu</span>
+              <span>{t("frontOffice.typologyPlan.datatable.allotNonDedPu")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -903,7 +907,7 @@ export default function CalendarPage() {
           <tr>
             {/*ALLOT - DEDUCT/NOT PU */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Allot - Deduct/Not Pu</span>
+              <span>{t("frontOffice.typologyPlan.datatable.allotDeductNotPu")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -917,7 +921,7 @@ export default function CalendarPage() {
           <tr>
             {/*ALLOT - DEDUCT/PU */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Allot - Deduct/Pu</span>
+              <span>{t("frontOffice.typologyPlan.datatable.allotDeductPu")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -931,7 +935,7 @@ export default function CalendarPage() {
           <tr>
             {/*OUT OF ORDER*/}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Out of Order</span>
+              <span>{t("frontOffice.typologyPlan.datatable.outOfOrder")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -945,7 +949,7 @@ export default function CalendarPage() {
           <tr>
             {/*OPTION - DEDUCT*/}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Option - Deduct</span>
+              <span>{t("frontOffice.typologyPlan.datatable.optionDeduct")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -959,7 +963,7 @@ export default function CalendarPage() {
           <tr>
             {/*OPTION - NON DEDUCT*/}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Option - Non Deduct</span>
+              <span>{t("frontOffice.typologyPlan.datatable.optionNonDeduct")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -973,7 +977,7 @@ export default function CalendarPage() {
           <tr>
             {/*CONFIRMED - DEDUCT*/}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Confirmed - Deduct</span>
+              <span>{t("frontOffice.typologyPlan.datatable.confirmedDeduct")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               return (
@@ -987,7 +991,7 @@ export default function CalendarPage() {
           <tr>
             {/*CALCULA O NRM DE QUARTOS FISICOS DISPONIVEIS*/}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Total Available</span>
+              <span>{t("frontOffice.typologyPlan.datatable.physicallyAvailable")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               const totalAvailable = roomTypeState.reduce((acc, roomType) => {
@@ -1011,7 +1015,7 @@ export default function CalendarPage() {
             O% - TODOS OS QUARTOS LIVRES | 100% - TODOS OS QUARTOS OCUPADOS
             */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>Ocupação %</span>
+              <span>{t("frontOffice.typologyPlan.datatable.occupation")}</span>
             </td>
             {weeks[currentWeekIndex].map((day, index) => {
               const totalAvailableRooms = roomTypeState.reduce((acc, roomType) => {
