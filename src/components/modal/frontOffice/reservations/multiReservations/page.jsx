@@ -50,6 +50,7 @@ const reservationsForm = ({
 
     const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name } = reservationInsert(guestName, guestId, startDate, endDate, tipology, selectedDates);
 
+    console.log("RESERVAS", selectedDates)
     return (
         <>
 
@@ -170,7 +171,7 @@ const reservationsForm = ({
                                                                                 label={"Nights"}
                                                                                 ariaLabel={"Nights"}
                                                                                 style={inputStyle}
-                                                                                value={reservation.NightCount}
+                                                                                value={dateRange.numberNights}
                                                                                 onChange={handleInputReservation}
                                                                             />
 

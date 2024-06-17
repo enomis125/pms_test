@@ -9,17 +9,22 @@ import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
+import axios from 'axios';
 
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import RateGroupAutocomplete from "@/components/functionsForm/autocomplete/rateCode/page";
 import LanguageAutocomplete from "@/components/functionsForm/autocomplete/language/page";
 import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
+import RoomsAutocomplete from "@/components/functionsForm/autocomplete/rooms/page";
+
 //import GenderAutocomplete from "@/components/functionsForm/autocomplete/gender/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import reservationInsert, { reservationEdit } from "@/components/functionsForm/CRUD/frontOffice/reservation/page";
+import PriceFilterReservation from "@/components/functionsForm/CRUD/frontOffice/reservation/priceFilters/page";
 
 import SearchModal from "@/components/modal/frontOffice/reservations/searchModal/page";
 
@@ -52,18 +57,18 @@ const reservationsForm = ({
     const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
-    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect } = reservationInsert();
+    const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleClientSelect, handleLanguageSelect, handleTipologySelect, handleRoomSelect,  GuestNumberNrm, NightNrm } = reservationInsert();
     const { handleUpdateReservation, setValuesReserve, valuesReserve, setValuesGuest, valuesGuest } = reservationEdit(idReservation, idGuest);
-
+    const { handleRateCode, prices, setPrices, mp } = PriceFilterReservation(GuestNumberNrm, NightNrm);
 
     return (
         <>
 
             {formTypeModal === 0 && ( //reservations insert
                 <>
-                        <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
-                            {buttonName} {buttonIcon}
-                        </Button>
+                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${style}`}>
+                        {buttonName} {buttonIcon}
+                    </Button>
                     <Modal
                         classNames={{
                             base: "max-h-screen",
@@ -224,14 +229,11 @@ const reservationsForm = ({
                                                     <div className="flex justify-between items-center">
                                                         <h4 className="pb-5 text-black-100"><b>Room Details</b></h4>
                                                     </div>
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"room"}
-                                                        name={"Room"}
-                                                        label={"Room"}
-                                                        ariaLabel={"Room"}
-                                                        style={inputStyle}
-                                                        onChange={handleInputReservation}
+
+                                                    <RoomsAutocomplete
+                                                        label="Room"
+                                                        style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"}
+                                                        onChange={(value) => handleRoomSelect(value)}
                                                     />
 
                                                     <TipologyAutocomplete
@@ -255,7 +257,12 @@ const reservationsForm = ({
                                                     <div className="">
                                                         <h4 className="pb-5 text-black-100"><b>Rate Details</b></h4>
                                                     </div>
-                                                    <CountryAutocomplete label="Rate Code" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <RateGroupAutocomplete 
+                                                    label="Rate Code" 
+                                                    style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} 
+                                                    onChange={(value) => handleRateCode(value)}
+                                                    />
+
                                                     <div className="flex flex-row gap-5">
                                                         <InputFieldControlled
                                                             type={"text"}
@@ -289,22 +296,57 @@ const reservationsForm = ({
 
                                                     <InputFieldControlled
                                                         type={"text"}
-                                                        id={"allotment"}
-                                                        name={"Allotment"}
-                                                        label={"Allotment"}
-                                                        ariaLabel={"Allotment"}
+                                                        id={"Price"}
+                                                        name={"Price"}
+                                                        label={"Price"}
+                                                        ariaLabel={"Price"}
                                                         style={inputStyle}
+                                                        value={prices.Price}
+                                                        onChange={handleInputReservation}
                                                     />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Segmentation</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Billing</b></h4>
                                                     </div>
 
-                                                    <CountryAutocomplete label="Market Code" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
-                                                    <CountryAutocomplete label="Distrib. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
-                                                    <CountryAutocomplete label="Comm. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
-                                                    <CountryAutocomplete label="Travel Reason" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"payment"}
+                                                        name={"Payment"}
+                                                        label={"Payment:"}
+                                                        ariaLabel={"Payment:"}
+                                                        style={inputStyle}
+                                                    />
+
+                                                    <InputFieldControlled
+                                                        type="text"
+                                                        id="charges"
+                                                        name="Charges"
+                                                        label="Charges:"
+                                                        ariaLabel="Charges:"
+                                                        style={inputStyle}
+                                                        value={prices.Charges}
+                                                        onChange={handleInputReservation}
+                                                    />
+
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"balance"}
+                                                        name={"Balance"}
+                                                        label={"Balance:"}
+                                                        ariaLabel={"Balance:"}
+                                                        style={inputStyle}
+                                                    />
+
+                                                    <InputFieldControlled
+                                                        type={"text"}
+                                                        id={"forecast"}
+                                                        name={"Forecast"}
+                                                        label={"Forecast:"}
+                                                        ariaLabel={"Forecast:"}
+                                                        style={inputStyle}
+                                                    />
 
                                                 </div>
                                             </div>
@@ -340,46 +382,15 @@ const reservationsForm = ({
                                             </div>
                                             {/*terceira linha de comboboxs */}
                                             <div className="flex flex-col justify-between gap-2">
-                                                <div className="bg-white flex flex-col w-1/3 px-5 py-5 border border-neutral-200">
+                                            <div className="bg-white flex flex-col w-1/3 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Billing</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>Segmentation</b></h4>
                                                     </div>
 
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"payment"}
-                                                        name={"Payment"}
-                                                        label={"Payment:"}
-                                                        ariaLabel={"Payment:"}
-                                                        style={inputStyle}
-                                                    />
-
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"charges"}
-                                                        name={"Charges"}
-                                                        label={"Charges:"}
-                                                        ariaLabel={"Charges:"}
-                                                        style={inputStyle}
-                                                    />
-
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"balance"}
-                                                        name={"Balance"}
-                                                        label={"Balance:"}
-                                                        ariaLabel={"Balance:"}
-                                                        style={inputStyle}
-                                                    />
-
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"forecast"}
-                                                        name={"Forecast"}
-                                                        label={"Forecast:"}
-                                                        ariaLabel={"Forecast:"}
-                                                        style={inputStyle}
-                                                    />
+                                                    <CountryAutocomplete label="Market Code" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label="Distrib. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label="Comm. Channel" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label="Travel Reason" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
 
                                                 </div>
                                             </div>

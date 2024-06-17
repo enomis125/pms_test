@@ -98,7 +98,7 @@ const priceDescriptionForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -114,7 +114,7 @@ const priceDescriptionForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>
@@ -128,10 +128,10 @@ const priceDescriptionForm = ({
                         <div className="flex flex-row gap-8">
                           <InputFieldControlled
                             type={"text"}
-                            id={"mudar"}
-                            name={"mudar"}
+                            id={"ref"}
+                            name={"Ref"}
                             label={"Referencia"}
-                            style={"w-30 outline-none h-10 bg-slate-100"}
+                            style={"w-30 outline-none h-10"}
                             onChange={handleInputPriceDescription}
                           />
 
@@ -595,7 +595,7 @@ const priceDescriptionForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -611,7 +611,7 @@ const priceDescriptionForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>
