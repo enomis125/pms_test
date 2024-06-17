@@ -21,6 +21,8 @@ import LanguageAutocomplete from "@/components/functionsForm/autocomplete/langua
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import companiesInsert, { companiesEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/companies/page";
 
+import { useTranslations } from 'next-intl';
+
 
 const companyForm = ({
     idCompany,
@@ -49,9 +51,11 @@ const companyForm = ({
     //variaveis de estilo para inputs
     const inputStyle = "border-b-2 border-gray-300 px-1 h-10 outline-none text-sm::placeholder my-2"
     const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
-    
+
     const { handleInputCompany, handleSubmiCompany } = companiesInsert();
     const { handleUpdateCompany, setValuesCompany, valuesCompany, setValuesEmail, valuesEmail, setValuesPhone, valuesPhone } = companiesEdit(idCompany, idEmail, idPhone);
+
+    const t = useTranslations('Index');
 
 
     return (
@@ -100,8 +104,8 @@ const companyForm = ({
                                                     type={"text"}
                                                     id={"companyName"}
                                                     name={"CompanyName"}
-                                                    label={"Nome"}
-                                                    ariaLabel={"Nome"}
+                                                    label={t("frontOffice.clientFiles.nameLabel")}
+                                                    ariaLabel={"Name"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     onChange={handleInputCompany}
                                                 />
@@ -110,26 +114,26 @@ const companyForm = ({
                                                     type={"text"}
                                                     id={"companyName2"}
                                                     name={"CompanyName2"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("frontOffice.clientFiles.shortnameLabel")}
+                                                    ariaLabel={"Short Name"}
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     onChange={handleInputCompany}
                                                 />
 
-                                                
+
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Geral</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.generalTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"country"}
                                                         name={"Country"}
-                                                        label={"Morada"}
-                                                        ariaLabel={"Morada"}
+                                                        label={t("frontOffice.clientFiles.addressLabel")}
+                                                        ariaLabel={"Address"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -138,8 +142,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"zipCodePostBox"}
                                                         name={"ZipCodePostBox"}
-                                                        label={"Código-Postal"}
-                                                        ariaLabel={"Código-Postal"}
+                                                        label={t("frontOffice.clientFiles.postalCodeLabel")}
+                                                        ariaLabel={"Postal Code"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
 
@@ -149,8 +153,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"town"}
                                                         name={"Town"}
-                                                        label={"Localidade"}
-                                                        ariaLabel={"Localidade"}
+                                                        label={t("frontOffice.clientFiles.localityLabel")}
+                                                        ariaLabel={"Locality"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -159,26 +163,26 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"region"}
                                                         name={"Region"}
-                                                        label={"Estado-Região"}
-                                                        ariaLabel={"Estado-Região"}
+                                                        label={t("frontOffice.clientFiles.regionStateLabel")}
+                                                        ariaLabel={"Region/State"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"CountryAddress"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputCompany} />
+                                                        <CountryAutocomplete label={t("frontOffice.clientFiles.countryLabel")} name={"CountryAddress"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputCompany} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Info.</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.informationTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"geralEmail"}
                                                         name={"GeneralEmail"}
-                                                        label={"E-mail Geral"}
-                                                        ariaLabel={"E-mail Geral"}
+                                                        label={t("frontOffice.clientFiles.generalEmailLabel")}
+                                                        ariaLabel={"General Email"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -187,8 +191,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"departmentEmail"}
                                                         name={"DepartmentEmail"}
-                                                        label={"E-mail departamento"}
-                                                        ariaLabel={"E-mail departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentEmailLabel")}
+                                                        ariaLabel={"Department Email"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -197,8 +201,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"geralPhone"}
                                                         name={"GeneralPhone"}
-                                                        label={"Telefone Geral"}
-                                                        ariaLabel={"Telefone Geral"}
+                                                        label={t("frontOffice.clientFiles.generalPhoneNumberLabel")}
+                                                        ariaLabel={"General Phone Number"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -207,8 +211,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"departamentPhone"}
                                                         name={"DepartmentPhone"}
-                                                        label={"Telefone departamento"}
-                                                        ariaLabel={"Telefone departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentPhoneNumberLabel")}
+                                                        ariaLabel={"Department Phone Number"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -217,7 +221,7 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"websiteURL"}
                                                         name={"WebsiteURL"}
-                                                        label={"URL"}
+                                                        label={t("frontOffice.clientFiles.urlLabel")}
                                                         ariaLabel={"URL"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
@@ -226,17 +230,17 @@ const companyForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 1</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact1Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={""} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={""} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={inputStyle}
                                                             onChange={handleInputCompany}
                                                         />
@@ -247,8 +251,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"firstName"}
                                                         name={"FirstName"}
-                                                        label={"Nome"}
-                                                        ariaLabel={"Nome"}
+                                                        label={t("frontOffice.clientFiles.nameLabel")}
+                                                        ariaLabel={"Name"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -257,8 +261,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"secondName"}
                                                         name={"SecondName"}
-                                                        label={"Apelido"}
-                                                        ariaLabel={"Apelido"}
+                                                        label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                        ariaLabel={"Last Name"}
                                                         style={inputStyle}
                                                     />
                                                     </div>
@@ -267,17 +271,17 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"Department"}
-                                                        label={"Departmento"}
-                                                        ariaLabel={"Departmento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
-                                                    
+
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"phoneNumber"}
                                                         name={"PhoneNumber"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -285,8 +289,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"Email"}
-                                                        label={"E-mail"}
-                                                        ariaLabel={"E-mail"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
+                                                        ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -295,17 +299,17 @@ const companyForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 2</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact2Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={sharedLineInputStyle} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={sharedLineInputStyle}
                                                             onChange={handleInputCompany}
                                                         />
@@ -316,8 +320,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"firstName"}
                                                         name={"FirstName"}
-                                                        label={"Nome"}
-                                                        ariaLabel={"Nome"}
+                                                        label={t("frontOffice.clientFiles.nameLabel")}
+                                                        ariaLabel={"Name"}
                                                         style={sharedLineInputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -326,8 +330,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"secondName"}
                                                         name={"SecondName"}
-                                                        label={"Apelido"}
-                                                        ariaLabel={"Apelido"}
+                                                        label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                        ariaLabel={"Last Name"}
                                                         style={sharedLineInputStyle}
                                                     />
                                                     </div>
@@ -336,17 +340,17 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"Department"}
-                                                        label={"Departmento"}
-                                                        ariaLabel={"Departmento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
-                                                    
+
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"phoneNumber"}
                                                         name={"PhoneNumber"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -354,8 +358,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"email"}
-                                                        label={"E-mail"}
-                                                        ariaLabel={"E-mail"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
+                                                        ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -367,14 +371,14 @@ const companyForm = ({
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Marketing</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.marketingTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"codes"}
                                                         name={"Codes"}
-                                                        label={"Códigos"}
-                                                        ariaLabel={"Códigos"}
+                                                        label={t("frontOffice.clientFiles.marketingCodesLabel")}
+                                                        ariaLabel={"Marketing Codes"}
                                                         style={inputStyle}
                                                     />
 
@@ -382,8 +386,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"market"}
                                                         name={"Market"}
-                                                        label={"Mercado"}
-                                                        ariaLabel={"Mercado"}
+                                                        label={t("frontOffice.clientFiles.marketingMarketsLabel")}
+                                                        ariaLabel={"Markets"}
                                                         style={inputStyle}
                                                     />
 
@@ -391,7 +395,7 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"marketing"}
                                                         name={"Marketing"}
-                                                        label={"Marketing"}
+                                                        label={t("frontOffice.clientFiles.marketingLabel")}
                                                         ariaLabel={"Marketing"}
                                                         style={inputStyle}
                                                     />
@@ -400,22 +404,22 @@ const companyForm = ({
                                                         type={"date"}
                                                         id={"sendData"}
                                                         name={"SendData"}
-                                                        label={"Enviado em:"}
-                                                        ariaLabel={"Enviado em:"}
+                                                        label={t("frontOffice.clientFiles.sentLabel")}
+                                                        ariaLabel={"Sent On:"}
                                                         style={inputStyle}
                                                     />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Classificação empresarial</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.businessClassTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"Fiscal"}
                                                         name={"Fiscal"}
-                                                        label={"Nr. Identificação Fiscal"}
-                                                        ariaLabel={"Nr. Identificação Fiscal"}
+                                                        label={t("frontOffice.clientFiles.fiscalNumberLabel")}
+                                                        ariaLabel={"Fiscal Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -423,8 +427,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"CAECode"}
                                                         name={"CAECode"}
-                                                        label={"Código CAE"}
-                                                        ariaLabel={"Código CAE"}
+                                                        label={t("frontOffice.clientFiles.CAECodeLabel")}
+                                                        ariaLabel={"CAE Code"}
                                                         style={inputStyle}
                                                     />
 
@@ -432,8 +436,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"prices"}
                                                         name={"Prices"}
-                                                        label={"Tabela de preços"}
-                                                        ariaLabel={"Tabela de preços"}
+                                                        label={t("frontOffice.clientFiles.priceTableLabel")}
+                                                        ariaLabel={"Price Table"}
                                                         style={inputStyle}
                                                     />
 
@@ -441,8 +445,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"preferencesRoom"}
                                                         name={"preferencesRoom"}
-                                                        label={"Preferencias de quartos"}
-                                                        ariaLabel={"Preferencias de quartos"}
+                                                        label={t("frontOffice.clientFiles.roomPreferencesLabel")}
+                                                        ariaLabel={"Room Preferences"}
                                                         style={inputStyle}
                                                     />
 
@@ -452,14 +456,14 @@ const companyForm = ({
                                             <div className="flex flex-col justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Notas</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.notesTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"observation1"}
                                                         name={"Observation1"}
-                                                        label={"Obs.1."}
+                                                        label={t("frontOffice.clientFiles.notesObs1Label")}
                                                         ariaLabel={"Obs.1."}
                                                         style={inputStyle}
                                                     />
@@ -477,7 +481,7 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"observation2"}
                                                         name={"Observation2"}
-                                                        label={"Obs.2."}
+                                                        label={t("frontOffice.clientFiles.notesObs2Label")}
                                                         ariaLabel={"Obs.2."}
                                                         style={inputStyle}
                                                     />
@@ -494,7 +498,7 @@ const companyForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Anexos</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.attachmentsTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -518,7 +522,7 @@ const companyForm = ({
             )}
 
 
-            {formTypeModal === 1 && ( //individuals insert
+            {formTypeModal === 1 && ( //individuals edit
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
@@ -561,8 +565,8 @@ const companyForm = ({
                                                     type={"text"}
                                                     id={"companyName"}
                                                     name={"CompanyName"}
-                                                    label={"Nome"}
-                                                    ariaLabel={"Nome"}
+                                                    label={t("frontOffice.clientFiles.nameLabel")}
+                                                    ariaLabel={"Name"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     value={valuesCompany.CompanyName}
                                                     onChange={e => setValuesCompany({ ...valuesCompany, CompanyName: e.target.value })}
@@ -572,27 +576,27 @@ const companyForm = ({
                                                     type={"text"}
                                                     id={"companyName2"}
                                                     name={"CompanyName2"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("frontOffice.clientFiles.shortnameLabel")}
+                                                    ariaLabel={"Short Name"}
                                                     style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     value={valuesCompany.CompanyName2}
                                                     onChange={e => setValuesCompany({ ...valuesCompany, CompanyName2: e.target.value })}
                                                 />
 
-                                                
+
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Geral</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.generalTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"country"}
                                                         name={"Country"}
-                                                        label={"Morada"}
-                                                        ariaLabel={"Morada"}
+                                                        label={t("frontOffice.clientFiles.addressLabel")}
+                                                        ariaLabel={"Address"}
                                                         style={inputStyle}
                                                         value={valuesCompany.Country}
                                                         onChange={e => setValuesCompany({ ...valuesCompany, Country: e.target.value })}
@@ -602,8 +606,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"zipCodePostBox"}
                                                         name={"ZipCodePostBox"}
-                                                        label={"Código-Postal"}
-                                                        ariaLabel={"Código-Postal"}
+                                                        label={t("frontOffice.clientFiles.postalCodeLabel")}
+                                                        ariaLabel={"Postal Code"}
                                                         style={inputStyle}
                                                         value={valuesCompany.ZipCodePostBox}
                                                         onChange={e => setValuesCompany({ ...valuesCompany, ZipCodePostBox: e.target.value })}
@@ -614,8 +618,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"town"}
                                                         name={"Town"}
-                                                        label={"Localidade"}
-                                                        ariaLabel={"Localidade"}
+                                                        label={t("frontOffice.clientFiles.localityLabel")}
+                                                        ariaLabel={"Locality"}
                                                         style={inputStyle}
                                                         value={valuesCompany.ZipCodePostBox}
                                                         onChange={e => setValuesCompany({ ...valuesCompany, ZipCodePostBox: e.target.value })}
@@ -625,27 +629,27 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"region"}
                                                         name={"Region"}
-                                                        label={"Estado-Região"}
-                                                        ariaLabel={"Estado-Região"}
+                                                        label={t("frontOffice.clientFiles.regionStateLabel")}
+                                                        ariaLabel={"Region/State"}
                                                         style={inputStyle}
                                                         value={valuesCompany.Region}
                                                         onChange={e => setValuesCompany({ ...valuesCompany, Region: e.target.value })}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"CountryAddress"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputCompany} />
+                                                        <CountryAutocomplete label={t("frontOffice.clientFiles.countryLabel")} name={"CountryAddress"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} onInputChange={handleInputCompany} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Info.</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.informationTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"geralEmail"}
                                                         name={"GeneralEmail"}
-                                                        label={"E-mail Geral"}
-                                                        ariaLabel={"E-mail Geral"}
+                                                        label={t("frontOffice.clientFiles.generalEmailLabel")}
+                                                        ariaLabel={"General Email"}
                                                         style={inputStyle}
                                                         value={valuesEmail.GeneralEmail}
                                                         onChange={e => setValuesEmail({ ...valuesEmail, GeneralEmail: e.target.value })}
@@ -655,8 +659,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"departmentEmail"}
                                                         name={"DepartmentEmail"}
-                                                        label={"E-mail departamento"}
-                                                        ariaLabel={"E-mail departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentEmailLabel")}
+                                                        ariaLabel={"Department Email"}
                                                         style={inputStyle}
                                                         value={valuesEmail.DepartmentEmail}
                                                         onChange={e => setValuesEmail({ ...valuesEmail, DepartmentEmail: e.target.value })}
@@ -666,8 +670,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"geralPhone"}
                                                         name={"GeneralPhone"}
-                                                        label={"Telefone Geral"}
-                                                        ariaLabel={"Telefone Geral"}
+                                                        label={t("frontOffice.clientFiles.generalPhoneNumberLabel")}
+                                                        ariaLabel={"General Phone Number"}
                                                         style={inputStyle}
                                                         value={valuesPhone.GeneralPhone}
                                                         onChange={e => setValuesPhone({ ...valuesPhone, GeneralPhone: e.target.value })}
@@ -677,8 +681,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"departamentPhone"}
                                                         name={"DepartmentPhone"}
-                                                        label={"Telefone departamento"}
-                                                        ariaLabel={"Telefone departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentPhoneNumberLabel")}
+                                                        ariaLabel={"Department Phone Number"}
                                                         style={inputStyle}
                                                         value={valuesPhone.DepartmentPhone}
                                                         onChange={e => setValuesPhone({ ...valuesPhone, DepartmentPhone: e.target.value })}
@@ -688,7 +692,7 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"websiteURL"}
                                                         name={"WebsiteURL"}
-                                                        label={"URL"}
+                                                        label={t("frontOffice.clientFiles.urlLabel")}
                                                         ariaLabel={"URL"}
                                                         style={inputStyle}
                                                         value={valuesCompany.WebsiteURL}
@@ -698,17 +702,17 @@ const companyForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 1</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact1Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={""} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={""} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={inputStyle}
                                                             onChange={handleInputCompany}
                                                         />
@@ -719,8 +723,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"firstName"}
                                                         name={"FirstName"}
-                                                        label={"Nome"}
-                                                        ariaLabel={"Nome"}
+                                                        label={t("frontOffice.clientFiles.nameLabel")}
+                                                        ariaLabel={"Name"}
                                                         style={inputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -729,8 +733,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"secondName"}
                                                         name={"SecondName"}
-                                                        label={"Apelido"}
-                                                        ariaLabel={"Apelido"}
+                                                        label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                        ariaLabel={"Last Name"}
                                                         style={inputStyle}
                                                     />
                                                     </div>
@@ -739,17 +743,17 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"Department"}
-                                                        label={"Departmento"}
-                                                        ariaLabel={"Departmento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
-                                                    
+
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"phoneNumber"}
                                                         name={"PhoneNumber"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -757,8 +761,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"Email"}
-                                                        label={"E-mail"}
-                                                        ariaLabel={"E-mail"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
+                                                        ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -767,17 +771,17 @@ const companyForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 2</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact2Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={sharedLineInputStyle} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={sharedLineInputStyle}
                                                             onChange={handleInputCompany}
                                                         />
@@ -788,8 +792,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"firstName"}
                                                         name={"FirstName"}
-                                                        label={"Nome"}
-                                                        ariaLabel={"Nome"}
+                                                        label={t("frontOffice.clientFiles.nameLabel")}
+                                                        ariaLabel={"Name"}
                                                         style={sharedLineInputStyle}
                                                         onChange={handleInputCompany}
                                                     />
@@ -798,8 +802,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"secondName"}
                                                         name={"SecondName"}
-                                                        label={"Apelido"}
-                                                        ariaLabel={"Apelido"}
+                                                        label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                        ariaLabel={"Last Name"}
                                                         style={sharedLineInputStyle}
                                                     />
                                                     </div>
@@ -808,17 +812,17 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"Department"}
-                                                        label={"Departmento"}
-                                                        ariaLabel={"Departmento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
-                                                    
+
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"phoneNumber"}
                                                         name={"PhoneNumber"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -826,8 +830,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"email"}
-                                                        label={"E-mail"}
-                                                        ariaLabel={"E-mail"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
+                                                        ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -839,14 +843,14 @@ const companyForm = ({
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Marketing</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.marketingTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"codes"}
                                                         name={"Codes"}
-                                                        label={"Códigos"}
-                                                        ariaLabel={"Códigos"}
+                                                        label={t("frontOffice.clientFiles.marketingCodesLabel")}
+                                                        ariaLabel={"Marketing Codes"}
                                                         style={inputStyle}
                                                     />
 
@@ -854,8 +858,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"market"}
                                                         name={"Market"}
-                                                        label={"Mercado"}
-                                                        ariaLabel={"Mercado"}
+                                                        label={t("frontOffice.clientFiles.marketingMarketsLabel")}
+                                                        ariaLabel={"Markets"}
                                                         style={inputStyle}
                                                     />
 
@@ -863,7 +867,7 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"marketing"}
                                                         name={"Marketing"}
-                                                        label={"Marketing"}
+                                                        label={t("frontOffice.clientFiles.marketingLabel")}
                                                         ariaLabel={"Marketing"}
                                                         style={inputStyle}
                                                     />
@@ -872,22 +876,22 @@ const companyForm = ({
                                                         type={"date"}
                                                         id={"sendData"}
                                                         name={"SendData"}
-                                                        label={"Enviado em:"}
-                                                        ariaLabel={"Enviado em:"}
+                                                        label={t("frontOffice.clientFiles.sentLabel")}
+                                                        ariaLabel={"Sent On:"}
                                                         style={inputStyle}
                                                     />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Classificação empresarial</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.businessClassTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"Fiscal"}
                                                         name={"Fiscal"}
-                                                        label={"Nr. Identificação Fiscal"}
-                                                        ariaLabel={"Nr. Identificação Fiscal"}
+                                                        label={t("frontOffice.clientFiles.fiscalNumberLabel")}
+                                                        ariaLabel={"Fiscal Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -895,8 +899,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"CAECode"}
                                                         name={"CAECode"}
-                                                        label={"Código CAE"}
-                                                        ariaLabel={"Código CAE"}
+                                                        label={t("frontOffice.clientFiles.CAECodeLabel")}
+                                                        ariaLabel={"CAE Code"}
                                                         style={inputStyle}
                                                     />
 
@@ -904,8 +908,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"prices"}
                                                         name={"Prices"}
-                                                        label={"Tabela de preços"}
-                                                        ariaLabel={"Tabela de preços"}
+                                                        label={t("frontOffice.clientFiles.priceTableLabel")}
+                                                        ariaLabel={"Price Table"}
                                                         style={inputStyle}
                                                     />
 
@@ -913,8 +917,8 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"preferencesRoom"}
                                                         name={"preferencesRoom"}
-                                                        label={"Preferencias de quartos"}
-                                                        ariaLabel={"Preferencias de quartos"}
+                                                        label={t("frontOffice.clientFiles.roomPreferencesLabel")}
+                                                        ariaLabel={"Room Preferences"}
                                                         style={inputStyle}
                                                     />
 
@@ -924,14 +928,14 @@ const companyForm = ({
                                             <div className="flex flex-col justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Notas</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.notesTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"observation1"}
                                                         name={"Observation1"}
-                                                        label={"Obs.1."}
+                                                        label={t("frontOffice.clientFiles.notesObs1Label")}
                                                         ariaLabel={"Obs.1."}
                                                         style={inputStyle}
                                                     />
@@ -949,7 +953,7 @@ const companyForm = ({
                                                         type={"text"}
                                                         id={"observation2"}
                                                         name={"Observation2"}
-                                                        label={"Obs.2."}
+                                                        label={t("frontOffice.clientFiles.notesObs2Label")}
                                                         ariaLabel={"Obs.2."}
                                                         style={inputStyle}
                                                     />
@@ -966,7 +970,7 @@ const companyForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Anexos</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.attachmentsTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -984,7 +988,7 @@ const companyForm = ({
                                         </form>
                                 </>
                             )}
-                            
+
                         </ModalContent>
                     </Modal>
                 </>

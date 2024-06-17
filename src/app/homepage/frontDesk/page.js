@@ -3,26 +3,30 @@ import React from "react";
 //import do componente cartão
 import Cartao from "@/components/Cards/frontOffice/frontDesk/Card";
 //import de icons
-import { PiAirplaneLandingFill, PiAirplaneTakeoffFill  } from "react-icons/pi";
+import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
 import { FaCalendarAlt, FaBed } from "react-icons/fa";
+import { useTranslations } from 'next-intl';
 
 const Card = () => {
+
+    const t = useTranslations('Index');
+
     return (
         <>
-        <div className="border grid grid-cols-4 gap-4 justify-between py-5 px-5">
-            <div className="">
-                <Cartao title={"RESERVAS"} description={""} listType={"/reservations"} formName={"ModalRes"} icon={<FaCalendarAlt size={35} />} formTypeCard={0}/>
+            <div className="border grid grid-cols-4 gap-4 justify-between py-5 px-5">
+                <div className="">
+                    <Cartao title={t("frontOffice.frontDesk.bookingsCard")} description={""} listType={"/reservations"} formName={"ModalRes"} icon={<FaCalendarAlt size={35} />} formTypeCard={0} />
+                </div>
+                <div className="">
+                    <Cartao title={t("frontOffice.frontDesk.arrivalsCard")} description={""} listType={"/arrivals"} formType={""} formName={""} icon={<PiAirplaneLandingFill size={35} />} formTypeCard={0} />
+                </div>
+                <div className="">
+                    <Cartao title={t("frontOffice.frontDesk.guestsListCard")} description={""} listType={"/guestlist"} icon={<FaBed size={45} />} formTypeCard={0} />
+                </div>
+                <div className="">
+                    <Cartao title={t("frontOffice.frontDesk.departuresCard")} description={""} listType={"/departures"} icon={<PiAirplaneTakeoffFill size={35} />} formTypeCard={0} />
+                </div>
             </div>
-            <div className="">
-                <Cartao title={"CHEGADAS"} description={""} listType={"/arrivals"} formType={""} formName={""} icon={<PiAirplaneLandingFill size={35}/>} formTypeCard={0}/>
-            </div>
-            <div className="">
-                <Cartao title={"LISTA DE HOSPEDES"} description={""} listType={"/guestlist"} icon={<FaBed  size={45}/>} formTypeCard={0}/>
-            </div>
-            <div className="">
-                <Cartao title={"PARTIDAS"} description={""} listType={"/departures"} icon={<PiAirplaneTakeoffFill size={35}/>} formTypeCard={0} />
-            </div>
-        </div>
         </>
     )
 }

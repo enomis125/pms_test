@@ -35,11 +35,12 @@
             },
             "settings": {
                 "label": "Settings",
-                "companyLabel": "Company",
-                "chargeAccountsLabel": "Charge Accounts"
+                "company": "Company",
+                "chargeAccounts": "Charge Accounts"
             },
             "hotel": {
                 "label": "Hotel",
+                "hotel": "Hotel",
                 "tipologiesGroup": "Tipologies Group",
                 "tipologies": "Tipologies",
                 "rooms": "Rooms",
@@ -49,7 +50,7 @@
             "cardex": {
                 "label": "Cardex",
                 "cardex": "Cardex",
-                "salutions": "Salutions",
+                "salutations": "Salutations",
                 "nationalities": "Nationalities",
                 "knowledgeMethod": "Knowledge Method",
                 "profession": "Profession",
@@ -94,19 +95,75 @@
         },
         "frontOffice": {
             "frontOffice": {
-                "generalCard": "General",
-                "individualCard": "Individuals",
-                "businessCard": "Businesses",
-                "travelAgencyCard": "Travel Agencies",
-                "groupsCard": "Groups",
-                "othersCard": "Others"
+                "generalCard": "GENERAL",
+                "individualCard": "INDIVIDUALS",
+                "companyCard": "COMPANIES",
+                "travelAgencyCard": "TRAVEL AGENCIES",
+                "groupsCard": "GROUPS",
+                "othersCard": "OTHERS"
             },
             "clientFiles": {
                 "label": "Client Files",
+                "addressTitle": "Address",
+                "contactsTitle": "Contacts",
+                "personalDataTitle": "Personal Data",
+                "additionalInformationTitle": "Additional Information",
+                "billingDataTitle": "Billing Data",
+                "marketingTitle": "Marketing",
+                "businessClassTitle": "Business Classification",
+                "membersTitle": "Members",
+                "notesTitle": "Notes",
+                "attachmentsTitle": "Attachments",
+                "generalTitle": "General",
+                "informationTitle": "Information",
+                "contact1Title": "Contact 1",
+                "contact2Title": "Contact 2",
                 "nameLabel": "Name",
                 "lastNameLabel": "Last Name",
-                "salutionLabel": "Salution",
+                "salutationLabel": "Salutation",
                 "languageLabel": "Language",
+                "addressLabel": "Address",
+                "postalCodeLabel": "Postal Code",
+                "localityLabel": "Locality",
+                "regionStateLabel": "Region/State",
+                "countryLabel": "Country",
+                "personalEmailLabel": "Personal Email",
+                "workEmailLabel": "Work Email",
+                "personalPhoneNumberLabel": "Personal Phone Number",
+                "workPhoneNumberLabel": "Work Phone Number",
+                "homePhoneNumberLabel": "Home Phone Number",
+                "birthdateLabel": "Birthdate",
+                "birthplaceLabel": "Place of Birth",
+                "originPlaceLabel": "Place of Origin",
+                "nationalityLabel": "Nationality",
+                "citizenCardLabel": "Citizen Card",
+                "issuedLabel": "Issued On:",
+                "expiresLabel": "Expires On:",
+                "countryIssueLabel": "Country of Issue",
+                "fiscalNumberLabel": "Fiscal Number",
+                "marketingCodesLabel": "Codes",
+                "marketingMarketsLabel": "Markets",
+                "marketingLabel": "Marketing",
+                "sentLabel": "Sent On:",
+                "vipCodeLabel": "VIP Code",
+                "professionLabel": "Profession",
+                "priceTableLabel": "Price Table",
+                "roomPreferencesLabel": "Room Preferences",
+                "processLabel": "Process",
+                "subscriptionLabel": "Subscription",
+                "admittedLabel": "Admitted On:",
+                "notesObs1Label": "Obs.1.",
+                "notesObs2Label": "Obs.2.",
+                "shortnameLabel": "Short Name",
+                "generalEmailLabel": "General Email",
+                "departmentEmailLabel": "Department Email",
+                "generalPhoneNumberLabel": "General Phone Number",
+                "departmentPhoneNumberLabel": "Department Phone Number",
+                "urlLabel": "URL",
+                "departmentLabel": "Department",
+                "emailLabel": "Email",
+                "phoneNumberLabel": "Phone Number",
+                "CAECodeLabel": "CAE Code",
                 "datatable": {
                     "id": "ID",
                     "fileType": "FILE TYPE",
@@ -118,10 +175,17 @@
                 },
                 "cards": {
                     "individual": "Individual",
-                    "business": "Business",
+                    "company": "Company",
                     "travelAgency": "Travel Agency",
-                    "groups": "Groups",
-                    "others": "Others"
+                    "group": "Group",
+                    "other": "Other"
+                },
+                "fileType": {
+                    "individual": "Individual",
+                    "company": "Company",
+                    "travelAgency": "Travel Agency",
+                    "group": "Group",
+                    "other": "Other"
                 },
                 "new": {
                     "modalHeader": "New Client File"
@@ -132,6 +196,12 @@
                 "view": {
                     "modalHeader": "View Client File"
                 }
+            },
+            "frontDesk": {
+                "bookingsCard": "BOOKINGS",
+                "arrivalsCard": "ARRIVALS",
+                "guestsListCard": "GUESTS LIST",
+                "departuresCard": "DEPARTURES"
             }
         }
     }
