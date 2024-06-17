@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
 import { cookies } from 'next/headers';
+import { MdDescription } from "react-icons/md";
 
 export async function GET(request) {
 
@@ -30,25 +31,26 @@ export async function PUT(request) {
         const { data } = await request.json();
         const newRecord = await prisma.lostAndFound.create({
             data: {
-                hotelCode: parseInt(data.hotelCode),
+                //hotelCode: parseInt(data.hotelCode),
                 roomNumber: parseInt(data.roomNumber),
-                customerID: parseInt(data.customerID),
-                referenceNumber: parseInt(data.referenceNumber),
+                //customerID: parseInt(data.customerID),
+                description: data.description,
+                //referenceNumber: parseInt(data.referenceNumber),
                 date: data.date,
                 userName: data.userName,
                 isFound: parseInt(data.isFound),
-                foundDate: data.foundDate,
-                foundByUser: data.foundByUser,
-                foundText: data.foundText,
-                reportReference: parseInt(data.reportReference),
+                //foundDate: data.foundDate,
+               foundByUser: data.foundByUser,
+               // foundText: data.foundText,
+                //reportReference: parseInt(data.reportReference),
                 location: data.location,
-                document: data.document,
-                submissionDate: data.submissionDate,
-                submittedByUser: data.submittedByUser,
-                foundLocation: data.foundLocation,
-                localText: data.localText,
-                foundText: data.foundText,
-                foundText: data.foundText,
+                //document: data.document,
+                //submissionDate: data.submissionDate,
+                //submittedByUser: data.submittedByUser,
+               // foundLocation: data.foundLocation,
+                //localText: data.localText,
+                //foundText: data.foundText,
+                //foundText: data.foundText,
                 createdBy: userID
             }
         });
@@ -56,6 +58,7 @@ export async function PUT(request) {
         return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
 
     } catch (error) {
+        console.error("Error creating new record:", error);
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
     } finally {
         await prisma.$disconnect();
