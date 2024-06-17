@@ -14,6 +14,8 @@ import LanguageAutocomplete from "@/components/functionsForm/autocomplete/langua
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import reservationInsert from "@/components/functionsForm/CRUD/frontOffice/reservation/roomsPlan/page";
 
+import { useTranslations } from 'next-intl';
+
 const reservationsForm = ({
     idReservation,
     idGuest,
@@ -49,7 +51,8 @@ const reservationsForm = ({
 
     const { handleInputReservation, handleSubmitReservation, setReservation, reservation, handleLanguageSelect, handleTipologySelect, name } = reservationInsert(guestName, guestId, startDate, endDate, tipology, selectedDates);
 
-    console.log("RESERVAS", selectedDates)
+    const t = useTranslations('Index');
+
     return (
         <>
 
@@ -94,7 +97,7 @@ const reservationsForm = ({
                                                         type={"text"}
                                                         id={"name"}
                                                         name={"firstName"}
-                                                        label={"Nome"}
+                                                        label={t("frontOffice.frontDesk.bookings.modal.booking.name")}
                                                         ariaLabel={"Nome"}
                                                         style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                         value={name.firstName}
@@ -105,7 +108,7 @@ const reservationsForm = ({
                                                         type={"text"}
                                                         id={"surname"}
                                                         name={"lastName"}
-                                                        label={"Apelido"}
+                                                        label={t("frontOffice.frontDesk.bookings.modal.booking.surname")}
                                                         ariaLabel={"Apelido"}
                                                         style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                         value={name.lastName}
@@ -116,13 +119,13 @@ const reservationsForm = ({
                                                         type={"text"}
                                                         id={"salutation"}
                                                         name={"Salutation"}
-                                                        label={"Saudação"}
+                                                        label={t("frontOffice.frontDesk.bookings.modal.booking.salutation")}
                                                         ariaLabel={"Saudação"}
                                                         style={"w-64 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     />
 
                                                     <LanguageAutocomplete
-                                                        label={"Idioma"}
+                                                        label={t("frontOffice.frontDesk.bookings.modal.booking.language")}
                                                         style={""}
                                                         onChange={(value) => handleLanguageSelect(value)}
                                                     />
@@ -137,14 +140,14 @@ const reservationsForm = ({
                                                                 <div className="flex flex-row justify-between gap-2">
                                                                     <div className="bg-white flex flex-col w-2/4 px-5 py-5 border border-neutral-200">
                                                                         <div className="">
-                                                                            <h4 className="pb-5 text-black-100"><b>Stay Details</b></h4>
+                                                                            <h4 className="pb-5 text-black-100"><b>{t("frontOffice.frontDesk.bookings.modal.booking.stayDetails.label")}</b></h4>
                                                                         </div>
                                                                         <div className="flex flex-row">
                                                                             <InputFieldControlled
                                                                                 type={"date"}
                                                                                 id={"arrival"}
                                                                                 name={"CheckIn"}
-                                                                                label={"Arrival:"}
+                                                                                label={t("frontOffice.frontDesk.bookings.modal.booking.stayDetails.inputs.checkIn")}
                                                                                 ariaLabel={"Arrival:"}
                                                                                 style={inputStyle}
                                                                                 value={dateRange.start}
@@ -155,7 +158,7 @@ const reservationsForm = ({
                                                                                 type={"date"}
                                                                                 id={"optional"}
                                                                                 name={"Optional"}
-                                                                                label={"Optional:"}
+                                                                                label={t("frontOffice.frontDesk.bookings.modal.booking.stayDetails.inputs.optional")}
                                                                                 ariaLabel={"Optional:"}
                                                                                 style={inputStyle}
                                                                             />
@@ -167,7 +170,7 @@ const reservationsForm = ({
                                                                                 type={"text"}
                                                                                 id={"nights"}
                                                                                 name={"NightCount"}
-                                                                                label={"Nights"}
+                                                                                label={t("frontOffice.frontDesk.bookings.modal.booking.stayDetails.inputs.nightCount")}
                                                                                 ariaLabel={"Nights"}
                                                                                 style={inputStyle}
                                                                                 value={dateRange.numberNights}
@@ -178,7 +181,7 @@ const reservationsForm = ({
                                                                                 type={"text"}
                                                                                 id={"guestsperRoom"}
                                                                                 name={"GuestNumber"}
-                                                                                label={"Guests per Room"}
+                                                                                label={t("frontOffice.frontDesk.bookings.modal.booking.stayDetails.inputs.guestNumber")}
                                                                                 ariaLabel={"Guests per Room"}
                                                                                 style={inputStyle}
                                                                                 value={reservation.GuestNumber}
@@ -191,24 +194,24 @@ const reservationsForm = ({
                                                                             type={"date"}
                                                                             id={"departure"}
                                                                             name={"CheckOut"}
-                                                                            label={"Departure:"}
+                                                                            label={t("frontOffice.frontDesk.bookings.modal.booking.stayDetails.inputs.checkOut")}
                                                                             ariaLabel={"Departure:"}
                                                                             style={inputStyle}
                                                                             value={dateRange.end}
                                                                             onChange={handleInputReservation}
                                                                         />
 
-                                                                        <CountryAutocomplete label="Payment" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                                        <CountryAutocomplete label={t("frontOffice.frontDesk.bookings.modal.booking.stayDetails.inputs.payment")} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                                     </div>
                                                                     <div className="bg-white flex flex-col w-2/4 px-5 py-5 border border-neutral-200">
                                                                         <div className="flex justify-between items-center">
-                                                                            <h4 className="pb-5 text-black-100"><b>Room Details</b></h4>
+                                                                            <h4 className="pb-5 text-black-100"><b>{t("frontOffice.frontDesk.bookings.modal.booking.roomDetails.label")}</b></h4>
                                                                         </div>
                                                                         <InputFieldControlled
                                                                             type={"text"}
                                                                             id={"room"}
                                                                             name={"Room"}
-                                                                            label={"Room"}
+                                                                            label={t("frontOffice.frontDesk.bookings.modal.booking.roomDetails.inputs.room")}
                                                                             ariaLabel={"Room"}
                                                                             style={inputStyle}
                                                                             value={dateRange.roomName}
@@ -224,7 +227,7 @@ const reservationsForm = ({
                                                                         type={"text"}
                                                                         id={""}
                                                                         name={"Tipologia"}
-                                                                        label={"Tipologia"}
+                                                                        label={t("frontOffice.frontDesk.bookings.modal.booking.roomDetails.inputs.roomType")}
                                                                         ariaLabel={"Tipologia"}
                                                                         style={inputStyle}
                                                                         value={dateRange.tipologyID}
@@ -234,7 +237,7 @@ const reservationsForm = ({
                                                                             type={"text"}
                                                                             id={"roomtoCharge"}
                                                                             name={"Room to Charge"}
-                                                                            label={"Room to Charge"}
+                                                                            label={t("frontOffice.frontDesk.bookings.modal.booking.roomDetails.inputs.roomToCharge")}
                                                                             ariaLabel={"Room to Charge"}
                                                                             style={inputStyle}
                                                                         />
@@ -245,15 +248,15 @@ const reservationsForm = ({
                                                     </Tabs>
                                                     <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                         <div className="">
-                                                            <h4 className="pb-5 text-black-100"><b>Rate Details</b></h4>
+                                                            <h4 className="pb-5 text-black-100"><b>{t("frontOffice.frontDesk.bookings.modal.booking.rateDetails.label")}</b></h4>
                                                         </div>
-                                                        <CountryAutocomplete label="Rate Code" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
+                                                        <CountryAutocomplete label={t("frontOffice.frontDesk.bookings.modal.booking.rateDetails.inputs.rateCode")} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-5 gap-4 h-10 my-2"} />
                                                         <div className="flex flex-row gap-5">
                                                             <InputFieldControlled
                                                                 type={"text"}
                                                                 id={"avgRate"}
                                                                 name={"Avg. Rate"}
-                                                                label={"Avg. Rate"}
+                                                                label={t("frontOffice.frontDesk.bookings.modal.booking.rateDetails.inputs.avgRate")}
                                                                 ariaLabel={"Avg. Rate"}
                                                                 style={inputStyle}
                                                             />
@@ -262,7 +265,7 @@ const reservationsForm = ({
                                                                 type={"text"}
                                                                 id={"totalRate"}
                                                                 name={"Total Rate"}
-                                                                label={"Total Rate"}
+                                                                label={t("frontOffice.frontDesk.bookings.modal.booking.rateDetails.inputs.totalRate")}
                                                                 ariaLabel={"Total Rate"}
                                                                 style={inputStyle}
                                                             />
@@ -274,17 +277,17 @@ const reservationsForm = ({
                                                             type={"text"}
                                                             id={"packages"}
                                                             name={"Packages"}
-                                                            label={"Packages"}
+                                                            label={t("frontOffice.frontDesk.bookings.modal.booking.rateDetails.inputs.packages")}
                                                             ariaLabel={"Packages"}
                                                             style={inputStyle}
                                                         />
 
                                                         <InputFieldControlled
                                                             type={"text"}
-                                                            id={"allotment"}
-                                                            name={"Allotment"}
-                                                            label={"Allotment"}
-                                                            ariaLabel={"Allotment"}
+                                                            id={"Price"}
+                                                            name={"Price"}
+                                                            label={t("frontOffice.frontDesk.bookings.modal.booking.rateDetails.inputs.price")}
+                                                            ariaLabel={"Price"}
                                                             style={inputStyle}
                                                         />
                                                     </div>
