@@ -133,6 +133,132 @@
                     "modalHeader": "View Client File"
                 }
             },
+            "frontDesk": {
+                "frontDesk": {
+                    "bookings": "Bookings",
+                    "arrivals": "Arrivals",
+                    "guestList": "Guest List",
+                    "departures": "Departures"
+                },
+                "bookings": {
+                    "label": "Bookings",
+                    "arrivalLabel": "Arrivals",
+                    "departuresLabel": "Departures",
+                    "guestListLabel": "Guest List",
+                    "cards": {
+                        "pending": "Pending",
+                        "checkedIn": "Checked-In",
+                        "checkedOut": "Checked-Out",
+                        "canceled": "Canceled",
+                        "noShow": "No-Show",
+                        "cancelCI": "Cancel CI"
+                    },
+                    "filters": {
+                        "from": "From:",
+                        "to": "To:",
+                        "searchFor": "SEARCH FOR",
+                        "searchRoom": "Search room",
+                        "searchSurname": "Search surname",
+                        "searchFirstName": "Search first name",
+                        "applyFilters": "Apply Filters",
+                        "cleanFilters": "Clean Filters",
+                        "delete": "Delete",
+                        "docType": "Document Type"
+                    },
+                    "datatable": {
+                        "name": "Name",
+                        "surname": "Surname",
+                        "checkIn": "Check-in",
+                        "checkOut": "Check-out",
+                        "nights": "Nights",
+                        "room": "Room",
+                        "rt": "rt",
+                        "people": "People",
+                        "status": "Status"
+                    },
+                    "notFound": {
+                        "name": "Name not found",
+                        "surname": "Surname not found",
+                        "status": "Unknown status"
+                    },
+                    "new": {
+                        "modalHeader": "New Reservation"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Reservation"
+                    },
+                    "view": {
+                        "modalHeader": "View Reservation"
+                    },
+                    "modal": {
+                        "booking": {
+                            "name": "Name",
+                            "surname": "Surname",
+                            "salutation": "Salutation",
+                            "language": "Language",
+                            "stayDetails": {
+                                "label": "Stay Details",
+                                "inputs": {
+                                    "checkIn": "Arrival:",
+                                    "optional": "Optional:",
+                                    "nightCount": "Nights",
+                                    "checkOut": "Departure:",
+                                    "guestNumber": "Guest per Room",
+                                    "payment": "Payment"
+                                }
+                            },
+                            "roomDetails": {
+                                "label": "Room Details",
+                                "inputs": {
+                                    "room": "Room",
+                                    "roomType": "Room Type",
+                                    "roomToCharge": "Room to Charge"
+                                }
+                            },
+                            "rateDetails": {
+                                "label": "Rate Details",
+                                "inputs": {
+                                    "rateCode": "Rate Code",
+                                    "avgRate": "Avg.Rate",
+                                    "totalRate": "Total Rate",
+                                    "packages": "Packages",
+                                    "price": "Price"
+                                }
+                            },
+                            "billing": {
+                                "label": "Billing",
+                                "inputs": {
+                                    "payment": "Payment:",
+                                    "charges": "Charges:",
+                                    "balance": "Balance:",
+                                    "forecast": "Forecast:"
+                                }
+                            },
+                            "traces": {
+                                "label": "Traces"
+                            },
+                            "notes": {
+                                "label": "Notes"
+                            },
+                            "userDefined": {
+                                "label": "User Defined"
+                            },
+                            "attachements": {
+                                "label": "Attachements"
+                            },
+                            "segmentation": {
+                                "label": "Segmentation",
+                                "inputs": {
+                                    "marketCode": "Market Code",
+                                    "distribChannel": "Distrib. Channel",
+                                    "commChannel": "Comm. Channel",
+                                    "travelReason": "Travel Reason"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "plans": {
                 "datatable": {
                     "today": "Today"

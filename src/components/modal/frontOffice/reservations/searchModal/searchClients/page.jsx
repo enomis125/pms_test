@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import InputFieldControlled from '@/components/functionsForm/inputs/typeText/page';
+import { useTranslations } from 'next-intl';
 
 export default function SearchModal({ buttonName, buttonIcon, buttonColor, inputs, onApplyFilters }) {
+    const t = useTranslations('Index');
+
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     // Define states for each input
@@ -40,7 +43,7 @@ export default function SearchModal({ buttonName, buttonIcon, buttonColor, input
                         <>
                             <div className='bg-white'>
                                 <div className='bg-lightBlue mx-2 my-1 rounded-xl'>
-                                    <ModalHeader className="flex flex-col gap-1 text-sm"><b>PESQUISAR POR</b></ModalHeader>
+                                    <ModalHeader className="flex flex-col gap-1 text-sm"><b>{t("frontOffice.frontDesk.bookings.filters.searchFor")}</b></ModalHeader>
                                     <ModalBody>
                                         {inputs.map((input, index) => (
                                             <InputFieldControlled
@@ -58,10 +61,10 @@ export default function SearchModal({ buttonName, buttonIcon, buttonColor, input
                                     </ModalBody>
                                     <ModalFooter className='flex justify-center gap-5'>
                                         <Button color="primary" onPress={handleClearFilters}>
-                                            Limpar Filtros
+                                        {t("frontOffice.frontDesk.bookings.filters.cleanFilters")}
                                         </Button>
                                         <Button className='bg-green text-white' onPress={handleApplyFilters}>
-                                            Aplicar Filtros
+                                        {t("frontOffice.frontDesk.bookings.filters.applyFilters")}
                                         </Button>
                                     </ModalFooter>
                                 </div>
