@@ -33,14 +33,37 @@ export async function PUT(request) {
     const userID = getUserIDFromToken(tokenCookie.value)
 
     const propertyID = getPropertyIDFromToken(tokenCookie.value)
-
+    
+    function removeComma(value) { //Preparação dos valores para o campo com tipo decimal (19,2)
+        if (typeof value === 'string') {
+            return parseFloat(value.replace(',', '.'));
+        }
+        return value;
+    }
+  
+    function removeComma(value) { //Preparação dos valores para o campo com tipo decimal (19,2)
+        if (typeof value === 'string') {
+            return parseFloat(value.replace(',', '.'));
+        }
+        return value;
+    }
+    
     try {
         const { data } = await request.json();
+        
+        const validFrom = new Date(data.inicio);
+        const validUntil = new Date(data.fim);
 
         const newRecord = await prisma.ratecodedetails.create({
             data: {
+                //Linha 1
+                rateCodeID: parseInt(data.rateCodeName),
+                rateCodeDetName: data.nome,
                 propertyID: propertyID,
                 createdBy: userID,
+                //Linha 1
+                rateCodeID: parseInt(data.rateCodeName),
+                rateCodeDetName: data.nome,
                 //Linha 2
                 validFrom: validFrom,
                 validUntil: validUntil,

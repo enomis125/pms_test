@@ -13,7 +13,7 @@ const Card = () => {
         <>
         <div className="border grid grid-cols-4 gap-4 justify-between py-5 px-5">
             <div className="">
-                <Cartao title={"ESTADOS DE RESERVAS"} description={""} listType={"estado_de_reservas"} icon={<PiListPlus size={35} />} formTypeCard={10}/>
+                <Cartao title={"ESTADOS DE RESERVAS"} description={""} listType={"estados_de_reservas"} icon={<PiListPlus size={35} />} formTypeCard={10}/>
             </div>
             <div className="">
                 <Cartao title={"SEGMENTOS DE MERCADO"} description={""}  listType={"segmentos_de_mercado"} icon={<FaBoxesStacked size={35}/>} formTypeCard={20}/>
@@ -34,7 +34,7 @@ const Card = () => {
                 <Cartao title={"TABELA DE RECUSAS"} description={""} listType={"tabela_de_recusa"} icon={<PiListDashesBold  size={35}/>} formTypeCard={70}/>
             </div>
             <div className="">
-                <Cartao title={"TIPOS DE TRANSFER (?)"} description={""} listType={"tipos_de_transfer"} icon={<PiListDashesBold  size={35}/>} formTypeCard={80}/>
+                <Cartao title={"TIPOS DE TRANSFER (?)"} description={""} listType={"tabela_de_transfer"} icon={<PiListDashesBold  size={35}/>} formTypeCard={80}/>
             </div>
             <div className="">
                 <Cartao title={"TIPOS DE MUDANÇA DE RESERVAS"} description={""} listType={"tipos_de_mudanca_de_reservas"} icon={<PiListDashesBold  size={35}/>} formTypeCard={90}/>

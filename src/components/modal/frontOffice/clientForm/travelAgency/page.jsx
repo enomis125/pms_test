@@ -31,6 +31,7 @@ const travelGroupForm = ({
     modalEdit,
     formTypeModal,
     buttonColor,
+    buttonClass,
     criado,
     editado,
     editor
@@ -55,7 +56,7 @@ const travelGroupForm = ({
 
             {formTypeModal === 0 && ( //individuals insert
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${buttonClass}`}>
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal

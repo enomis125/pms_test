@@ -34,15 +34,13 @@ const companyForm = ({
     modalEdit,
     formTypeModal,
     buttonColor,
+    buttonClass,
     criado,
     editado,
     editor
 }) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
@@ -58,7 +56,7 @@ const companyForm = ({
         <>
             {formTypeModal === 0 && ( //individuals insert
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor} className={`w-fit ${buttonClass}`}>
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
@@ -298,7 +296,7 @@ const companyForm = ({
                                                         <h4 className="pb-5 text-black-100"><b>Contacto 2</b></h4>
                                                     </div>
                                                     <div className="flex flex-row gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+                                                        <LanguageAutocomplete label={"Idioma"} style={''} />
 
                                                         <InputFieldControlled
                                                             type={"text"}

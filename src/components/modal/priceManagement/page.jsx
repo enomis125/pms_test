@@ -16,6 +16,7 @@ import { MdClose } from "react-icons/md";
 import { CheckboxGroup, Checkbox } from "@nextui-org/react";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import {useTranslations} from 'next-intl';
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
@@ -47,6 +48,7 @@ const priceManagementForm = ({
     valuesPriceManagement,
   } = priceManagementEdit(idPriceManagement);
   const { toggleExpand, setIsExpanded, isExpanded } = expansion();
+  const t = useTranslations('Index');
 
   return (
     <>
@@ -80,7 +82,7 @@ const priceManagementForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -96,7 +98,7 @@ const priceManagementForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>
@@ -108,7 +110,7 @@ const priceManagementForm = ({
                           type={"text"}
                           id={"RateGroup"}
                           name={"RateGroup"}
-                          label={"Rate Group"}
+                          label={t('priceManagement.priceCodes.rateGroup')}
                           style={"w-30 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceManagement}
                         />
@@ -117,7 +119,7 @@ const priceManagementForm = ({
                           type={"text"}
                           id={"RateCode"}
                           name={"RateCode"}
-                          label={"Rate Code"}
+                          label={t('priceManagement.priceCodes.rateCode')}
                           style={"w-30 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceManagement}
                         />
@@ -126,7 +128,7 @@ const priceManagementForm = ({
                           type={"text"}
                           id={"Type"}
                           name={"Type"}
-                          label={"Type"}
+                          label={t('priceManagement.priceCodes.type')}
                           style={"w-30 outline-none h-10"}
                           onChange={handleInputPriceManagement}
                         />
@@ -135,7 +137,7 @@ const priceManagementForm = ({
                         type={"text"}
                         id={"text1"}
                         name={"Text1"}
-                        label={"Text 1"}
+                        label={t('priceManagement.priceCodes.text1')}
                         style={"w-full outline-none h-10"}
                         onChange={handleInputPriceManagement}
                       />
@@ -145,13 +147,13 @@ const priceManagementForm = ({
                           type={"number"}
                           id={"sortOrder"}
                           name={"sortOrder"}
-                          label={"Sort Order"}
+                          label={t('priceManagement.priceCodes.sortOrder')}
                           style={"w-30 outline-none h-10"}
                           onChange={handleInputPriceManagement}
                         />
                       </div>
-                      <CheckboxGroup label="Virtual Rate">
-                        <Checkbox value="">Base Rate</Checkbox>
+                      <CheckboxGroup label={t('priceManagement.priceCodes.virtualRate')}>
+                        <Checkbox value="">{t('priceManagement.priceCodes.baseRate')}</Checkbox>
                       </CheckboxGroup>
 
                       <div className="flex flex-row gap-8">
@@ -159,7 +161,7 @@ const priceManagementForm = ({
                           type={"text"}
                           id={"Surcharge"}
                           name={"Surcharge"}
-                          label={"Surcharge (%)"}
+                          label={t('priceManagement.priceCodes.surcharge')}
                           style={"w-30 outline-none h-10"}
                           onChange={handleInputPriceManagement}
                         />
@@ -174,18 +176,18 @@ const priceManagementForm = ({
                         />
 
                         <PriceManagementGroupAutocomplete
-                          label={"Round To"}
+                          label={t('priceManagement.priceCodes.roundTo')}
                           style={""}
                           onChange={(value) => handleSelect(value)}
                         />
                       </div>
                       <div className="flex flex-row gap-8">
-                        <CheckboxGroup label="Options">
-                          <Checkbox value="">Special Rate</Checkbox>
+                        <CheckboxGroup label={t('priceManagement.priceCodes.options')}>
+                          <Checkbox value="">{t('priceManagement.priceCodes.specialRate')}</Checkbox>
                         </CheckboxGroup>
-                        <CheckboxGroup label="Options">
+                        <CheckboxGroup label={t('priceManagement.priceCodes.options')}>
                           <Checkbox value="">
-                            Hide in Rate Availability
+                          {t('priceManagement.priceCodes.hideRateAvailability')}
                           </Checkbox>
                         </CheckboxGroup>
                       </div>
@@ -194,18 +196,18 @@ const priceManagementForm = ({
                           type={"text"}
                           id={"hotels"}
                           name={"Hotels"}
-                          label={"Hotels"}
+                          label={t('priceManagement.priceCodes.hotels')}
                           style={"w-30 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceManagement}
                         />
 
                         <PriceManagementGroupAutocomplete
-                          label={"Routing Code"}
+                          label={t('priceManagement.priceCodes.routingCode')}
                           style={""}
                           onChange={(value) => handleSelect(value)}
                         />
                         <PriceManagementGroupAutocomplete
-                          label={"Target"}
+                          label={t('priceManagement.priceCodes.target')}
                           style={""}
                           onChange={(value) => handleSelect(value)}
                         />
@@ -282,7 +284,7 @@ const priceManagementForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -298,7 +300,7 @@ const priceManagementForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>

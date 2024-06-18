@@ -1,0 +1,563 @@
+{
+    "Index": {
+        "general": {
+            "search": "Search...",
+            "newRecord": "New",
+            "editRecord": "Edit",
+            "removeRecord": "Remove",
+            "viewRecord": "View",
+            "loadingStatus": "Loading..."
+        },
+        "pagination": {
+            "noRecords": "0 results",
+            "pageRecords": "Records per Page:",
+            "of": "of"
+        },
+        "sidebar": {
+            "frontoffice": {
+                "label": "Front Office",
+                "frontOffice": "Front Office",
+                "clientFiles": "Client Files",
+                "frontDesk": "Front-Desk",
+                "reservations": "Reservations",
+                "arrivals": "Arrivals",
+                "guestList": "Guest List",
+                "departures": "Departures",
+                "tipologiesPlan": "Tipologies Plan",
+                "reservationsPlan": "Reservations Plan"
+            },
+            "housekeeping": {
+                "label": "Housekeeping",
+                "housekeeping": "Housekeeping",
+                "management": "Management",
+                "lostAndFound": "Lost And Found",
+                "attendantSheets": "Attendant Sheets"
+            },
+            "settings": {
+                "label": "Settings",
+                "companyLabel": "Company",
+                "chargeAccountsLabel": "Charge Accounts"
+            },
+            "hotel": {
+                "label": "Hotel",
+                "tipologiesGroup": "Tipologies Group",
+                "tipologies": "Tipologies",
+                "rooms": "Rooms",
+                "characteristics": "Characteristics",
+                "maintenance": "Maintenance"
+            },
+            "cardex": {
+                "label": "Cardex",
+                "cardex": "Cardex",
+                "salutions": "Salutions",
+                "nationalities": "Nationalities",
+                "knowledgeMethod": "Knowledge Method",
+                "profession": "Profession",
+                "idDocument": "Identification Document",
+                "languages": "Languages",
+                "clientPreferences": "Client Preferences",
+                "members": "Members",
+                "marketing": "Marketing",
+                "vipTypes": "VIP Types"
+            },
+            "bookings": {
+                "label": "Bookings",
+                "bookings": "Bookings",
+                "bookingStatus": "Booking Status",
+                "marketSegments": "Market Segments",
+                "marketSources": "Market Sources",
+                "formsOfKnowledge": "Forms of Knowledge",
+                "bookingReasons": "Booking Reasons",
+                "substitutionCodes": "Substitution Codes",
+                "cancelationReasons": "Cancelation Reasons",
+                "pickupTypes": "Pickup Types",
+                "bookingChangeTypes": "Booking Change Types",
+                "cancelationTypes": "Cancelation Types"
+            },
+            "financial": {
+                "label": "Financial",
+                "financial": "Financial",
+                "departments": "Departments",
+                "accountsGroups": "Accounts Groups",
+                "revenueAccounts": "Revenue Accounts",
+                "paymentAccounts": "Payment Accounts",
+                "taxes": "Taxes",
+                "cashiers": "Cashiers",
+                "voidCharges": "Void Charges"
+            },
+            "priceManagement": {
+                "label": "Price Management",
+                "priceCodes": "Price Codes",
+                "priceCodesDescription": "Price Codes Description",
+                "seasons": "Seasons"
+            }
+        },
+        "frontOffice": {
+            "frontOffice": {
+                "generalCard": "General",
+                "individualCard": "Individuals",
+                "businessCard": "Businesses",
+                "travelAgencyCard": "Travel Agencies",
+                "groupsCard": "Groups",
+                "othersCard": "Others"
+            },
+            "clientFiles": {
+                "label": "Client Files",
+                "nameLabel": "Name",
+                "lastNameLabel": "Last Name",
+                "salutionLabel": "Salution",
+                "languageLabel": "Language",
+                "datatable": {
+                    "id": "ID",
+                    "fileType": "FILE TYPE",
+                    "name": "NAME",
+                    "lastName": "LAST NAME",
+                    "address": "ADDRESS",
+                    "email": "EMAIL",
+                    "phoneNumber": "PHONE NUMBER"
+                },
+                "cards": {
+                    "individual": "Individual",
+                    "business": "Business",
+                    "travelAgency": "Travel Agency",
+                    "groups": "Groups",
+                    "others": "Others"
+                },
+                "new": {
+                    "modalHeader": "New Client File"
+                },
+                "edit": {
+                    "modalHeader": "Edit Client File"
+                },
+                "view": {
+                    "modalHeader": "View Client File"
+                }
+            },
+            "frontDesk": {
+                "frontDesk": {
+                    "bookings": "Bookings",
+                    "arrivals": "Arrivals",
+                    "guestList": "Guest List",
+                    "departures": "Departures"
+                },
+                "bookings": {
+                    "label": "Bookings",
+                    "arrivalLabel": "Arrivals",
+                    "departuresLabel": "Departures",
+                    "guestListLabel": "Guest List",
+                    "cards": {
+                        "pending": "Pending",
+                        "checkedIn": "Checked-In",
+                        "checkedOut": "Checked-Out",
+                        "canceled": "Canceled",
+                        "noShow": "No-Show",
+                        "cancelCI": "Cancel CI"
+                    },
+                    "filters": {
+                        "from": "From:",
+                        "to": "To:",
+                        "searchFor": "SEARCH FOR",
+                        "searchRoom": "Search room",
+                        "searchSurname": "Search surname",
+                        "searchFirstName": "Search first name",
+                        "applyFilters": "Apply Filters",
+                        "cleanFilters": "Clean Filters",
+                        "delete": "Delete",
+                        "docType": "Document Type"
+                    },
+                    "datatable": {
+                        "name": "Name",
+                        "surname": "Surname",
+                        "checkIn": "Check-in",
+                        "checkOut": "Check-out",
+                        "nights": "Nights",
+                        "room": "Room",
+                        "rt": "rt",
+                        "people": "People",
+                        "status": "Status"
+                    },
+                    "notFound": {
+                        "name": "Name not found",
+                        "surname": "Surname not found",
+                        "status": "Unknown status"
+                    },
+                    "new": {
+                        "modalHeader": "New Reservation"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Reservation"
+                    },
+                    "view": {
+                        "modalHeader": "View Reservation"
+                    },
+                    "modal": {
+                        "booking": {
+                            "name": "Name",
+                            "surname": "Surname",
+                            "salutation": "Salutation",
+                            "language": "Language",
+                            "stayDetails": {
+                                "label": "Stay Details",
+                                "inputs": {
+                                    "checkIn": "Arrival:",
+                                    "optional": "Optional:",
+                                    "nightCount": "Nights",
+                                    "checkOut": "Departure:",
+                                    "guestNumber": "Guest per Room",
+                                    "payment": "Payment"
+                                }
+                            },
+                            "roomDetails": {
+                                "label": "Room Details",
+                                "inputs": {
+                                    "room": "Room",
+                                    "roomType": "Room Type",
+                                    "roomToCharge": "Room to Charge"
+                                }
+                            },
+                            "rateDetails": {
+                                "label": "Rate Details",
+                                "inputs": {
+                                    "rateCode": "Rate Code",
+                                    "avgRate": "Avg.Rate",
+                                    "totalRate": "Total Rate",
+                                    "packages": "Packages",
+                                    "price": "Price"
+                                }
+                            },
+                            "billing": {
+                                "label": "Billing",
+                                "inputs": {
+                                    "payment": "Payment:",
+                                    "charges": "Charges:",
+                                    "balance": "Balance:",
+                                    "forecast": "Forecast:"
+                                }
+                            },
+                            "traces": {
+                                "label": "Traces"
+                            },
+                            "notes": {
+                                "label": "Notes"
+                            },
+                            "userDefined": {
+                                "label": "User Defined"
+                            },
+                            "attachements": {
+                                "label": "Attachements"
+                            },
+                            "segmentation": {
+                                "label": "Segmentation",
+                                "inputs": {
+                                    "marketCode": "Market Code",
+                                    "distribChannel": "Distrib. Channel",
+                                    "commChannel": "Comm. Channel",
+                                    "travelReason": "Travel Reason"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "plans": {
+                "datatable": {
+                    "today": "Today"
+                },
+                "modals": {
+                    "filter": "FILTER BY MONTH AND YEAR",
+                    "reservationDetails": "Reservation details",
+                    "guestDetails": "Choose the type of guest, please:",
+                    "guestName": "Guest Name *",
+                    "in": "In:",
+                    "out": "Out:",
+                    "reserve": "RESERVE",
+                    "cancel": "CANCEL",
+                    "reservationHeader": "Enter a Reservation",
+                    "buttons": {
+                        "individuals": "Individuals",
+                        "companys": "Companys",
+                        "groups": "Groups",
+                        "travelAgencys": "Travel Agencys",
+                        "others": "Others"
+                    }
+                }
+            },
+            "typologyPlan": {
+                "label": "Typology Plan",
+                "datatable": {
+                    "typologys": "Typologys",
+                    "dayUse": "Day Use",
+                    "totalAvailable": "Total Available",
+                    "totalOverbooking": "Total Overbooking",
+                    "allotNonDedNotPu": "Allot - Non Ded/Not Pu",
+                    "allotNonDedPu": "Allot - Non Ded/Pu",
+                    "allotDeductNotPu": "Allot - Deduct/Not Pu",
+                    "allotDeductPu": "Allot - Deduct/Pu",
+                    "outOfOrder": "Out of Order",
+                    "optionDeduct": "Option - Deduct",
+                    "optionNonDeduct": "Option - Non Deduct",
+                    "confirmedDeduct": "Confirmed - Deduct",
+                    "physicallyAvailable": "Physically Available",
+                    "occupation": "Occupation %"
+                }
+            },
+            "roomsPlan": {
+                "label": "Rooms Plan",
+                "datatable": {
+                    "rooms": "Rooms"
+                }
+            }
+        },
+        "bookings": {
+            "cards": {
+                "reservationStatus": "RESERVATION STATUS",
+                "marketSegments": "MARKET SEGMENTS",
+                "marketOrigins": "MARKET ORIGINS",
+                "knowledgeMethods": "KNOWLEDGE METHODS",
+                "reservationReasons": "RESERVATION REASONS",
+                "swapCodes": "SWAP CODES",
+                "cancelTable": "CANCEL TABLE",
+                "transferTypes": "TRANSFER TYPES",
+                "changeTypeReservations": "RESERVATION TYPES CHANGES",
+                "cancelationTypes": "CANCELATION" 
+            }
+        },
+        "financialSetup": {
+            "cards": {
+                "departments": "DEPARTMENTS",
+                "accountGroups": "ACCOUNT GROUPS",
+                "revenueAccounts": "REVENUE ACCOUNTS",
+                "paymentAccounts": "PAYMENT ACCOUNTS",
+                "taxes": "TAXES",
+                "cashiers": "CASHIERS",
+                "voidCharges": "VOID CHARGES"
+            },
+            "departments": {
+                "title": "Departments",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "activeStatus": "Active (status)",
+                "order": "Order",
+                "datatable": {
+                    "id": "id",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "detail": "Detail",
+                    "status": "Status",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Department"
+                },
+                "edit": {
+                    "modalHeader": "Edit Department"
+                },
+                "view": {
+                    "modalHeader": "View Department"
+                }
+            },
+            "accountGroups": {
+                "title": "Account Groups",
+                "cod": "Cod.",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "datatable": {
+                    "id": "id",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "group": "Group",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Account Group"
+                },
+                "edit": {
+                    "modalHeader": "Edit Account Group"
+                },
+                "view": {
+                    "modalHeader": "View Account Group"
+                }
+            },
+            "revenueAccounts": {
+                "title": "Revenue Accounts",
+                "cod": "Cod.",
+                "abreviature": "Abreviature",
+                "details": "Details",
+                "department": "Department",
+                "accountGroup": "Account Group",
+                "tax": "Tax",
+                "worth": "Worth",
+                "property": "Property",
+                "statCode": "Statistic Code",
+                "datatable": {
+                    "id": "id",
+                    "cod": "Cod.",
+                    "account": "Account",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "accountGroup": "Group Account",
+                    "department": "Department",
+                    "tax": "Tax",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Revenue Account"
+                },
+                "edit": {
+                    "modalHeader": "Edit Revenue Account"
+                },
+                "view": {
+                    "modalHeader": "View Revenue Account"
+                }
+            },
+            "paymentAccounts": {
+                "title": "Payment Accounts",
+                "cod": "Cod.",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "departments": "Deparments",
+                "group": "Group",
+                "type": "Type",
+                "property": "Property",
+                "datatable": {
+                    "id": "id",
+                    "cod": "Cod.",
+                    "account": "Account",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "group": "Group",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Payment Accounts"
+                },
+                "edit": {
+                    "modalHeader": "Edit Payment Accounts"
+                },
+                "view": {
+                    "modalHeader": "View Payment Accounts"
+                }
+            },
+            "taxes": {
+                "title": "Taxes",
+                "cod": "Cod.",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "percentage": "Percentage",
+                "codSAFT": "Cod. SAFT",
+                "descSAFT": "Desc. SAFT",
+                "detail": "Detail",
+                "detailedInvoice": "Detailed Invoice",
+                "datatable": {
+                    "id": "id",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "percentage": "Percentage",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Tax"
+                },
+                "edit": {
+                    "modalHeader": "Edit Tax"
+                },
+                "view": {
+                    "modalHeader": "View Tax"
+                }
+            },
+            "cashiers": {
+                "title": "Cashiers",
+                "cod": "Cod.",
+                "abreviature": "Abreviature",
+                "password": "Password",
+                "description": "Description",
+                "datatable": {
+                    "id": "id",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description"
+                },
+                "new": {
+                    "modalHeader": "New Cashier"
+                },
+                "edit": {
+                    "modalHeader": "Edit Cashier"
+                },
+                "view": {
+                    "modalHeader": "View Cashier"
+                }
+            },
+            "voidCharges": {
+                "title": "Void Charges",
+                "cod": "Cod.",
+                "abreviature": "Abreviature",
+                "property": "Property",
+                "description": "Description",
+                "datatable": {
+                    "id": "id",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description"
+                },
+                "new": {
+                    "modalHeader": "New Void Charge"
+                },
+                "edit": {
+                    "modalHeader": "Edit Void Charge"
+                },
+                "view": {
+                    "modalHeader": "View  Void Charge"
+                }
+            }
+        },
+
+        "priceManagement": {
+            "priceCodes": {
+                "title": "Price Management",
+                "rateGroup": "Rate Group",
+                "rateCode": "Rate Code",
+                "type": "Type",
+                "text1": "Text1",
+                "sortOrder": "Sort Order",
+                "virtualRate": "Virtual Rate",
+                "baseRate": "Base Rate",
+                "surcharge": "Surcharge (%)",
+                "roundTo": "Round To",
+                "options": "Options",
+                "specialRate": "Special Rate",
+                "hideRateAvailability": "Hide in Rate Availability",
+                "hotels": "Hotels",
+                "routingCode": "Routing Code",
+                "target": "Target",
+                "datatable": {
+                    "n": "nº",
+                    "group": "group",
+                    "text": "text",
+                    "basisGrp": "basis grp.",
+                    "basisRate": "basis rate",
+                    "surcharge": "surcharge",
+                    "fixSurcharge": "fix surcharge",
+                    "people": "people",
+                    "divide": "divide",
+                    "ref": "ref",
+                    "order": "order",
+                    "hotel": "hotel"
+                },
+                "new": {
+                    "modalHeader": "New Price Code"
+                },
+                "edit": {
+                    "modalHeader": "Edit Price Code"
+                },
+                "view": {
+                    "modalHeader": "View Price Code"
+                }
+            }
+        }
+    }
+}

@@ -16,7 +16,7 @@ export default function revenueAccountInsert() {
     })
 
     //preenchimento automatico do nome e do apelido atraves de autocomplete
-    const handleSelect = (accountGroups) => {
+    const handleSelectAccount = (accountGroups) => {
         //console.log("ID do guestProfile selecionado:", clientForm.firstName);
         //console.log("ID do guestProfile selecionado:", clientForm.secondName);
 
@@ -37,7 +37,7 @@ export default function revenueAccountInsert() {
     };
 
     //preenchimento automatico de departamento atraves de autocomplete
-    const handleDepartmentSelect = (department) => {
+    const handleDepartmentSelectRevenue = (department) => {
         setRevenueAccounts({
             ...revenueAccount,
             DepartmentID: department.departmentID,
@@ -69,7 +69,7 @@ export default function revenueAccountInsert() {
     }
     return { 
 
-        handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelect, handleSelectTaxes, handleDepartmentSelect
+        handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelectAccount, handleSelectTaxes, handleDepartmentSelectRevenue
 
     };
 }

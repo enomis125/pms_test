@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -11,7 +11,7 @@ import {
   Tabs,
   Tab,
 } from "@nextui-org/react";
-//imports de icons
+// imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
@@ -28,6 +28,7 @@ import RoomsAutocomplete from "@/components/functionsForm/autocomplete/rooms/pag
 import SeasonsAutocomplete from "@/components/functionsForm/autocomplete/seasons/page";
 import priceDescriptionInsert from "@/components/functionsForm/CRUD/priceManagent/priceDescription/page";
 import { priceDescriptionEdit } from "@/components/functionsForm/CRUD/priceManagent/priceDescription/page";
+import axios from 'axios';
 
 const priceDescriptionForm = ({
   idPriceDescription,
@@ -49,26 +50,35 @@ const priceDescriptionForm = ({
   const {
     handleInputPriceDescription,
     handleSubmitPriceDescription,
-    handleRoomsSelect,
     handleRateNameSelect,
-    handleSeasonsSelect,
-    handleTQ1Select,
-    handleTQ2Select,
-    handleTQ3Select,
-    handleTQ4Select,
-    handleTQ5Select,
     handleCheckboxChange
   } = priceDescriptionInsert();
-  const {
+  /*const {
     handleUpdatePriceDescription,
     setValuesPriceDescription,
     valuesPriceDescription,
-  } = priceDescriptionEdit(idPriceDescription);
+  } = priceDescriptionEdit(idPriceDescription);*/
   const { toggleExpand, setIsExpanded, isExpanded } = expansion();
+
+  const [tipologyGroup, setTipologyGroup] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axios.get("/api/v1/hotel/tipologys");
+        const filteredData = res.data.response.filter(
+          (tipologyGroup) => tipologyGroup.label !== ""
+        );
+        setTipologyGroup(filteredData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    getData();
+  }, []);
 
   return (
     <>
-      {formTypeModal === 11 && ( //tipology insert
+      {formTypeModal === 11 && ( // tipology insert
         <>
           <Button onPress={onOpen} color={buttonColor} className="w-fit">
             {buttonName} {buttonIcon}
@@ -98,7 +108,7 @@ const priceDescriptionForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); /*window.location.reload();*/ }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -114,7 +124,7 @@ const priceDescriptionForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>
@@ -128,10 +138,10 @@ const priceDescriptionForm = ({
                         <div className="flex flex-row gap-8">
                           <InputFieldControlled
                             type={"text"}
-                            id={"mudar"}
-                            name={"mudar"}
-                            label={"Referencia"}
-                            style={"w-30 outline-none h-10 bg-slate-100"}
+                            id={"ref"}
+                            name={"Ref"}
+                            label={"Reference"}
+                            style={"w-30 outline-none h-10"}
                             onChange={handleInputPriceDescription}
                           />
 
@@ -152,8 +162,8 @@ const priceDescriptionForm = ({
                         </div>
 
                         <div className="flex flex-row gap-8">
-                          <div className="w-30 outline-none h-10">
-                            <Checkbox value="">Fora da Validade</Checkbox>
+                          <div className="w-30 outline-none h-full my-auto">
+                            <Checkbox value="" name="Valid" onChange={handleCheckboxChange}>Fora da Validade</Checkbox>
                           </div>
                           <InputFieldControlled
                             type={"date"}
@@ -177,377 +187,108 @@ const priceDescriptionForm = ({
                         <div className="flex flex-row gap-8">
                           <InputFieldControlled
                             type={"number"}
-                            id={"minNoites"}
-                            name={"MinNoites"}
-                            label={"Min. noites"}
+                            id={"property"}
+                            name={"Property"}
+                            label={"Property"}
                             style={"w-30 outline-none h-10"}
                             onChange={handleInputPriceDescription}
                           />
 
                           <InputFieldControlled
                             type={"number"}
-                            id={"maxNoites"}
-                            name={"MaxNoites"}
-                            label={"Max. noites"}
+                            id={"ventilation"}
+                            name={"Ventilation"}
+                            label={"Ventilation"}
                             style={"w-30 outline-none h-10"}
                             onChange={handleInputPriceDescription}
                           />
 
                           <InputFieldControlled
                             type={"number"}
-                            id={"minOcupacao"}
-                            name={"MinOcupacao"}
-                            label={"Min. ocupação"}
+                            id={"billText"}
+                            name={"BillText"}
+                            label={"Bill Text"}
                             style={"w-30 outline-none h-10"}
                             onChange={handleInputPriceDescription}
                           />
 
                           <InputFieldControlled
                             type={"number"}
-                            id={"maxOcupacao"}
-                            name={"MaxOcupacao"}
-                            label={"Max. ocupação"}
+                            id={"revenueAccount"}
+                            name={"RevenueAccount"}
+                            label={"Revenue Account"}
                             style={"w-30 outline-none h-10"}
                             onChange={handleInputPriceDescription}
                           />
                         </div>
-
                         <div className="flex flex-row gap-8">
-                          <InputFieldControlled
-                            type={"text"}
-                            id={"mudar"}
-                            name={"mudar"}
-                            label={"Dispon. em Hotel Grupo"}
-                            style={"w-30 outline-none h-10 bg-slate-100"}
-                            onChange={handleInputPriceDescription}
-                          />
-
-                          <InputFieldControlled
-                            type={"text"}
-                            id={"mudar"}
-                            name={"mudar"}
-                            label={"Dispon. apenas em Hotel Especifico"}
-                            style={"w-30 outline-none h-10 bg-slate-100"}
-                            onChange={handleInputPriceDescription}
-                          />
+                          <p className="w-28 text-center text-xs">Typology</p>
+                          <p className="w-28 text-center text-xs">1 Person</p>
+                          <p className="w-28 text-center text-xs">2 People</p>
+                          <p className="w-28 text-center text-xs">3 People</p>
+                          <p className="w-28 text-center text-xs">4 People</p>
+                          <p className="w-28 text-center text-xs">5 People</p>
+                          <p className="w-28 text-center text-xs">6 People</p>
                         </div>
-
-                        <div className="flex flex-row gap-8">
-                          <TipologyAutocomplete
-                            label={"Valida TQ (1)"}
-                            style={""}
-                            onChange={handleTQ1Select}
-                          />
-
-                          <TipologyAutocomplete
-                            label={"Valida TQ (2)"}
-                            style={""}
-                            onChange={handleTQ2Select}
-                          />
-
-                          <TipologyAutocomplete
-                            label={"Valida TQ (3)"}
-                            style={""}
-                            onChange={handleTQ3Select}
-                          />
-
-                          <TipologyAutocomplete
-                            label={"Valida TQ (4)"}
-                            style={""}
-                            onChange={handleTQ4Select}
-                          />
-
-                          <TipologyAutocomplete
-                            label={"Valida TQ (5)"}
-                            style={""}
-                            onChange={handleTQ5Select}
-                          />
-                        </div>
-
-                        <div className="flex flex-row gap-8">
-                          <RoomsAutocomplete
-                            label={"Quarto"}
-                            style={""}
-                            onChange={handleRoomsSelect}
-                          />
-                        </div>
-
-                        <div className="flex flex-row gap-8">
-                          <p>Não Disponivel na Chegada</p>
-                          <Checkbox name={"An1"}
-                          onChange={event => handleCheckboxChange(event)}>SEG</Checkbox>
-                          <Checkbox name={"An2"}
-                          onChange={event => handleCheckboxChange(event)}>TER</Checkbox>
-                          <Checkbox name={"An3"}
-                          onChange={event => handleCheckboxChange(event)}>QUA</Checkbox>
-                          <Checkbox name={"An4"}
-                          onChange={event => handleCheckboxChange(event)}>QUI</Checkbox>
-                          <Checkbox name={"An5"}
-                          onChange={event => handleCheckboxChange(event)}>SEX</Checkbox>
-                          <Checkbox name={"An6"}
-                          onChange={event => handleCheckboxChange(event)}>SAB</Checkbox>
-                          <Checkbox name={"An7"}
-                          onChange={event => handleCheckboxChange(event)}>DOM</Checkbox>
-                        </div>
-
-                        <div className="flex flex-row gap-8">
-                          <InputFieldControlled
-                            type={"text"}
-                            id={"cl"}
-                            name={"CL"}
-                            label={"CL"}
-                            style={"w-30 outline-none h-10 bg-slate-100"}
-                            onChange={handleInputPriceDescription}
-                          />
-                        </div>
-
-                        <div className="flex flex-row gap-8">
-                          <InputFieldControlled
-                            type={"text"}
-                            id={"textoInt"}
-                            name={"TextoInt"}
-                            label={"Texto (Int.)"}
-                            style={"w-30 outline-none h-10"}
-                            onChange={handleInputPriceDescription}
-                          />
-                        </div>
-
-                        <div className="flex flex-row gap-8">
-                          <InputFieldControlled
-                            type={"text"}
-                            id={"numeroPackage"}
-                            name={"NumeroPackage"}
-                            label={"Numero Package"}
-                            style={"w-30 outline-none h-10"}
-                            onChange={handleInputPriceDescription}
-                          />
-                          <Checkbox value="">Package por Fatura</Checkbox>
-                        </div>
-                      </div>
-                      <br />
-                      <br />
-                      <br />
+                        {tipologyGroup.map((tipologyGroup) => (
                       <div className="flex flex-row gap-8">
-                        <SeasonsAutocomplete
-                          label={"Épocas"}
-                          style={""}
-                          onChange={handleSeasonsSelect}
-                        />
-                        <p>Fim de Semana</p>
-                        <Checkbox name={"We1"}
-                          onChange={event => handleCheckboxChange(event)}>SEG</Checkbox>
-                        <Checkbox name={"We2"}
-                          onChange={event => handleCheckboxChange(event)}>TER</Checkbox>
-                        <Checkbox name={"We3"}
-                          onChange={event => handleCheckboxChange(event)}>QUA</Checkbox>
-                        <Checkbox name={"We4"}
-                          onChange={event => handleCheckboxChange(event)}>QUI</Checkbox>
-                        <Checkbox name={"We5"}
-                          onChange={event => handleCheckboxChange(event)}>SEX</Checkbox>
-                        <Checkbox name={"We6"}
-                          onChange={event => handleCheckboxChange(event)}>SAB</Checkbox>
-                        <Checkbox name={"We7"}
-                          onChange={event => handleCheckboxChange(event)}>DOM</Checkbox>
-                      </div>
-                      <div className="flex flex-row gap-8">
+                        <p className="w-28 h-full my-auto">{tipologyGroup.name}</p>
                         <InputFieldControlled
                           type={"text"}
                           id={"preco1"}
                           name={"Preco1"}
-                          label={"Preço 1"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          //label={"Preço 1"}
+                          value={"0.00"}
+                          style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
                         <InputFieldControlled
                           type={"text"}
                           id={"preco2"}
                           name={"Preco2"}
-                          label={"Preço 2"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          //label={"Preço 2"}
+                          value={"0.00"}
+                          style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
                         <InputFieldControlled
                           type={"text"}
                           id={"preco3"}
                           name={"Preco3"}
-                          label={"Preço 3"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          //label={"Preço 3"}
+                          value={"0.00"}
+                          style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
                         <InputFieldControlled
                           type={"text"}
                           id={"preco4"}
                           name={"Preco4"}
-                          label={"Preço 4"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          //label={"Preço 4"}
+                          value={"0.00"}
+                          style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
                         <InputFieldControlled
                           type={"text"}
                           id={"preco5"}
                           name={"Preco5"}
-                          label={"Preço 5"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          //label={"Preço 5"}
+                          value={"0.00"}
+                          style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
                         <InputFieldControlled
                           type={"text"}
                           id={"preco6"}
                           name={"Preco6"}
-                          label={"Preço 6"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
+                          //label={"Preço 6"}
+                          value={"0.00"}
+                          style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
                       </div>
-                      <div className="flex flex-row gap-8">
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"minPreco1"}
-                          name={"MinPreco1"}
-                          label={"Min. Preço 1"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"minPreco2"}
-                          name={"MinPreco2"}
-                          label={"Min. Preço 2"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"minPreco3"}
-                          name={"MinPreco3"}
-                          label={"Min. Preço 3"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"minPreco4"}
-                          name={"MinPreco4"}
-                          label={"Min. Preço 4"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"minPreco5"}
-                          name={"MinPreco5"}
-                          label={"Min. Preço 5"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"minPreco6"}
-                          name={"MinPreco6"}
-                          label={"Min. Preço 6"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                      </div>
-                      <div className="flex flex-row gap-8">
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"wePreco1"}
-                          name={"WePreco1"}
-                          label={"We. Preço 1"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"wePreco2"}
-                          name={"WePreco2"}
-                          label={"We. Preço 2"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"wePreco3"}
-                          name={"WePreco3"}
-                          label={"We. Preço 3"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"wePreco4"}
-                          name={"WePreco4"}
-                          label={"We. Preço 4"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"wePreco5"}
-                          name={"WePreco5"}
-                          label={"We. Preço 5"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"wePreco6"}
-                          name={"WePreco6"}
-                          label={"We. Preço 6"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                      </div>
-                      <div className="flex flex-row gap-8">
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"weMinPreco1"}
-                          name={"WeMinPreco1"}
-                          label={"We. Min. Preço 1"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"weMinPreco2"}
-                          name={"WeMinPreco2"}
-                          label={"We. Min. Preço 2"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"weMinPreco3"}
-                          name={"WeMinPreco3"}
-                          label={"We. Min. Preço 3"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"weMinPreco4"}
-                          name={"WeMinPreco4"}
-                          label={"We. Min. Preço 4"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"weMinPreco5"}
-                          name={"WeMinPreco5"}
-                          label={"We. Min. Preço 5"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"weMinPreco6"}
-                          name={"WeMinPreco6"}
-                          label={"We. Min. Preço 6"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
+                        ))}
                       </div>
                     </ModalBody>
                   </form>
@@ -595,7 +336,7 @@ const priceDescriptionForm = ({
                       <div className="flex flex-row items-center mr-5">
                         <Button
                           color="transparent"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                           className="-mr-5"
                           type="submit"
                         >
@@ -611,7 +352,7 @@ const priceDescriptionForm = ({
                         <Button
                           color="transparent"
                           variant="light"
-                          onPress={onClose}
+                          onClick={() => { onClose(); window.location.reload(); }}
                         >
                           <MdClose size={30} />
                         </Button>

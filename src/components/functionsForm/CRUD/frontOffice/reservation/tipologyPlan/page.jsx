@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -12,11 +12,6 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
   const firstName = nameParts.length > 0 ? nameParts[0] : "";
   const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
 
-  console.log("First Name:", firstName);
-  console.log("Last Name:", lastName);
-  console.log("Guest ID:", guestId);
-  console.log("Tipology ID:", tipology);
-
   const initialReservationState = {
     CheckIn: startDate ? startDate : currentDate,
     CheckOut: endDate ? endDate : '',
@@ -24,8 +19,9 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     GuestNumber: guestNumberDefault,
     GuestID: guestId,
     Language: '',
-    Tipology: tipology,
+    Tipology: '',
     Room: '',
+    GroupNumber: selectedDates && selectedDates[0] && selectedDates[0].groupNumber ? selectedDates[0].groupNumber : 0, // Define como 0 se vazio
   };
 
   // Inserting into the client preference table
@@ -39,12 +35,6 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     }));
   }, [tipology, guestId]);
 
-  useEffect(() => {
-    console.log("Updated Reservation:", reservation);
-  }, [reservation]);
-
-  console.log("CARALHO: ", reservation.CheckOut);
-  console.log("Reservation State on Initial Render:", reservation);
   // Atualiza o estado de firstName e lastName separadamente
   const [name, setName] = useState({
     firstName: firstName,
@@ -55,18 +45,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     setName({ firstName, lastName });
   }, [firstName, lastName]);
 
-
-  //preenchimento automatico do nome e do apelido atraves de autocomplete
-  /*const handleClientSelect = (clientForm) => {
-      setReservation({
-          ...reservation,
-          Name: clientForm.firstName,
-          LastName: clientForm.secondName,
-          GuestID: clientForm.guestProfileID
-      })
-  };*/
-
-  //preenchimento automatico do país atraves de autocomplete
+  //preenchimento automatico do idioma atraves de autocomplete
   const handleLanguageSelect = (language) => {
     setReservation({
       ...reservation,
@@ -74,7 +53,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     });
   };
 
-  //preenchimento automatico do país atraves de autocomplete
+  //preenchimento automatico da tipologia atraves de autocomplete
   const handleTipologySelect = (tipology) => {
     setReservation({
       ...reservation,
@@ -105,21 +84,9 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     getData();
   }, [reservation.Tipology, reservation.Room]);
 
-
   const handleInputReservation = (event) => {
-    setReservation({ ...reservation, [event.target.name]: event.target.value })
-  }
-
-  // Para o número de noites aparecer ao determinar o checkin e checkout
-  useEffect(() => {
-    if (reservation.CheckIn && reservation.CheckOut) {
-      const checkInDate = new Date(reservation.CheckIn);
-      const checkOutDate = new Date(reservation.CheckOut);
-      const diffTime = Math.abs(checkOutDate - checkInDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      setReservation({ ...reservation, NightCount: diffDays.toString() });
-    }
-  }, [reservation.CheckIn, reservation.CheckOut]);
+    setReservation({ ...reservation, [event.target.name]: event.target.value });
+  };
 
   const handleSubmitReservationForTab = (tabIndex, reservationData) => {
     axios.put(`/api/v1/frontOffice/reservations/tipologyPlan`, {
@@ -130,6 +97,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
         adultCount: reservationData.GuestNumber,
         guestNumber: reservationData.GuestID,
         roomTypeNumber: reservationData.Tipology,
+        groupNumber: reservationData.GroupNumber,
       }
     })
       .then(response => {
@@ -148,7 +116,7 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
     event.preventDefault();
 
     // Verifica se todos os campos estão preenchidos
-    {/*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.Name || !reservation.LastName) {
+    {/*if (!reservation.CheckIn || !reservation.CheckOut || !reservation.NightCount || !reservation.GuestNumber || !reservation.GuestID || !reservation.Tipology) {
       alert("Preencha os campos corretamente");
       return;
     }*/}
@@ -158,10 +126,11 @@ export default function ReservationInsert(guestName, guestId, startDate, endDate
       handleSubmitReservationForTab(index, {
         CheckIn: dateRange.start,
         CheckOut: dateRange.end,
-        NightCount: reservation.NightCount,
+        NightCount: dateRange.numberNights,
         GuestNumber: reservation.GuestNumber,
         GuestID: reservation.GuestID,
-        Tipology: reservation.Tipology,
+        Tipology: dateRange.tipologyID,
+        GroupNumber: dateRange.groupNumber || 0, // Define como 0 se vazio
       });
     });
   }

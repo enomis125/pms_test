@@ -30,9 +30,10 @@ import SearchModal from "@/components/modal/frontOffice/reservations/searchModal
 
 //import de funções
 import FilterButton from "@/components/functionsPages/filterUtils/page";
+import { useTranslations } from 'next-intl';
 
 export default function departures() {
-  
+
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -47,9 +48,10 @@ export default function departures() {
   const [roomNumberFilter, setRoomNumberFilter] = useState("");
   const [lastNameFilter, setLastNameFilter] = useState("");
   const [firstNameFilter, setFirstNameFilter] = useState("");
+  const t = useTranslations('Index');
 
   const handleButtonClick = FilterButton({ selectedButton, setSelectedButton });
-  
+
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
   };
@@ -232,7 +234,7 @@ export default function departures() {
       case 4:
         return <MdOutlinePersonOff size={23} />;
       default:
-        return "Status desconhecido";
+        return t("frontOffice.frontDesk.bookings.notFound.status");
     }
   };
 
@@ -243,10 +245,10 @@ export default function departures() {
           <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
             <DropdownItem key="edit" aria-label="Editar detalhes">
               <ReservationsForm
-                buttonName={"Editar"}
+                buttonName={t("general.editRecord")}
                 editIcon={<FiEdit3 size={25} />}
                 buttonColor={"transparent"}
-                modalHeader={"Editar Reserva"}
+                modalHeader={t("frontOffice.frontDesk.bookings.edit.modalHeader")}
                 modalEditArrow={<BsArrowRight size={25} />}
                 modalEdit={`ID: ${reservationID}`}
                 formTypeModal={1}
@@ -257,8 +259,8 @@ export default function departures() {
                 editor={"teste"}
               />
             </DropdownItem>
-            <DropdownItem onClick={() => handleStatusChange(reservationID, 1)}>Check-In</DropdownItem>
-            <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 1)}>{t("frontOffice.frontDesk.bookings.cards.checkedIn")}</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>{t("frontOffice.frontDesk.bookings.cards.canceled")}</DropdownItem>
           </DropdownMenu>
         );
       case 1: // Checked-In
@@ -280,9 +282,9 @@ export default function departures() {
                 editor={"teste"}
               />
             </DropdownItem>
-            <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>Check-Out</DropdownItem>
-            <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>Cancelada</DropdownItem>
-            <DropdownItem onClick={() => handleStatusChange(reservationID, 0)}>Cancelar CI</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>{t("frontOffice.frontDesk.bookings.cards.checkOut")}</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>{t("frontOffice.frontDesk.bookings.cards.canceled")}</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 0)}>{t("frontOffice.frontDesk.bookings.cards.cancelCI")}</DropdownItem>
           </DropdownMenu>
         );
       case 2: //Check-Out
@@ -291,7 +293,7 @@ export default function departures() {
       default:
         return (
           <DropdownMenu aria-label="Static Actions" closeOnSelect={true}>
-            <DropdownItem onClick={() => handleDelete(reservationID)}>Excluir</DropdownItem>
+            <DropdownItem onClick={() => handleDelete(reservationID)}>{t("frontOffice.frontDesk.bookings.filters.delete")}</DropdownItem>
           </DropdownMenu>
         );
     }
@@ -302,20 +304,20 @@ export default function departures() {
 
   //inputs que irão para o search component
   const inputs = [
-    { id: 'quartos', name: 'quartos', label: 'Procurar quarto', ariaLabel: 'Procurar quarto', value: roomNumberFilter, onChange: handleRoomNumberChange, style: inputStyle },
-    { id: 'apelido', name: 'apelido', label: 'Procurar apelido', ariaLabel: 'Procurar apelido', value: lastNameFilter, onChange: handleLastNameChange, style: inputStyle },
-    { id: 'primeiroNome', name: 'primeiroNome', label: 'Procurar primeiro nome', ariaLabel: 'Procurar primeiro nome', value: firstNameFilter, onChange: handleFirstNameChange, style: inputStyle },
+    { id: 'quartos', name: 'quartos', label: t("frontOffice.frontDesk.bookings.filters.searchRoom"), ariaLabel: 'Procurar quarto', value: roomNumberFilter, onChange: handleRoomNumberChange, style: inputStyle },
+    { id: 'apelido', name: 'apelido', label: t("frontOffice.frontDesk.bookings.filters.searchSurname"), ariaLabel: 'Procurar apelido', value: lastNameFilter, onChange: handleLastNameChange, style: inputStyle },
+    { id: 'primeiroNome', name: 'primeiroNome', label: t("frontOffice.frontDesk.bookings.filters.searchFirstName"), ariaLabel: 'Procurar primeiro nome', value: firstNameFilter, onChange: handleFirstNameChange, style: inputStyle },
   ]
-  
+
   return (
     <main>
       <div className="flex flex-col mt-1 py-3 px-6">
-        <p className="text-xs pb-3">Partidas</p>
+        <p className="text-xs pb-3">{t("frontOffice.frontDesk.bookings.departuresLabel")}</p>
         <div className="flex flex-row">
           {/**COMPONENTE DE SEARCH */}
           <Input
             className="mt-2 w-[30%]"
-            placeholder="Procurar..."
+            placeholder={t("general.search")}
             labelPlacement="outside"
             aria-label="Pesquisar clientes"
             startContent={
@@ -337,7 +339,7 @@ export default function departures() {
               type={"date"}
               id={"de"}
               name={"De"}
-              label={"De:"}
+              label={t("frontOffice.frontDesk.bookings.filters.from")}
               ariaLabel={"De:"}
               style={inputStyle}
             />
@@ -345,11 +347,11 @@ export default function departures() {
               type={"date"}
               id={"ate"}
               name={"Até"}
-              label={"Até:"}
+              label={t("frontOffice.frontDesk.bookings.filters.to")}
               ariaLabel={"Até:"}
               style={inputStyle}
               value={endDate}
-                  onChange={handleEndDateChange} // Define o valor do campo como a data atual
+              onChange={handleEndDateChange} // Define o valor do campo como a data atual
             />
           </div>
         </div>
@@ -365,34 +367,34 @@ export default function departures() {
         >
           <div className="flex flex-row gap-4 mb-2 -mt-4">
             <button
-             
+
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 0 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              Pendentes
+              {t("frontOffice.frontDesk.bookings.cards.pending")}
             </button>
             <button
               onClick={() => handleButtonClick(1)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              Checked-In
+              {t("frontOffice.frontDesk.bookings.cards.checkedIn")}
             </button>
             <button
               onClick={() => handleButtonClick(2)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              Checked-Out
+              {t("frontOffice.frontDesk.bookings.cards.checkedOut")}
             </button>
             <button
-             
+
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              Canceladas
+              {t("frontOffice.frontDesk.bookings.cards.canceled")}
             </button>
             <button
-              
+
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 4 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              No-Show
+              {t("frontOffice.frontDesk.bookings.cards.noShow")}
             </button>
           </div>
           <Table
@@ -411,31 +413,31 @@ export default function departures() {
                 ID
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Nome">
-                Nome
+              {t("frontOffice.frontDesk.bookings.datatable.name")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[3%] w-32 uppercase" aria-label="Apelido">
-                Apelido
+              {t("frontOffice.frontDesk.bookings.datatable.surname")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[5%] uppercase" aria-label="Check-In">
-                Check-In
+              {t("frontOffice.frontDesk.bookings.datatable.checkIn")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[6%] uppercase" aria-label="Check-Out">
-                Check-Out
+              {t("frontOffice.frontDesk.bookings.datatable.checkOut")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Noites">
-                Noites
+              {t("frontOffice.frontDesk.bookings.datatable.nights")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[10%] uppercase" aria-label="Quarto">
-                Quarto
+              {t("frontOffice.frontDesk.bookings.datatable.room")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[10%] uppercase" aria-label="RT">
-                RT
+              {t("frontOffice.frontDesk.bookings.datatable.rt")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Pessoas">
-                Pessoas
+              {t("frontOffice.frontDesk.bookings.datatable.people")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-[8%] uppercase" aria-label="Status">
-                Status
+              {t("frontOffice.frontDesk.bookings.datatable.status")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
@@ -449,7 +451,7 @@ export default function departures() {
                       buttonName={reservation.reservationID}
                       editIcon={<FiEdit3 size={25} />}
                       buttonColor={"transparent"}
-                      modalHeader={"Editar Reserva"}
+                      modalHeader={t("frontOffice.frontDesk.edit.modalHeader")}
                       modalEditArrow={<BsArrowRight size={25} />}
                       modalEdit={`ID: ${reservation.reservationID}`}
                       formTypeModal={1}

@@ -386,13 +386,10 @@ model contacts {
   @@index([updatedBy], map: "contacts_users_2_idx")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model counters {
   tableName String @db.VarChar(255)
   counter   Int?   @default(0)
   counterID Int    @id @default(autoincrement())
-
-  @@ignore
 }
 
 model country {
@@ -2322,10 +2319,12 @@ model housekeeping {
 
 model priceDescriptionHeader {
   priceDescriptionHeaderID                      Int      @id @default(autoincrement())
-  ref                                           Int      @default(-1)
+  ref                                           String   @default("") @db.VarChar(255)
   descriptionName                               String   @default("") @db.VarChar(255)
   priceCode                                     Int      @default(-1)
   valid                                         Int      @default(-1)
+  validFrom                                     DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  validUntil                                    DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
   property                                      Int      @default(-1)
   ventilation                                   Int      @default(-1)
   billText                                      String   @default("") @db.VarChar(255)
@@ -2343,14 +2342,15 @@ model priceDescriptionHeader {
 
 model priceDescriptionPrices {
   priceDescriptionPricesID                      Int      @id @default(-1)
-  priceDescriptionID                            Int      @default(-1)
+  priceDescriptionHeaderID                      Int      @default(-1)
   roomID                                        Int      @default(-1)
   typologyID                                    Int      @default(-1)
-  p1                                            Int      @default(-1)
-  p2                                            Int      @default(-1)
-  p3                                            Int      @default(-1)
-  p4                                            Int      @default(-1)
-  p5                                            Int      @default(-1)
+  p1                                            Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p2                                            Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p3                                            Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p4                                            Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p5                                            Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p6                                            Decimal  @default(-1.00) @db.Decimal(19, 2)
   createdAt                                     DateTime @default(now()) @db.Timestamp(0)
   createdBy                                     Int
   updatedAt                                     DateTime @default(now()) @db.Timestamp(0)

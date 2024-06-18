@@ -48,10 +48,10 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontDesk/departures", label: "Partidas", active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/tipologyPlan", label: "Plano de Tipologias", active: true
+                    ref: "/homepage/frontOffice/tipology_Plan", label: "Typology Plan", active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/reservationPlan", label: "Plano de Reservas", active: true
+                    ref: "/homepage/frontOffice/rooms_Plan", label: "Rooms Plan", active: true
 
                 }
             ]
@@ -103,7 +103,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/hotelSetup/tipologia", label: "Tipologias", active: true
                 },
                 {
-                    ref: "/homepage/hotelSetup/quartos", label: "Quartos", active: true
+                    ref: "/homepage/hotelSetup/quartos", label: "Rooms", active: true
                 },
                 {
                     ref: "/homepage/hotelSetup/carateristicas", label: "Caraterísticas", active: true
