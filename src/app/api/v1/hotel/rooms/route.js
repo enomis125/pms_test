@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generatePrismaClient, getUserIDFromToken, getPropertyIDFromToken } from '@/app/lib/utils'
+import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils'
 import { cookies } from 'next/headers';
+
 
 export async function GET(request) {
     try {
-
         const tokenCookie = cookies().get("jwt");
-
-        const prisma = generatePrismaClient()
-
-        const propertyID = getPropertyIDFromToken(tokenCookie.value)
+        const prisma = generatePrismaClient();
+        const propertyID = getPropertyIDFromToken(tokenCookie.value);
 
         const roomsRecords = await prisma.rooms.findMany({
             where: {
@@ -22,19 +20,19 @@ export async function GET(request) {
                     }
                 }
             }
-        })
+        });
 
-        const response = roomsRecords
+        const roomsWithInitialState = roomsRecords.map(room => ({
+            ...room,
+            state: room.state || 'clean'
+        }));
 
-        prisma.$disconnect()
-
-        return new NextResponse(JSON.stringify({ response, status: 200 }));
+        return NextResponse.json({ response: roomsWithInitialState, status: 200 });
     } catch (error) {
         console.error("Database query failed:", error);
-        return new NextResponse(JSON.stringify({ status: 500, message: "Internal Server Error" }), { status: 500 });
+        return NextResponse.json({ status: 500, message: "Internal Server Error" }, { status: 500 });
     }
 }
-
 export async function PUT(request) {
 
     const tokenCookie = cookies().get("jwt");
