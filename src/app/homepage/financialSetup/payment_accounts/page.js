@@ -18,6 +18,8 @@ import { FiSearch } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
+
+import {useTranslations} from 'next-intl';
  
 //imports de componentes
 import FormModals from "@/components/modal/financialSetup/paymentAccounts/page";
@@ -31,6 +33,7 @@ export default function Characteristics() {
   const [searchValue, setSearchValue] = React.useState("");
   const [reservChange, setReservChange] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations('Index');
  
   useEffect(() => {
     const getData = async () => {
@@ -93,13 +96,13 @@ export default function Characteristics() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Conta de Pagamento</p>
+          <p className="text-xs px-6">{t('financialSetup.paymentAccounts.title')}</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
                 <Input
                   className="mt-4 w-80"
-                  placeholder="Procurar..."
+                  placeholder={t('general.search')}
                   labelPlacement="outside"
                   startContent={
                     <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
@@ -110,10 +113,10 @@ export default function Characteristics() {
               </div>
             </div>
             <FormModals
-              buttonName={"Novo"}
+              buttonName={t('general.newRecord')}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Conta de Pagamento"}
+              modalHeader={t('financialSetup.paymentAccounts.new.modalHeader')}
               modalIcons={"bg-red"}
               formTypeModal={11}
             ></FormModals>
@@ -151,25 +154,25 @@ export default function Characteristics() {
       >
         <TableHeader>
           <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
-            ID
+          {t('financialSetup.paymentAccounts.datatable.id')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase">
-            Cod.
+          {t('financialSetup.paymentAccounts.datatable.cod')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            Conta
+          {t('financialSetup.paymentAccounts.datatable.account')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            Abreviatura
+          {t('financialSetup.paymentAccounts.datatable.abreviature')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold w-1/4 uppercase">
-            Descrição
+          {t('financialSetup.paymentAccounts.datatable.description')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase">
-            Grupo de Conta
+          {t('financialSetup.paymentAccounts.datatable.group')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
-            Ordem
+          {t('financialSetup.paymentAccounts.datatable.order')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
             <GoGear size={20} />

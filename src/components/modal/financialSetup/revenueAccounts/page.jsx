@@ -10,6 +10,8 @@ import revenueAccountInsert, { revenueAccountsEdit } from "@/components/function
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 
+import {useTranslations} from 'next-intl';
+
 import AccountGroupAutocomplete from "@/components/functionsForm/autocomplete/accountGroups/page";
 import TaxesAutocomplete from "@/components/functionsForm/autocomplete/taxes/page";
 import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
@@ -36,7 +38,7 @@ const revenueAccountsForm = ({
     const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelectAccount, handleSelectTaxes, handleDepartmentSelectRevenue } = revenueAccountInsert();
     const { handleUpdateRevenueAccount, setValuesRevenueAccounts, valuesRevenueAccounts } = revenueAccountsEdit(idRevenueAccount);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
-
+    const t = useTranslations('Index');
 
 
     return (
@@ -74,7 +76,7 @@ const revenueAccountsForm = ({
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.revenueAccounts.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputRevenueAccounts}
                                                 />
@@ -83,7 +85,7 @@ const revenueAccountsForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.revenueAccounts.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputRevenueAccounts}
                                                 />
@@ -92,24 +94,24 @@ const revenueAccountsForm = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
+                                                    label={t('financialSetup.revenueAccounts.details')}
                                                     ariaLabel={"Detalhes"}
                                                     onChange={handleInputRevenueAccounts}
                                                 />
 
 
                                                 <DepartmentAutocomplete
-                                                    label={"Departamento"}
+                                                    label={t('financialSetup.revenueAccounts.department')}
                                                     style={""}
                                                     onChange={(value) => handleDepartmentSelectRevenue(value)}
                                                 />
                                                 <AccountGroupAutocomplete
-                                                    label={"Grupo de Conta"}
+                                                    label={t('financialSetup.revenueAccounts.accountGroup')}
                                                     style={""}
                                                     onChange={(value) => handleSelectAccount(value)}
                                                 />
                                                 <TaxesAutocomplete
-                                                    label={"Taxa"}
+                                                    label={t('financialSetup.revenueAccounts.tax')}
                                                     style={""}
                                                     name={"Taxes"}
                                                     onChange={(value) => handleSelectTaxes(value)}
@@ -119,12 +121,12 @@ const revenueAccountsForm = ({
 
                                                 <input type="text" placeholder="Valor"></input>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Propriedade</option>
+                                                    <option value="0">{t('financialSetup.revenueAccounts.property')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Código Estatístico</option>
+                                                    <option value="0">{t('financialSetup.revenueAccounts.statCode')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
@@ -171,7 +173,7 @@ const revenueAccountsForm = ({
                                                 type={"text"}
                                                 id={"cod"}
                                                 name={"Cod"}
-                                                label={"Cod."}
+                                                label={t('financialSetup.revenueAccounts.cod')}
                                                 ariaLabel={"Cod."}
                                                 value={valuesRevenueAccounts.Cod}
                                                 onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Cod: e.target.value })}
@@ -181,7 +183,7 @@ const revenueAccountsForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
+                                                label={t('financialSetup.revenueAccounts.abreviature')}
                                                 ariaLabel={"Abreviatura"}
                                                 value={valuesRevenueAccounts.Abreviature}
                                                 onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Abreviature: e.target.value })}
@@ -191,35 +193,35 @@ const revenueAccountsForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"Details"}
-                                                label={"Detalhes"}
+                                                label={t('financialSetup.revenueAccounts.details')}
                                                 ariaLabel={"Detalhes"}
                                                 value={valuesRevenueAccounts.Details}
                                                 onChange={e => setValuesRevenueAccounts({ ...valuesRevenueAccounts, Details: e.target.value })}
                                             />
 
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Departamento</option>
+                                                <option value="0">{t('financialSetup.revenueAccounts.department')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                             <AccountGroupAutocomplete
-                                                    label={"Grupo de Conta"}
+                                                    label={t('financialSetup.revenueAccounts.accountGroup')}
                                                     style={""}
                                                     onChange={(value) => handleSelect(value)}
                                                 />
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Taxa</option>
+                                                <option value="0">{t('financialSetup.revenueAccounts.tax')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                             <input type="text" placeholder="Valor"></input>
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Propriedade</option>
+                                                <option value="0">{t('financialSetup.revenueAccounts.property')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Código Estatístico</option>
+                                                <option value="0">{t('financialSetup.revenueAccounts.statCode')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
