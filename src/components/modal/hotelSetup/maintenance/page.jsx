@@ -12,7 +12,7 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 
-
+import {useTranslations} from 'next-intl';
 
 const maintenanceForm = ({
     idMaintenance,
@@ -36,6 +36,7 @@ const maintenanceForm = ({
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
+    const t = useTranslations('Index');
 
     return (
         <>
@@ -71,8 +72,8 @@ const maintenanceForm = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("hotel.maintenance.descriptionLabel")}
+                                                    ariaLabel={"Description"}
                                                     style={"w-full outline-none h-10"}
                                                     onChange={handleInputMaintenance} />
                                                 <AiOutlineGlobal className="ml-auto text-xl" />{" "}
@@ -82,8 +83,8 @@ const maintenanceForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.maintenance.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInputMaintenance} />
 
@@ -91,8 +92,8 @@ const maintenanceForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"Details"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.maintenance.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInputMaintenance} />
 
@@ -107,7 +108,7 @@ const maintenanceForm = ({
                                                     for="link-checkbox"
                                                     class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                 >
-                                                    Estado
+                                                    {t("hotel.maintenance.stateLabel")}
                                                 </label>
                                             </div>
                                         </ModalBody>
@@ -154,8 +155,8 @@ const maintenanceForm = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("hotel.maintenance.descriptionLabel")}
+                                                    ariaLabel={"Description"}
                                                     style={"w-full outline-none h-10"}
                                                     value={valuesMaintenance.Description}
                                                     onChange={e => setValuesMaintenance({ ...valuesMaintenance, Description: e.target.value })} />
@@ -166,8 +167,8 @@ const maintenanceForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.maintenance.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 style={"w-full outline-none h-10"}
                                                 value={valuesMaintenance.Abreviature}
                                                 onChange={e => setValuesMaintenance({ ...valuesMaintenance, Abreviature: e.target.value })} />
@@ -176,8 +177,8 @@ const maintenanceForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"Details"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.maintenance.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 style={"w-full outline-none h-10"}
                                                 value={valuesMaintenance.Details}
                                                 onChange={e => setValuesMaintenance({ ...valuesMaintenance, Details: e.target.value })} />
@@ -193,7 +194,7 @@ const maintenanceForm = ({
                                                     for="link-checkbox"
                                                     class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                 >
-                                                    Estado
+                                                    {t("hotel.maintenance.stateLabel")}
                                                 </label>
                                             </div>
                                         </ModalBody>

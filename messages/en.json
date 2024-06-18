@@ -203,6 +203,187 @@
                 "guestsListCard": "GUESTS LIST",
                 "departuresCard": "DEPARTURES"
             }
+        },
+        "hotel": {
+            "hotel": {
+                "tipologiesGroupCard": "TIPOLOGIES GROUPS",
+                "tipologiesGroupCardDescription": "Insert groups that relate various typologies",
+                "tipologiesCard": "TIPOLOGIES",
+                "tipologiesCardDescription": "Insert the typologies that associate rooms of the same category",
+                "roomsCard": "ROOMS",
+                "roomsCardDescription": "",
+                "characteristicsCard": "CHARACTERISTICS",
+                "characteristicsCardDescription": "Insert list with various characteristics for each room",
+                "maintenanceCard": "MAINTENANCE",
+                "maintenanceCardDescription": "Insert reasons that may exist for putting rooms under maintenance",
+                "modals": {
+                    "tipologiesGroup": {
+                        "modalHeader": "New Tipologies Group",
+                        "descriptionLabel": "Description",
+                        "shortnameLabel": "Short Name",
+                        "detailsLabel": "Details",
+                        "statusLabel": "Active (State)",
+                        "orderLabel": "Order"
+                    },
+                    "tipologies": {
+                        "modalHeader": "New Typology",
+                        "descriptionLabel": "Description",
+                        "shortnameLabel": "Short Name",
+                        "detailsLabel": "Details"
+                    },
+                    "rooms": {
+                        "modalHeader": "New Room",
+                        "descriptionLabel": "Description",
+                        "shortnameLabel": "Short Name",
+                        "roomTypeLabel": "Room Type",
+                        "selectTipologyLabel": "Select Typology",
+                        "maxOccupationLabel": "Max Occupation",
+                        "orderLabel": "Order",
+                        "housekeepingDeptLabel": "Housekeeping Department",
+                        "interfaceConfigLabel": "Interface Configuration",
+                        "selectCharacteristicLabel": "Select Characteristics"
+                    },
+                    "characteristics": {
+                        "modalHeader": "New Characteristic",
+                        "descriptionLabel": "Description",
+                        "shortnameLabel": "Short Name",
+                        "detailsLabel": "Details"
+                    },
+                    "maintenance": {
+                        "modalHeader": "New Maintenance Reason",
+                        "descriptionLabel": "Description",
+                        "shortnameLabel": "Short Name",
+                        "detailsLabel": "Details",
+                        "statusLabel": "Active (State)"
+                    }
+                }
+            },
+            "tipologiesGroup": {
+                "label": "Tipologies Groups",
+                "descriptionLabel": "Description",
+                "shortnameLabel": "Short Name",
+                "detailsLabel": "Details",
+                "statusLabel": "Active (State)",
+                "orderLabel": "Order",
+                "datatable": {
+                    "id": "ID",
+                    "code": "CODE",
+                    "shortname": "SHORT NAME",
+                    "description": "DESCRIPTION",
+                    "details": "DETAILS",
+                    "state": "STATE",
+                    "order": "ORDER"
+                },
+                "new": {
+                    "modalHeader": "New Typology Group"
+                },
+                "edit": {
+                    "modalHeader": "Edit Typology Group"
+                },
+                "view": {
+                    "modalHeader": "View Typology Group"
+                }
+            },
+            "tipologies": {
+                "label": "Tipologies",
+                "descriptionLabel": "Description",
+                "shortnameLabel": "Short Name",
+                "detailsLabel": "Details",
+                "tipologyGroupLabel": "Typology Group",
+                "datatable": {
+                    "id": "ID",
+                    "code": "CODE",
+                    "shortname": "SHORT NAME",
+                    "description": "DESCRIPTION",
+                    "details": "DETAILS",
+                    "function": "FUNCTION",
+                    "order": "ORDER",
+                    "tipologyGroup": "TYPOLOGY GROUP"
+                },
+                "new": {
+                    "modalHeader": "New Typology"
+                },
+                "edit": {
+                    "modalHeader": "Edit Typology"
+                },
+                "view": {
+                    "modalHeader": "View Typology"
+                }
+            },
+            "rooms": {
+                "label": "Rooms",
+                "descriptionLabel": "Description",
+                "shortnameLabel": "Short Name",
+                "roomTypeLabel": "Room Type",
+                "selectTipologyLabel": "Select Typology",
+                "maxOccupationLabel": "Max Occupation",
+                "orderLabel": "Order",
+                "housekeepingDeptLabel": "Housekeeping Department",
+                "interfaceConfigLabel": "Interface Configuration",
+                "selectCharacteristicLabel": "Select Characteristics",
+                "datatable": {
+                    "id": "ID",
+                    "order": "ORDER",
+                    "shortname": "SHORT NAME",
+                    "description": "DESCRIPTION",
+                    "details": "DETAILS",
+                    "tipology": "TYPOLOGY",
+                    "function": "FUNCTION"
+                },
+                "new": {
+                    "modalHeader": "New Room"
+                },
+                "edit": {
+                    "modalHeader": "Edit Room"
+                },
+                "view": {
+                    "modalHeader": "View Room"
+                }
+            },
+            "characteristics": {
+                "label": "Characteristics",
+                "descriptionLabel": "Description",
+                "shortnameLabel": "Short Name",
+                "detailsLabel": "Details",
+                "datatable": {
+                    "id": "ID",
+                    "shortname": "SHORT NAME",
+                    "description": "DESCRIPTION",
+                    "details": "DETAILS"
+                },
+                "new": {
+                    "modalHeader": "New Characteristic"
+                },
+                "edit": {
+                    "modalHeader": "Edit Characteristic"
+                },
+                "view": {
+                    "modalHeader": "View Characteristic"
+                }
+            },
+            "maintenance": {
+                "label": "Maintenance",
+                "descriptionLabel": "Description",
+                "shortnameLabel": "Short Name",
+                "detailsLabel": "Details",
+                "stateLabel": "State",
+                "datatable": {
+                    "id": "ID",
+                    "shortname": "SHORT NAME",
+                    "description": "DESCRIPTION",
+                    "details": "DETAILS",
+                    "state": "STATE"
+                },
+                "new": {
+                    "modalHeader": "New Room in Maintenance"
+                },
+                "edit": {
+                    "modalHeader": "Edit Room in Maintenance"
+                },
+                "view": {
+                    "modalHeader": "View Room in Maintenance"
+                }
+            }
         }
     }
 }
