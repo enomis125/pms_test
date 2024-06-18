@@ -9,6 +9,7 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 import accountGroupInsert, { accountGroupsEdit } from "@/components/functionsForm/CRUD/financialSetup/accountGroups/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
+import {useTranslations} from 'next-intl';
 
 
 
@@ -33,6 +34,7 @@ const accountGroupsForm = ({
     const { handleUpdateAccountGroups, setValuesAccountGroups, valuesAccountGroups } = accountGroupsEdit(idAccountGroups);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
+    const t = useTranslations('Index');
 
 
 
@@ -70,7 +72,7 @@ const accountGroupsForm = ({
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.accountGroups.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -79,7 +81,7 @@ const accountGroupsForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.accountGroups.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -88,7 +90,7 @@ const accountGroupsForm = ({
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.accountGroups.description')}
                                                     ariaLabel={"Descrição"}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -97,7 +99,7 @@ const accountGroupsForm = ({
                                                     type={"text"}
                                                     id={"order"}
                                                     name={"Order"}
-                                                    label={"Ordem"}
+                                                    label={t('financialSetup.accountGroups.order')}
                                                     ariaLabel={"Ordem"}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -145,7 +147,7 @@ const accountGroupsForm = ({
                                                 type={"text"}
                                                 id={"cod"}
                                                 name={"Cod"}
-                                                label={"Cod."}
+                                                label={t('financialSetup.accountGroups.cod')}
                                                 ariaLabel={"Cod."}
                                                 value={valuesAccountGroups.Cod}
                                                 onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Cod: e.target.value })}
@@ -155,7 +157,7 @@ const accountGroupsForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
+                                                label={t('financialSetup.accountGroups.abreviature')}
                                                 ariaLabel={"Abreviatura"}
                                                 value={valuesAccountGroups.Abreviature}
                                                 onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Abreviature: e.target.value })}
@@ -165,7 +167,7 @@ const accountGroupsForm = ({
                                                 type={"text"}
                                                 id={"Description"}
                                                 name={"Description"}
-                                                label={"Descrição"}
+                                                label={t('financialSetup.accountGroups.description')}
                                                 ariaLabel={"Descrição"}
                                                 value={valuesAccountGroups.Description}
                                                 onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Description: e.target.value })}
@@ -175,7 +177,7 @@ const accountGroupsForm = ({
                                                 type={"text"}
                                                 id={"order"}
                                                 name={"Order"}
-                                                label={"Ordem"}
+                                                label={t('financialSetup.accountGroups.order')}
                                                 ariaLabel={"Ordem"}
                                                 value={valuesAccountGroups.Order}
                                                 onChange={e => setValuesAccountGroups({ ...valuesAccountGroups, Order: e.target.value })}

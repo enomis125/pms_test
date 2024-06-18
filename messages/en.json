@@ -306,6 +306,243 @@
                 "datatable": {
                     "rooms": "Rooms"
                 }
+            },
+            "financialSetup": {
+                "cards": {
+                    "departments": "DEPARTMENTS",
+                    "accountGroups": "ACCOUNT GROUPS",
+                    "revenueAccounts": "REVENUE ACCOUNTS",
+                    "paymentAccounts": "PAYMENT ACCOUNTS",
+                    "taxes": "TAXES",
+                    "cashiers": "CASHIERS",
+                    "voidCharges": "VOID CHARGES"
+                },
+                "departments": {
+                    "title": "Departments",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "activeStatus": "Active (status)",
+                    "order": "Order",
+                    "datatable": {
+                        "id": "id",
+                        "cod": "Cod.",
+                        "abreviature": "Abreviature",
+                        "description": "Description",
+                        "detail": "Detail",
+                        "status": "Status",
+                        "order": "Order"
+                    },
+                    "new": {
+                        "modalHeader": "New Department"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Department"
+                    },
+                    "view": {
+                        "modalHeader": "View Department"
+                    }
+                },
+                "accountGroups": {
+                    "title": "Account Groups",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order",
+                    "datatable": {
+                        "id": "id",
+                        "cod": "Cod.",
+                        "abreviature": "Abreviature",
+                        "description": "Description",
+                        "group": "Group",
+                        "order": "Order"
+                    },
+                    "new": {
+                        "modalHeader": "New Account Group"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Account Group"
+                    },
+                    "view": {
+                        "modalHeader": "View Account Group"
+                    }
+                },
+                "revenueAccounts": {
+                    "title": "Revenue Accounts",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "details": "Details",
+                    "department": "Department",
+                    "accountGroup": "Account Group",
+                    "tax": "Tax",
+                    "worth": "Worth",
+                    "property": "Property",
+                    "statCode": "Statistic Code",
+                    "datatable": {
+                        "id": "id",
+                        "cod": "Cod.",
+                        "account": "Account",
+                        "abreviature": "Abreviature",
+                        "description": "Description",
+                        "accountGroup": "Group Account",
+                        "department": "Department",
+                        "tax": "Tax",
+                        "order": "Order"
+                    },
+                    "new": {
+                        "modalHeader": "New Revenue Account"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Revenue Account"
+                    },
+                    "view": {
+                        "modalHeader": "View Revenue Account"
+                    }
+                },
+                "paymentAccounts": {
+                    "title": "Payment Accounts",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "departments": "Deparments",
+                    "group": "Group",
+                    "type": "Type",
+                    "property": "Property",
+                    "datatable": {
+                        "id": "id",
+                        "cod": "Cod.",
+                        "account": "Account",
+                        "abreviature": "Abreviature",
+                        "description": "Description",
+                        "group": "Group",
+                        "order": "Order"
+                    },
+                    "new": {
+                        "modalHeader": "New Payment Accounts"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Payment Accounts"
+                    },
+                    "view": {
+                        "modalHeader": "View Payment Accounts"
+                    }
+                },
+                "taxes": {
+                    "title": "Taxes",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order",
+                    "percentage": "Percentage",
+                    "codSAFT": "Cod. SAFT",
+                    "descSAFT": "Desc. SAFT",
+                    "detail": "Detail",
+                    "detailedInvoice": "Detailed Invoice",
+                    "datatable": {
+                        "id": "id",
+                        "cod": "Cod.",
+                        "abreviature": "Abreviature",
+                        "description": "Description",
+                        "percentage": "Percentage",
+                        "order": "Order"
+                    },
+                    "new": {
+                        "modalHeader": "New Tax"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Tax"
+                    },
+                    "view": {
+                        "modalHeader": "View Tax"
+                    }
+                },
+                "cashiers": {
+                    "title": "Cashiers",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "password": "Password",
+                    "description": "Description",
+                    "datatable": {
+                        "id": "id",
+                        "cod": "Cod.",
+                        "abreviature": "Abreviature",
+                        "description": "Description"
+                    },
+                    "new": {
+                        "modalHeader": "New Cashier"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Cashier"
+                    },
+                    "view": {
+                        "modalHeader": "View Cashier"
+                    }
+                },
+                "voidCharges": {
+                    "title": "Void Charges",
+                    "cod": "Cod.",
+                    "abreviature": "Abreviature",
+                    "property": "Property",
+                    "description": "Description",
+                    "datatable": {
+                        "id": "id",
+                        "cod": "Cod.",
+                        "abreviature": "Abreviature",
+                        "description": "Description"
+                    },
+                    "new": {
+                        "modalHeader": "New Void Charge"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Void Charge"
+                    },
+                    "view": {
+                        "modalHeader": "View  Void Charge"
+                    }
+                }
+            },
+    
+            "priceManagement": {
+                "priceCodes": {
+                    "title": "Price Management",
+                    "rateGroup": "Rate Group",
+                    "rateCode": "Rate Code",
+                    "type": "Type",
+                    "text1": "Text1",
+                    "sortOrder": "Sort Order",
+                    "virtualRate": "Virtual Rate",
+                    "baseRate": "Base Rate",
+                    "surcharge": "Surcharge (%)",
+                    "roundTo": "Round To",
+                    "options": "Options",
+                    "specialRate": "Special Rate",
+                    "hideRateAvailability": "Hide in Rate Availability",
+                    "hotels": "Hotels",
+                    "routingCode": "Routing Code",
+                    "target": "Target",
+                    "datatable": {
+                        "n": "nº",
+                        "group": "group",
+                        "text": "text",
+                        "basisGrp": "basis grp.",
+                        "basisRate": "basis rate",
+                        "surcharge": "surcharge",
+                        "fixSurcharge": "fix surcharge",
+                        "people": "people",
+                        "divide": "divide",
+                        "ref": "ref",
+                        "order": "order",
+                        "hotel": "hotel"
+                    },
+                    "new": {
+                        "modalHeader": "New Price Code"
+                    },
+                    "edit": {
+                        "modalHeader": "Edit Price Code"
+                    },
+                    "view": {
+                        "modalHeader": "View Price Code"
+                    }
+                }
             }
         }
     }

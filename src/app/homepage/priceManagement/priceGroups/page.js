@@ -13,6 +13,8 @@ import { FiSearch, FiPlus, FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 
+import {useTranslations} from 'next-intl';
+
 import PriceManagementForm from "@/components/modal/priceManagement/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
@@ -30,6 +32,7 @@ export default function PriceManagement() {
   const [searchField, setSearchField] = useState(searchOptions[0].value);
   const [priceManagement, setPriceManagement] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations('Index');
 
   useEffect(() => {
     const getData = async () => {
@@ -104,12 +107,12 @@ export default function PriceManagement() {
   return (
     <main>
       <div className="flex flex-col mt-3 py-3">
-        <p className="text-xs px-6">Gestão de preços</p>
+        <p className="text-xs px-6">{t('priceManagement.priceCodes.title')}</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-col mt-4">
             <Input
               className="w-96"
-              placeholder={`Procurar por ${searchOptions.find((option) => option.value === searchField)?.label.toLowerCase()}...`}
+              placeholder={t('general.search') + `${searchOptions.find((option) => option.value === searchField)?.label.toLowerCase()}...`}
               labelPlacement="outside"
               startContent={<FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
               value={searchValue}
@@ -131,11 +134,11 @@ export default function PriceManagement() {
           </div>
           <PriceManagementForm
             formTypeModal={11}
-            buttonName={"Novo"}
+            buttonName={t('general.newRecord')}
             buttonIcon={<FiPlus size={15} />}
             editIcon={<FaCalendarAlt size={25} color="white" />}
             buttonColor={"primary"}
-            modalHeader={"Inserir"}
+            modalHeader={t('priceManagement.priceCodes.new.modalHeader')}
           />
         </div>
       </div>
@@ -170,40 +173,40 @@ export default function PriceManagement() {
             >
               <TableHeader>
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
-            Nº
+            {t('priceManagement.priceCodes.datatable.n')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            Grupo
+          {t('priceManagement.priceCodes.datatable.group')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            texto
+          {t('priceManagement.priceCodes.datatable.text')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            basis grp.
+          {t('priceManagement.priceCodes.datatable.basisGrp')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            basis rate
+          {t('priceManagement.priceCodes.datatable.basisRate')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            sobretaxa
+          {t('priceManagement.priceCodes.datatable.surcharge')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            sobretaxa fixa
+          {t('priceManagement.priceCodes.datatable.fixSurcharge')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            pessoas
+          {t('priceManagement.priceCodes.datatable.people')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            dividir
+          {t('priceManagement.priceCodes.datatable.divide')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            ref
+          {t('priceManagement.priceCodes.datatable.ref')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            ordenação
+          {t('priceManagement.priceCodes.datatable.order')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            hotel da reserva
+          {t('priceManagement.priceCodes.datatable.hotel')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
             <GoGear size={20} />
@@ -216,7 +219,7 @@ export default function PriceManagement() {
                         buttonName={priceManagement.rategrpID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Marketing"}
+                        modalHeader={t('priceManagement.priceCodes.edit.modalHeader')}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${priceManagement.rategrpID}`}
                         formTypeModal={12}
@@ -249,10 +252,10 @@ export default function PriceManagement() {
                         <DropdownMenu aria-label="Static Actions" closeOnSelect={false}>
                           <DropdownItem key="edit">
                             <PriceManagementForm
-                              buttonName={"Editar"}
+                              buttonName={t('general.editRecord')}
                               editIcon={<FiEdit3 size={25} />}
                               buttonColor={"transparent"}
-                              modalHeader={"Editar Marketing"}
+                              modalHeader={t('priceManagement.priceCodes.edit.modalHeader')}
                               modalEditArrow={<BsArrowRight size={25} />}
                               modalEdit={`ID: ${priceManagement.rategrpID}`}
                               formTypeModal={12}
@@ -262,8 +265,8 @@ export default function PriceManagement() {
                               editor={"teste"}
                             />
                           </DropdownItem>
-                          <DropdownItem key="delete" onClick={() => handleDelete(priceManagement.rategrpID)}>Remover</DropdownItem>
-                          <DropdownItem key="view">Ver</DropdownItem>
+                          <DropdownItem key="delete" onClick={() => handleDelete(priceManagement.rategrpID)}>{t('general.removeRecord')}</DropdownItem>
+                          <DropdownItem key="view">{t('general.viewRecord')}</DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </TableCell>

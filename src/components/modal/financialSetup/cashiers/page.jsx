@@ -9,7 +9,7 @@ import cashiersInsert, { cashiersEdit } from "@/components/functionsForm/CRUD/fi
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const doctypeForm = ({
@@ -33,7 +33,7 @@ const doctypeForm = ({
     const { handleUpdateCashiers, setValuesCashiers, valuesCashiers } = cashiersEdit(idCashiers);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
-
+    const t = useTranslations('Index');
 
 
     return (
@@ -69,7 +69,7 @@ const doctypeForm = ({
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.cashiers.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputCashiers}
                                                 />
@@ -78,7 +78,7 @@ const doctypeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.cashiers.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputCashiers}
                                                 />
@@ -87,7 +87,7 @@ const doctypeForm = ({
                                                     type={"password"}
                                                     id={"password"}
                                                     name={"Password"}
-                                                    label={"Password"}
+                                                    label={t('financialSetup.cashiers.password')}
                                                     ariaLabel={"Password"}
                                                     onChange={handleInputCashiers}
                                                 />
@@ -97,7 +97,7 @@ const doctypeForm = ({
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.cashiers.description')}
                                                     ariaLabel={"Descrição"}
                                                 />
 
@@ -144,7 +144,7 @@ const doctypeForm = ({
                                                 type={"text"}
                                                 id={"cod"}
                                                 name={"Cod"}
-                                                label={"Cod."}
+                                                label={t('financialSetup.cashiers.cod')}
                                                 ariaLabel={"Cod."}
                                                 value={valuesCashiers.Cod}
                                                 onChange={e => setValuesCashiers({ ...valuesCashiers, Cod: e.target.value })}
@@ -154,7 +154,7 @@ const doctypeForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
+                                                label={t('financialSetup.cashiers.abreviature')}
                                                 ariaLabel={"Abreviatura"}
                                                 value={valuesCashiers.Abreviature}
                                                 onChange={e => setValuesCashiers({ ...valuesCashiers, Abreviature: e.target.value })}
@@ -164,7 +164,7 @@ const doctypeForm = ({
                                                 type={"password"}
                                                 id={"password"}
                                                 name={"Password"}
-                                                label={"Password"}
+                                                label={t('financialSetup.cashiers.password')}
                                                 ariaLabel={"Password"}
                                                 value={valuesCashiers.Password}
                                                 onChange={e => setValuesCashiers({ ...valuesCashiers, Password: e.target.value })}
@@ -175,7 +175,7 @@ const doctypeForm = ({
                                                 type={"text"}
                                                 id={"Description"}
                                                 name={"Description"}
-                                                label={"Descrição"}
+                                                label={t('financialSetup.cashiers.description')}
                                                 ariaLabel={"Descrição"}
                                             />
 
