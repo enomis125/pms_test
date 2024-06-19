@@ -6,7 +6,6 @@ import Cartao from "@/components/Cards/frontOffice/frontDesk/Card";
 import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
 import { FaCalendarAlt, FaBed } from "react-icons/fa";
 import { useTranslations } from 'next-intl';
-import { useTranslations } from 'next-intl';
 
 const Card = () => {
 
