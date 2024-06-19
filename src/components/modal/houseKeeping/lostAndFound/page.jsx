@@ -8,6 +8,7 @@ import useLostAndFoundInsert , { useLostAndFoundEdit } from "@/components/functi
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import { RadioGroup, Radio } from "@nextui-org/react";
+import {useTranslations} from 'next-intl'; 
 
 const LostAndFoundForm = ({
     buttonName,
@@ -17,27 +18,12 @@ const LostAndFoundForm = ({
     buttonColor,
     idLostandFound,
 }) => {
+    const t = useTranslations('Index'); 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { handleInputChangeLostAndFound, handleSubmitLostAndFound } = useLostAndFoundInsert();
     const { handleUpdateLostAndFound, setValuesLostAndFound, valueslostAndFound } = useLostAndFoundEdit(idLostandFound);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-    // Estado para armazenar a data atual formatada
-    // const [currentDate, setCurrentDate] = useState("");
-    //
-    // Função para obter a data atual formatada
-    // const getCurrentDateFormatted = () => {
-    //   const today = new Date();
-    //   const year = today.getFullYear();
-    //   const month = String(today.getMonth() + 1).padStart(2, '0');
-    //   const day = String(today.getDate()).padStart(2, '0');
-    //   return `${year}-${month}-${day}`;
-    //};//
-
-    // Atualizar a data atual formatada quando o componente for montado
-    //useEffect(() => {
-    //     setCurrentDate(getCurrentDateFormatted());
-    //}, []);
 
     return (
         <>
@@ -77,8 +63,8 @@ const LostAndFoundForm = ({
                                                     type="date"
                                                     id="date"
                                                     name="date"
-                                                    label="Data Registo"
-                                                    ariaLabel="Data Registo"
+                                                    label={t("housekeeping.lostandfound.new.RegistrationDate")}
+                                                    ariaLabel="Registration Date"
                                                     style="w-full outline-none h-10"
                                                     onChange={handleInputChangeLostAndFound}
 
@@ -88,8 +74,8 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="isFound"
                                                     name="isFound"
-                                                    label="Estado"
-                                                    ariaLabel="Estado"
+                                                    label={t("housekeeping.lostandfound.new.State")}
+                                                    ariaLabel="State"
                                                     style="w-full outline-none h-10"
                                                     onChange={handleInputChangeLostAndFound}
                                                 />
@@ -98,8 +84,8 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="roomNumber"
                                                     name="roomNumber"
-                                                    label="Quarto"
-                                                    ariaLabel="Quarto"
+                                                    label={t("housekeeping.lostandfound.new.Room")}
+                                                    ariaLabel="Room"
                                                     style="w-full outline-none h-10 mt-2"
                                                     onChange={handleInputChangeLostAndFound}
                                                 />
@@ -110,7 +96,7 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="location"
                                                     name="location"
-                                                    label="Local"
+                                                    label={t("housekeeping.lostandfound.new.Local")}
                                                     ariaLabel="Local"
                                                     style="w-full outline-none h-10"
                                                     onChange={handleInputChangeLostAndFound}
@@ -120,8 +106,8 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="userName"
                                                     name="userName"
-                                                    label="Nome do Hóspede"
-                                                    ariaLabel="Nome do Hóspede"
+                                                    label={t("housekeeping.lostandfound.new.GuestName")}
+                                                    ariaLabel="Guest Name"
                                                     style="w-full outline-none h-10 mt-4"
                                                     onChange={handleInputChangeLostAndFound}
                                                 />
@@ -131,8 +117,8 @@ const LostAndFoundForm = ({
                                                 type="text"
                                                 id="description"
                                                 name="description"
-                                                label="Item de ocorrência"
-                                                ariaLabel="Item de ocorrência"
+                                                label={t("housekeeping.lostandfound.new.itemOccurrence")}
+                                                ariaLabel="Item Occurrence"
                                                 style="w-full outline-none h-10"
                                                 onChange={handleInputChangeLostAndFound}
                                             />
@@ -142,8 +128,8 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="foundByUser"
                                                     name="foundByUser"
-                                                    label="Utilizador"
-                                                    ariaLabel="Utilizador"
+                                                    label={t("housekeeping.lostandfound.new.User")}
+                                                    ariaLabel="User"
                                                     style="w-full outline-none h-10"
                                                     onChange={handleInputChangeLostAndFound}
                                                 />
@@ -153,9 +139,9 @@ const LostAndFoundForm = ({
                                                     className="mt-2"
                                                     defaultValue="perdidos"
                                                 >
-                                                    <Radio value="perdidos">Perdidos</Radio>
-                                                    <Radio value="achados">Achados</Radio>
-                                                    <Radio value="concluidos">Concluidos</Radio>
+                                                    <Radio value="perdidos">{t("housekeeping.lostandfound.new.radioGroup.lost")}</Radio>
+                                                    <Radio value="achados">{t("housekeeping.lostandfound.new.radioGroup.found")}</Radio>
+                                                    <Radio value="concluidos">{t("housekeeping.lostandfound.new.radioGroup.concluded")}</Radio>
                                                 </RadioGroup>
                                             </div>
                                         </ModalBody>
@@ -202,19 +188,17 @@ const LostAndFoundForm = ({
                                                     type="date"
                                                     id="date"
                                                     name="date"
-                                                    label="Data Registo"
-                                                    ariaLabel="Data Registo"
+                                                    label={t("housekeeping.lostandfound.new.RegistrationDate")}
+                                                    ariaLabel="Registration Date"
                                                     style="w-full outline-none h-10"
-                                                  
-
                                                 />
 
                                                 <InputFieldControlled
                                                     type="text"
                                                     id="isFound"
                                                     name="isFound"
-                                                    label="Estado"
-                                                    ariaLabel="Estado"
+                                                    label={t("housekeeping.lostandfound.new.State")}
+                                                    ariaLabel="State"
                                                     style="w-full outline-none h-10"
                                                     value ={valueslostAndFound.IsFound}
                                                     onChange={e => setValuesLostAndFound({...valueslostAndFound, IsFound: e.target.value})}
@@ -224,8 +208,8 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="roomNumber"
                                                     name="roomNumber"
-                                                    label="Quarto"
-                                                    ariaLabel="Quarto"
+                                                    label={t("housekeeping.lostandfound.new.Room")}
+                                                    ariaLabel="Room"
                                                     style="w-full outline-none h-10 mt-2"
                                                     value ={valueslostAndFound.RoomNumber}
                                                     onChange={e => setValuesLostAndFound({...valueslostAndFound, RoomNumber: e.target.value})}
@@ -237,7 +221,7 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="location"
                                                     name="location"
-                                                    label="Local"
+                                                    label={t("housekeeping.lostandfound.new.Local")}
                                                     ariaLabel="Local"
                                                     style="w-full outline-none h-10"
                                                     value ={valueslostAndFound.Location}
@@ -248,8 +232,8 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="userName"
                                                     name="userName"
-                                                    label="Nome do Hóspede"
-                                                    ariaLabel="Nome do Hóspede"
+                                                    label={t("housekeeping.lostandfound.new.GuestName")}
+                                                    ariaLabel="Guest Name"
                                                     style="w-full outline-none h-10 mt-4"
                                                     value ={valueslostAndFound.UserName}
                                                     onChange={e => setValuesLostAndFound({...valueslostAndFound, UserName: e.target.value})}
@@ -260,8 +244,8 @@ const LostAndFoundForm = ({
                                                 type="text"
                                                 id="description"
                                                 name="description"
-                                                label="Item de ocorrência"
-                                                ariaLabel="Item de ocorrência"
+                                                label={t("housekeeping.lostandfound.new.itemOccurrence")}
+                                                ariaLabel="item Occurrence"
                                                 style="w-full outline-none h-10"
                                                 value ={valueslostAndFound.Description}
                                                 onChange={e => setValuesLostAndFound({...valueslostAndFound, Description: e.target.value})}
@@ -272,8 +256,8 @@ const LostAndFoundForm = ({
                                                     type="text"
                                                     id="foundByUser"
                                                     name="foundByUser"
-                                                    label="Utilizador"
-                                                    ariaLabel="Utilizador"
+                                                    label={t("housekeeping.lostandfound.new.User")}
+                                                    ariaLabel="User"
                                                     style="w-full outline-none h-10"
                                                     value ={valueslostAndFound.FoundByUser}
                                                 onChange={e => setValuesLostAndFound({...valueslostAndFound, FoundByUser: e.target.value})}
@@ -284,9 +268,9 @@ const LostAndFoundForm = ({
                                                     className="mt-2"
                                                     defaultValue="perdidos"
                                                 >
-                                                    <Radio value="perdidos">Perdidos</Radio>
-                                                    <Radio value="achados">Achados</Radio>
-                                                    <Radio value="concluidos">Concluidos</Radio>
+                                                    <Radio value="perdidos">{t("housekeeping.lostandfound.new.radioGroup.lost")}</Radio>
+                                                    <Radio value="achados">{t("housekeeping.lostandfound.new.radioGroup.found")}</Radio>
+                                                    <Radio value="concluidos">{t("housekeeping.lostandfound.new.radioGroup.concluded")}</Radio>
                                                 </RadioGroup>
                                             </div>
                                         </ModalBody>

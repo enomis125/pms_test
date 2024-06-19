@@ -319,7 +319,7 @@
                 "cancelTable": "CANCEL TABLE",
                 "transferTypes": "TRANSFER TYPES",
                 "changeTypeReservations": "RESERVATION TYPES CHANGES",
-                "cancelationTypes": "CANCELATION" 
+                "cancelationTypes": "CANCELATION"
             }
         },
         "financialSetup": {
@@ -515,7 +515,6 @@
                 }
             }
         },
-
         "priceManagement": {
             "priceCodes": {
                 "title": "Price Management",
@@ -556,6 +555,66 @@
                 },
                 "view": {
                     "modalHeader": "View Price Code"
+                }
+            }
+        },
+        "housekeeping": {
+            "housekeeping": {
+                "housekeepingCardClean": "Clean",
+                "housekeepingCardChecked": "verified",
+                "housekeepingCardDirty": "dirty",
+                "housekeepingCardOutOfService": "Out Of Service"
+            },
+            "management": {
+                "managementTitle": "Management Rooms",
+                "managementTitleButtonBulk": "Bulk",
+                "managementTitleButtonFilter": "Filter",
+                "managementFilterRooms": "Filter Rooms",
+                "managementTableOutOfService": "Out Of Service",
+                "managementTableDirty": "Dirty",
+                "managementTableTouched": "Touched",
+                "managementTableCleaning": "Cleaning",
+                "managementTableChecked": "Checked",
+                "managementTableClean": "Clean"
+            },
+            "lostandfound": {
+                "lostandfoundTitle": "Lost and Found",
+                "lostandfoundSearchRegistrationDate":"Registration Date",
+                "lostandfoundSearchUpdated":"Updated",
+                "lostandfoundSearchAll": "All",
+                "lostandfoundDateIn" : "In",
+                "lostandfoundDateUntil" : "Until",
+                "lostandfoundSearchRoom" : "Room",
+                "lostandfoundSearchGuestName" : "Guest Name",
+                "lostandfoundButtonClean" : "Clean",
+                "lostandfoundNewModalHeader":"Enter lost and found",
+                "new":{
+                    "RegistrationDate":"Registration Date",
+                    "State" : "State",
+                    "Room" : "Room",
+                    "Local" : "Local",
+                    "GuestName" : "Guest Name",
+                    "itemOccurrence" : "Item Occurrence",
+                    "User":" User",
+                    "radioGroup":{
+                        "found":"Found",
+                        "lost":"Lost",
+                        "concluded" : "Concluded"
+                    }
+                },
+                "lostandfoundSearchLost":"Lost",
+                "lostandfoundSearchFound":"Found",
+                "lostandfoundSearchConcluded":"concluded",
+                "table":{
+                    "id":"ID",
+                    "registrationdate":" Registration Date",
+                    "state":"state",
+                    "room":"room",
+                    "local": "local",
+                    "guestname" : "Guest Name",
+                    "itemoccurrence" : "Item Occurrence",
+                    "user":"user",
+                    "updatedon": "Updated On"
                 }
             }
         }

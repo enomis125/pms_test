@@ -34,6 +34,8 @@ import { IoIosArrowDown } from "react-icons/io";
 /* ESTA PAGINA É IGUAL A DAS RESERVAR EXATAMENTE IGUAL E NESTE MOMENTO ESTA A DAR DISPLAY
 A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
 
+import {useTranslations} from 'next-intl'; 
+
 //imports de componentes
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
@@ -45,24 +47,17 @@ import LostandFoundForm from "@/components/modal/houseKeeping/lostAndFound/page"
 
 export default function lostAndFound() {
 
+  const t = useTranslations('Index'); 
+
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
-  const [searchValue, setSearchValue] = React.useState("");
-  const [reservation, setReservation] = useState([]);
   const [lostAndFound, setLostAndFound] = useState([]);
-  const [guestId, setGuestId] = useState([]);
-  const [guestProfiles, setGuestProfiles] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10));
-  const [initialLoad, setInitialLoad] = useState(true);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filteredReservations, setFilteredReservations] = useState([]);
   const [selectedButton, setSelectedButton] = React.useState(null);
   const [roomNumberFilter, setRoomNumberFilter] = useState("");
   const [guestNameFilter, setGuestNameFilter] = useState("");
   const [appliedRoomNumberFilter, setAppliedRoomNumberFilter] = useState("");
   const [appliedGuestNameFilter, setAppliedGuestNameFilter] = useState("");
-  const [dropdownType, setDropdownType] = useState(null);
   const [registerDateFilter, setRegisterDateFilter] = useState("");
   const [updatedDateFilter, setUpdatedDateFilter] = useState("");
   const [appliedRegisterDateFilter, setAppliedRegisterDateFilter] = useState("");
@@ -70,27 +65,28 @@ export default function lostAndFound() {
   const [dateFromFilter, setDateFromFilter] = useState("");
   const [dateToFilter, setDateToFilter] = useState("");
   const [equalDates, setEqualDates] = useState("");
-  const [currentisFound, setCurrentisFound] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/v1/housekeeping/lostAndFound");
+
         const lostAndFoundData = response.data.response;
 
-        // Filtra os itens com data de registro menor que hoje
         const filteredItems = lostAndFoundData.filter(item => new Date(item.foundDate) < new Date());
 
         setLostAndFound(filteredItems);
+
       } catch (error) {
+
         console.error("Erro ao buscar perdidos e achados:", error.message);
+
       }
     };
 
     fetchData();
   }, []);
-
-
 
   const handleSearch = () => {
     setAppliedRoomNumberFilter(roomNumberFilter);
@@ -98,8 +94,7 @@ export default function lostAndFound() {
     setAppliedRegisterDateFilter(registerDateFilter);
     setAppliedUpdatedDateFilter(updatedDateFilter);
     setDateFromFilter(dateFromFilter);
-    //setDateToFilter(dateToFilter || new Date().toISOString().slice(0, 10));
-    setEqualDates(equalDates); // adicione esta linha para aplicar o filtro de datas iguais
+    setEqualDates(equalDates); 
   };
 
   const handleReset = () => {
@@ -125,24 +120,13 @@ export default function lostAndFound() {
     }
   };
 
-  /*const handleDeleteItem = async (referenceNumber) => {
-    try {
-      await axios.delete(`/api/v1/housekeeping/lostAndFound/${referenceNumber}`);
-      fetchData(); // Assuming fetchData is a function that fetches the updated lost and found items
-    } catch (error) {
-      console.error("Erro ao excluir o item de perdidos e achados:", error.message);
-    }
-  };*/
-
-
-
   const handleButtonClick = (buttonValue) => {
     if (selectedButton === buttonValue) {
       setSelectedButton(null);
-      setDropdownType(null); // Reseta o tipo de dropdown quando o botão é desmarcado
+      setDropdownType(null); 
     } else {
       setSelectedButton(buttonValue);
-      setDropdownType(buttonValue); // Define o tipo de dropdown com base no botão clicado
+      setDropdownType(buttonValue); 
     }
   };
 
@@ -159,9 +143,6 @@ export default function lostAndFound() {
               modalEditArrow={<BsArrowRight size={25} />}
               modalEdit={`ID: ${lostAndFound.idLostandFound}`}
               formTypeModal={12}
-              //idLostandFound={lostAndFound.referenceNumber}
-              // //criado={referenceNumber.createdAt}
-              //editado={referenceNumber.updatedAt}
               editor={"teste"}
             >Editar</LostandFoundForm>
             </DropdownItem>
@@ -234,15 +215,17 @@ export default function lostAndFound() {
     }
 
     if (dateFromFilter !== "" && dateToFilter !== "") {
-      // Filtro para "De" a "Até"
+
       filteredList = filteredList.filter(item =>
+
         new Date(item.foundDate) >= new Date(dateFromFilter) && new Date(item.foundDate) <= new Date(dateToFilter)
       );
     } else if (dateFromFilter !== "") {
-      // Filtro apenas para "De" (sem "Até")
+
       filteredList = filteredList.filter(item => new Date(item.foundDate) >= new Date(dateFromFilter));
+
     } else if (dateToFilter !== "") {
-      // Filtro apenas para "Até" (sem "De")
+
       filteredList = filteredList.filter(item => new Date(item.foundDate) <= new Date(dateToFilter));
     }
 
@@ -278,8 +261,6 @@ export default function lostAndFound() {
     setPage(1);
   };
 
-
-  //botoes que mudam de cor
   const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
   const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
 
@@ -287,7 +268,7 @@ export default function lostAndFound() {
   return (
     <main>
       <div className="flex flex-col mt-1 py-3">
-        <p className="text-xs px-6 pb-3">Perdidos e achados</p>
+        <p className="text-xs px-6 pb-3">{t("housekeeping.lostandfound.lostandfoundTitle")}</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="gap-12 grid-cols-2">
             <div className="flex flex-row gap-12 pb-1.5">
@@ -295,7 +276,7 @@ export default function lostAndFound() {
                 <Popover placement="bottom" color="foreground" classNameshowArrow={false}>
                   <PopoverTrigger color="foreground" className="ml-4 border-b border-neutral-200 mb-2.5" >
                     <div className="flex items-center bg-transparent">
-                      <Button className=" bg-transparent">Procurar</Button>
+                      <Button className=" bg-transparent">{t("general.search")}</Button>
                       <IoIosArrowDown className="ml-14" />
                     </div>
                   </PopoverTrigger>
@@ -305,8 +286,8 @@ export default function lostAndFound() {
                         type={"date"}
                         id={"data de registo"}
                         name={"Data de registo"}
-                        label={"Data de registo:"}
-                        ariaLabel={"Data de registo:"}
+                        label={t("housekeeping.lostandfound.lostandfoundSearchRegistrationDate")}
+                        ariaLabel={"Registration Date:"}
                         style={inputStyle}
                         value={registerDateFilter}
                         onChange={(e) => setRegisterDateFilter(e.target.value)}
@@ -315,8 +296,8 @@ export default function lostAndFound() {
                         type={"date"}
                         id={"atualizado em"}
                         name={"Atualizado em"}
-                        label={"Atualizado em:"}
-                        ariaLabel={"Atualizado em:"}
+                        label={t("housekeeping.lostandfound.lostandfoundSearchUpdated")}
+                        ariaLabel={"Updated:"}
                         style={inputStyle}
                         value={updatedDateFilter}
                         onChange={(e) => setUpdatedDateFilter(e.target.value)}
@@ -325,8 +306,8 @@ export default function lostAndFound() {
                         type={"date"}
                         id={"todos"}
                         name={"Todos"}
-                        label={"Todos:"}
-                        ariaLabel={"Todos:"}
+                        label={t("housekeeping.lostandfound.lostandfoundSearchAll")}
+                        ariaLabel={"All:"}
                         style={inputStyle}
                         value={equalDates}
                         onChange={(e) => setEqualDates(e.target.value)}
@@ -339,8 +320,8 @@ export default function lostAndFound() {
                 type={"date"}
                 id={"de"}
                 name={"De"}
-                label={"De:"}
-                ariaLabel={"De:"}
+                label={t("housekeeping.lostandfound.lostandfoundDateIn")}
+                ariaLabel={"In:"}
                 style={inputStyle}
                 value={dateFromFilter}
                 onChange={(e) => setDateFromFilter(e.target.value)}
@@ -349,8 +330,8 @@ export default function lostAndFound() {
                 type={"date"}
                 id={"ate"}
                 name={"Até"}
-                label={"Até:"}
-                ariaLabel={"Até:"}
+                label={t("housekeeping.lostandfound.lostandfoundDateUntil")}
+                ariaLabel={"until:"}
                 style={inputStyle}
                 value={currentDate}
               />
@@ -359,8 +340,8 @@ export default function lostAndFound() {
                 type={"text"}
                 id={"search"}
                 name={"Search"}
-                label={"Quarto"}
-                ariaLabel={"search"}
+                label={t("housekeeping.lostandfound.lostandfoundSearchRoom")}
+                ariaLabel={"room"}
                 style={"mt-4"}
                 value={roomNumberFilter}
                 onChange={(e) => setRoomNumberFilter(e.target.value)}
@@ -369,7 +350,7 @@ export default function lostAndFound() {
                 type={"text"}
                 id={"search"}
                 name={"Search"}
-                label={"Nome do Hospede"}
+                label={t("housekeeping.lostandfound.lostandfoundSearchGuestName")}
                 ariaLabel={"search"}
                 style={"mt-4"}
                 value={guestNameFilter}
@@ -377,13 +358,13 @@ export default function lostAndFound() {
               />
             </div>
           </div>
-          <Button onClick={handleReset} color="primary" className="ml-auto mr-4">Limpar</Button>
-          <Button onClick={handleSearch} color="primary" className="mr-4" >Procurar</Button>
+          <Button onClick={handleReset} color="primary" className="ml-auto mr-4">{t("housekeeping.lostandfound.lostandfoundButtonClean")}</Button>
+          <Button onClick={handleSearch} color="primary" className="mr-4" >{t("general.search")}</Button>
           <LostandFoundForm
-            buttonName={"Novo"}
+            buttonName={t("general.newRecord")}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Inserir Perdidos e achados"}
+            modalHeader={t("housekeeping.lostandfound.lostandfoundNewModalHeader")}
             modalIcons={"bg-red"}
             formTypeModal={10}
           ></LostandFoundForm>
@@ -404,19 +385,19 @@ export default function lostAndFound() {
               onClick={() => handleButtonClick(1)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 1 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              Perdidos
+              {t("housekeeping.lostandfound.lostandfoundSearchLost")}
             </button>
             <button
               onClick={() => handleButtonClick(2)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 2 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              Achados
+              {t("housekeeping.lostandfound.lostandfoundSearchFound")}
             </button>
             <button
               onClick={() => handleButtonClick(3)}
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === 3 ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
             >
-              Concluído
+              {t("housekeeping.lostandfound.lostandfoundSearchConcluded")}
             </button>
           </div>
           <Table
@@ -432,31 +413,31 @@ export default function lostAndFound() {
           >
             <TableHeader>
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
-                ID
+              {t("housekeeping.lostandfound.table.id")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Nome do Hóspede">
-                DATA DE REGISTO
+              {t("housekeeping.lostandfound.table.registrationdate")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Check-In">
-                ESTADO
+              {t("housekeeping.lostandfound.table.state")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-6 uppercase" aria-label="Check-Out">
-                QUARTO
+              {t("housekeeping.lostandfound.table.room")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Noites">
-                LOCAL
+              {t("housekeeping.lostandfound.table.local")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Quarto">
-                NOME DO HOSPEDE
+              {t("housekeeping.lostandfound.table.guestname")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="RT">
-                ITEM OCORRÊNCIA
+              {t("housekeeping.lostandfound.table.itemoccurrence")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Pessoas">
-                UTILIZADOR
+              {t("housekeeping.lostandfound.table.user")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="Status">
-                ATUALIZADO EM
+              {t("housekeeping.lostandfound.table.updatedon")}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
                 <GoGear size={20} />
