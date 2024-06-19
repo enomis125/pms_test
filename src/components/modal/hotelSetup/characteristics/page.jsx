@@ -10,10 +10,11 @@ import { MdClose } from "react-icons/md";
 import characteristicsInsert, { characteristicsEdit } from "@/components/functionsForm/CRUD/hotel/characteristics/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page"
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-;
+
 
 import { expansion } from "@/components/functionsForm/expansion/page";
 
+import {useTranslations} from 'next-intl';
 
 const characteristicForm = ({
     idCarateristics,
@@ -39,7 +40,7 @@ const characteristicForm = ({
     const { handleUpdate, setValues, values } = characteristicsEdit(idCarateristics);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-
+    const t = useTranslations('Index');
 
     return (
         <>
@@ -74,8 +75,8 @@ const characteristicForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.characteristics.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInput} />
 
@@ -83,8 +84,8 @@ const characteristicForm = ({
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Description"}
-                                                label={"Descrição"}
-                                                ariaLabel={"Descrição"}
+                                                label={t("hotel.characteristics.descriptionLabel")}
+                                                ariaLabel={"Description"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInput} />
 
@@ -92,8 +93,8 @@ const characteristicForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"Details"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.characteristics.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInput} />
 
@@ -140,8 +141,8 @@ const characteristicForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.characteristics.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 style={"w-full outline-none h-10"}
                                                 value={values.Description}
                                                 onChange={e => setValues({ ...values, Description: e.target.value })} />
@@ -150,8 +151,8 @@ const characteristicForm = ({
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Description"}
-                                                label={"Descrição"}
-                                                ariaLabel={"Descrição"}
+                                                label={t("hotel.characteristics.descriptionLabel")}
+                                                ariaLabel={"Description"}
                                                 style={"w-full outline-none h-10"}
                                                 value={values.Abreviature}
                                                 onChange={e => setValues({ ...values, Abreviature: e.target.value })} />
@@ -160,8 +161,8 @@ const characteristicForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"Details"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.characteristics.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 style={"w-full outline-none h-10"}
                                                 value={values.Details}
                                                 onChange={e => setValues({ ...values, Details: e.target.value })} />

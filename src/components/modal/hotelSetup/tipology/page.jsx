@@ -11,6 +11,8 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 import TipologyGroupAutocomplete from "@/components/functionsForm/autocomplete/tipologyGroup/page";
 
+import {useTranslations} from 'next-intl'
+
 
 const tipologyForm = ({
     idRoomtype,
@@ -33,7 +35,7 @@ const tipologyForm = ({
     const { handleUpdateRoomtype, setValuesRoomtype, valuesRoomtype } = tipologysEdit(idRoomtype);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-
+    const t = useTranslations('Index');
 
     return (
         <>
@@ -68,8 +70,8 @@ const tipologyForm = ({
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Desc"}
-                                                label={"Descrição"}
-                                                ariaLabel={"Descrição"}
+                                                label={t("hotel.tipologies.descriptionLabel")}
+                                                ariaLabel={"Description"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
@@ -77,8 +79,8 @@ const tipologyForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Name"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.tipologies.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
@@ -86,13 +88,13 @@ const tipologyForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"RoomFeaturesDesc"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.tipologies.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 style={"w-full outline-none h-10"}
                                                 onChange={handleInputRoomtype} />
 
                                             <TipologyGroupAutocomplete
-                                                label={"Grupo de Tipologia"}
+                                                label={t("hotel.tipologies.tipologyGroupLabel")}
                                                 style={""}
                                                 onChange={(value) => handleSelect(value)}
                                             />
@@ -163,8 +165,8 @@ const tipologyForm = ({
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Desc"}
-                                                label={"Descrição"}
-                                                ariaLabel={"Descrição"}
+                                                label={t("hotel.tipologies.descriptionLabel")}
+                                                ariaLabel={"Description"}
                                                 style={"w-full outline-none h-10"}
                                                 value={valuesRoomtype.Desc}
                                                 onChange={e => setValuesRoomtype({ ...valuesRoomtype, Desc: e.target.value })} />
@@ -173,8 +175,8 @@ const tipologyForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Name"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.tipologies.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 style={"w-full outline-none h-10"}
                                                 value={valuesRoomtype.Name}
                                                 onChange={e => setValuesRoomtype({ ...valuesRoomtype, Name: e.target.value })} />
@@ -183,8 +185,8 @@ const tipologyForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"RoomFeaturesDesc"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.tipologies.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 style={"w-full outline-none h-10"}
                                                 value={valuesRoomtype.RoomFeaturesDesc}
                                                 onChange={e => setValuesRoomtype({ ...valuesRoomtype, RoomFeaturesDesc: e.target.value })} />

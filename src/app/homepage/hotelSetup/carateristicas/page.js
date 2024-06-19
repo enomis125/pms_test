@@ -24,6 +24,8 @@ import CharacteristicForm from "@/components/modal/hotelSetup/characteristics/pa
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
 
+import { useTranslations } from 'next-intl';
+
 
 export default function Characteristics() {
   const [page, setPage] = React.useState(1);
@@ -32,12 +34,14 @@ export default function Characteristics() {
   const [caracteristics, setCaracteristics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const t = useTranslations('Index');
+
   useEffect(() => {
     const getData = async () => {
-      try{
+      try {
         const res = await axios.get("/api/v1/hotel/caracteristicas");
         setCaracteristics(res.data.response);
-      } catch(error) {
+      } catch (error) {
         console.error("Erro: ", error.message);
       } finally {
         setIsLoading(false);
@@ -92,13 +96,13 @@ export default function Characteristics() {
   return (
     <main>
       <div className="flex flex-col mt-3 py-3">
-        <p className="text-xs px-6">Caraterísticas</p>
+        <p className="text-xs px-6">{t("hotel.characteristics.label")}</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
               <Input
                 className="mt-4 w-80"
-                placeholder="Procurar..."
+                placeholder={t("general.search")}
                 labelPlacement="outside"
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
@@ -109,10 +113,10 @@ export default function Characteristics() {
             </div>
           </div>
           <CharacteristicForm
-            buttonName={"Novo"}
+            buttonName={t("general.newRecord")}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Inserir Caraterísticas"}
+            modalHeader={t("hotel.characteristics.new.modalHeader")}
             modalIcons={"bg-red"}
             formTypeModal={11}
           ></CharacteristicForm>
@@ -137,89 +141,89 @@ export default function Characteristics() {
         >
           <LoadingBackdrop open={isLoading} />
           {!isLoading && (
-          <Table
-            id="TableToPDF"
-            isHeaderSticky={"true"}
-            layout={"fixed"}
-            isCompact={"true"}
-            removeWrapper
-            classNames={{
-              wrapper: "min-h-[222px]",
-            }}
-            className="h-full overflow-auto"
-          >
-            <TableHeader>
-              <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
-                ID
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold w-50 px-20 uppercase">
-                Abreviatura
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold w-1/3 px-10 uppercase">
-                Descrição
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white font-bold w-1/3 px-10 uppercase">
-                Detalhe
-              </TableColumn>
-              <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
-                <GoGear size={20} />
-              </TableColumn>
-            </TableHeader>
-            <TableBody>
-              {items.map((caracteristic, index) => (
-                <TableRow key={index}>
-                  <TableCell className="text-right underline text-blue-600">
-                    <CharacteristicForm
-                      buttonName={caracteristic.characteristicID}
-                      editIcon={<FiEdit3 size={25} />}
-                      buttonColor={"transparent"}
-                      modalHeader={"Editar Caraterísticas"}
-                      modalEditArrow={<BsArrowRight size={25} />}
-                      modalEdit={`ID: ${caracteristic.characteristicID}`}
-                      formTypeModal={12}
-                      idCarateristics={caracteristic.characteristicID}
-                      criado={caracteristic.createdAt}
-                      editado={caracteristic.updatedAt}
-                      editor={"teste"}
-                    /></TableCell>
-                  <TableCell className="px-20">{caracteristic.abreviature}</TableCell>
-                  <TableCell className="px-10">{caracteristic.description}</TableCell>
-                  <TableCell className="px-10">{caracteristic.details}</TableCell>
-                  <TableCell className="flex justify-end">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          variant="light"
-                          className="flex flex-row justify-end"
-                        >
-                          <BsThreeDotsVertical size={20} className="text-gray-400" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                        <DropdownItem key="edit">
-                          <CharacteristicForm
-                            buttonName={"Editar"}
-                            editIcon={<FiEdit3 size={25} />}
-                            buttonColor={"transparent"}
-                            modalHeader={"Editar Caraterísticas"}
-                            modalEditArrow={<BsArrowRight size={25} />}
-                            modalEdit={`ID: ${caracteristic.characteristicID}`}
-                            formTypeModal={12}
-                            idCarateristics={caracteristic.characteristicID}
-                            criado={caracteristic.createdAt}
-                            editado={caracteristic.updatedAt}
-                            editor={"teste"}
-                          ></CharacteristicForm>
-                        </DropdownItem>
-                        <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>Remover</DropdownItem>
-                        <DropdownItem key="view">Ver</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+            <Table
+              id="TableToPDF"
+              isHeaderSticky={"true"}
+              layout={"fixed"}
+              isCompact={"true"}
+              removeWrapper
+              classNames={{
+                wrapper: "min-h-[222px]",
+              }}
+              className="h-full overflow-auto"
+            >
+              <TableHeader>
+                <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
+                  {t("hotel.characteristics.datatable.id")}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold w-50 px-20 uppercase">
+                  {t("hotel.characteristics.datatable.shortname")}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold w-1/3 px-10 uppercase">
+                  {t("hotel.characteristics.datatable.description")}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold w-1/3 px-10 uppercase">
+                  {t("hotel.characteristics.datatable.details")}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
+                  <GoGear size={20} />
+                </TableColumn>
+              </TableHeader>
+              <TableBody>
+                {items.map((caracteristic, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-right underline text-blue-600">
+                      <CharacteristicForm
+                        buttonName={caracteristic.characteristicID}
+                        editIcon={<FiEdit3 size={25} />}
+                        buttonColor={"transparent"}
+                        modalHeader={t("hotel.characteristics.edit.modalHeader")}
+                        modalEditArrow={<BsArrowRight size={25} />}
+                        modalEdit={`ID: ${caracteristic.characteristicID}`}
+                        formTypeModal={12}
+                        idCarateristics={caracteristic.characteristicID}
+                        criado={caracteristic.createdAt}
+                        editado={caracteristic.updatedAt}
+                        editor={"teste"}
+                      /></TableCell>
+                    <TableCell className="px-20">{caracteristic.abreviature}</TableCell>
+                    <TableCell className="px-10">{caracteristic.description}</TableCell>
+                    <TableCell className="px-10">{caracteristic.details}</TableCell>
+                    <TableCell className="flex justify-end">
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            variant="light"
+                            className="flex flex-row justify-end"
+                          >
+                            <BsThreeDotsVertical size={20} className="text-gray-400" />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                          <DropdownItem key="edit">
+                            <CharacteristicForm
+                              buttonName={t("general.editRecord")}
+                              editIcon={<FiEdit3 size={25} />}
+                              buttonColor={"transparent"}
+                              modalHeader={t("hotel.characteristics.edit.modalHeader")}
+                              modalEditArrow={<BsArrowRight size={25} />}
+                              modalEdit={`ID: ${caracteristic.characteristicID}`}
+                              formTypeModal={12}
+                              idCarateristics={caracteristic.characteristicID}
+                              criado={caracteristic.createdAt}
+                              editado={caracteristic.updatedAt}
+                              editor={"teste"}
+                            ></CharacteristicForm>
+                          </DropdownItem>
+                          <DropdownItem key="delete" onClick={() => handleDelete(caracteristic.characteristicID)}>{t("general.removeRecord")}</DropdownItem>
+                          <DropdownItem key="view">{t("general.viewRecord")}</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </PaginationTable>
       </div>

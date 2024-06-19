@@ -10,7 +10,7 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 
-
+import {useTranslations} from 'next-intl';
 
 const tipologyGroupForm = ({
     idTypesgroups,
@@ -33,7 +33,7 @@ const tipologyGroupForm = ({
     const { handleUpdateTypesgroups, valuesTypesgroups, setValuesTypesGroups } = typesGroupsEdit(idTypesgroups);
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-
+    const t = useTranslations('Index');
 
     return (
         <>
@@ -69,8 +69,8 @@ const tipologyGroupForm = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("hotel.tipologiesGroup.descriptionLabel")}
+                                                    ariaLabel={"Description"}
                                                     style={"w-full outline-none h-10"}
                                                 />
 
@@ -78,8 +78,8 @@ const tipologyGroupForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Label"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("hotel.tipologiesGroup.shortnameLabel")}
+                                                    ariaLabel={"Short Name"}
                                                     style={"w-full outline-none h-10"}
                                                     onChange={handleInputTypesgroups} />
 
@@ -87,22 +87,22 @@ const tipologyGroupForm = ({
                                                     type={"textarea"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
-                                                    ariaLabel={"Detalhes"}
+                                                    label={t("hotel.tipologiesGroup.detailsLabel")}
+                                                    ariaLabel={"Details"}
                                                     style={"w-full outline-none h-10"}
                                                 />
 
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
+                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t("hotel.tipologiesGroup.statusLabel")}</label>
                                                 </div>
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"order"}
                                                     name={"Order"}
-                                                    label={"Ordem"}
-                                                    ariaLabel={"Ordem"}
+                                                    label={t("hotel.tipologiesGroup.orderLabel")}
+                                                    ariaLabel={"Order"}
                                                     style={"w-1/2 outline-none h-10"}
                                                 />
 
@@ -154,8 +154,8 @@ const tipologyGroupForm = ({
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Description"}
-                                                label={"Descrição"}
-                                                ariaLabel={"Descrição"}
+                                                label={t("hotel.tipologiesGroup.descriptionLabel")}
+                                                ariaLabel={"Description"}
                                                 style={"w-full outline-none h-10"}
                                             />
 
@@ -163,8 +163,8 @@ const tipologyGroupForm = ({
                                                 type={"text"}
                                                 id={"label"}
                                                 name={"Label"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.tipologiesGroup.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 style={"w-full outline-none h-10"}
                                                 value={valuesTypesgroups.Label}
                                                 onChange={e => setValuesTypesGroups({ ...valuesTypesgroups, Label: e.target.value })} />
@@ -173,22 +173,22 @@ const tipologyGroupForm = ({
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"Details"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.tipologiesGroup.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 style={"w-full outline-none h-10"}
                                             />
 
                                             <div>
                                                 <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
+                                                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t("hotel.tipologiesGroup.statusLabel")}</label>
                                             </div>
 
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"order"}
                                                 name={"Order"}
-                                                label={"Ordem"}
-                                                ariaLabel={"Ordem"}
+                                                label={t("hotel.tipologiesGroup.orderLabel")}
+                                                ariaLabel={"Order"}
                                                 style={"w-1/2 outline-none h-10"}
                                             />
 
