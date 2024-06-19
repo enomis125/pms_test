@@ -46,7 +46,7 @@ export async function PUT(request) {
     try {
         const { data } = await request.json();
 
-        const newRecord = await prisma.rooms.create({
+        const newRoom = await prisma.rooms.create({
             data: {
                 label: data.Label,
                 description: data.Description,
@@ -56,7 +56,14 @@ export async function PUT(request) {
             }
         });
 
-        return new NextResponse(JSON.stringify({ newRecord, status: 200 }));
+        const newRoomHousekeeping = await prisma.housekeeping.create({
+            data: {
+                roomNumber: newRoom.roomID,
+                roomStatus: 6
+            }
+        });
+
+        return new NextResponse(JSON.stringify({ status: 200 }));
 
     } catch (error) {
         return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
