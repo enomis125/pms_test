@@ -16,9 +16,12 @@ import { IoFilter } from "react-icons/io5";
 import { RxFrame } from "react-icons/rx";
 import { HiRefresh } from "react-icons/hi";
 
+import {useTranslations} from 'next-intl'; 
+
 export default function ManagementForm() {
 
     const [roomTypeState, setRoomTypeState] = useState([]);
+    const t = useTranslations('Index'); 
 
     const stateOrder = ['outOfService', 'dirty', 'touched', 'cleaning', 'checked', 'clean'];
     const stateColors = {
@@ -88,17 +91,17 @@ export default function ManagementForm() {
         <main>
             <div className='bg-primary-600 py-5 max-h-16'>
                 <div className='flex justify-between'>
-                    <p className='text-ml text-white px-4'><b>Management Rooms</b></p>
+                    <p className='text-ml text-white px-4'><b>{t("housekeeping.management.managementTitle")}</b></p>
                     <div className='flex items-center gap-5 mr-4'>
-                        <Button className=" bg-gradient-to-tr from-gray-50 to-gray-50 text-black shadow-lg justify-center" startContent={<RxFrame />}>Bulk</Button>
-                        <Button className="  bg-gradient-to-tr from-gray-50 to-gray-50 text-black shadow-lg justify-center" startContent={<IoFilter />}>Filter</Button>
+                        <Button className=" bg-gradient-to-tr from-gray-50 to-gray-50 text-black shadow-lg justify-center" startContent={<RxFrame />}>{t("housekeeping.management.managementTitleButtonBulk")}</Button>
+                        <Button className="  bg-gradient-to-tr from-gray-50 to-gray-50 text-black shadow-lg justify-center" startContent={<IoFilter />}>{t("housekeeping.management.managementTitleButtonFilter")}</Button>
                     </div>
                 </div>
             </div>
             <table className='w-[100%] bg-tableCol'>
                 <thead>
                     <tr>
-                        <th className='w-[15%] bg-tableCol text-left px-4'><Input type="text" placeholder="Filter Rooms" startContent={<HiRefresh />} /></th>
+                        <th className='w-[15%] bg-tableCol text-left px-4'><Input type="text" placeholder={t("housekeeping.management.managementFilterRooms")} startContent={<HiRefresh />} /></th>
                         <td className={`h-14 border-tableCol select-none w-[40px] `}>
                             <div className='flex flex-col justify-center items-center text-center bg-white p-2'>
                                 <span><IoPeopleSharp /></span>
@@ -122,37 +125,37 @@ export default function ManagementForm() {
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
                                 <ImWrench />
-                                <span className='ml-2 text-sm'>Out Of Service</span>
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableOutOfService")}</span>
                             </div>
                         </td>
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
                                 <FaXmark />
-                                <span className='ml-2 text-sm'>Dirty</span>
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableDirty")}</span>
                             </div>
                         </td>
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
                                 <MdOutlineTouchApp />
-                                <span className='ml-2 text-sm'>Touched</span>
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableTouched")}</span>
                             </div>
                         </td>
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
                                 <GiBroom />
-                                <span className='ml-2 text-sm'>Cleaning</span>
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableCleaning")}</span>
                             </div>
                         </td>
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
                                 <FaCheck />
-                                <span className='ml-2 text-sm'>Checked</span>
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableChecked")}</span>
                             </div>
                         </td>
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex items-center justify-center text-center bg-white border border-grey p-2 rounded-lg mr-3'>
                                 <FaCheckDouble />
-                                <span className='ml-2 text-sm'>Clean</span>
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableClean")}</span>
                             </div>
                         </td>
                     </tr>
