@@ -12,7 +12,7 @@ import reserveMotiveInsert, { reserveMotiveEdit } from "@/components/functionsFo
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const reservationMotiveForm = ({
@@ -34,6 +34,8 @@ const reservationMotiveForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputReservMotive, handleSubmitReservMotive } = reserveMotiveInsert();
     const { handleUpdateReservMotive, setValuesReservMotive, valuesReservMotive } = reserveMotiveEdit(idReservMotive);
@@ -75,7 +77,7 @@ const reservationMotiveForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.reservationReasons.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReservMotive} />
 
@@ -84,7 +86,7 @@ const reservationMotiveForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.reservationReasons.description")}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReservMotive} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -94,7 +96,7 @@ const reservationMotiveForm = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.reservationReasons.order")}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReservMotive} />
 
@@ -109,7 +111,7 @@ const reservationMotiveForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.reservationReasons.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

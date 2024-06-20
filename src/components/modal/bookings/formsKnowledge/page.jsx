@@ -12,7 +12,7 @@ import formsKnowledgeInsert, { formsKnowledgeEdit } from "@/components/functions
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const formsKnowledgeForm = ({
@@ -34,6 +34,8 @@ const formsKnowledgeForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputKnowledge, handleSubmitKnowledge } = formsKnowledgeInsert();
     const { handleUpdateKnowledge, setValuesKnowledge, valuesKnowledge } = formsKnowledgeEdit(idKnowledge);
@@ -76,7 +78,7 @@ const formsKnowledgeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.formsOfKnowledge.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputKnowledge} />
 
@@ -85,7 +87,7 @@ const formsKnowledgeForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.formsOfKnowledge.description")}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputKnowledge} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -95,7 +97,7 @@ const formsKnowledgeForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.formsOfKnowledge.order")}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputKnowledge} />
 
@@ -110,7 +112,7 @@ const formsKnowledgeForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.formsOfKnowledge.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

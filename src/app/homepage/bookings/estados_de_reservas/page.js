@@ -24,6 +24,8 @@ import { FiPlus } from "react-icons/fi";
 import { FiEdit3 } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
 
+import {useTranslations} from 'next-intl';
+
 import ReservationStatusForm from "@/components/modal/bookings/resevationStatus/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
@@ -42,6 +44,7 @@ export default function reservationStatus() {
 
   const [reservStatus, setReservStatus] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations('Index');
 
   useEffect(() => {
     const getData = async () => {
@@ -129,7 +132,7 @@ export default function reservationStatus() {
   return (
     <main>
       <div className="flex flex-col mt-3 py-3">
-        <p className="text-xs px-6">Estados de Reservas</p>
+        <p className="text-xs px-6">{t('bookings.reservationStatus.title')}</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-col mt-4">
             <Input
@@ -166,10 +169,10 @@ export default function reservationStatus() {
             </div>
           </div>
           <ReservationStatusForm
-            buttonName={"Novo"}
+            buttonName={t('general.newRecord')}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Inserir Estado de Reserva"}
+            modalHeader={t('bookings.reservationStatus.new.modalHeader')}
             modalIcons={"bg-red"}
             formTypeModal={11}
           ></ReservationStatusForm>
@@ -207,16 +210,16 @@ export default function reservationStatus() {
           >
             <TableHeader>
               <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
-                ID
+              {t('bookings.reservationStatus.datatable.id')}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
-                Abreviatura
+              {t('bookings.reservationStatus.datatable.abreviature')}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">
-                Descrição
+              {t('bookings.reservationStatus.datatable.description')}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
-                Ordenação
+              {t('bookings.reservationStatus.datatable.order')}
               </TableColumn>
               <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
                 <GoGear size={20} />
@@ -230,7 +233,7 @@ export default function reservationStatus() {
                       buttonName={reservStatus.resID}
                       editIcon={<FiEdit3 size={25} />}
                       buttonColor={"transparent"}
-                      modalHeader={"Editar Estado de Reserva"}
+                      modalHeader={t('bookings.reservationStatus.edit.modalHeader')}
                       modalEditArrow={<BsArrowRight size={25} />}
                       modalEdit={`ID: ${reservStatus.resID}`}
                       formTypeModal={12}
@@ -265,10 +268,10 @@ export default function reservationStatus() {
                       >
                         <DropdownItem key="edit">
                           <ReservationStatusForm
-                            buttonName={"Editar"}
+                            buttonName={t('general.editRecord')}
                             editIcon={<FiEdit3 size={25} />}
                             buttonColor={"transparent"}
-                            modalHeader={"Editar Estado de Reserva"}
+                            modalHeader={t('bookings.reservationStatus.edit.modalHeader')}
                             modalEditArrow={<BsArrowRight size={25} />}
                             modalEdit={`ID: ${reservStatus.resID}`}
                             formTypeModal={12}
@@ -282,9 +285,9 @@ export default function reservationStatus() {
                           key="delete"
                           onClick={() => handleDelete(reservStatus.resID)}
                         >
-                          Remover
+                          {t('general.removeRecord')}
                         </DropdownItem>
-                        <DropdownItem key="view">Ver</DropdownItem>
+                        <DropdownItem key="view">{t('general.viewRecord')}</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </TableCell>

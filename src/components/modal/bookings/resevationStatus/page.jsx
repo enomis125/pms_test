@@ -12,7 +12,7 @@ import reservationStatusInsert, { reservationStatusEdit } from "@/components/fun
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const reservationStatusForm = ({
@@ -34,6 +34,8 @@ const reservationStatusForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputReservStatus, handleSubmitReservStatus } = reservationStatusInsert();
     const { handleUpdateReservStatus, setValuesReservStatus, valuesReservStatus } = reservationStatusEdit(idReservStatus);
@@ -75,7 +77,7 @@ const reservationStatusForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReservStatus} />
 
@@ -84,7 +86,7 @@ const reservationStatusForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReservStatus} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -94,7 +96,7 @@ const reservationStatusForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReservStatus} />
 
@@ -109,7 +111,7 @@ const reservationStatusForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -156,7 +158,7 @@ const reservationStatusForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.reservationStatus.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     value={valuesReservStatus.Abreviature}
                                                     onChange={e => setValuesReservStatus({ ...valuesReservStatus, Abreviature: e.target.value })} />
@@ -166,7 +168,7 @@ const reservationStatusForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.reservationStatus.description")}
                                                         ariaLabel={"Descrição"}
                                                         value={valuesReservStatus.Description}
                                                         onChange={e => setValuesReservStatus({ ...valuesReservStatus, Description: e.target.value })} />
@@ -177,7 +179,7 @@ const reservationStatusForm = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.reservationStatus.order")}
                                                     ariaLabel={"Ordenação"}
                                                     value={valuesReservStatus.Ordenation}
                                                     onChange={e => setValuesReservStatus({ ...valuesReservStatus, Ordenation: e.target.value })} />
@@ -193,7 +195,7 @@ const reservationStatusForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.reservationStatus.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

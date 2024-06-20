@@ -532,7 +532,7 @@ export default function CalendarPage() {
   }, [selectedYear, selectedMonth]);  // Executa o efeito quando selectedYear ou selectedMonth mudar
 
   const handleZoomOutClick = () => {
-    window.location.href = '/homepage/frontOffice/tipology_Plan/zoomOut';
+    window.location.href = '/homepage/frontOffice/tipology_Plan/zoom_out';
   }
 
   return (
@@ -697,7 +697,7 @@ export default function CalendarPage() {
                   {(titleProps) => (
                     <div className="px-1 py-2 w-full">
                     <p className="text-small font-bold text-foreground" {...titleProps}>
-                    {t("frontOffice.frontOffice.plans.modals.filter")}
+                    {t("frontOffice.plans.modals.filter")}
                     </p>
                     <div className="mt-2 flex flex-col justify-around">
                       <div className="flex items-center justify-between">

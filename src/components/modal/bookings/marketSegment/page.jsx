@@ -12,7 +12,7 @@ import marketSegmentsInsert, { marketSegmentsEdit } from "@/components/functions
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const marketSegmentForm = ({
@@ -34,6 +34,8 @@ const marketSegmentForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputMarketSegment, handleSubmitMarketSegment } = marketSegmentsInsert();
     const { handleUpdateMarketSegment, setValuesMarketSegment, valuesMarketSegment } = marketSegmentsEdit(idMarketSegment);
@@ -75,7 +77,7 @@ const marketSegmentForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.marketSegments.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputMarketSegment} />
 
@@ -84,7 +86,7 @@ const marketSegmentForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.marketSegments.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputMarketSegment} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -94,7 +96,7 @@ const marketSegmentForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.marketSegments.order')}
                                                     ariaLabel={"Ordenação"}
                                                     nChange={handleInputMarketSegment} />
 
@@ -109,7 +111,7 @@ const marketSegmentForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.marketSegments.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -156,7 +158,7 @@ const marketSegmentForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.marketSegments.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     value={valuesMarketSegment.Abreviature}
                                                     onChange={e => setValuesMarketSegment({ ...valuesMarketSegment, Abreviature: e.target.value })} />
@@ -166,7 +168,7 @@ const marketSegmentForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.marketSegments.description')}
                                                         ariaLabel={"Descrição"}
                                                         value={valuesMarketSegment.Description}
                                                         onChange={e => setValuesMarketSegment({ ...valuesMarketSegment, Description: e.target.value })} />
@@ -177,7 +179,7 @@ const marketSegmentForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.marketSegments.order')}
                                                     ariaLabel={"Ordenação"}
                                                     value={valuesMarketSegment.Ordenation}
                                                     onChange={e => setValuesMarketSegment({ ...valuesMarketSegment, Ordenation: e.target.value })} />
@@ -193,7 +195,7 @@ const marketSegmentForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.marketSegments.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
