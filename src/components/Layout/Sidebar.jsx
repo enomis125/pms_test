@@ -13,13 +13,15 @@ import { IoSettings } from "react-icons/io5";
 import { FaHotel } from "react-icons/fa";
 import { IoMdPricetags } from "react-icons/io";
 import { PiUsersFourFill } from "react-icons/pi";
+import { MdOutlineCleaningServices } from "react-icons/md";
 import { BsHouseGearFill } from "react-icons/bs";
+
 import { useTranslations } from 'next-intl';
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
+    const t = useTranslations('Index');
 
     const hotelSetup = process.env.NEXT_PUBLIC_HOTEL_SETUP === "true";
-    const t = useTranslations('Index');
 
     const listItems = {
         //"Dashboard": [],
@@ -29,31 +31,31 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active:true,
             items: [
                 {
-                    ref: "/homepage/frontOffice", label: t('sidebar.frontoffice.frontOffice'), active: true
+                    ref: "/homepage/frontOffice", label: t("sidebar.frontoffice.frontOffice"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/clientForm", label: t('sidebar.frontoffice.clientFiles'), active: true
+                    ref: "/homepage/frontOffice/client_form", label: t("sidebar.frontoffice.clientFiles"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk", label: t('sidebar.frontoffice.frontDesk'), active: true
+                    ref: "/homepage/frontDesk", label: t("sidebar.frontoffice.frontDesk"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/reservations", label: t('sidebar.frontoffice.reservations'), active: true
+                    ref: "/homepage/frontDesk/reservations", label: t("sidebar.frontoffice.reservations"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/arrivals", label: t('sidebar.frontoffice.arrivals'), active: true
+                    ref: "/homepage/frontDesk/arrivals", label: t("sidebar.frontoffice.arrivals"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/guestlist", label: t('sidebar.frontoffice.guestList'), active: true
+                    ref: "/homepage/frontDesk/guestlist", label: t("sidebar.frontoffice.guestList"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/departures", label: t('sidebar.frontoffice.departures'), active: true
+                    ref: "/homepage/frontDesk/departures", label: t("sidebar.frontoffice.departures"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/tipology_Plan", label:  t('sidebar.frontoffice.tipologiesPlan'), active: true
+                    ref: "/homepage/frontOffice/tipology_Plan", label: t("sidebar.frontoffice.typologiesPlan"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/rooms_Plan", label: t('sidebar.frontoffice.reservationsPlan'), active: true
+                    ref: "/homepage/frontOffice/rooms_Plan", label: t("sidebar.frontoffice.roomsPlan"), active: true
 
                 }
             ]
@@ -70,10 +72,10 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/housekeeping/management", label: t('sidebar.housekeeping.management'), active: true
                 },
                 {
-                    ref: "/homepage/housekeeping/lostAndFound", label: t('sidebar.housekeeping.lostAndFound'), active: true
+                    ref: "/homepage/housekeeping/lost_&_found", label: t('sidebar.housekeeping.lostAndFound'), active: true
                 },
                 {
-                    ref: "/homepage/housekeeping/attendantSheets", label: t('sidebar.housekeeping.attendantSheets'), active: true
+                    ref: "/homepage/housekeeping/attendant_sheets", label: t('sidebar.housekeeping.attendantSheets'), active: true
                 },
             ]
         },
@@ -86,7 +88,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/company", label: t('sidebar.settings.company'), active: true
                 },
                 {
-                    ref: "/homepage/chargeAccounts", label: t('sidebar.settings.chargeAccounts'), active: true
+                    ref: "/homepage/charge_accounts", label: t('sidebar.settings.chargeAccounts'), active: true
                 },
             ]
         },
@@ -210,7 +212,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/financialSetup/departments", label: t('sidebar.financial.departments'), active: true
                 },
                 {
-                    ref: "/homepage/financialSetup/accountsGroups", label: t('sidebar.financial.accountsGroups'), active: true
+                    ref: "/homepage/financialSetup/accounts_groups", label: t('sidebar.financial.accountsGroups'), active: true
                 },
                 {
                     ref: "/homepage/financialSetup/revenue_accounts", label: t('sidebar.financial.revenueAccounts'), active: true
@@ -235,10 +237,10 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active: true,
             items: [
                 {
-                    ref: "/homepage/priceManagement/priceGroups", label: t('sidebar.priceManagement.priceCodes'), active: true
+                    ref: "/homepage/priceManagement/price_groups", label: t('sidebar.priceManagement.priceCodes'), active: true
                 },
                 {
-                    ref: "/homepage/priceManagement/priceDescription", label: t('sidebar.priceManagement.priceCodesDescription'), active: true
+                    ref: "/homepage/priceManagement/price_description", label: t('sidebar.priceManagement.priceCodesDescription'), active: true
                 },
                 {
                     ref: "/homepage/priceManagement/seasons", label: t('sidebar.priceManagement.seasons'), active: true

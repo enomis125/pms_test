@@ -41,21 +41,21 @@ export default function Navbar({ toggle, children, breadcrumbs }) {
 
                 <div className="flex items-center space-x-4">
 
-                    <a  className="cursor-pointer text-bg-gray-400 hover:text-bold py-2 px-4 flex items-center">
+                    {/*<a  className="cursor-pointer text-bg-gray-400 hover:text-bold py-2 px-4 flex items-center">
                         <FaSignOutAlt className="mt-1" /><span className="ml-1 hidden sm:block"></span>
-                    </a>
+                    </a>*/}
 
-                    <a href="#" className="cursor-pointer text-black hover:text-bold py-2 px-4 flex items-center">
+                    {/*<a href="#" className="cursor-pointer text-black hover:text-bold py-2 px-4 flex items-center">
                         <FaShoppingCart className="mt-1" />
-                    </a>
+                    </a>*/}
 
                     <a onClick={toggleFullScreen} className="cursor-pointer text-black hover:text-bold py-2 px-4 flex items-center">
                         <FaExpand className="mt-1" /><span className="ml-1 hidden sm:block"></span>
                     </a>
 
-                    <a onClick={() => setSearchVisible(!searchVisible)} className="cursor-pointer text-black hover:text-bold py-2 px-4 flex items-center">
+                    {/*<a onClick={() => setSearchVisible(!searchVisible)} className="cursor-pointer text-black hover:text-bold py-2 px-4 flex items-center">
                         <FaSearch className="mt-1" /><span className="ml-1 hidden sm:block"></span>
-                    </a>
+                    </a>*/}
 
                     {searchVisible && (
                         <div className="absolute right-0 top-12 p-2 bg-white border border-gray-300 rounded-lg">
