@@ -43,26 +43,24 @@ export async function PATCH(request, context) {
                 referenceNumber: parseInt(id),
             },
             data: {
-                //hotelCode: parseInt(data.hotelCode),
+                hotelCode: parseInt(data.hotelCode),
                 roomNumber: parseInt(data.roomNumber),
-                //customerID: parseInt(data.customerID),
-                description: data.description,
-                //referenceNumber: parseInt(data.referenceNumber),
+                customerID: parseInt(data.customerID),
                 date: data.date,
                 userName: data.userName,
                 isFound: parseInt(data.isFound),
-                //foundDate: data.foundDate,
-               foundByUser: data.foundByUser,
-               // foundText: data.foundText,
-                //reportReference: parseInt(data.reportReference),
+                foundDate: data.foundDate,
+                foundByUser: data.foundByUser,
+                foundText: data.foundText,
+                reportReference: parseInt(data.reportReference),
                 location: data.location,
-                //document: data.document,
-                //submissionDate: data.submissionDate,
-                //submittedByUser: data.submittedByUser,
-               // foundLocation: data.foundLocation,
-                //localText: data.localText,
-                //foundText: data.foundText,
-                //foundText: data.foundText,
+                document: data.document,
+                submissionDate: data.submissionDate,
+                submittedByUser: data.submittedByUser,
+                foundLocation: data.foundLocation,
+                localText: data.localText,
+                foundText: data.foundText,
+                foundText: data.foundText,
                 updatedBy: userID
             }
         })
@@ -95,30 +93,8 @@ export async function DELETE(request, context) {
     } finally {
         await prisma.$disconnect();
     }
+
 }
-
-export async function PUT(request, context) {
-    try {
-        const { id } = context.params;
-        const { data } = await request.json();
-
-        const updateRecord = await prisma.lostAndFound.update({
-            where: {
-                referenceNumber: parseInt(id),
-            },
-            data: {
-                isFound: parseInt(data.isFound),
-            }
-        });
-
-        return new NextResponse(JSON.stringify({ status: 200 }));
-    } catch (error) {
-        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
-    } finally {
-        await prisma.$disconnect();
-    }
-}
-
 
 
 

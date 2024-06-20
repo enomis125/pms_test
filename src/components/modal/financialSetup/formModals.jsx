@@ -21,7 +21,7 @@ import taxesInsert from "@/components/functionsForm/CRUD/financialSetup/taxes/pa
 import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
 import AccountGroupAutocomplete from "@/components/functionsForm/autocomplete/accountGroups/page";
 import TaxesAutocomplete from "@/components/functionsForm/autocomplete/taxes/page";
-
+import {useTranslations} from 'next-intl';
 
 /*
 os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:
@@ -44,6 +44,7 @@ const formModals = ({ idDepartment,
     const { handleInputPaymentAccounts, handleSubmitPaymentAccounts, handleSelect, handleDepartmentSelect } = paymentAccountsInsert();
     const { handleInputRevenueAccounts, handleSubmitRevenueAccounts, handleSelectAccount, handleSelectTaxes, handleDepartmentSelectRevenue } = revenueAccountInsert();
     const { handleInputTaxes, handleSubmitTaxes } = taxesInsert();
+    const t = useTranslations('Index');
 
 
 
@@ -73,7 +74,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.departments.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputDepartments}
                                                 />
@@ -82,21 +83,21 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.departments.description')}
                                                     ariaLabel={"Descrição"}
                                                     onChange={handleInputDepartments}
                                                 />
 
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
+                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t('financialSetup.departments.activeStatus')}</label>
                                                 </div>
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"order"}
                                                     name={"Order"}
-                                                    label={"Ordem"}
+                                                    label={t('financialSetup.departments.order')}
                                                     ariaLabel={"Ordem"}
                                                     onChange={handleInputDepartments}
                                                 />
@@ -134,7 +135,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.accountGroups.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -143,7 +144,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.accountGroups.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -152,7 +153,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.accountGroups.description')}
                                                     ariaLabel={"Descrição"}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -161,7 +162,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"order"}
                                                     name={"Order"}
-                                                    label={"Ordem"}
+                                                    label={t('financialSetup.accountGroups.order')}
                                                     ariaLabel={"Ordem"}
                                                     onChange={handleInputAccountGroups}
                                                 />
@@ -199,7 +200,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.revenueAccounts.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputRevenueAccounts}
                                                 />
@@ -208,7 +209,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.revenueAccounts.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputRevenueAccounts}
                                                 />
@@ -217,36 +218,36 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
+                                                    label={t('financialSetup.revenueAccounts.details')}
                                                     ariaLabel={"Detalhes"}
                                                     onChange={handleInputRevenueAccounts}
                                                 />
 
                                                 <DepartmentAutocomplete
-                                                    label={"Departamento"}
+                                                    label={t('financialSetup.revenueAccounts.department')}
                                                     style={""}
                                                     onChange={(value) => handleDepartmentSelectRevenue(value)}
                                                 />
                                                 <AccountGroupAutocomplete
-                                                    label={"Grupo de Conta"}
+                                                    label={t('financialSetup.revenueAccounts.accountGroup')}
                                                     style={""}
                                                     onChange={(value) => handleSelectAccount(value)}
                                                 />
                                                 <TaxesAutocomplete
-                                                    label={"Taxa"}
+                                                    label={t('financialSetup.revenueAccounts.tax')}
                                                     style={""}
                                                     name={"Taxes"}
                                                     onChange={(value) => handleSelectTaxes(value)}
                                                 />
 
-                                                <input type="text" placeholder="Valor"></input>
+                                                <input type="text" placeholder={t('financialSetup.revenueAccounts.worth')}></input>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Propriedade</option>
+                                                    <option value="0">{t('financialSetup.revenueAccounts.property')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Código Estatístico</option>
+                                                    <option value="0">{t('financialSetup.revenueAccounts.statCode')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
@@ -283,7 +284,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.paymentAccounts.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputPaymentAccounts}
                                                 />
@@ -292,7 +293,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.paymentAccounts.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputPaymentAccounts}
                                                 />
@@ -301,28 +302,28 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.paymentAccounts.description')}
                                                     ariaLabel={"Descrição"}
                                                     onChange={handleInputPaymentAccounts}
                                                 />
 
                                                 <DepartmentAutocomplete
-                                                    label={"Departamentos"}
+                                                    label={t('financialSetup.paymentAccounts.departments')}
                                                     style={""}
                                                     onChange={(value) => handleDepartmentSelect(value)}
                                                 />
                                                 <AccountGroupAutocomplete
-                                                    label={"Grupo de Conta"}
+                                                    label={t('financialSetup.paymentAccounts.group')}
                                                     style={""}
                                                     onChange={(value) => handleSelect(value)}
                                                 />
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Tipo</option>
+                                                    <option value="0">{t('financialSetup.paymentAccounts.type')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Propriedade</option>
+                                                    <option value="0">{t('financialSetup.paymentAccounts.property')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
@@ -360,7 +361,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.taxes.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputTaxes}
                                                 />
@@ -369,7 +370,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.taxes.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputTaxes}
                                                 />
@@ -378,7 +379,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.taxes.description')}
                                                     ariaLabel={"Descrição"}
                                                     onChange={handleInputTaxes}
                                                 />
@@ -387,13 +388,13 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"order"}
                                                     name={"Order"}
-                                                    label={"Ordem"}
+                                                    label={t('financialSetup.taxes.order')}
                                                     ariaLabel={"Ordem"}
                                                 />
 
                                                 <div className="w-64 border border-gray-400">
                                                     <div className="flex flex-row justify-between items-center border-b border-gray-400">
-                                                        <label>Percentagem</label>
+                                                        <label>{t('financialSetup.taxes.percentage')}</label>
                                                         <LuPlus size={20} color="blue" />
                                                     </div>
                                                     <div className="flex flex-row gap-4">
@@ -402,13 +403,13 @@ const formModals = ({ idDepartment,
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-row justify-between">
-                                                    <input type="text" placeholder="Cod. SAFT"></input>
-                                                    <input type="text" placeholder="Desc..SAFT"></input>
+                                                    <input type="text" placeholder={t('financialSetup.taxes.codSAFT')}></input>
+                                                    <input type="text" placeholder={t('financialSetup.taxes.descSAFT')}></input>
                                                 </div>
-                                                <input type="text" placeholder="Detalhe"></input>
+                                                <input type="text" placeholder={t('financialSetup.taxes.detail')}></input>
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Detailed invoice</label>
+                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t('financialSetup.taxes.detailedInvoice')}</label>
                                                 </div>
                                             </ModalBody>
                                         </form>
@@ -445,7 +446,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.cashiers.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputCashiers}
                                                 />
@@ -454,7 +455,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.cashiers.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputCashiers}
                                                 />
@@ -463,7 +464,7 @@ const formModals = ({ idDepartment,
                                                     type={"password"}
                                                     id={"password"}
                                                     name={"Password"}
-                                                    label={"Password"}
+                                                    label={t('financialSetup.cashiers.password')}
                                                     ariaLabel={"Password"}
                                                     onChange={handleInputCashiers}
                                                 />
@@ -473,7 +474,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.cashiers.description')}
                                                     ariaLabel={"Descrição"}
                                                 />
 
@@ -509,7 +510,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.voidCharges.cod')}
                                                     ariaLabel={"Cod."}
                                                 />
 
@@ -517,7 +518,7 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.voidCharges.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                 />
 
@@ -525,14 +526,14 @@ const formModals = ({ idDepartment,
                                                     type={"text"}
                                                     id={"Properties"}
                                                     name={"Properties"}
-                                                    label={"Propriedades"}
+                                                    label={t('financialSetup.voidCharges.property')}
                                                     ariaLabel={"Descrição"}
                                                 />
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.voidCharges.description')}
                                                     ariaLabel={"Descrição"}
                                                 />
                                             </ModalBody>

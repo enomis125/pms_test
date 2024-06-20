@@ -1,240 +1,226 @@
 "use client";
 import React, { useEffect, useState } from "react";
-//import de axios para BD
 import axios from "axios";
 import {
-    //imports de tabelas
-    Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
-    //imports de dropdown menu
-    Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
-    //imports de inputs
-    Input
+    Button, Input
 } from "@nextui-org/react";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-//imports de icons
-
-import { FiEdit3 } from "react-icons/fi";
-import { BsArrowRight } from "react-icons/bs";
-import { FaArrowsRotate } from "react-icons/fa6";
 import { IoPeopleSharp } from "react-icons/io5";
-import { FaBed } from "react-icons/fa6";
+import { FaBed, FaXmark, FaCheck, FaCheckDouble } from "react-icons/fa6";
 import { TbTransferVertical } from "react-icons/tb";
-import { MdComputer } from "react-icons/md";
+import { MdComputer, MdOutlineTouchApp } from "react-icons/md";
 import { ImWrench } from "react-icons/im";
-import { FaXmark } from "react-icons/fa6";
-import { FaCheck } from "react-icons/fa6";
-import { GiVacuumCleaner } from "react-icons/gi";
+import { GiBroom } from "react-icons/gi";
+import { IoFilter } from "react-icons/io5";
+import { RxFrame } from "react-icons/rx";
+import { HiRefresh } from "react-icons/hi";
 
-/* ESTA PAGINA É IGUAL A DAS RESERVAR EXATAMENTE IGUAL E NESTE MOMENTO ESTA A DAR DISPLAY
-A MESMA INFORMAÇÃO É FAVOR DE QUEM FIZER AS ALTERACOES ALTERAR AS APIS PARA AS CORRETAS*/
+import {useTranslations} from 'next-intl'; 
 
-//imports de componentes
-import ReservationsForm from "@/components/modal/frontOffice/reservations/page";
-import PaginationTable from "@/components/table/paginationTable/paginationTable";
-import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+export default function ManagementForm() {
 
+    const [roomTypeState, setRoomTypeState] = useState([]);
+    const t = useTranslations('Index'); 
 
-
-export default function managementForm() {
-    const [page, setPage] = React.useState(1);
-    const [rowsPerPage, setRowsPerPage] = React.useState(25);
-    const [searchValue, setSearchValue] = React.useState("");
-    const [reservation, setReservation] = useState([]);
-    const [reservationStatus, setReservationStatus] = useState([]);
-    const [guestId, setGuestId] = useState([]);
-    const [guestProfiles, setGuestProfiles] = useState([]);
-    const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10)); // Data atual no formato ISO: YYYY-MM-DD
-    const [startDate, setStartDate] = useState(currentDate); // Valor inicial é a data atual
-    const [endDate, setEndDate] = useState(""); // Valor inicial é 30 dias a partir da data atual
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [filteredReservations, setFilteredReservations] = useState([]);
-    const [selectedButton, setSelectedButton] = React.useState(null);
-
-    const variants = ["flat"];
+    const stateOrder = ['outOfService', 'dirty', 'touched', 'cleaning', 'checked', 'clean'];
+    const stateColors = {
+        outOfService: 'bg-neutral-300',
+        dirty: 'bg-red-600',
+        touched: 'bg-orange-400',
+        cleaning: 'bg-yellow-300',
+        checked: 'bg-cyan-400',
+        clean: 'bg-lime-400',
+    };
+    const stateValues = {
+        outOfService: 1,
+        dirty: 2,
+        touched: 3,
+        cleaning: 4,
+        checked: 5,
+        clean: 6
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals");
-            const reservationsData = res.data.response;
-            setReservation(reservationsData);
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const newGuestIds = reservation.map(reservation => reservation.guestNumber);
-        setGuestId(newGuestIds);
-    }, [reservation]);
-
-    console.log("Ids dos hóspedes:", guestId);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await axios.get("/api/v1/frontOffice/frontDesk/arrivals/" + guestId);
-            const guestData = res.data.response;
-            setGuestProfiles(guestData);
-        };
-        fetchData();
-    }, []);
-
-    const filteredItems = React.useMemo(() => {
-        if (!reservation || !Array.isArray(reservation)) {
-            console.log("Sem dados de reserva disponíveis.");
-            return [];
-        }
-
-        console.log("Filtrando dados de reserva...");
-
-        const filteredReservations = reservation.filter((reservation) => {
-            const checkInDateIncludes = reservation.checkInDate && reservation.checkInDate.toLowerCase().includes(searchValue.toLowerCase());
-            const checkOutDateIncludes = reservation.checkOutDate && reservation.checkOutDate.toString().toLowerCase().includes(searchValue.toLowerCase());
-
-            let isSelectedStatus = false;
-
-            switch (selectedButton) {
-                case 0: // Pendentes
-                    isSelectedStatus = reservation.reservationStatus === 0;
-                    break;
-                case 1: // Checked-in
-                    isSelectedStatus = reservation.reservationStatus === 1;
-                    break;
-                case 2: // Checked-Out
-                    isSelectedStatus = reservation.reservationStatus === 2;
-                    break;
-                case 3: // Canceladas
-                    isSelectedStatus = reservation.reservationStatus === 3;
-                    break;
-                case 4: // No-Show
-                    isSelectedStatus = reservation.reservationStatus === 4;
-                    break;
-                default:
-                    break;
+        const getData = async () => {
+            try {
+                const resTipologies = await axios.get(`/api/v1/hotel/rooms`);
+                const tipologies = resTipologies.data.response;
+                setRoomTypeState(tipologies);
+            } catch (error) {
+                console.error("Error fetching data:", error);
             }
+        };
+        getData();
+    }, []);
 
-            return (checkInDateIncludes || checkOutDateIncludes) && isSelectedStatus;
-        });
+    const onDragEnd = async (result) => {
+        if (!result.destination) return;
 
-        return filteredReservations;
-    }, [reservation, searchValue, selectedButton]);
+        const newStateIndex = parseInt(result.destination.droppableId);
+        const roomTypeIndex = parseInt(result.draggableId);
+        const newRoomTypes = [...roomTypeState];
+        newRoomTypes[roomTypeIndex].state = stateOrder[newStateIndex];
 
+        console.log("newRoomTypes:", newRoomTypes); // Verifica o estado de newRoomTypes
 
-    const items = React.useMemo(() => {
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
+        // Atualiza o estado local
+        setRoomTypeState(newRoomTypes);
 
-        return filteredItems.slice(start, end);
-    }, [page, filteredItems, rowsPerPage]);
-
-    const pages = Math.ceil(filteredItems.length / rowsPerPage);
-    const renderCell = (reservation, columnKey) => {
-        switch (columnKey) {
-            case "reservationStatus":
-                return getStatusIcon(reservation[columnKey]);
-            default:
-                return reservation[columnKey];
-        }
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(1);
-    };
-
-    const handleSearchChange = (value) => {
-        setSearchValue(value);
-        setPage(1);
-    };
-
-    const handleDelete = async (idReservation) => {
         try {
-            const response = await axios.delete(`/api/v1/frontOffice/frontDesk/arrivals/` + idReservation);
-            alert("Departamento removido com sucesso!");
+            const roomNumber = newRoomTypes[roomTypeIndex].roomID;
+            const roomStatus = stateValues[stateOrder[newStateIndex]];
+
+            console.log("Room Status:", roomStatus);
+            console.log("Room Number:", roomNumber);
+
+            // Realiza o PUT request para atualizar o estado na base de dados
+            await axios.put(`/api/v1/housekeeping/management`, {
+                data: {
+                    roomNumber,
+                    roomStatus,
+                }
+            });
+
         } catch (error) {
-            console.error("Erro ao remover departamento.", error.message);
+            console.error("Error updating room status:", error);
         }
     };
-
-
-
-
-    //botoes que mudam de cor
-    const inputStyle = "w-full border-b-2 border-gray-300 px-1 h-8 outline-none my-2 text-sm"
-    const sharedLineInputStyle = "w-1/2 border-b-2 border-gray-300 px-1 h-10 outline-none my-2"
-
 
     return (
         <main>
-            <div className="flex flex-col mt-1 py-3">
-                <p className="text-xs px-6 pb-3">Management Perdidos e achados</p>
+            <div className='bg-primary-600 py-5 max-h-16'>
+                <div className='flex justify-between'>
+                    <p className='text-ml text-white px-4'><b>{t("housekeeping.management.managementTitle")}</b></p>
+                    <div className='flex items-center gap-5 mr-4'>
+                        <Button className=" bg-gradient-to-tr from-gray-50 to-gray-50 text-black shadow-lg justify-center" startContent={<RxFrame />}>{t("housekeeping.management.managementTitleButtonBulk")}</Button>
+                        <Button className="  bg-gradient-to-tr from-gray-50 to-gray-50 text-black shadow-lg justify-center" startContent={<IoFilter />}>{t("housekeeping.management.managementTitleButtonFilter")}</Button>
+                    </div>
+                </div>
             </div>
-
-            <div className="mx-5 h-[65vh] min-h-full">
-                <PaginationTable
-                    page={page}
-                    pages={pages}
-                    rowsPerPage={rowsPerPage}
-                    handleChangeRowsPerPage={handleChangeRowsPerPage}
-                    items={items}
-                    setPage={setPage}
-                >
-                    <Table
-                        id="TableToPDF"
-                        isHeaderSticky={"true"}
-                        layout={"fixed"}
-                        isCompact={"true"}
-                        removeWrapper
-                        classNames={{
-                            wrapper: "min-h-[222px]",
-                        }}
-                        className="h-full overflow-auto"
-                    >
-                        <TableHeader>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10  uppercase" aria-label="">
-                                <Input className="bg-primary-600 text-primary-600" type="text" placeholder="Filter Room" />
-                            </TableColumn>  
-                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
-                                <IoPeopleSharp size={25}/>
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
-                                <FaBed size={25}/>
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
-                                <TbTransferVertical size={25}/>
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold w-[30px] px-6 uppercase" aria-label="">
-                                    <MdComputer size={25}/>
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase " aria-label="">
-                                <ImWrench  size={20}/> out of service
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase " aria-label="">
-                                <FaXmark  size={20}/> dirty
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="">
-                                <FaCheck size={20}/> checked
-                            </TableColumn>
-                            <TableColumn className="bg-primary-600 text-white font-bold px-10 uppercase" aria-label="">
-                                <GiVacuumCleaner  size={20}/> clean
-                            </TableColumn>
-                        </TableHeader>
-                        <TableBody>
-                                <TableRow>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold w-[30px] px-6 uppercase">t</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
-                                    <TableCell className="bg-gray-100 text-black font-bold px-10  uppercase">teste</TableCell>
-                                </TableRow>
-                            
-                        </TableBody>
-                    </Table>
-                </PaginationTable>
-            </div>
+            <table className='w-[100%] bg-tableCol'>
+                <thead>
+                    <tr>
+                        <th className='w-[15%] bg-tableCol text-left px-4'><Input type="text" placeholder={t("housekeeping.management.managementFilterRooms")} startContent={<HiRefresh />} /></th>
+                        <td className={`h-14 border-tableCol select-none w-[40px] `}>
+                            <div className='flex flex-col justify-center items-center text-center bg-white p-2'>
+                                <span><IoPeopleSharp /></span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[40px] `}>
+                            <div className='flex flex-col justify-center items-center text-center bg-white p-2 '>
+                                <span><FaBed /></span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[40px] `}>
+                            <div className='flex flex-col justify-center items-center text-center bg-white p-2'>
+                                <span><TbTransferVertical /></span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[40px]`}>
+                            <div className='flex flex-col  justify-center items-center text-center bg-white p-2'>
+                                <span><MdComputer /></span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
+                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
+                                <ImWrench />
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableOutOfService")}</span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
+                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
+                                <FaXmark />
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableDirty")}</span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
+                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
+                                <MdOutlineTouchApp />
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableTouched")}</span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
+                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
+                                <GiBroom />
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableCleaning")}</span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
+                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
+                                <FaCheck />
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableChecked")}</span>
+                            </div>
+                        </td>
+                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
+                            <div className='flex items-center justify-center text-center bg-white border border-grey p-2 rounded-lg mr-3'>
+                                <FaCheckDouble />
+                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableClean")}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </thead>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <tbody className="">
+                        {roomTypeState.map((roomType, roomTypeIndex) => (
+                            <tr key={roomType.roomTypeID}>
+                                <td className='flex flex-col max-w-45 text-xs w-full h-10 justify-between items-left border-b-2 bg-white p-1'>
+                                    <span className="font-bold">{roomType.label}</span>
+                                    <span>{roomType.roomtypes.desc}</span>
+                                </td>
+                                <td className={`border-tableCol select-none w-[40px]`}>
+                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
+                                        <span>1</span>
+                                    </div>
+                                </td>
+                                <td className={`border-tableCol select-none w-[40px]`}>
+                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
+                                        <span>1</span>
+                                    </div>
+                                </td>
+                                <td className={`border-tableCol select-none w-[40px]`}>
+                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
+                                        <span>1</span>
+                                    </div>
+                                </td>
+                                <td className={`border-tableCol select-none w-[40px]`}>
+                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
+                                        <span>1</span>
+                                    </div>
+                                </td>
+                                {stateOrder.map((state, stateIndex) => (
+                                    <Droppable droppableId={`${stateIndex}`} key={state}>
+                                        {(provided) => (
+                                            <td
+                                                className={`border-tableCol border-2 border-white rounded-lg select-none w-[150px] m-2 ${state === roomType.state ? stateColors[state] : ''}`}
+                                                ref={provided.innerRef}
+                                                {...provided.droppableProps}
+                                            >
+                                                {state === roomType.state ? (
+                                                    <Draggable draggableId={`${roomTypeIndex}`} index={roomTypeIndex}>
+                                                        {(provided) => (
+                                                            <div
+                                                                className='flex flex-col items-left text-xs justify-between text-left p-1 '
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                            >
+                                                                <span className="font-bold">{roomType.label}</span>
+                                                                <span>{roomType.roomtypes.desc}</span>
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ) : null}
+                                                {provided.placeholder}
+                                            </td>
+                                        )}
+                                    </Droppable>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </DragDropContext>
+            </table>
         </main>
     );
 }

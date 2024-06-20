@@ -10,6 +10,8 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
 
+import {useTranslations} from 'next-intl';
+
 import DepartmentAutocomplete from "@/components/functionsForm/autocomplete/department/page";
 import AccountGroupAutocomplete from "@/components/functionsForm/autocomplete/accountGroups/page";
 
@@ -36,7 +38,7 @@ const doctypeForm = ({
     const { handleUpdatePaymentAccounts, setValuesPaymentAccounts, valuesPaymentAccounts } = paymentAccountsEdit(idPaymentAccounts);
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
-
+    const t = useTranslations('Index');
 
 
     return (
@@ -72,7 +74,7 @@ const doctypeForm = ({
                                                     type={"text"}
                                                     id={"cod"}
                                                     name={"Cod"}
-                                                    label={"Cod."}
+                                                    label={t('financialSetup.paymentAccounts.cod')}
                                                     ariaLabel={"Cod."}
                                                     onChange={handleInputPaymentAccounts}
                                                 />
@@ -81,7 +83,7 @@ const doctypeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('financialSetup.paymentAccounts.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputPaymentAccounts}
                                                 />
@@ -90,28 +92,28 @@ const doctypeForm = ({
                                                     type={"text"}
                                                     id={"Description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
+                                                    label={t('financialSetup.paymentAccounts.description')}
                                                     ariaLabel={"Descrição"}
                                                     onChange={handleInputPaymentAccounts}
                                                 />
 
                                                 <DepartmentAutocomplete
-                                                        label={"Departamentos"}
+                                                        label={t('financialSetup.paymentAccounts.departments')}
                                                         style={""}
                                                         onChange={(value) => handleDepartmentSelect(value)}
                                                 />
                                                 <AccountGroupAutocomplete
-                                                    label={"Grupo de Conta"}
+                                                    label={t('financialSetup.paymentAccounts.group')}
                                                     style={""}
                                                     onChange={(value) => handleSelect(value)}
                                                 />
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Tipo</option>
+                                                    <option value="0">{t('financialSetup.paymentAccounts.type')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                    <option value="0">Propriedade</option>
+                                                    <option value="0">{t('financialSetup.paymentAccounts.property')}</option>
                                                     <option value="1">Teste de opções</option>
                                                     <option value="2">Teste de opções</option>
                                                 </select>
@@ -158,7 +160,7 @@ const doctypeForm = ({
                                                 type={"text"}
                                                 id={"cod"}
                                                 name={"Cod"}
-                                                label={"Cod."}
+                                                label={t('financialSetup.paymentAccounts.cod')}
                                                 ariaLabel={"Cod."}
                                                 value={valuesPaymentAccounts.Cod}
                                                 onChange={e => setValuesPaymentAccounts({ ...valuesPaymentAccounts, Cod: e.target.value })}
@@ -168,7 +170,7 @@ const doctypeForm = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
+                                                label={t('financialSetup.paymentAccounts.abreviature')}
                                                 ariaLabel={"Abreviatura"}
                                                 value={valuesPaymentAccounts.Abreviature}
                                                 onChange={e => setValuesPaymentAccounts({ ...valuesPaymentAccounts, Abreviature: e.target.value })}
@@ -178,29 +180,29 @@ const doctypeForm = ({
                                                 type={"text"}
                                                 id={"Description"}
                                                 name={"Description"}
-                                                label={"Descrição"}
+                                                label={t('financialSetup.paymentAccounts.description')}
                                                 ariaLabel={"Descrição"}
                                                 value={valuesPaymentAccounts.Description}
                                                 onChange={e => setValuesPaymentAccounts({ ...valuesPaymentAccounts, Description: e.target.value })}
                                             />
 
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Departamento</option>
+                                                <option value="0">{t('financialSetup.paymentAccounts.department')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Grupo de Conta</option>
+                                                <option value="0">{t('financialSetup.paymentAccounts.group')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Tipo</option>
+                                                <option value="0">{t('financialSetup.paymentAccounts.type')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>
                                             <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
-                                                <option value="0">Propriedade</option>
+                                                <option value="0">{t('financialSetup.paymentAccounts.property')}</option>
                                                 <option value="1">Teste de opções</option>
                                                 <option value="2">Teste de opções</option>
                                             </select>

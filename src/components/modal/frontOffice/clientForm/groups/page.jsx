@@ -17,6 +17,8 @@ import LanguageAutocomplete from "@/components/functionsForm/autocomplete/langua
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import groupsInsert, { groupsEdit } from "@/components/functionsForm/CRUD/frontOffice/clientForm/groups/page";
 
+import { useTranslations } from 'next-intl';
+
 const groupForm = ({
     idIndividual,
     buttonName,
@@ -45,6 +47,9 @@ const groupForm = ({
     //funções de insert e edit
     const { handleInputGroup, handleSubmitGroup } = groupsInsert();
     const { handleUpdateGroup, setValuesGroup, valuesGroup } = groupsEdit(idIndividual);
+
+    const t = useTranslations('Index');
+
     return (
         <>
 
@@ -82,8 +87,8 @@ const groupForm = ({
                                                     type={"text"}
                                                     id={"name"}
                                                     name={"name"}
-                                                    label={"Nome"}
-                                                    ariaLabel={"Nome"}
+                                                    label={t("frontOffice.clientFiles.nameLabel")}
+                                                    ariaLabel={"Name"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     onChange={handleInputGroup}
                                                 />
@@ -92,26 +97,26 @@ const groupForm = ({
                                                     type={"text"}
                                                     id={"abreviatura"}
                                                     name={"abreviature"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("frontOffice.clientFiles.shortnameLabel")}
+                                                    ariaLabel={"Short Name"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     onChange={handleInputGroup}
                                                 />
 
-                                                <LanguageAutocomplete label={"Idioma"} style={""} />
+                                                <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={""} />
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Geral</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.generalTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
                                                         name={"Address"}
-                                                        label={"Morada"}
-                                                        ariaLabel={"Morada"}
+                                                        label={t("frontOffice.clientFiles.addressLabel")}
+                                                        ariaLabel={"Address"}
                                                         style={inputStyle}
                                                     />
 
@@ -119,8 +124,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"zipCode"}
                                                         name={"zipCode"}
-                                                        label={"Código-Postal"}
-                                                        ariaLabel={"Código-Postal"}
+                                                        label={t("frontOffice.clientFiles.postalCodeLabel")}
+                                                        ariaLabel={"Postal Code"}
                                                         style={inputStyle}
                                                     />
 
@@ -128,8 +133,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"local"}
                                                         name={"Local"}
-                                                        label={"Localidade"}
-                                                        ariaLabel={"Localidade"}
+                                                        label={t("frontOffice.clientFiles.localityLabel")}
+                                                        ariaLabel={"Locality"}
                                                         style={inputStyle}
                                                     />
 
@@ -137,25 +142,25 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"region"}
                                                         name={"Region"}
-                                                        label={"Estado-Região"}
-                                                        ariaLabel={"Estado-Região"}
+                                                        label={t("frontOffice.clientFiles.regionStateLabel")}
+                                                        ariaLabel={"Region/State"}
                                                         style={inputStyle}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                        <CountryAutocomplete label={t("frontOffice.clientFiles.countryLabel")} name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="flex justify-between items-center">
-                                                        <h4 className="pb-5 text-black-100"><b>Info.</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.informationTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"generalEmail"}
                                                         name={"generalEmail"}
-                                                        label={"E-mail Geral"}
-                                                        ariaLabel={"E-mail Geral"}
+                                                        label={t("frontOffice.clientFiles.generalEmailLabel")}
+                                                        ariaLabel={"General Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -163,8 +168,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"departmentEmail"}
                                                         name={"departmentEmail"}
-                                                        label={"E-mail Departamento"}
-                                                        ariaLabel={"E-mail Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentEmailLabel")}
+                                                        ariaLabel={"Department Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -172,8 +177,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"generalPhone"}
                                                         name={"generalPhone"}
-                                                        label={"Telemóvel Geral"}
-                                                        ariaLabel={"Telemóvel Geral"}
+                                                        label={t("frontOffice.clientFiles.generalPhoneNumberLabel")}
+                                                        ariaLabel={"General Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -181,8 +186,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"departmentPhone"}
                                                         name={"departmentPhone"}
-                                                        label={"Telemóvel Departamento"}
-                                                        ariaLabel={"Telemóvel Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentPhoneNumberLabel")}
+                                                        ariaLabel={"Department Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -190,7 +195,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"link"}
                                                         name={"url"}
-                                                        label={"URL"}
+                                                        label={t("frontOffice.clientFiles.urlLabel")}
                                                         ariaLabel={"URL"}
                                                         style={inputStyle}
 
@@ -200,17 +205,17 @@ const groupForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 1</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact1Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row justify-center items-center gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={sharedLineInputStyle} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -220,8 +225,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"firstName"}
                                                             name={"firstName"}
-                                                            label={"Nome"}
-                                                            ariaLabel={"Nome"}
+                                                            label={t("frontOffice.clientFiles.nameLabel")}
+                                                            ariaLabel={"Name"}
                                                             style={sharedLineInputStyle}
                                                         />
 
@@ -229,8 +234,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"lastName"}
                                                             name={"lastName"}
-                                                            label={"Apelido"}
-                                                            ariaLabel={"Apelido"}
+                                                            label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                            ariaLabel={"Last Name"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -239,8 +244,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"department"}
-                                                        label={"Departamento"}
-                                                        ariaLabel={"Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
 
@@ -248,8 +253,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"phone"}
                                                         name={"phone"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -257,7 +262,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"email"}
-                                                        label={"Email"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
                                                         ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
@@ -265,17 +270,17 @@ const groupForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 2</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact2Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row justify-center items-center gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={sharedLineInputStyle} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -285,8 +290,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"firstName"}
                                                             name={"firstName"}
-                                                            label={"Nome"}
-                                                            ariaLabel={"Nome"}
+                                                            label={t("frontOffice.clientFiles.nameLabel")}
+                                                            ariaLabel={"Name"}
                                                             style={sharedLineInputStyle}
                                                         />
 
@@ -294,8 +299,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"lastName"}
                                                             name={"lastName"}
-                                                            label={"Apelido"}
-                                                            ariaLabel={"Apelido"}
+                                                            label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                            ariaLabel={"Last Name"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -304,8 +309,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"department"}
-                                                        label={"Departamento"}
-                                                        ariaLabel={"Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
 
@@ -313,8 +318,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"phone"}
                                                         name={"phone"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -322,7 +327,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"email"}
-                                                        label={"Email"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
                                                         ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
@@ -333,14 +338,14 @@ const groupForm = ({
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Dados Faturação</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.billingDataTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"company"}
                                                         name={"Company"}
-                                                        label={"Empresa"}
-                                                        ariaLabel={"Empresa"}
+                                                        label={t("frontOffice.clientFiles.nameLabel")}
+                                                        ariaLabel={"Company Name"}
                                                         style={inputStyle}
                                                     />
 
@@ -348,8 +353,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"GuestCompanyNif"}
                                                         name={"GuestCompanyNif"}
-                                                        label={"Nr. Identificação fiscal"}
-                                                        ariaLabel={"Nr. Identificação fiscal"}
+                                                        label={t("frontOffice.clientFiles.fiscalNumberLabel")}
+                                                        ariaLabel={"Fiscal Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -357,8 +362,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"address"}
                                                         name={"Address"}
-                                                        label={"Morada"}
-                                                        ariaLabel={"Morada"}
+                                                        label={t("frontOffice.clientFiles.addressLabel")}
+                                                        ariaLabel={"Address"}
                                                         style={inputStyle}
                                                     />
 
@@ -367,8 +372,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"zipCode"}
                                                             name={"ZipCode"}
-                                                            label={"Cod.-Postal"}
-                                                            ariaLabel={"Cod.-Postal"}
+                                                            label={t("frontOffice.clientFiles.postalCodeLabel")}
+                                                            ariaLabel={"Postal Code"}
                                                             style={sharedLineInputStyle}
                                                         />
 
@@ -376,25 +381,25 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"local"}
                                                             name={"Local"}
-                                                            label={"Localidade"}
-                                                            ariaLabel={"Localidade"}
+                                                            label={t("frontOffice.clientFiles.localityLabel")}
+                                                            ariaLabel={"Locality"}
                                                             style={sharedLineInputStyle}
                                                         />
 
                                                     </div>
-                                                    <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label={t("frontOffice.clientFiles.countryLabel")} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Marketing</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.marketingTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"code"}
                                                         name={"Code"}
-                                                        label={"Códigos"}
-                                                        ariaLabel={"Códigos"}
+                                                        label={t("frontOffice.clientFiles.marketingCodesLabel")}
+                                                        ariaLabel={"Marketing Codes"}
                                                         style={inputStyle}
                                                     />
 
@@ -402,8 +407,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"market"}
                                                         name={"Market"}
-                                                        label={"Mercados"}
-                                                        ariaLabel={"Mercados"}
+                                                        label={t("frontOffice.clientFiles.marketingMarketsLabel")}
+                                                        ariaLabel={"Markets"}
                                                         style={inputStyle}
                                                     />
 
@@ -411,7 +416,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"marketing"}
                                                         name={"Marketing"}
-                                                        label={"Marketing"}
+                                                        label={t("frontOffice.clientFiles.marketingLabel")}
                                                         ariaLabel={"Marketing"}
                                                         style={inputStyle}
                                                     />
@@ -420,22 +425,22 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"sentOn"}
                                                         name={"SentOn"}
-                                                        label={"Enviado em:"}
-                                                        ariaLabel={"Enviado em:"}
+                                                        label={t("frontOffice.clientFiles.sentLabel")}
+                                                        ariaLabel={"Sent on:"}
                                                         style={inputStyle}
                                                     />
 
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Class. empresarial</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.businessClassTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"vipCode"}
                                                         name={"VIPCode"}
-                                                        label={"Código VIP"}
-                                                        ariaLabel={"Código VIP"}
+                                                        label={t("frontOffice.clientFiles.vipCodeLabel")}
+                                                        ariaLabel={"VIP Code"}
                                                         style={inputStyle}
                                                     />
 
@@ -443,8 +448,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"profession"}
                                                         name={"Profession"}
-                                                        label={"Profissão"}
-                                                        ariaLabel={"Profissão"}
+                                                        label={t("frontOffice.clientFiles.professionLabel")}
+                                                        ariaLabel={"Profession"}
                                                         style={inputStyle}
                                                     />
 
@@ -452,8 +457,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"PriceTable"}
                                                         name={"PriceTable"}
-                                                        label={"Tabelas de preços"}
-                                                        ariaLabel={"Tabelas de preços"}
+                                                        label={t("frontOffice.clientFiles.priceTableLabel")}
+                                                        ariaLabel={"Price Table"}
                                                         style={inputStyle}
                                                     />
 
@@ -461,23 +466,23 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"roomPreference"}
                                                         name={"RoomPreference"}
-                                                        label={"Preferências de quartos"}
-                                                        ariaLabel={"Preferências de quartos"}
+                                                        label={t("frontOffice.clientFiles.roomPreferencesLabel")}
+                                                        ariaLabel={"Room Preferences"}
                                                         style={inputStyle}
                                                     />
 
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Membros</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.membersTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"process"}
                                                         name={"Process"}
-                                                        label={"Processo"}
-                                                        ariaLabel={"Processo"}
+                                                        label={t("frontOffice.clientFiles.processLabel")}
+                                                        ariaLabel={"Process"}
                                                         style={inputStyle}
                                                     />
 
@@ -485,8 +490,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"subscription"}
                                                         name={"Subscription"}
-                                                        label={"Subscrição"}
-                                                        ariaLabel={"Subscrição"}
+                                                        label={t("frontOffice.clientFiles.subscriptionLabel")}
+                                                        ariaLabel={"Subscription"}
                                                         style={inputStyle}
                                                     />
 
@@ -494,8 +499,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"admittedOn"}
                                                         name={"AdmittedOn"}
-                                                        label={"Admitido em:"}
-                                                        ariaLabel={"Admitido em:"}
+                                                        label={t("frontOffice.clientFiles.admittedLabel")}
+                                                        ariaLabel={"Admitted on:"}
                                                         style={inputStyle}
                                                     />
 
@@ -503,8 +508,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"experiedOn"}
                                                         name={"ExperiedOn"}
-                                                        label={"Expira em:"}
-                                                        ariaLabel={"Expira em:"}
+                                                        label={t("frontOffice.clientFiles.expiresLabel")}
+                                                        ariaLabel={"Expires on:"}
                                                         style={inputStyle}
                                                     />
 
@@ -514,14 +519,14 @@ const groupForm = ({
                                             <div className="flex flex-col justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Notas</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.notesTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"observation1"}
                                                         name={"Observation1"}
-                                                        label={"Obs.1."}
+                                                        label={t("frontOffice.clientFiles.notesObs1Label")}
                                                         ariaLabel={"Obs.1."}
                                                         style={inputStyle}
                                                     />
@@ -539,7 +544,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"observation2"}
                                                         name={"Observation2"}
-                                                        label={"Obs.2."}
+                                                        label={t("frontOffice.clientFiles.notesObs2Label")}
                                                         ariaLabel={"Obs.2."}
                                                         style={inputStyle}
                                                     />
@@ -556,7 +561,7 @@ const groupForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Anexos</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.attachmentsTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
@@ -613,8 +618,8 @@ const groupForm = ({
                                                     type={"text"}
                                                     id={"name"}
                                                     name={"name"}
-                                                    label={"Nome"}
-                                                    ariaLabel={"Nome"}
+                                                    label={t("frontOffice.clientFiles.nameLabel")}
+                                                    ariaLabel={"Name"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     value={valuesGroup.name}
                                                     onChange={e => setValuesGroup({ ...valuesGroup, name: e.target.value })}
@@ -624,27 +629,27 @@ const groupForm = ({
                                                     type={"text"}
                                                     id={"abreviatura"}
                                                     name={"abreviature"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("frontOffice.clientFiles.shortnameLabel")}
+                                                    ariaLabel={"Short Name"}
                                                     style={"w-80 border-b-2 border-gray-300 px-1 h-10 outline-none"}
                                                     value={valuesGroup.abreviature}
                                                     onChange={e => setValuesGroup({ ...valuesGroup, abreviature: e.target.value })}
                                                 />
 
-                                                <LanguageAutocomplete label={"Idioma"} style={""} />
+                                                <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={""} />
                                             </div>
                                             {/*primeira linha de comboboxs */}
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Geral</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.generalTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"address"}
                                                         name={"Address"}
-                                                        label={"Morada"}
-                                                        ariaLabel={"Morada"}
+                                                        label={t("frontOffice.clientFiles.addressLabel")}
+                                                        ariaLabel={"Address"}
                                                         style={inputStyle}
                                                     />
 
@@ -652,8 +657,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"zipCode"}
                                                         name={"zipCode"}
-                                                        label={"Código-Postal"}
-                                                        ariaLabel={"Código-Postal"}
+                                                        label={t("frontOffice.clientFiles.postalCodeLabel")}
+                                                        ariaLabel={"Postal Code"}
                                                         style={inputStyle}
                                                     />
 
@@ -661,8 +666,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"local"}
                                                         name={"Local"}
-                                                        label={"Localidade"}
-                                                        ariaLabel={"Localidade"}
+                                                        label={t("frontOffice.clientFiles.localityLabel")}
+                                                        ariaLabel={"Locality"}
                                                         style={inputStyle}
                                                     />
 
@@ -670,25 +675,25 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"region"}
                                                         name={"Region"}
-                                                        label={"Estado-Região"}
-                                                        ariaLabel={"Estado-Região"}
+                                                        label={t("frontOffice.clientFiles.regionStateLabel")}
+                                                        ariaLabel={"Region/State"}
                                                         style={inputStyle}
                                                     />
 
                                                     <div className="w-full flex flex-col gap-4">
-                                                        <CountryAutocomplete label="País" name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                        <CountryAutocomplete label={t("frontOffice.clientFiles.countryLabel")} name={"Country"} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                     </div>
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="flex justify-between items-center">
-                                                        <h4 className="pb-5 text-black-100"><b>Info.</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.informationTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"generalEmail"}
                                                         name={"generalEmail"}
-                                                        label={"E-mail Geral"}
-                                                        ariaLabel={"E-mail Geral"}
+                                                        label={t("frontOffice.clientFiles.generalEmailLabel")}
+                                                        ariaLabel={"General Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -696,8 +701,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"departmentEmail"}
                                                         name={"departmentEmail"}
-                                                        label={"E-mail Departamento"}
-                                                        ariaLabel={"E-mail Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentEmailLabel")}
+                                                        ariaLabel={"Department Email"}
                                                         style={inputStyle}
                                                     />
 
@@ -705,8 +710,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"generalPhone"}
                                                         name={"generalPhone"}
-                                                        label={"Telemóvel Geral"}
-                                                        ariaLabel={"Telemóvel Geral"}
+                                                        label={t("frontOffice.clientFiles.generalPhoneNumberLabel")}
+                                                        ariaLabel={"General Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -714,8 +719,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"departmentPhone"}
                                                         name={"departmentPhone"}
-                                                        label={"Telemóvel Departamento"}
-                                                        ariaLabel={"Telemóvel Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentPhoneNumberLabel")}
+                                                        ariaLabel={"Department Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -723,7 +728,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"link"}
                                                         name={"url"}
-                                                        label={"URL"}
+                                                        label={t("frontOffice.clientFiles.urlLabel")}
                                                         ariaLabel={"URL"}
                                                         style={inputStyle}
 
@@ -733,17 +738,17 @@ const groupForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 1</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact1Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row justify-center items-center gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={sharedLineInputStyle} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -753,8 +758,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"firstName"}
                                                             name={"firstName"}
-                                                            label={"Nome"}
-                                                            ariaLabel={"Nome"}
+                                                            label={t("frontOffice.clientFiles.nameLabel")}
+                                                            ariaLabel={"Name"}
                                                             style={sharedLineInputStyle}
                                                         />
 
@@ -762,8 +767,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"lastName"}
                                                             name={"lastName"}
-                                                            label={"Apelido"}
-                                                            ariaLabel={"Apelido"}
+                                                            label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                            ariaLabel={"Last Name"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -772,8 +777,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"department"}
-                                                        label={"Departamento"}
-                                                        ariaLabel={"Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
 
@@ -781,8 +786,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"phone"}
                                                         name={"phone"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -790,7 +795,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"email"}
-                                                        label={"Email"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
                                                         ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
@@ -798,17 +803,17 @@ const groupForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Contacto 2</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.contact2Title")}</b></h4>
                                                     </div>
                                                     <div className="flex flex-row justify-center items-center gap-5">
-                                                        <LanguageAutocomplete label={"Idioma"} style={sharedLineInputStyle} />
+                                                        <LanguageAutocomplete label={t("frontOffice.clientFiles.languageLabel")} style={sharedLineInputStyle} />
 
                                                         <InputFieldControlled
                                                             type={"text"}
                                                             id={"saudation"}
                                                             name={"Saudation"}
-                                                            label={"Saudação"}
-                                                            ariaLabel={"Saudação"}
+                                                            label={t("frontOffice.clientFiles.salutationLabel")}
+                                                            ariaLabel={"Salutation"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -818,8 +823,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"firstName"}
                                                             name={"firstName"}
-                                                            label={"Nome"}
-                                                            ariaLabel={"Nome"}
+                                                            label={t("frontOffice.clientFiles.nameLabel")}
+                                                            ariaLabel={"Name"}
                                                             style={sharedLineInputStyle}
                                                         />
 
@@ -827,8 +832,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"lastName"}
                                                             name={"lastName"}
-                                                            label={"Apelido"}
-                                                            ariaLabel={"Apelido"}
+                                                            label={t("frontOffice.clientFiles.lastNameLabel")}
+                                                            ariaLabel={"Last Name"}
                                                             style={sharedLineInputStyle}
                                                         />
                                                     </div>
@@ -837,8 +842,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"department"}
                                                         name={"department"}
-                                                        label={"Departamento"}
-                                                        ariaLabel={"Departamento"}
+                                                        label={t("frontOffice.clientFiles.departmentLabel")}
+                                                        ariaLabel={"Department"}
                                                         style={inputStyle}
                                                     />
 
@@ -846,8 +851,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"phone"}
                                                         name={"phone"}
-                                                        label={"Telemóvel"}
-                                                        ariaLabel={"Telemóvel"}
+                                                        label={t("frontOffice.clientFiles.phoneNumberLabel")}
+                                                        ariaLabel={"Phone Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -855,7 +860,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"email"}
                                                         name={"email"}
-                                                        label={"Email"}
+                                                        label={t("frontOffice.clientFiles.emailLabel")}
                                                         ariaLabel={"Email"}
                                                         style={inputStyle}
                                                     />
@@ -866,14 +871,14 @@ const groupForm = ({
                                             <div className="flex flex-row justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Dados Faturação</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.billingDataTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"company"}
                                                         name={"Company"}
-                                                        label={"Empresa"}
-                                                        ariaLabel={"Empresa"}
+                                                        label={t("frontOffice.clientFiles.nameLabel")}
+                                                        ariaLabel={"Company Name"}
                                                         style={inputStyle}
                                                     />
 
@@ -881,8 +886,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"GuestCompanyNif"}
                                                         name={"GuestCompanyNif"}
-                                                        label={"Nr. Identificação fiscal"}
-                                                        ariaLabel={"Nr. Identificação fiscal"}
+                                                        label={t("frontOffice.clientFiles.fiscalNumberLabel")}
+                                                        ariaLabel={"Fiscal Number"}
                                                         style={inputStyle}
                                                     />
 
@@ -890,8 +895,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"address"}
                                                         name={"Address"}
-                                                        label={"Morada"}
-                                                        ariaLabel={"Morada"}
+                                                        label={t("frontOffice.clientFiles.addressLabel")}
+                                                        ariaLabel={"Address"}
                                                         style={inputStyle}
                                                     />
 
@@ -900,8 +905,8 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"zipCode"}
                                                             name={"ZipCode"}
-                                                            label={"Cod.-Postal"}
-                                                            ariaLabel={"Cod.-Postal"}
+                                                            label={t("frontOffice.clientFiles.postalCodeLabel")}
+                                                            ariaLabel={"Postal Code"}
                                                             style={sharedLineInputStyle}
                                                         />
 
@@ -909,25 +914,25 @@ const groupForm = ({
                                                             type={"text"}
                                                             id={"local"}
                                                             name={"Local"}
-                                                            label={"Localidade"}
-                                                            ariaLabel={"Localidade"}
+                                                            label={t("frontOffice.clientFiles.localityLabel")}
+                                                            ariaLabel={"Locality"}
                                                             style={sharedLineInputStyle}
                                                         />
 
                                                     </div>
-                                                    <CountryAutocomplete label="País" style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
+                                                    <CountryAutocomplete label={t("frontOffice.clientFiles.localityLabel")} style={"flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-10 my-2"} />
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Marketing</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.marketingTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"code"}
                                                         name={"Code"}
-                                                        label={"Códigos"}
-                                                        ariaLabel={"Códigos"}
+                                                        label={t("frontOffice.clientFiles.marketingCodesLabel")}
+                                                        ariaLabel={"Codes"}
                                                         style={inputStyle}
                                                     />
 
@@ -935,8 +940,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"market"}
                                                         name={"Market"}
-                                                        label={"Mercados"}
-                                                        ariaLabel={"Mercados"}
+                                                        label={t("frontOffice.clientFiles.marketingMarketsLabel")}
+                                                        ariaLabel={"Markets"}
                                                         style={inputStyle}
                                                     />
 
@@ -944,7 +949,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"marketing"}
                                                         name={"Marketing"}
-                                                        label={"Marketing"}
+                                                        label={t("frontOffice.clientFiles.marketingLabel")}
                                                         ariaLabel={"Marketing"}
                                                         style={inputStyle}
                                                     />
@@ -953,22 +958,22 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"sentOn"}
                                                         name={"SentOn"}
-                                                        label={"Enviado em:"}
-                                                        ariaLabel={"Enviado em:"}
+                                                        label={t("frontOffice.clientFiles.sentLabel")}
+                                                        ariaLabel={"Sent on:"}
                                                         style={inputStyle}
                                                     />
 
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Class. empresarial</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.businessClassTitle")}</b></h4>
                                                     </div>
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"vipCode"}
                                                         name={"VIPCode"}
-                                                        label={"Código VIP"}
-                                                        ariaLabel={"Código VIP"}
+                                                        label={t("frontOffice.clientFiles.vipCodeLabel")}
+                                                        ariaLabel={"VIP Code"}
                                                         style={inputStyle}
                                                     />
 
@@ -976,8 +981,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"profession"}
                                                         name={"Profession"}
-                                                        label={"Profissão"}
-                                                        ariaLabel={"Profissão"}
+                                                        label={t("frontOffice.clientFiles.professionLabel")}
+                                                        ariaLabel={"Profession"}
                                                         style={inputStyle}
                                                     />
 
@@ -985,8 +990,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"PriceTable"}
                                                         name={"PriceTable"}
-                                                        label={"Tabelas de preços"}
-                                                        ariaLabel={"Tabelas de preços"}
+                                                        label={t("frontOffice.clientFiles.priceTableLabel")}
+                                                        ariaLabel={"Price Table"}
                                                         style={inputStyle}
                                                     />
 
@@ -994,23 +999,23 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"roomPreference"}
                                                         name={"RoomPreference"}
-                                                        label={"Preferências de quartos"}
-                                                        ariaLabel={"Preferências de quartos"}
+                                                        label={t("frontOffice.clientFiles.roomPreferencesLabel")}
+                                                        ariaLabel={"Room Preferences"}
                                                         style={inputStyle}
                                                     />
 
                                                 </div>
                                                 <div className="bg-white flex flex-col w-1/4 px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Membros</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.membersTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"process"}
                                                         name={"Process"}
-                                                        label={"Processo"}
-                                                        ariaLabel={"Processo"}
+                                                        label={t("frontOffice.clientFiles.processLabel")}
+                                                        ariaLabel={"Process"}
                                                         style={inputStyle}
                                                     />
 
@@ -1018,8 +1023,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"subscription"}
                                                         name={"Subscription"}
-                                                        label={"Subscrição"}
-                                                        ariaLabel={"Subscrição"}
+                                                        label={t("frontOffice.clientFiles.subscriptionLabel")}
+                                                        ariaLabel={"Subscription"}
                                                         style={inputStyle}
                                                     />
 
@@ -1027,8 +1032,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"admittedOn"}
                                                         name={"AdmittedOn"}
-                                                        label={"Admitido em:"}
-                                                        ariaLabel={"Admitido em:"}
+                                                        label={t("frontOffice.clientFiles.admittedLabel")}
+                                                        ariaLabel={"Admitted on:"}
                                                         style={inputStyle}
                                                     />
 
@@ -1036,8 +1041,8 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"experiedOn"}
                                                         name={"ExperiedOn"}
-                                                        label={"Expira em:"}
-                                                        ariaLabel={"Expira em:"}
+                                                        label={t("frontOffice.clientFiles.expiresLabel")}
+                                                        ariaLabel={"Expires on:"}
                                                         style={inputStyle}
                                                     />
 
@@ -1047,14 +1052,14 @@ const groupForm = ({
                                             <div className="flex flex-col justify-between gap-2">
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Notas</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.notesTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"observation1"}
                                                         name={"Observation1"}
-                                                        label={"Obs.1."}
+                                                        label={t("frontOffice.clientFiles.notesObs1Label")}
                                                         ariaLabel={"Obs.1."}
                                                         style={inputStyle}
                                                     />
@@ -1072,7 +1077,7 @@ const groupForm = ({
                                                         type={"text"}
                                                         id={"observation2"}
                                                         name={"Observation2"}
-                                                        label={"Obs.2."}
+                                                        label={t("frontOffice.clientFiles.notesObs2Label")}
                                                         ariaLabel={"Obs.2."}
                                                         style={inputStyle}
                                                     />
@@ -1089,7 +1094,7 @@ const groupForm = ({
                                                 </div>
                                                 <div className="bg-white flex flex-col w-full px-5 py-5 border border-neutral-200">
                                                     <div className="">
-                                                        <h4 className="pb-5 text-black-100"><b>Anexos</b></h4>
+                                                        <h4 className="pb-5 text-black-100"><b>{t("frontOffice.clientFiles.attachmentsTitle")}</b></h4>
                                                     </div>
 
                                                     <InputFieldControlled

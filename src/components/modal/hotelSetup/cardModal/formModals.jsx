@@ -13,6 +13,8 @@ import maintenanceInsert from "@/components/functionsForm/CRUD/hotel/maintenance
 import typesGroupsInsert from "@/components/functionsForm/CRUD/hotel/tipologyGroup/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 
+import {useTranslations} from 'next-intl';
+
 const formModals = ({
     buttonName,
     buttonIcon,
@@ -23,6 +25,9 @@ const formModals = ({
 
 
     const [caracteristics, setCaracteristics] = useState([]);
+
+    const t = useTranslations('Index');
+
 
     useEffect(() => {
         const getData = () => {
@@ -81,7 +86,7 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitTypesgroups}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{t("hotel.hotel.modals.tipologiesGroup.modalHeader")}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -93,35 +98,35 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"} />
+                                                    label={t("hotel.hotel.modals.tipologiesGroup.descriptionLabel")}
+                                                    ariaLabel={"Description"} />
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Label"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("hotel.hotel.modals.tipologiesGroup.shortnameLabel")}
+                                                    ariaLabel={"Short Name"}
                                                     onChange={handleInputTypesgroups} />
 
                                                 <InputFieldControlled
                                                     type={"textarea"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
-                                                    ariaLabel={"Detalhes"} />
+                                                    label={t("hotel.hotel.modals.tipologiesGroup.detailsLabel")}
+                                                    ariaLabel={"Details"} />
 
                                                 <div>
                                                     <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ativo (estado).</label>
+                                                    <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t("hotel.hotel.modals.tipologiesGroup.statusLabel")}</label>
                                                 </div>
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"order"}
                                                     name={"Order"}
-                                                    label={"Ordem"}
-                                                    ariaLabel={"Ordem"}
+                                                    label={t("hotel.hotel.modals.tipologiesGroup.orderLabel")}
+                                                    ariaLabel={"Order"}
                                                     style={"w-1/2"} />
 
                                                 <select className="w-1/2 bg-transparent outline-none border-b-2 border-gray-500 h-14 px-4">
@@ -155,7 +160,7 @@ const formModals = ({
                             {(onClose) => (
                                 <>
                                     <form onSubmit={handleSubmitRoom}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{t("hotel.hotel.modals.rooms.modalHeader")}
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -167,30 +172,30 @@ const formModals = ({
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Description"}
-                                                label={"Descrição"}
-                                                ariaLabel={"Descrição"}
+                                                label={t("hotel.hotel.modals.rooms.descriptionLabel")}
+                                                ariaLabel={"Description"}
                                                 onChange={handleInputRoom} />
 
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Label"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.hotel.modals.rooms.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 onChange={handleInputRoom} />
 
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"roomType"}
                                                 name={"RoomType"}
-                                                label={"Tipo de Quarto"}
-                                                ariaLabel={"Tipo de Quarto"}
+                                                label={t("hotel.hotel.modals.rooms.roomTypeLabel")}
+                                                ariaLabel={"Room Type"}
                                                 onChange={handleInputRoom} />
 
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
-                                                        label="Selecione uma tipologia"
+                                                        label={t("hotel.hotel.modals.rooms.selectTipologyLabel")}
                                                         className="max-w-xs"
                                                     >
                                                         {tipology.map((tipology) => (
@@ -204,11 +209,11 @@ const formModals = ({
 
                                             <div className="flex flex-col md:flex-row justify-between">
                                                 <div className="flex flex-col w-1/2">
-                                                    <p className="text-sm">Ocupação Máxima</p>
+                                                    <p className="text-sm">{t("hotel.hotel.modals.rooms.maxOccupationLabel")}</p>
                                                     <p className="text-xl">1</p>
                                                 </div>
                                                 <div className="flex flex-col w-1/2">
-                                                    <p className="text-sm">Ordem</p>
+                                                    <p className="text-sm">{t("hotel.hotel.modals.rooms.orderLabel")}</p>
                                                     <p className="text-xl">1</p>
                                                 </div>
                                             </div>
@@ -217,20 +222,20 @@ const formModals = ({
                                                 type={"text"}
                                                 id={"depHousekeeping"}
                                                 name={"depHousekeeping"}
-                                                label={"DEP. DE HOUSEKEEPING"}
+                                                label={t("hotel.hotel.modals.rooms.housekeepingDeptLabel")}
 
-                                                ariaLabel={"Departamento de limpeza"} />
+                                                ariaLabel={"Housekeeping Dept"} />
 
                                             <div className="flex gap-4 items-center max-w-xs">
                                                 <Button size="md">
-                                                    Configuração de interfaces
+                                                    {t("hotel.hotel.modals.rooms.interfaceConfigLabel")}
                                                 </Button>
                                             </div>
 
                                             <div className="w-full flex flex-col gap-4">
                                                 <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
                                                     <Autocomplete
-                                                        label="Selecione uma caracteristica"
+                                                        label={t("hotel.hotel.modals.rooms.selectCharacteristicLabel")}
                                                         className="max-w-xs"
                                                     >
                                                         {caracteristics.map((caracteristic) => (
@@ -262,7 +267,7 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmit}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{t("hotel.hotel.modals.characteristics.modalHeader")}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -274,24 +279,24 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("hotel.hotel.modals.characteristics.shortnameLabel")}
+                                                    ariaLabel={"Short Name"}
                                                     onChange={handleInput} />
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("hotel.hotel.modals.characteristics.descriptionLabel")}
+                                                    ariaLabel={"Description"}
                                                     onChange={handleInput} />
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
-                                                    ariaLabel={"Detalhes"}
+                                                    label={t("hotel.hotel.modals.characteristics.detailsLabel")}
+                                                    ariaLabel={"Details"}
                                                     onChange={handleInput} />
 
                                             </ModalBody>
@@ -315,7 +320,7 @@ const formModals = ({
                             {(onClose) => (
                                 <>
                                     <form onSubmit={handleSubmitRoomtype}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{t("hotel.hotel.modals.tipologies.modalHeader")}
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -327,23 +332,23 @@ const formModals = ({
                                                 type={"text"}
                                                 id={"description"}
                                                 name={"Desc"}
-                                                label={"Descrição"}
-                                                ariaLabel={"Descrição"}
+                                                label={t("hotel.hotel.modals.tipologies.descriptionLabel")}
+                                                ariaLabel={"Description"}
                                                 onChange={handleInputRoomtype} />
 
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Name"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.hotel.modals.tipologies.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 onChange={handleInputRoomtype} />
 
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"RoomFeaturesDesc"}
-                                                label={"Detalhes"}
+                                                label={t("hotel.hotel.modals.tipologies.detailsLabel")}
                                                 ariaLabel={"Detalhes"}
                                                 onChange={handleInputRoomtype} />
 
@@ -398,7 +403,7 @@ const formModals = ({
                             {(onClose) => (
                                 <>
                                     <form onSubmit={handleSubmitMaintenance}>
-                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                        <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{t("hotel.hotel.modals.maintenance.modalHeader")}
                                             <div className='flex flex-row items-center mr-5'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -411,8 +416,8 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("hotel.hotel.modals.maintenance.descriptionLabel")}
+                                                    ariaLabel={"Description"}
                                                     onChange={handleInputMaintenance} />
                                                 <AiOutlineGlobal className="ml-auto text-xl" />{" "}
                                             </div>
@@ -421,16 +426,16 @@ const formModals = ({
                                                 type={"text"}
                                                 id={"abreviature"}
                                                 name={"Abreviature"}
-                                                label={"Abreviatura"}
-                                                ariaLabel={"Abreviatura"}
+                                                label={t("hotel.hotel.modals.maintenance.shortnameLabel")}
+                                                ariaLabel={"Short Name"}
                                                 onChange={handleInputMaintenance} />
 
                                             <InputFieldControlled
                                                 type={"text"}
                                                 id={"details"}
                                                 name={"Details"}
-                                                label={"Detalhes"}
-                                                ariaLabel={"Detalhes"}
+                                                label={t("hotel.hotel.modals.maintenance.detailsLabel")}
+                                                ariaLabel={"Details"}
                                                 onChange={handleInputMaintenance} />
 
                                             <div>
@@ -444,7 +449,7 @@ const formModals = ({
                                                     for="link-checkbox"
                                                     class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                 >
-                                                    Estado
+                                                    {t("hotel.hotel.modals.maintenance.statusLabel")}
                                                 </label>
                                             </div>
                                         </ModalBody>

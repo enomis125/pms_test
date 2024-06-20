@@ -30,6 +30,7 @@ import InputFieldControlled from "@/components/functionsForm/inputs/typeText/pag
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useTranslations } from 'next-intl';
 
 
 export default function clientForm() {
@@ -40,6 +41,8 @@ export default function clientForm() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [dataFetched, setDataFetched] = useState(false);
+
+  const t = useTranslations('Index');
 
   useEffect(() => {
     const getData = async () => {
@@ -138,15 +141,15 @@ export default function clientForm() {
   return (
     <main>
       <div className="flex flex-col mt-1 py-3">
-        <p className="text-xs px-6">Fichas de Clientes</p>
+        <p className="text-xs px-6">{t("frontOffice.clientFiles.label")}</p>
         <div className="flex flex-row justify-between items-center mx-5">
           <div className="flex flex-row">
             <div className="flex flex-wrap md:flex-nowrap gap-4">
               <Input
                 className="mt-2 w-80"
-                placeholder="Procurar..."
+                placeholder={t("general.search")}
                 labelPlacement="outside"
-                aria-label="Pesquisar clientes"
+                aria-label="Search Clients"
                 startContent={
                   <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
@@ -157,57 +160,57 @@ export default function clientForm() {
           </div>
           {selectedComponent === 'IndividualForm' && (
             <IndividualForm
-              buttonName={"Novo"}
+              buttonName={t("general.newRecord")}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
+              modalHeader={t("frontOffice.clientFiles.new.modalHeader")}
               modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Particular"}
+              modalEdit={t("frontOffice.clientFiles.fileType.individual")}
               modalIcons={"bg-red"}
               formTypeModal={0}
             />
           )}
           {selectedComponent === 'CompanyForm' && (
             <CompanyForm
-              buttonName={"Novo"}
+              buttonName={t("general.newRecord")}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
+              modalHeader={t("frontOffice.clientFiles.new.modalHeader")}
               modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Empresa"}
+              modalEdit={t("frontOffice.clientFiles.fileType.company")}
               modalIcons={"bg-red"}
               formTypeModal={0}
             ></CompanyForm>
           )}
           {selectedComponent === 'AgencyForm' && (
             <TravelGroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
+              buttonName={t("general.newRecord")}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
+              modalHeader={t("frontOffice.clientFiles.new.modalHeader")}
               modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Agencia de Viagens"} />
+              modalEdit={t("frontOffice.clientFiles.fileType.travelAgency")}
+              formTypeModal={0} />
           )}
           {selectedComponent === 'GroupForm' && (
             <GroupForm
-              formTypeModal={0}
-              buttonName={"Novo"}
+              buttonName={t("general.newRecord")}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
+              modalHeader={t("frontOffice.clientFiles.new.modalHeader")}
               modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Grupos"} />
+              modalEdit={t("frontOffice.clientFiles.fileType.group")}
+              formTypeModal={0} />
           )}
           {selectedComponent === 'OthersForm' && (
             <OthersForm
-              formTypeModal={0}
-              buttonName={"Novo"}
+              buttonName={t("general.newRecord")}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Ficha de Cliente"}
+              modalHeader={t("frontOffice.clientFiles.new.modalHeader")}
               modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={"Outros"} />
+              modalEdit={t("frontOffice.clientFiles.fileType.other")}
+              formTypeModal={0} />
           )}
         </div>
       </div>
@@ -238,7 +241,7 @@ export default function clientForm() {
                 handleClickIndividual();
                 setSelectedButton("individual");
               }}>
-              Individual
+              {t("frontOffice.clientFiles.cards.individual")}
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "company" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -246,7 +249,7 @@ export default function clientForm() {
                 handleClickCompany();
                 setSelectedButton("company");
               }}>
-              Empresa
+              {t("frontOffice.clientFiles.cards.company")}
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "agency" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -254,7 +257,7 @@ export default function clientForm() {
                 handleClickAgency();
                 setSelectedButton("agency");
               }}>
-              Agência de Viagens
+              {t("frontOffice.clientFiles.cards.travelAgency")}
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "group" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -262,7 +265,7 @@ export default function clientForm() {
                 handleClickGroup();
                 setSelectedButton("group");
               }}>
-              Grupos
+              {t("frontOffice.clientFiles.cards.group")}
             </button>
             <button
               className={`h-fit px-3 rounded-2xl text-black text-xs ${selectedButton === "others" ? "bg-blue-600 text-white border-2 border-blue-600" : "bg-slate-200 border-2 border-slate-300"}`}
@@ -270,7 +273,7 @@ export default function clientForm() {
                 handleClickOthers();
                 setSelectedButton("others");
               }}>
-              Outros
+              {t("frontOffice.clientFiles.cards.other")}
             </button>
           </div>
           {isLoading ? (<Backdrop
@@ -293,27 +296,27 @@ export default function clientForm() {
             >
               <TableHeader>
                 <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase" aria-label="ID">
-                  ID
+                  {t("frontOffice.clientFiles.datatable.id")}
                 </TableColumn>
-                <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase" aria-label="Tipo de ficha">
-                  Tipo de ficha
+                <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase" aria-label="File Type">
+                  {t("frontOffice.clientFiles.datatable.fileType")}
                 </TableColumn>
-                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Nome">
-                  Nome
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Name">
+                  {t("frontOffice.clientFiles.datatable.name")}
                 </TableColumn>
-                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Apelido">
-                  Apelido
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Last Name">
+                  {t("frontOffice.clientFiles.datatable.lastName")}
                 </TableColumn>
-                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Morada">
-                  Morada
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Address">
+                  {t("frontOffice.clientFiles.datatable.address")}
                 </TableColumn>
-                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="E-mail">
-                  E-mail
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Email">
+                  {t("frontOffice.clientFiles.datatable.email")}
                 </TableColumn>
-                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Telefone">
-                  Telefone
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase" aria-label="Phone Number">
+                  {t("frontOffice.clientFiles.datatable.phoneNumber")}
                 </TableColumn>
-                <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Funções">
+                <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7" aria-label="Actions">
                   <GoGear size={20} />
                 </TableColumn>
               </TableHeader>
@@ -326,7 +329,7 @@ export default function clientForm() {
                           buttonName={individual.guestProfileID}
                           editIcon={<FiEdit3 size={25} />}
                           buttonColor={"transparent"}
-                          modalHeader={"Editar Ficha de Cliente"}
+                          modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                           modalEditArrow={<BsArrowRight size={25} />}
                           modalEdit={`ID: ${individual.guestProfileID}`}
                           formTypeModal={1}
@@ -348,7 +351,7 @@ export default function clientForm() {
                             buttonName={individual.guestProfileID}
                             editIcon={<FiEdit3 size={25} />}
                             buttonColor={"transparent"}
-                            modalHeader={"Editar Ficha de cliente"}
+                            modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                             modalEditArrow={<BsArrowRight size={25} />}
                             modalEdit={`ID: ${individual.guestProfileID}`}
                             formTypeModal={1}
@@ -365,7 +368,7 @@ export default function clientForm() {
                               buttonName={individual.guestProfileID}
                               editIcon={<FiEdit3 size={25} />}
                               buttonColor={"transparent"}
-                              modalHeader={"Editar Ficha de cliente"}
+                              modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                               modalEditArrow={<BsArrowRight size={25} />}
                               modalEdit={`ID: ${individual.guestProfileID}`}
                               formTypeModal={1}
@@ -384,7 +387,7 @@ export default function clientForm() {
                                 buttonName={individual.guestProfileID}
                                 editIcon={<FiEdit3 size={25} />}
                                 buttonColor={"transparent"}
-                                modalHeader={"Editar Ficha de cliente"}
+                                modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                                 modalEditArrow={<BsArrowRight size={25} />}
                                 modalEdit={`ID: ${individual.guestProfileID}`}
                                 formTypeModal={1}
@@ -399,7 +402,7 @@ export default function clientForm() {
                                   buttonName={individual.guestProfileID}
                                   editIcon={<FiEdit3 size={25} />}
                                   buttonColor={"transparent"}
-                                  modalHeader={"Editar Ficha de cliente"}
+                                  modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                                   modalEditArrow={<BsArrowRight size={25} />}
                                   modalEdit={`ID: ${individual.guestProfileID}`}
                                   formTypeModal={1}
@@ -426,19 +429,19 @@ export default function clientForm() {
                           <Button
                             variant="light"
                             className="flex flex-row justify-end"
-                            aria-label="Opções"
+                            aria-label="Options"
                           >
                             <BsThreeDotsVertical size={20} className="text-gray-400" />
                           </Button>
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                          <DropdownItem key="edit" aria-label="Editar detalhes">
+                          <DropdownItem key="edit" aria-label="Edit Details">
                             {individual.profileType === 0 ? (
                               <IndividualForm
-                                buttonName={"Editar"}
+                                buttonName={t("general.editRecord")}
                                 editIcon={<FiEdit3 size={25} />}
                                 buttonColor={"transparent"}
-                                modalHeader={"Editar Ficha de Cliente"}
+                                modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                                 modalEditArrow={<BsArrowRight size={25} />}
                                 modalEdit={`ID: ${individual.guestProfileID}`}
                                 formTypeModal={1}
@@ -457,10 +460,10 @@ export default function clientForm() {
                             ) : (
                               individual.profileType === 1 ? (
                                 <CompanyForm
-                                  buttonName={"Editar"}
+                                  buttonName={t("general.editRecord")}
                                   editIcon={<FiEdit3 size={25} />}
                                   buttonColor={"transparent"}
-                                  modalHeader={"Editar Ficha de cliente"}
+                                  modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                                   modalEditArrow={<BsArrowRight size={25} />}
                                   modalEdit={`ID: ${individual.guestProfileID}`}
                                   formTypeModal={1}
@@ -474,10 +477,10 @@ export default function clientForm() {
                               ) : (
                                 individual.profileType === 2 ? (
                                   <TravelGroupForm
-                                    buttonName={"Editar"}
+                                    buttonName={t("general.editRecord")}
                                     editIcon={<FiEdit3 size={25} />}
                                     buttonColor={"transparent"}
-                                    modalHeader={"Editar Ficha de cliente"}
+                                    modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                                     modalEditArrow={<BsArrowRight size={25} />}
                                     modalEdit={`ID: ${individual.guestProfileID}`}
                                     formTypeModal={1}
@@ -493,10 +496,10 @@ export default function clientForm() {
                                 ) : (
                                   individual.profileType === 3 ? (
                                     <GroupForm
-                                      buttonName={"Editar"}
+                                      buttonName={t("general.editRecord")}
                                       editIcon={<FiEdit3 size={25} />}
                                       buttonColor={"transparent"}
-                                      modalHeader={"Editar Ficha de cliente"}
+                                      modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                                       modalEditArrow={<BsArrowRight size={25} />}
                                       modalEdit={`ID: ${individual.guestProfileID}`}
                                       formTypeModal={1}
@@ -508,10 +511,10 @@ export default function clientForm() {
                                   ) : (
                                     individual.profileType === 4 ? (
                                       <OthersForm
-                                        buttonName={"Editar"}
+                                        buttonName={t("general.editRecord")}
                                         editIcon={<FiEdit3 size={25} />}
                                         buttonColor={"transparent"}
-                                        modalHeader={"Editar Ficha de cliente"}
+                                        modalHeader={t("frontOffice.clientFiles.edit.modalHeader")}
                                         modalEditArrow={<BsArrowRight size={25} />}
                                         modalEdit={`ID: ${individual.guestProfileID}`}
                                         formTypeModal={1}
@@ -526,8 +529,8 @@ export default function clientForm() {
                               )
                             )}
                           </DropdownItem>
-                          <DropdownItem key="delete" aria-label="Remover item" onClick={() => handleDelete(individual.guestProfileID)}>Remover</DropdownItem>
-                          <DropdownItem key="view" aria-label="Ver detalhes">Ver</DropdownItem>
+                          <DropdownItem key="delete" aria-label="Remove Item" onClick={() => handleDelete(individual.guestProfileID)}>{t("general.removeRecord")}</DropdownItem>
+                          <DropdownItem key="view" aria-label="View Details">{t("general.viewRecord")}</DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </TableCell>

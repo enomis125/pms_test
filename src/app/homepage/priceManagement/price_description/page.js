@@ -65,7 +65,7 @@ export default function PriceManagement() {
             buttonName={"Novo"}
             buttonIcon={<FiPlus size={15} />}
             buttonColor={"primary"}
-            modalHeader={"Inserir Caraterísticas"}
+            modalHeader={"Inserir Detalhe"}
             modalIcons={"bg-red"}
             formTypeModal={11}
           />
