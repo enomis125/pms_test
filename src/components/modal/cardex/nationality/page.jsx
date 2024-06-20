@@ -1,8 +1,7 @@
-"use client"
+"use client";
 import React from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import { AiOutlineGlobal } from "react-icons/ai";
-//imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
@@ -10,11 +9,10 @@ import nationalityInsert, { nationalityEdit } from "@/components/functionsForm/C
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
+import { useTranslations } from "next-intl";
 
-
-
-const nationalityForm = ({
-    idNacionality,
+const NationalityForm = ({
+    idNationality,
     buttonName,
     buttonIcon,
     modalHeader,
@@ -27,20 +25,17 @@ const nationalityForm = ({
     editado,
     editor
 }) => {
-
+    const t = useTranslations('Index'); // Fetch translations
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const { handleInputNacionality, handleSubmitNacionality } = nationalityInsert();
-    const { handleUpdateNationality, setValuesNationality, valuesNacionality } = nationalityEdit(idNacionality);
+    const { handleUpdateNationality, setValuesNationality, valuesNationality } = nationalityEdit(idNationality);
 
-    const { toggleExpand, setIsExpanded, isExpanded } = expansion();
-
-
+    const { toggleExpand } = expansion();
 
     return (
         <>
-
-            {formTypeModal === 11 && ( //Nationality insert
+            {formTypeModal === 11 && (
                 <>
                     <Button onPress={onOpen} color={buttonColor} className="w-fit">
                         {buttonName} {buttonIcon}
@@ -48,95 +43,84 @@ const nationalityForm = ({
                     <Modal
                         classNames={{
                             base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            wrapper: "lg:pl-72 h-screen w-full", // Adjust wrapper classes as needed
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
                         <ModalContent>
                             {(onClose) => (
-                                <>
-                                    <>
-                                        <form onSubmit={handleSubmitNacionality}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
-                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-
-                                                <div className="flex items-center">
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"Fo"}
-                                                        name={"Fo"}
-                                                        label={"Detalhes"}
-                                                        ariaLabel={"Detalhes"}
-                                                        onChange={handleInputNacionality} />
-                                                    <AiOutlineGlobal className="ml-auto text-xl" />
-                                                </div>
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"nation"}
-                                                    name={"Nation"}
-                                                    label={"País"}
-                                                    ariaLabel={"País"}
-                                                    onChange={handleInputNacionality} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"nationality"}
-                                                    name={"Nationality"}
-                                                    label={"Nacionalidade"}
-                                                    ariaLabel={"Nacionalidade"}
-                                                    onChange={handleInputNacionality} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"statnr"}
-                                                    name={"Statnr"}
-                                                    label={"Número de Estatísticas"}
-                                                    ariaLabel={"Número de Estatísticas"}
-                                                    onChange={handleInputNacionality} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"group"}
-                                                    name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"}
-                                                    onChange={handleInputNacionality} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"ordenation"}
-                                                    name={"Ordenation"}
-                                                    label={"Ordenação"}
-                                                    ariaLabel={"Ordenação"}
-                                                    onChange={handleInputNacionality} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"isocode"}
-                                                    name={"Isocode"}
-                                                    label={"Código ISO"}
-                                                    ariaLabel={"Código ISO"}
-                                                    onChange={handleInputNacionality} />
-
-                                            </ModalBody>
-                                        </form>
-                                    </>
-                                </>
+                                <form onSubmit={handleSubmitNacionality}>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                        {t('cardex.nationalities.new.modalInsertHeader')}
+                                        <div className='flex flex-row items-center mr-5'>
+                                            <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
+                                        </div>
+                                    </ModalHeader>
+                                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                        <div className="flex items-center">
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"Fo"}
+                                                name={"Fo"}
+                                                label={t("cardex.nationalities.new.labelFo")}
+                                                ariaLabel={t("cardex.nationalities.new.labelFo")}
+                                                onChange={handleInputNacionality} />
+                                            <AiOutlineGlobal className="ml-auto text-xl" />
+                                        </div>
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"nation"}
+                                            name={"Nation"}
+                                            label={t("cardex.nationalities.new.labelNation")}
+                                            ariaLabel={t("cardex.nationalities.new.labelNation")}
+                                            onChange={handleInputNacionality} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"nationality"}
+                                            name={"Nationality"}
+                                            label={t("cardex.nationalities.new.labelNationality")}
+                                            ariaLabel={t("cardex.nationalities.new.labelNationality")}
+                                            onChange={handleInputNacionality} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"statnr"}
+                                            name={"Statnr"}
+                                            label={t("cardex.nationalities.new.labelStatnr")}
+                                            ariaLabel={t("cardex.nationalities.new.labelStatnr")}
+                                            onChange={handleInputNacionality} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"group"}
+                                            name={"Group"}
+                                            label={t("cardex.nationalities.new.labelGroup")}
+                                            ariaLabel={t("cardex.nationalities.new.labelGroup")}
+                                            onChange={handleInputNacionality} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"ordenation"}
+                                            name={"Ordenation"}
+                                            label={t("cardex.nationalities.new.labelOrdenation")}
+                                            ariaLabel={t("cardex.nationalities.new.labelOrdenation")}
+                                            onChange={handleInputNacionality} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"isocode"}
+                                            name={"Isocode"}
+                                            label={t("cardex.nationalities.new.labelIsocode")}
+                                            ariaLabel={t("cardex.nationalities.new.labelIsocode")}
+                                            onChange={handleInputNacionality} />
+                                    </ModalBody>
+                                </form>
                             )}
                         </ModalContent>
                     </Modal>
                 </>
             )}
 
-            {formTypeModal === 12 && ( //Nationality edit
+            {formTypeModal === 12 && (
                 <>
                     <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
@@ -144,99 +128,85 @@ const nationalityForm = ({
                     <Modal
                         classNames={{
                             base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
+                            wrapper: "lg:pl-72 h-screen w-full", // Adjust wrapper classes as needed
                             body: "h-full",
                         }}
                         size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside">
+                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
                         <ModalContent>
                             {(onClose) => (
-                                <>
-                                    <>
-                                        <form onSubmit={(e) => handleUpdateNationality(e)}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                                                <div className="flex flex-row justify-start gap-4">
-                                                    {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                                                </div>
-                                                <div className='flex flex-row items-center mr-5'>
-                                                    <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                    <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
-                                                    <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
-                                                </div>
-                                            </ModalHeader>
-                                            <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                                                <div className="flex items-center">
-
-                                                    <InputFieldControlled
-                                                        type={"text"}
-                                                        id={"Fo"}
-                                                        name={"Fo"}
-                                                        label={"Detalhes"}
-                                                        ariaLabel={"Detalhes"}
-                                                        value={valuesNacionality.Fo}
-                                                        onChange={e => setValuesNationality({ ...valuesNacionality, Fo: e.target.value })} />
-                                                    <AiOutlineGlobal className="ml-auto text-xl" />
-                                                </div>
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"nation"}
-                                                    name={"Nation"}
-                                                    label={"País"}
-                                                    ariaLabel={"País"}
-                                                    value={valuesNacionality.Nation}
-                                                    onChange={e => setValuesNationality({ ...valuesNacionality, Nation: e.target.value })} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"nationality"}
-                                                    name={"Nationality"}
-                                                    label={"Nacionalidade"}
-                                                    ariaLabel={"Nacionalidade"}
-                                                    value={valuesNacionality.Nationality}
-                                                    onChange={e => setValuesNationality({ ...valuesNacionality, Nationality: e.target.value })} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"statnr"}
-                                                    name={"Statnr"}
-                                                    label={"Número de Estatísticas"}
-                                                    ariaLabel={"Número de Estatísticas"}
-                                                    value={valuesNacionality.Statnr}
-                                                    onChange={e => setValuesNationality({ ...valuesNacionality, Statnr: e.target.value })} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"group"}
-                                                    name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"}
-                                                    value={valuesNacionality.Group}
-                                                    onChange={e => setValuesNationality({ ...valuesNacionality, Group: e.target.value })} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"ordenation"}
-                                                    name={"Ordenation"}
-                                                    label={"Ordenação"}
-                                                    ariaLabel={"Ordenação"}
-                                                    value={valuesNacionality.Ordenation}
-                                                    onChange={e => setValuesNationality({ ...valuesNacionality, Ordenation: e.target.value })} />
-
-                                                <InputFieldControlled
-                                                    type={"text"}
-                                                    id={"isocode"}
-                                                    name={"Isocode"}
-                                                    label={"Código ISO"}
-                                                    ariaLabel={"Código ISO"}
-                                                    value={valuesNacionality.Isocode}
-                                                    onChange={e => setValuesNationality({ ...valuesNacionality, Isocode: e.target.value })} />
-
-                                            </ModalBody>
-                                        </form>
-                                        <ModalFooterContent criado={criado} editado={editado} />
-                                    </>
-                                </>
+                                <form onSubmit={(e) => handleUpdateNationality(e)}>
+                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                        {t('cardex.nationalities.new.modalEditHeader')}
+                                        <div className='flex flex-row items-center mr-5'>
+                                            <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
+                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
+                                            <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
+                                        </div>
+                                    </ModalHeader>
+                                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
+                                        <div className="flex items-center">
+                                            <InputFieldControlled
+                                                type={"text"}
+                                                id={"Fo"}
+                                                name={"Fo"}
+                                                label={t("cardex.nationalities.new.labelFo")}
+                                                ariaLabel={t("cardex.nationalities.new.labelFo")}
+                                                value={valuesNationality.Fo}
+                                                onChange={e => setValuesNationality({ ...valuesNationality, Fo: e.target.value })} />
+                                            <AiOutlineGlobal className="ml-auto text-xl" />
+                                        </div>
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"nation"}
+                                            name={"Nation"}
+                                            label={t("cardex.nationalities.new.labelNation")}
+                                            ariaLabel={t("cardex.nationalities.new.labelNation")}
+                                            value={valuesNationality.Nation}
+                                            onChange={e => setValuesNationality({ ...valuesNationality, Nation: e.target.value })} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"nationality"}
+                                            name={"Nationality"}
+                                            label={t("cardex.nationalities.new.labelNationality")}
+                                            ariaLabel={t("cardex.nationalities.new.labelNationality")}
+                                            value={valuesNationality.Nationality}
+                                            onChange={e => setValuesNationality({ ...valuesNationality, Nationality: e.target.value })} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"statnr"}
+                                            name={"Statnr"}
+                                            label={t("cardex.nationalities.new.labelStatnr")}
+                                            ariaLabel={t("cardex.nationalities.new.labelStatnr")}
+                                            value={valuesNationality.Statnr}
+                                            onChange={e => setValuesNationality({ ...valuesNationality, Statnr: e.target.value })} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"group"}
+                                            name={"Group"}
+                                            label={t("cardex.nationalities.new.labelGroup")}
+                                            ariaLabel={t("cardex.nationalities.new.labelGroup")}
+                                            value={valuesNationality.Group}
+                                            onChange={e => setValuesNationality({ ...valuesNationality, Group: e.target.value })} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"ordenation"}
+                                            name={"Ordenation"}
+                                            label={t("cardex.nationalities.new.labelOrdenation")}
+                                            ariaLabel={t("cardex.nationalities.new.labelOrdenation")}
+                                            value={valuesNationality.Ordenation}
+                                            onChange={e => setValuesNationality({ ...valuesNationality, Ordenation: e.target.value })} />
+                                        <InputFieldControlled
+                                            type={"text"}
+                                            id={"isocode"}
+                                            name={"Isocode"}
+                                            label={t("cardex.nationalities.new.labelIsocode")}
+                                            ariaLabel={t("cardex.nationalities.new.labelIsocode")}
+                                            value={valuesNationality.Isocode}
+                                            onChange={e => setValuesNationality({ ...valuesNationality, Isocode: e.target.value })} />
+                                    </ModalBody>
+                                    <ModalFooterContent criado={criado} editado={editado} />
+                                </form>
                             )}
                         </ModalContent>
                     </Modal>
@@ -246,4 +216,4 @@ const nationalityForm = ({
     );
 };
 
-export default nationalityForm;
+export default NationalityForm;

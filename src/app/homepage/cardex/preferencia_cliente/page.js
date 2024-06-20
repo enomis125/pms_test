@@ -24,9 +24,11 @@ import { BsArrowRight } from "react-icons/bs";
 import ClientPreferenceForm from "@/components/modal/cardex/clientPreference/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
+import { useTranslations } from 'next-intl';
  
  
 export default function customerPreferences() {
+  const t = useTranslations('Index');
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
@@ -84,153 +86,156 @@ export default function customerPreferences() {
   const handleDelete = async (idCustomerPreferences) => {
     try {
       const response = await axios.delete(`/api/v1/cardex/customerPreferences/` + idCustomerPreferences);
-      alert("customerPreferences removida com sucesso!");
+      alert(t("cardex.clientPreferences.deleteSuccess"));
     } catch (error) {
-      console.error("Erro ao remover customerPreferences:", error.message);
+      console.error(t("cardex.clientPreferences.deleteError"), error.message);
     }
   };
  
-    return (
-      <main>
-        <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Preferências de Cliente</p>
-          <div className="flex flex-row justify-between items-center mx-5">
-            <div className="flex flex-row">
-              <div className="flex flex-wrap md:flex-nowrap gap-4">
-                <Input
-                  className="mt-4 w-80"
-                  placeholder="Procurar..."
-                  labelPlacement="outside"
-                  startContent={
-                    <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }
-                  value={searchValue}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                />
-              </div>
+  return (
+    <main>
+      <div className="flex flex-col mt-3 py-3">
+        <p className="text-xs px-6">{t('cardex.clientPreferences.clientPreferencesheader')}</p>
+        <div className="flex flex-row justify-between items-center mx-5">
+          <div className="flex flex-row">
+            <div className="flex flex-wrap md:flex-nowrap gap-4">
+              <Input
+                className="mt-4 w-80"
+                placeholder={t('cardex.clientPreferences.searchPlaceholder')}
+                labelPlacement="outside"
+                startContent={
+                  <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
+                value={searchValue}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
             </div>
-            <ClientPreferenceForm
-              buttonName={"Novo"}
-              buttonIcon={<FiPlus size={15} />}
-              buttonColor={"primary"}
-              modalHeader={"Inserir Preferências"}
-              modalIcons={"bg-red"}
-              formTypeModal={11}
-            ></ClientPreferenceForm>
           </div>
+          <ClientPreferenceForm
+            buttonName={t('cardex.clientPreferences.buttonNew')}
+            buttonIcon={<FiPlus size={15} />}
+            buttonColor={"primary"}
+            modalHeader={t('cardex.clientPreferences.modalInsertHeader')}
+            modalIcons={"bg-red"}
+            formTypeModal={11}
+          />
         </div>
-        <div className="mx-5 h-[65vh] min-h-full">
-          <PaginationTable
-            page={page}
-            pages={pages}
-            rowsPerPage={rowsPerPage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-            items={items}
-            setPage={setPage}
-            dataCSVButton={
-              items.map((item) => ({
-                ID: item.customerPreferencesID,
-                Abreviatura: item.abreviature,
-                Descrição: item.description,
-              }))
-            }
-          >
-            <LoadingBackdrop open={isLoading} />
+      </div>
+      <div className="mx-5 h-[65vh] min-h-full">
+        <PaginationTable
+          page={page}
+          pages={pages}
+          rowsPerPage={rowsPerPage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          items={items}
+          setPage={setPage}
+          dataCSVButton={
+            items.map((item) => ({
+              ID: item.clientPreferencesID,
+              Abbreviation: item.abbreviation,
+              Description: item.description,
+            }))
+          }
+        >
+          <LoadingBackdrop open={isLoading} />
           {!isLoading && (
             <Table
-            id="TableToPDF"
-      isHeaderSticky={"true"}
-        layout={"fixed"}
-        isCompact={"true"}
-        removeWrapper
-        classNames={{
-          wrapper: "min-h-[222px]",
-        }}
-        className="h-full overflow-auto"
-      >
-        <TableHeader>
-          <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
-            ID
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            Grupo
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold w-1/4 px-10 uppercase">
-            Abreviatura
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold uppercase">
-            Descrição
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold w-1/4 px-10 uppercase">
-            Ordenação
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white font-bold w-1/4 px-10 uppercase">
-            Propriedade
-          </TableColumn>
-          <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
-            <GoGear size={20} />
-          </TableColumn>
-        </TableHeader>
-        <TableBody>
-          {items.map((customerPreferences, index) => (
-
-            <TableRow key={index}>
-              <TableCell className="text-left underline text-blue-600"><ClientPreferenceForm
-                        buttonName={customerPreferences.customerPreferencesID}
-                        editIcon={<FiEdit3 size={25}/>}
-                        buttonColor={"transparent"}
-                        modalHeader={"Editar Preferências"}
-                        modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${customerPreferences.customerPreferencesID}`}
-                        formTypeModal={12}
-                        idCustomerPreferences={customerPreferences.customerPreferencesID}
-                        criado={customerPreferences.createdAt}
-                        editado={customerPreferences.updatedAt}
-                        editor={"teste"}
-                      /></TableCell>
-              <TableCell >{customerPreferences.description}</TableCell>
-              <TableCell className="px-10">{customerPreferences.abreviature}</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell className="flex justify-end">
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button
-                      variant="light"
-                      className="flex flex-row justify-end"
-                    >
-                      <BsThreeDotsVertical size={20} className="text-gray-400" />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                    <DropdownItem key="edit">
+              id="TableToPDF"
+              isHeaderSticky={"true"}
+              layout={"fixed"}
+              isCompact={"true"}
+              removeWrapper
+              classNames={{
+                wrapper: "min-h-[222px]",
+              }}
+              className="h-full overflow-auto"
+            >
+              <TableHeader>
+                <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
+                  {t('cardex.clientPreferences.headerID')}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+                  {t('cardex.clientPreferences.headerGroup')}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold w-1/4 px-10 uppercase">
+                  {t('cardex.clientPreferences.headerAbbreviation')}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold uppercase">
+                  {t('cardex.clientPreferences.headerDescription')}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold w-1/4 px-10 uppercase">
+                  {t('cardex.clientPreferences.headerOrdering')}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white font-bold w-1/4 px-10 uppercase">
+                  {t('cardex.clientPreferences.headerProperty')}
+                </TableColumn>
+                <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
+                  <GoGear size={20} />
+                </TableColumn>
+              </TableHeader>
+              <TableBody>
+                {items.map((preference, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-left underline text-blue-600">
                       <ClientPreferenceForm
-                        buttonName={"Editar"}
-                        editIcon={<FiEdit3 size={25}/>}
+                        buttonName={preference.clientPreferencesID}
+                        editIcon={<FiEdit3 size={25} />}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Preferências"}
-                        modalEditArrow={<BsArrowRight size={25}/>}
-                        modalEdit={`ID: ${customerPreferences.customerPreferencesID}`}
+                        modalHeader={t('cardex.clientPreferences.modalEditHeader')}
+                        modalEditArrow={<BsArrowRight size={25} />}
+                        modalEdit={`ID: ${preference.clientPreferencesID}`}
                         formTypeModal={12}
-                        idCustomerPreferences={customerPreferences.customerPreferencesID}
-                        criado={customerPreferences.createdAt}
-                        editado={customerPreferences.updatedAt}
-                        editor={"teste"}
-                      ></ClientPreferenceForm>
-                    </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(customerPreferences.customerPreferencesID)}>Remover</DropdownItem>
-                    <DropdownItem key="view">Ver</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                        idClientPreferences={preference.clientPreferencesID}
+                        createdAt={preference.createdAt}
+                        updatedAt={preference.updatedAt}
+                        editor={"test"}
+                      />
+                    </TableCell>
+                    <TableCell>{preference.description}</TableCell>
+                    <TableCell className="px-10">{preference.abbreviation}</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell className="flex justify-end">
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            variant="light"
+                            className="flex flex-row justify-end"
+                          >
+                            <BsThreeDotsVertical size={20} className="text-gray-400" />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+                          <DropdownItem key="edit">
+                            <ClientPreferenceForm
+                              buttonName={t('cardex.clientPreferences.buttoNew')}
+                              editIcon={<FiEdit3 size={25} />}
+                              buttonColor={"transparent"}
+                              modalHeader={t('cardex.clientPreferences.modalEditHeader')}
+                              modalEditArrow={<BsArrowRight size={25} />}
+                              modalEdit={`ID: ${preference.clientPreferencesID}`}
+                              formTypeModal={12}
+                              idClientPreferences={preference.clientPreferencesID}
+                              createdAt={preference.createdAt}
+                              updatedAt={preference.updatedAt}
+                              editor={"test"}
+                            />
+                          </DropdownItem>
+                          <DropdownItem key="delete" onClick={() => handleDelete(preference.clientPreferencesID)}>
+                            {t('cardex.clientPreferences.')}
+                          </DropdownItem>
+                          <DropdownItem key="view">{t('cardex.clientPreferences.view')}</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
-          </PaginationTable>
-        </div>
-      </main>
-    );
+        </PaginationTable>
+      </div>
+    </main>
+  );
 }
