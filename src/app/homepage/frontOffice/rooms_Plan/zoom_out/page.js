@@ -26,6 +26,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { Popover, PopoverTrigger, PopoverContent, Button, Input } from "@nextui-org/react";
 
 import { useTranslations } from 'next-intl';
+import { Michroma } from 'next/font/google';
 
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
@@ -295,20 +296,50 @@ export default function CalendarPage() {
       const isSameRoom = roomTypeState.find((room) => room.label === String(reservation.roomNumber));
       return isSameRoom;
     });
-
+  
+    const daysInWeek = 14; // 14 days in a week
+    const startOfWeek = date.startOf('week');
+  
+    // Width of the room column in percentage
+    const roomColumnWidth = 15; // 15%
+    const calendarWidth = 85; // 100% - 15%
+  
+    // Additional adjustments to compensate for possible borders
+    const positionAdjustment = 2; // 2%
+    const widthAdjustment = 1; // 1%
+  
     return filteredReservations.map((reservation) => {
       const startDate = dayjs(reservation.checkInDate);
       const endDate = dayjs(reservation.checkOutDate);
-
-      // Verifica se a data da reserva está dentro da semana exibida
-      if (date.isSameOrAfter(startDate, 'day') && date.isSameOrBefore(endDate, 'day')) {
+  
+      // Check if the reservation is within the displayed week
+      if (startDate.isSameOrBefore(date.endOf('week')) && endDate.isSameOrAfter(date.startOf('week'))) {
+        const dayOffsetFromStartOfWeek = startDate.diff(startOfWeek, 'day'); // Offset since the start of the week
+  
+        const duration = endDate.diff(startDate, 'day') + 1; // Duration of the reservation in days
+  
+        // Calculate the left offset, taking into account the room column width
+        const leftOffset = (roomColumnWidth / 100) + ((dayOffsetFromStartOfWeek / daysInWeek) * (calendarWidth / 100)) - (positionAdjustment / 100);
+  
+        const style = {
+          position: 'absolute',
+          left: `calc(${roomColumnWidth / 100}% + ${((dayOffsetFromStartOfWeek / daysInWeek) * (calendarWidth / 100))}% - ${positionAdjustment / 100}%)`,
+          width: `calc(${(duration / daysInWeek) * calendarWidth}% - ${widthAdjustment}%)`,
+          backgroundColor: 'red',
+          color: 'white',
+          padding: '1px',
+          borderRadius: '4px',
+          fontSize: '12px',
+          height: '30px',
+        };
+  
         return (
-          <div key={reservation.id} className="bg-red-500 text-white p-1 rounded text-xs">
-            {/* Se precisar de alguma informação da reserva aqui, pode adicionar */}
+          <div key={reservation.id} style={style} className="absolute border border-black w-full h-full">
+            {reservation.roomNumber}
           </div>
         );
       } else {
-        return null; // Não mostra a reserva se não estiver dentro da semana exibida
+        return null; // Don't show the reservation if it's not within the displayed week
       }
     });
   };

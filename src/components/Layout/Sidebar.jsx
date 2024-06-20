@@ -14,8 +14,10 @@ import { FaHotel } from "react-icons/fa";
 import { IoMdPricetags } from "react-icons/io";
 import { PiUsersFourFill } from "react-icons/pi";
 import { MdOutlineCleaningServices } from "react-icons/md";
+import { useTranslations } from 'next-intl';
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
+    const t = useTranslations('Index');
 
     const hotelSetup = process.env.NEXT_PUBLIC_HOTEL_SETUP === "true";
 
@@ -27,31 +29,31 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active:true,
             items: [
                 {
-                    ref: "/homepage/frontOffice", label: "Front Office", active: true
+                    ref: "/homepage/frontOffice", label: t("frontOffice.frontOffice.label"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/clientForm", label: "Fichas de clientes", active: true
+                    ref: "/homepage/frontOffice/client_form", label: t("frontOffice.clientFiles.label"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk", label: "Front-Desk", active: true
+                    ref: "/homepage/frontDesk", label: t("frontOffice.frontDesk.frontDesk.label"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/reservations", label: "Reservas", active: true
+                    ref: "/homepage/frontDesk/reservations", label: t("frontOffice.frontDesk.frontDesk.bookings"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/arrivals", label: "Chegadas", active: true
+                    ref: "/homepage/frontDesk/arrivals", label: t("frontOffice.frontDesk.frontDesk.arrivals"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/guestlist", label: "Lista de Hóspedes", active: true
+                    ref: "/homepage/frontDesk/guestlist", label: t("frontOffice.frontDesk.frontDesk.guestList"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/departures", label: "Partidas", active: true
+                    ref: "/homepage/frontDesk/departures", label: t("frontOffice.frontDesk.frontDesk.departures"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/tipology_Plan", label: "Typology Plan", active: true
+                    ref: "/homepage/frontOffice/tipology_Plan", label: t("frontOffice.typologyPlan.label"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/rooms_Plan", label: "Rooms Plan", active: true
+                    ref: "/homepage/frontOffice/rooms_Plan", label: t("frontOffice.roomsPlan.label"), active: true
 
                 }
             ]
@@ -68,10 +70,10 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/housekeeping/management", label: "Management", active: true
                 },
                 {
-                    ref: "/homepage/housekeeping/lostAndFound", label: "Lost and Found", active: true
+                    ref: "/homepage/housekeeping/lost_&_found", label: "Lost and Found", active: true
                 },
                 {
-                    ref: "/homepage/housekeeping/attendantSheets", label: "Attendant Sheets", active: true
+                    ref: "/homepage/housekeeping/attendant_sheets", label: "Attendant Sheets", active: true
                 },
             ]
         },
@@ -84,7 +86,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/company", label: "Company", active: true
                 },
                 {
-                    ref: "/homepage/chargeAccounts", label: "Charge Accounts", active: true
+                    ref: "/homepage/charge_accounts", label: "Charge Accounts", active: true
                 },
             ]
         },
@@ -208,7 +210,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/financialSetup/departments", label: "Departamentos", active: true
                 },
                 {
-                    ref: "/homepage/financialSetup/accountsGroups", label: "Grupo de Contas", active: true
+                    ref: "/homepage/financialSetup/accounts_groups", label: "Grupo de Contas", active: true
                 },
                 {
                     ref: "/homepage/financialSetup/revenue_accounts", label: "Contas de Revenue", active: true
@@ -233,10 +235,10 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active: true,
             items: [
                 {
-                    ref: "/homepage/priceManagement/priceGroups", label: "Códigos de Preços", active: true
+                    ref: "/homepage/priceManagement/price_groups", label: "Códigos de Preços", active: true
                 },
                 {
-                    ref: "/homepage/priceManagement/priceDescription", label: "Descrição de Códigos de Preços", active: true
+                    ref: "/homepage/priceManagement/price_description", label: "Descrição de Códigos de Preços", active: true
                 },
                 {
                     ref: "/homepage/priceManagement/seasons", label: "Épocas", active: true

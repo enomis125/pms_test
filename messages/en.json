@@ -94,6 +94,7 @@
         },
         "frontOffice": {
             "frontOffice": {
+                "label": "Front Office",
                 "generalCard": "General",
                 "individualCard": "Individuals",
                 "businessCard": "Businesses",
@@ -135,6 +136,7 @@
             },
             "frontDesk": {
                 "frontDesk": {
+                    "label": "Front Desk",
                     "bookings": "Bookings",
                     "arrivals": "Arrivals",
                     "guestList": "Guest List",
