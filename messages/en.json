@@ -372,20 +372,6 @@
                 }
             }
         },
-        "bookings": {
-            "cards": {
-                "reservationStatus": "RESERVATION STATUS",
-                "marketSegments": "MARKET SEGMENTS",
-                "marketOrigins": "MARKET ORIGINS",
-                "knowledgeMethods": "KNOWLEDGE METHODS",
-                "reservationReasons": "RESERVATION REASONS",
-                "swapCodes": "SWAP CODES",
-                "cancelTable": "CANCEL TABLE",
-                "transferTypes": "TRANSFER TYPES",
-                "changeTypeReservations": "RESERVATION TYPES CHANGES",
-                "cancelationTypes": "CANCELATION"
-            }
-        },
         "financialSetup": {
             "cards": {
                 "departments": "DEPARTMENTS",
@@ -576,6 +562,240 @@
                 },
                 "view": {
                     "modalHeader": "View  Void Charge"
+                }
+            }
+        },
+        "bookings": {
+            "cards": {
+                "reservationStatus": "RESERVATION STATUS",
+                "marketSegments": "MARKET SEGMENTS",
+                "marketOrigins": "MARKET ORIGINS",
+                "knowledgeMethods": "KNOWLEDGE METHODS",
+                "reservationReasons": "RESERVATION REASONS",
+                "swapCodes": "SWAP CODES",
+                "cancelationReasons": "CANCELATION REASONS",
+                "pickUp": "PICK UP",
+                "changeTypeReservations": "RESERVATION TYPES CHANGES",
+                "cancelationTypes": "CANCELATION TYPES" 
+            },
+            "reservationStatus": {
+                "title": "Reservation Status",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Reservation Status"
+                },
+                "edit": {
+                    "modalHeader": "Edit Reservation Status"
+                },
+                "view": {
+                    "modalHeader": "View Reservation Status"
+                }
+            },
+            "marketSegments": {
+                "title": "Market Segments",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Market Segments"
+                },
+                "edit": {
+                    "modalHeader": "Edit Market Segments"
+                },
+                "view": {
+                    "modalHeader": "View Market Segments"
+                }
+            },
+            "marketOrigins": {
+                "title": "Market Origins",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Market Origins"
+                },
+                "edit": {
+                    "modalHeader": "Edit Market Origins"
+                },
+                "view": {
+                    "modalHeader": "View Market Origins"
+                }
+            },
+            "formsOfKnowledge": {
+                "title": "Forms of Knowledge",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Forms of Knowledge"
+                },
+                "edit": {
+                    "modalHeader": "Edit Forms of Knowledge"
+                },
+                "view": {
+                    "modalHeader": "View Forms of Knowledge"
+                }
+            },
+            "reservationReasons": {
+                "title": "Reservation Reasons",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Reservation Reasons"
+                },
+                "edit": {
+                    "modalHeader": "Edit Reservation Reasons"
+                },
+                "view": {
+                    "modalHeader": "View Reservation Reasons"
+                }
+            },
+            "swapCodes": {
+                "title": "Swap Codes",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Swap Codes"
+                },
+                "edit": {
+                    "modalHeader": "Edit Swap Codes"
+                },
+                "view": {
+                    "modalHeader": "View Swap Codes"
+                }
+            },
+            "cancelationReasons": {
+                "title": "Cancelation Reasons",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Cancelation Reasons"
+                },
+                "edit": {
+                    "modalHeader": "Edit Cancelation Reasons"
+                },
+                "view": {
+                    "modalHeader": "View Cancelation Reasons"
+                }
+            },
+            "transferTypes": {
+                "title": "Transfer Types",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "details": "Details",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Transfer Type"
+                },
+                "edit": {
+                    "modalHeader": "Edit Transfer Type"
+                },
+                "view": {
+                    "modalHeader": "View Transfer Type"
+                }
+            },
+            "changeTypeReservations": {
+                "title": "Reservation Types Changes",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Reservation Type Change"
+                },
+                "edit": {
+                    "modalHeader": "Edit Reservation Type Change"
+                },
+                "view": {
+                    "modalHeader": "View Reservation Type Change"
+                }
+            },
+            "cancelationTypes": {
+                "title": "Cancelations",
+                "abreviature": "Abreviature",
+                "description": "Description",
+                "order": "Order",
+                "status": "Status",
+                "datatable": {
+                    "id": "id",
+                    "abreviature": "Abreviature",
+                    "description": "Description",
+                    "order": "Order"
+                },
+                "new": {
+                    "modalHeader": "New Cancelation"
+                },
+                "edit": {
+                    "modalHeader": "Edit Cancelation"
+                },
+                "view": {
+                    "modalHeader": "View Cancelation"
                 }
             }
         },

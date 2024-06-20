@@ -75,7 +75,7 @@ const transferForm = ({
                                                     type={"text"}
                                                     id={"shortName"}
                                                     name={"shortName"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.pickUp.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputTransfer} />
 
@@ -84,7 +84,7 @@ const transferForm = ({
                                                         type={"text"}
                                                         id={"name"}
                                                         name={"name"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.pickUp.description")}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputTransfer} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -94,7 +94,7 @@ const transferForm = ({
                                                     type={"text"}
                                                     id={"class"}
                                                     name={"class"}
-                                                    label={"Detalhes"}
+                                                    label={t("bookings.pickUp.details")}
                                                     ariaLabel={"Detalhes"}
                                                     onChange={handleInputTransfer} />
 
@@ -109,7 +109,7 @@ const transferForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.pickUp.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -158,7 +158,7 @@ const transferForm = ({
                                                         type={"text"}
                                                         id={"shortName"}
                                                         name={"shortName"}
-                                                        label={"Abreviatura"}
+                                                        label={t("bookings.pickUp.abreviature")}
                                                         ariaLabel={"Abreviatura"}
                                                         value={valuesTransfer.ShortName}
                                                         onChange={e => setValuesTransfer({ ...valuesTransfer, ShortName: e.target.value })} />
@@ -169,7 +169,7 @@ const transferForm = ({
                                                             type={"text"}
                                                             id={"name"}
                                                             name={"Name"}
-                                                            label={"Descrição"}
+                                                            label={t("bookings.pickUp.description")}
                                                             ariaLabel={"Descrição"}
                                                             value={valuesTransfer.Name}
                                                             onChange={e => setValuesTransfer({ ...valuesTransfer, Name: e.target.value })} />
@@ -180,7 +180,7 @@ const transferForm = ({
                                                         type={"text"}
                                                         id={"class"}
                                                         name={"Class"}
-                                                        label={"Detalhes"}
+                                                        label={t("bookings.pickUp.details")}
                                                         ariaLabel={"Detalhes"}
                                                         value={valuesTransfer.Class}
                                                         onChange={e => setValuesTransfer({ ...valuesTransfer, Class: e.target.value })} />
@@ -196,7 +196,7 @@ const transferForm = ({
                                                             for="link-checkbox"
                                                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                         >
-                                                            Estado
+                                                            {t("bookings.pickUp.status")}
                                                         </label>
                                                     </div>
                                                 </ModalBody>

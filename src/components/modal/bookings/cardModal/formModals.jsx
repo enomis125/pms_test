@@ -18,7 +18,7 @@ import cancelReasonInsert from "@/components/functionsForm/CRUD/bookings/cancelR
 import reserveChangeInsert from "@/components/functionsForm/CRUD/bookings/reserveChange/page";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-
+import {useTranslations} from 'next-intl';
 
 /*
 os modals encontram-se identificados por numeros de 2 digitos, sendo o ultimo digito um indicador de modal ou full screen:
@@ -54,6 +54,7 @@ const formModals = ({
     const { handleInputReservMotive, handleSubmitReservMotive } = reserveMotiveInsert();
     const { handleInputReservStatus, handleSubmitReservStatus } = reservationStatusInsert();
     const { handleInputTransfer, handleSubmitTransfer } = transferInsert();
+    const t = useTranslations('Index');
 
     return (
         <>
@@ -77,11 +78,11 @@ const formModals = ({
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
 
-                                                <InputFieldControlled
+                                            <InputFieldControlled
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReservStatus} />
 
@@ -90,7 +91,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReservStatus} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -100,7 +101,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReservStatus} />
 
@@ -115,7 +116,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -153,7 +154,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputMarketSegment} />
 
@@ -162,7 +163,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputMarketSegment} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -172,7 +173,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     nChange={handleInputMarketSegment} />
 
@@ -187,7 +188,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -224,7 +225,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputMarket} />
 
@@ -233,7 +234,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputMarket} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -243,7 +244,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputMarket} />
 
@@ -258,7 +259,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -295,7 +296,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputKnowledge} />
 
@@ -304,7 +305,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputKnowledge} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -314,7 +315,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputKnowledge} />
 
@@ -329,7 +330,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -366,7 +367,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReservMotive} />
 
@@ -375,7 +376,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReservMotive} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -385,7 +386,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReservMotive} />
 
@@ -400,7 +401,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -436,7 +437,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReplaceCode} />
 
@@ -445,7 +446,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReplaceCode} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -455,7 +456,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReplaceCode} />
 
@@ -470,7 +471,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -506,7 +507,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputCancelReason} />
 
@@ -515,7 +516,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputCancelReason} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -525,7 +526,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
+                                                    label={t('bookings.reservationStatus.details')}
                                                     ariaLabel={"Detalhes"}
                                                     onChange={handleInputCancelReason} />
 
@@ -540,7 +541,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -576,7 +577,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"shortName"}
                                                     name={"shortName"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputTransfer} />
 
@@ -585,7 +586,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"name"}
                                                         name={"name"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputTransfer} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -595,7 +596,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"class"}
                                                     name={"class"}
-                                                    label={"Detalhes"}
+                                                    label={t('bookings.reservationStatus.details')}
                                                     ariaLabel={"Detalhes"}
                                                     onChange={handleInputTransfer} />
 
@@ -610,7 +611,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -646,7 +647,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReservChange} />
 
@@ -655,7 +656,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReservChange} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -665,7 +666,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReservChange} />
 
@@ -680,7 +681,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -717,7 +718,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.reservationStatus.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputCancelType} />
 
@@ -726,7 +727,7 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.reservationStatus.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputCancelType} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -736,7 +737,7 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t('bookings.reservationStatus.order')}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputCancelType} />
 
@@ -751,7 +752,7 @@ const formModals = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.reservationStatus.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>

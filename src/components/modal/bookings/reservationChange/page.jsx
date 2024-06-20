@@ -12,7 +12,7 @@ import reserveChangeInsert, { reserveChangeEdit } from "@/components/functionsFo
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const reserveChangeForm = ({
@@ -34,6 +34,8 @@ const reserveChangeForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputReservChange, handleSubmitReservChange } = reserveChangeInsert();
     const { handleUpdateReservChange, setValuesReservChang, valuesReservChange } = reserveChangeEdit(idReservChange);
@@ -75,7 +77,7 @@ const reserveChangeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.changeTypeReservations.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReservChange} />
 
@@ -84,7 +86,7 @@ const reserveChangeForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.changeTypeReservations.description")}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReservChange} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -94,7 +96,7 @@ const reserveChangeForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.changeTypeReservations.order")}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReservChange} />
 
@@ -109,7 +111,7 @@ const reserveChangeForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.changeTypeReservations.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -156,7 +158,7 @@ const reserveChangeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.changeTypeReservations.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     value={valuesReservChange.Abreviature}
                                                     onChange={e => setValuesReservChang({ ...valuesReservChange, Abreviature: e.target.value })} />
@@ -166,7 +168,7 @@ const reserveChangeForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.changeTypeReservations.description")}
                                                         ariaLabel={"Descrição"}
                                                         value={valuesReservChange.Description}
                                                         onChange={e => setValuesReservChang({ ...valuesReservChange, Description: e.target.value })} />
@@ -177,7 +179,7 @@ const reserveChangeForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.changeTypeReservations.order")}
                                                     ariaLabel={"Ordenação"}
                                                     value={valuesReservChange.Ordenation}
                                                     onChange={e => setValuesReservChang({ ...valuesReservChange, Ordenation: e.target.value })} />
@@ -193,7 +195,7 @@ const reserveChangeForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.changeTypeReservations.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

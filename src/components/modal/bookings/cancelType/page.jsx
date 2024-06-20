@@ -10,7 +10,7 @@ import cancelTypeInsert, { cancelTypeEdit } from "@/components/functionsForm/CRU
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const cancelTypeForm = ({
@@ -35,7 +35,7 @@ const cancelTypeForm = ({
 
     const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-
+    const t = useTranslations('Index');
 
     return (
         <>
@@ -64,7 +64,7 @@ const cancelTypeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.changeTypeReservations.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputCancelType} />
 
@@ -73,7 +73,7 @@ const cancelTypeForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.changeTypeReservations.description")}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputCancelType} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -83,7 +83,7 @@ const cancelTypeForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.changeTypeReservations.order")}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputCancelType} />
 
@@ -98,7 +98,7 @@ const cancelTypeForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.changeTypeReservations.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -145,7 +145,7 @@ const cancelTypeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.changeTypeReservations.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     value={valuesCancelType.Abreviature}
                                                     onChange={e => setValuesCancelType({ ...valuesCancelType, Abreviature: e.target.value })} />
@@ -155,7 +155,7 @@ const cancelTypeForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.changeTypeReservations.description")}
                                                         ariaLabel={"Descrição"}
                                                         value={valuesCancelType.Description}
                                                         onChange={e => setValuesCancelType({ ...valuesCancelType, Description: e.target.value })} />
@@ -164,10 +164,10 @@ const cancelTypeForm = ({
 
                                                 <InputFieldControlled
                                                     type={"text"}
-                                                    id={"details"}
-                                                    name={"Details"}
-                                                    label={"Detalhes"}
-                                                    ariaLabel={"Detalhes"}
+                                                    id={"ordenation"}
+                                                    name={"Ordenation"}
+                                                    label={t("bookings.changeTypeReservations.order")}
+                                                    ariaLabel={"Ordenação"}
                                                     value={valuesCancelType.Ordenation}
                                                     onChange={e => setValuesCancelType({ ...valuesCancelType, Ordenation: e.target.value })} />
 
@@ -182,7 +182,7 @@ const cancelTypeForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.changeTypeReservations.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

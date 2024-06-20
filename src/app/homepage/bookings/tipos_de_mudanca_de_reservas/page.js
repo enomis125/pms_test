@@ -23,7 +23,8 @@ import { BsArrowRight } from "react-icons/bs";
 import ReserveChangeForm from "@/components/modal/bookings/reservationChange/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
- 
+import {useTranslations} from 'next-intl';
+
  
 export default function reserveChange() {
   const [page, setPage] = React.useState(1);
@@ -31,6 +32,8 @@ export default function reserveChange() {
   const [searchValue, setSearchValue] = React.useState("");
   const [reservChange, setReservChange] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations('Index');
+
  
   useEffect(() => {
     const getData = async () => {
@@ -93,13 +96,13 @@ export default function reserveChange() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Tipos de Mudança de Reservas</p>
+          <p className="text-xs px-6">{t("bookings.changeTypeReservations.title")}</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
                 <Input
                   className="mt-4 w-80"
-                  placeholder="Procurar..."
+                  placeholder={t("general.search")}
                   labelPlacement="outside"
                   startContent={
                     <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
@@ -110,10 +113,10 @@ export default function reserveChange() {
               </div>
             </div>
             <ReserveChangeForm
-              buttonName={"Novo"}
+              buttonName={t("general.newRecord")}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Tipo de Mudança de Reserva"}
+              modalHeader={t("bookings.changeTypeReservations.new.modalHeader")}
               modalIcons={"bg-red"}
               formTypeModal={11}
             ></ReserveChangeForm>
@@ -151,16 +154,16 @@ export default function reserveChange() {
       >
         <TableHeader>
           <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
-            ID
+          {t("bookings.changeTypeReservations.datatable.id")}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
-            Abreviatura
+          {t("bookings.changeTypeReservations.datatable.abreviature")}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">
-            Descrição
+          {t("bookings.changeTypeReservations.datatable.description")}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
-            Ordenação
+          {t("bookings.changeTypeReservations.datatable.order")}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
             <GoGear size={20} />
@@ -173,7 +176,7 @@ export default function reserveChange() {
                         buttonName={reservChange.reservationchangeID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Tipo de Mudança de Reserva"}
+                        modalHeader={t("bookings.changeTypeReservations.edit.modalHeader")}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservChange.reservationchangeID}`}
                         formTypeModal={12}
@@ -198,10 +201,10 @@ export default function reserveChange() {
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
                       <ReserveChangeForm
-                        buttonName={"Editar"}
+                        buttonName={t("general.editRecord")}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Tipo de Mudança de Reserva"}
+                        modalHeader={t("bookings.changeTypeReservations.edit.modalHeader")}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${reservChange.reservationchangeID}`}
                         formTypeModal={12}
@@ -211,8 +214,8 @@ export default function reserveChange() {
                         editor={"teste"}
                       ></ReserveChangeForm>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>Remover</DropdownItem>
-                    <DropdownItem key="view">Ver</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(reservChange.reservationchangeID)}>{t("general.removeRecord")}</DropdownItem>
+                    <DropdownItem key="view">{t("general.viewRecord")}</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </TableCell>
