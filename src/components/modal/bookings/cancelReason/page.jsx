@@ -13,6 +13,7 @@ import cancelReasonInsert, { cancelReasonEdit } from "@/components/functionsForm
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
+import {useTranslations} from 'next-intl';
 
 
 const cancelReasonForm = ({
@@ -34,6 +35,8 @@ const cancelReasonForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputCancelReason, handleSubmitCancelReason } = cancelReasonInsert();
     const { handleUpdateCancelReason, setValuesCancelReason, valuesCancelReason } = cancelReasonEdit(idCancelReason);
@@ -76,7 +79,7 @@ const cancelReasonForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.cancelationReasons.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputCancelReason} />
 
@@ -85,7 +88,7 @@ const cancelReasonForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.cancelationReasons.description')}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputCancelReason} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -95,7 +98,7 @@ const cancelReasonForm = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
+                                                    label={t('bookings.cancelationReasons.details')}
                                                     ariaLabel={"Detalhes"}
                                                     onChange={handleInputCancelReason} />
 
@@ -110,7 +113,7 @@ const cancelReasonForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.cancelationReasons.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -157,7 +160,7 @@ const cancelReasonForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t('bookings.cancelationReasons.abreviature')}
                                                     ariaLabel={"Abreviatura"}
                                                     value={valuesCancelReason.Abreviature}
                                                     onChange={e => setValuesCancelReason({ ...valuesCancelReason, Abreviature: e.target.value })} />
@@ -167,7 +170,7 @@ const cancelReasonForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t('bookings.cancelationReasons.description')}
                                                         ariaLabel={"Descrição"}
                                                         value={valuesCancelReason.Description}
                                                         onChange={e => setValuesCancelReason({ ...valuesCancelReason, Description: e.target.value })} />
@@ -178,7 +181,7 @@ const cancelReasonForm = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
+                                                    label={t('bookings.cancelationReasons.details')}
                                                     ariaLabel={"Detalhes"}
                                                     value={valuesCancelReason.Details}
                                                     onChange={e => setValuesCancelReason({ ...valuesCancelReason, Details: e.target.value })} />
@@ -194,7 +197,7 @@ const cancelReasonForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t('bookings.cancelationReasons.status')}
                                                     </label>
                                                 </div>
                                             </ModalBody>

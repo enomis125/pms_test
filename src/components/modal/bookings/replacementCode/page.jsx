@@ -12,7 +12,7 @@ import replacementCodeInsert, { replacementCodeEdit } from "@/components/functio
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const replacementCodeForm = ({
@@ -34,6 +34,8 @@ const replacementCodeForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputReplaceCode, handleSubmitReplaceCode } = replacementCodeInsert();
     const { handleUpdateReplaceCode, setValuesReplaceCode, valuesReplaceCode } = replacementCodeEdit(idReplaceCode);
@@ -74,7 +76,7 @@ const replacementCodeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.swapCodes.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputReplaceCode} />
 
@@ -83,7 +85,7 @@ const replacementCodeForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.swapCodes.description")}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputReplaceCode} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -93,7 +95,7 @@ const replacementCodeForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.swapCodes.order")}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputReplaceCode} />
 
@@ -108,7 +110,7 @@ const replacementCodeForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.swapCodes.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -155,7 +157,7 @@ const replacementCodeForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.swapCodes.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     value={valuesReplaceCode.Abreviature}
                                                     onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Abreviature: e.target.value })} />
@@ -165,7 +167,7 @@ const replacementCodeForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.swapCodes.description")}
                                                         ariaLabel={"Descrição"}
                                                         value={valuesReplaceCode.Description}
                                                         onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Description: e.target.value })} />
@@ -176,7 +178,7 @@ const replacementCodeForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.swapCodes.order")}
                                                     ariaLabel={"Ordenação"}
                                                     value={valuesReplaceCode.Ordenation}
                                                     onChange={e => setValuesReplaceCode({ ...valuesReplaceCode, Ordenation: e.target.value })} />
@@ -192,7 +194,7 @@ const replacementCodeForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.swapCodes.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

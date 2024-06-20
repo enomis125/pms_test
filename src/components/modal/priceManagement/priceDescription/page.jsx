@@ -238,7 +238,6 @@ const priceDescriptionForm = ({
                           id={"preco1"}
                           name={"Preco1"}
                           //label={"Preço 1"}
-                          value={"0.00"}
                           style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
@@ -247,7 +246,6 @@ const priceDescriptionForm = ({
                           id={"preco2"}
                           name={"Preco2"}
                           //label={"Preço 2"}
-                          value={"0.00"}
                           style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
@@ -256,7 +254,6 @@ const priceDescriptionForm = ({
                           id={"preco3"}
                           name={"Preco3"}
                           //label={"Preço 3"}
-                          value={"0.00"}
                           style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
@@ -265,7 +262,6 @@ const priceDescriptionForm = ({
                           id={"preco4"}
                           name={"Preco4"}
                           //label={"Preço 4"}
-                          value={"0.00"}
                           style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
@@ -274,7 +270,6 @@ const priceDescriptionForm = ({
                           id={"preco5"}
                           name={"Preco5"}
                           //label={"Preço 5"}
-                          value={"0.00"}
                           style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
@@ -283,7 +278,6 @@ const priceDescriptionForm = ({
                           id={"preco6"}
                           name={"Preco6"}
                           //label={"Preço 6"}
-                          value={"0.00"}
                           style={"w-28 outline-none h-10 bg-slate-100"}
                           onChange={handleInputPriceDescription}
                         />
