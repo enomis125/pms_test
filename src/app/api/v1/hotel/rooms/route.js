@@ -59,7 +59,8 @@ export async function PUT(request) {
         const newRoomHousekeeping = await prisma.housekeeping.create({
             data: {
                 roomNumber: newRoom.roomID,
-                roomStatus: 6
+                roomStatus: 6,
+                createdBy: userID
             }
         });
 

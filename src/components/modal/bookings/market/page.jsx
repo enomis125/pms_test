@@ -12,7 +12,7 @@ import marketInsert, { marketEdit } from "@/components/functionsForm/CRUD/bookin
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-
+import {useTranslations} from 'next-intl';
 
 
 const marketForm = ({
@@ -34,6 +34,8 @@ const marketForm = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const t = useTranslations('Index');
 
     const { handleInputMarket, handleSubmitMarket } = marketInsert();
     const { handleUpdateMarket, setValuesMarket, valuesMarket } = marketEdit(idMarket);
@@ -75,7 +77,7 @@ const marketForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.marketOrigins.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     onChange={handleInputMarket} />
 
@@ -84,7 +86,7 @@ const marketForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.marketOrigins.description")}
                                                         ariaLabel={"Descrição"}
                                                         onChange={handleInputMarket} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
@@ -94,7 +96,7 @@ const marketForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.marketOrigins.order")}
                                                     ariaLabel={"Ordenação"}
                                                     onChange={handleInputMarket} />
 
@@ -109,7 +111,7 @@ const marketForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.marketOrigins.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -156,7 +158,7 @@ const marketForm = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
+                                                    label={t("bookings.marketOrigins.abreviature")}
                                                     ariaLabel={"Abreviatura"}
                                                     value={valuesMarket.Abreviature}
                                                     onChange={e => setValuesMarket({ ...valuesMarket, Abreviature: e.target.value })} />
@@ -166,7 +168,7 @@ const marketForm = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
+                                                        label={t("bookings.marketOrigins.description")}
                                                         ariaLabel={"Descrição"}
                                                         value={valuesMarket.Description}
                                                         onChange={e => setValuesMarket({ ...valuesMarket, Description: e.target.value })} />
@@ -177,7 +179,7 @@ const marketForm = ({
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
+                                                    label={t("bookings.marketOrigins.order")}
                                                     ariaLabel={"Ordenação"}
                                                     value={valuesMarket.Ordenation}
                                                     onChange={e => setValuesMarket({ ...valuesMarket, Ordenation: e.target.value })} />
@@ -193,7 +195,7 @@ const marketForm = ({
                                                         for="link-checkbox"
                                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("bookings.marketOrigins.status")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

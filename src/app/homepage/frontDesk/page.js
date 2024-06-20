@@ -13,9 +13,9 @@ const Card = () => {
 
     return (
         <>
-            <div className="border grid grid-cols-4 gap-4 justify-between py-5 px-5">
-                <div className="">
-                    <Cartao title={t("frontOffice.frontDesk.frontDesk.bookings")} description={""} listType={"/reservations"} formName={"ModalRes"} icon={<FaCalendarAlt size={35} />} formTypeCard={0} />
+        <div className="border grid grid-cols-4 gap-4 justify-between py-5 px-5">
+            <div className="">
+                <Cartao title={t("frontOffice.frontDesk.frontDesk.reservations")} description={""} listType={"/reservations"} formName={"ModalRes"} icon={<FaCalendarAlt size={35} />} formTypeCard={0}/>
                 </div>
                 <div className="">
                     <Cartao title={t("frontOffice.frontDesk.frontDesk.arrivals")} description={""} listType={"/arrivals"} formType={""} formName={""} icon={<PiAirplaneLandingFill size={35} />} formTypeCard={0} />

@@ -23,7 +23,7 @@ import { BsArrowRight } from "react-icons/bs";
 import ReplacementCodeForm from "@/components/modal/bookings/replacementCode/page";
 import PaginationTable from "@/components/table/paginationTable/paginationTable";
 import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop";
- 
+import {useTranslations} from 'next-intl';
  
 export default function Characteristics() {
   const [page, setPage] = React.useState(1);
@@ -31,6 +31,7 @@ export default function Characteristics() {
   const [searchValue, setSearchValue] = React.useState("");
   const [replaceCode, setReplaceCode] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations('Index');
  
   useEffect(() => {
     const getData = async () => {
@@ -93,13 +94,13 @@ export default function Characteristics() {
     return (
       <main>
         <div className="flex flex-col mt-3 py-3">
-          <p className="text-xs px-6">Códigos de Substituição</p>
+          <p className="text-xs px-6">{t('bookings.swapCodes.title')}</p>
           <div className="flex flex-row justify-between items-center mx-5">
             <div className="flex flex-row">
               <div className="flex flex-wrap md:flex-nowrap gap-4">
                 <Input
                   className="mt-4 w-80"
-                  placeholder="Procurar..."
+                  placeholder={t('general.search')}
                   labelPlacement="outside"
                   startContent={
                     <FiSearch color={"black"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
@@ -110,10 +111,10 @@ export default function Characteristics() {
               </div>
             </div>
             <ReplacementCodeForm
-              buttonName={"Novo"}
+              buttonName={t('general.newRecord')}
               buttonIcon={<FiPlus size={15} />}
               buttonColor={"primary"}
-              modalHeader={"Inserir Códigos de Substituição"}
+              modalHeader={t('bookings.swapCodes.new.modalHeader')}
               modalIcons={"bg-red"}
               formTypeModal={11}
             ></ReplacementCodeForm>
@@ -151,16 +152,16 @@ export default function Characteristics() {
       >
         <TableHeader>
           <TableColumn className="bg-primary-600 text-white font-bold w-[40px] uppercase">
-            ID
+          {t('bookings.swapCodes.datatable.id')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold w-64 px-40 uppercase">
-            Abreviatura
+          {t('bookings.swapCodes.datatable.abreviature')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold flex-3/4 uppercase">
-            Descrição
+          {t('bookings.swapCodes.datatable.description')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white font-bold px-20 uppercase">
-            Ordenação
+          {t('bookings.swapCodes.datatable.order')}
           </TableColumn>
           <TableColumn className="bg-primary-600 text-white flex justify-end items-center pr-7">
             <GoGear size={20} />
@@ -173,7 +174,7 @@ export default function Characteristics() {
                         buttonName={replaceCode.replacementcodeID}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Códigos de Substituição"}
+                        modalHeader={t('bookings.swapCodes.edit.modalHeader')}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${replaceCode.replacementcodeID}`}
                         formTypeModal={12}
@@ -198,10 +199,10 @@ export default function Characteristics() {
                   <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
                     <DropdownItem key="edit">
                       <ReplacementCodeForm
-                        buttonName={"Editar"}
+                        buttonName={t('general.editRecord')}
                         editIcon={<FiEdit3 size={25}/>}
                         buttonColor={"transparent"}
-                        modalHeader={"Editar Códigos de Substituição"}
+                        modalHeader={t('bookings.swapCodes.edit.modalHeader')}
                         modalEditArrow={<BsArrowRight size={25}/>}
                         modalEdit={`ID: ${replaceCode.replacementcodeID}`}
                         formTypeModal={12}
@@ -211,8 +212,8 @@ export default function Characteristics() {
                         editor={"teste"}
                       ></ReplacementCodeForm>
                     </DropdownItem>
-                    <DropdownItem key="delete" onClick={() => handleDelete(replaceCode.replacementcodeID)}>Remover</DropdownItem>
-                    <DropdownItem key="view">Ver</DropdownItem>
+                    <DropdownItem key="delete" onClick={() => handleDelete(replaceCode.replacementcodeID)}>{t('general.removeRecord')}</DropdownItem>
+                    <DropdownItem key="view">{t('general.viewRecord')}</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </TableCell>

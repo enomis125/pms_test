@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { generateMonth, months, daysOfWeek } from '@/app/util/tipologyPlan/month/monthcalendar';
 import dayjs from 'dayjs';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
@@ -99,6 +99,9 @@ export default function CalendarPage() {
   const [selectedGuestId, setSelectedGuestId] = useState('');
 
   const cellWidth = 100 / (weeks.days.length - 1);
+  const [isResizing, setIsResizing] = useState(false);
+  const reservationRefs = useRef({});
+  const resizerRefs = useRef({});
 
   const t = useTranslations('Index');
 
@@ -261,7 +264,31 @@ export default function CalendarPage() {
       console.error('Error fetching reservations:', error);
     }
   };
+  /** --- FUNÇÃO PARA AUMENTAR OU DIMINUIR RESERVA ---------------------------------------------------------------------------------------------*/
+  const handleMouseDownRightResize = (event, reservationId) => {
+    setIsResizing(true);
+    let x = event.clientX;
+    const resizeableEle = reservationRefs.current[reservationId];
+    const initialWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
+    let width = initialWidth;
 
+    const onMouseMoveRightResize = (event) => {
+      const dx = event.clientX - x;
+      width = Math.max(10, width + dx); // prevent width from going below 10px
+      resizeableEle.style.width = `${width}px`;
+      x = event.clientX;
+    };
+
+    const onMouseUpRightResize = () => {
+      document.removeEventListener('mousemove', onMouseMoveRightResize);
+      document.removeEventListener('mouseup', onMouseUpRightResize);
+      setIsResizing(false);
+    };
+
+    document.addEventListener('mousemove', onMouseMoveRightResize);
+    document.addEventListener('mouseup', onMouseUpRightResize);
+  };
+  
   /*-----FUNÇÃO PARA EXIBIR AS RESERVAS NO CALENDARIO--------------------------------------------------------------------------------------------------------- */
   const renderReservations = (reservations, date, roomType) => {
     const filteredReservations = reservations.filter((reservation) => {
@@ -269,31 +296,31 @@ export default function CalendarPage() {
       const isSameMonth = dayjs(reservation.checkInDate).month() === date.month();
       return isSameRoom && isSameMonth;
     });
-  
+
     const daysInMonth = date.daysInMonth();
     const startOfMonth = date.startOf('month');
-    
+
     const dayOffsetFromStartOfWeek = startOfMonth.day(); // Obter o dia da semana do início do mês (0-6)
-    
+
     // A largura da coluna de quartos em porcentagem
     const roomColumnWidth = 14.7; // 15%
     const calendarWidth = 84.3; // 100% - 15%
-    
+
     // Ajuste adicional para compensar possíveis bordas
     const positionAdjustment = 2.7; // 2%
-    
+
     // Ajuste de largura no checkout
     const widthAdjustment = 1.2; // 1%
-  
+
     return filteredReservations.map((reservation) => {
       const checkInDate = dayjs(reservation.checkInDate);
       const checkOutDate = dayjs(reservation.checkOutDate);
-      
+
       const dayOffset = checkInDate.date() - 1; // Ajustar para basear no índice do dia (0-based)
       const duration = checkOutDate.diff(checkInDate, 'day');
-      
+
       const leftOffset = dayOffset + dayOffsetFromStartOfWeek; // Adicionar deslocamento da semana
-      
+
       const style = {
         position: 'absolute',
         left: `calc(${roomColumnWidth}% + ${(leftOffset / (daysInMonth + dayOffsetFromStartOfWeek)) * calendarWidth}% + ${positionAdjustment}%)`, // Calcular posição correta com ajuste adicional
@@ -303,16 +330,27 @@ export default function CalendarPage() {
         padding: '1px',
         borderRadius: '4px',
         fontSize: '12px',
+        height: '30px',
       };
-  
-      const handleClick = () => {
-        alert(`Check-in: ${checkInDate.format('DD/MM/YYYY')} - Check-out: ${checkOutDate.format('DD/MM/YYYY')}`);
+
+      const textContainerStyle = {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: 'calc(100% - 5px)', // Adjust width to accommodate resizer
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: '5px', // Adjust padding as needed
       };
-  
+      
       return (
-        <div key={reservation.id} style={style} onClick={handleClick}>
-          {reservation.roomNumber}
+        <div key={reservation.id} ref={(el) => (reservationRefs.current[reservation.id] = el)} style={style} className="absolute border border-black w-full h-full">
+        <div style={textContainerStyle}>{reservation.roomNumber}</div>
+        <div ref={(el) => (resizerRefs.current[reservation.id] = el)} onMouseDown={(e) => handleMouseDownRightResize(e, reservation.id)} className="absolute bg-black cursor-ew-resize text-left" style={{ right: 0, top: 0, bottom: 0, width: 5 }}>
+          {/* Resizer content */}
         </div>
+      </div>
       );
     });
   };
@@ -384,7 +422,7 @@ export default function CalendarPage() {
 
   /*-----FUNÇÃO PARA TROCAR VISAO DA TABELA DE MES PARA SEMANAL------------------------------------------------------------------------------------ */
   const handleZoomOutClick = () => {
-    window.location.href = '/homepage/frontOffice/rooms_Plan/zoomOut';
+    window.location.href = '/homepage/frontOffice/rooms_Plan/zoom_out';
   }
 
 
@@ -475,7 +513,7 @@ export default function CalendarPage() {
               <div className="flex flex-col justify-center items-center mt-2 gap-2 px-4">
                 <p className='text-xs text-gray-500'>{t("frontOffice.plans.modals.guestDetails")}</p>
                 <div className='flex flex-row gap-2'>
-                <IndividualForm
+                  <IndividualForm
                     buttonName={t("frontOffice.frontOffice.individualCard")}
                     buttonColor={"transparent"}
                     buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
@@ -575,7 +613,7 @@ export default function CalendarPage() {
       )}
       <div className={`bg-primary-600 ${showModal ? 'py-4' : 'py-2'}`}>
         <div className='flex justify-between items-center'>
-          <p className='text-ml text-white px-4'><b>Rooms Plan</b></p>
+          <p className='text-ml text-white px-4'><b>{t("frontOffice.roomsPlan.label")}</b></p>
           <div className='flex items-center gap-5'>
             <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
             {!showModal && (
@@ -593,18 +631,18 @@ export default function CalendarPage() {
                   {(titleProps) => (
                     <div className="px-1 py-2 w-full">
                       <p className="text-small font-bold text-foreground" {...titleProps}>
-                      {t("frontOffice.plans.modals.filter")}
+                        {t("frontOffice.plans.modals.filter")}
                       </p>
                       <div className="mt-2 flex flex-col justify-around">
                         <div className="flex items-center justify-between">
                           <span className='text-center font-bold'>{selectedYear}</span>
                           <div className='flex flex-row gap-4'>
-                          <button onClick={() => handleYearChange('decrement')} className='p-2'>
-                            <IoIosArrowUp size={10} />
-                          </button>
-                          <button onClick={() => handleYearChange('increment')} className='p-2'>
-                            <IoIosArrowDown size={10} />
-                          </button>
+                            <button onClick={() => handleYearChange('decrement')} className='p-2'>
+                              <IoIosArrowUp size={10} />
+                            </button>
+                            <button onClick={() => handleYearChange('increment')} className='p-2'>
+                              <IoIosArrowDown size={10} />
+                            </button>
                           </div>
                         </div>
                         {/**EXIBIÇÃO DOS MESES EM 3 COLUNAS E 4 LINHAS */}
@@ -649,54 +687,49 @@ export default function CalendarPage() {
           </tr>
         </thead>
         <tbody>
-          {roomTypeState.map((roomType, rowIndex) => (
-            <tr key={roomType.roomID} onClick={() => handleRowSelection(rowIndex)}>
-              <td className="text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white">
-                <span>{roomType.label}</span>
-              </td>
-              {weeks.days.map((day, index) => {
-                const formattedDate = day.date.format('YYYY-MM-DD');
-                const isSelected = selectionInfo.roomID === roomType.roomID && selectionInfo.dates.includes(formattedDate);
+        {roomTypeState.map((roomType, rowIndex) => (
+          <tr key={roomType.roomID} onClick={() => handleRowSelection(rowIndex)}>
+            <td className="text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white">
+              <span>{roomType.label}</span>
+            </td>
+            {weeks.days.map((day, index) => {
+              const formattedDate = day.date.format('YYYY-MM-DD');
+              const isSelected = selectionInfo.roomID === roomType.roomID && selectionInfo.dates.includes(formattedDate);
 
-                return (
-                  <td
-                    key={index}
-                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-                    ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-sky-400" : ""}
-                    select-none`}
-                    onMouseDown={() => {
-                      {   /*                if (availableRooms <= 0) {
-                    showAlert("QUARTOS INSUFICIENTES");
-                  }*/}
-                      setIsSelecting(true);
-                      handleMouseDown(day.date, roomType.roomID, rowIndex, index);
+              return (
+                <td
+                  key={index}
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
+                  ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
+                  ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-sky-400" : ""}
+                  select-none`}
+                  onMouseDown={() => {
+                    setIsSelecting(true);
+                    handleMouseDown(day.date, roomType.roomID, rowIndex, index);
+                    setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                  }}
+                  onMouseOver={() => {
+                    if (isSelecting) {
+                      handleMouseOver(day.date, rowIndex, index);
                       setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                    }}
-                    onMouseOver={() => {
-                      if (isSelecting) {
-                        handleMouseOver(day.date, rowIndex, index);
-                        setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                        {/*if (availableRooms <= 0) {
-                      showAlert("QUARTOS INSUFICIENTES");
-                    }*/}
-                      }
-                    }}
-                    onMouseUp={() => {
-                      setIsSelecting(false);
-                      handleMouseUp(day.date);
-                    }}>
-                    {renderReservations(
-                      reservation.filter((res) => String(res.roomNumber) === roomType.label),
-                      day.date,
-                      roomType
-                    )}
-                  </td>
-                )
-              })}
-            </tr>
-          ))}
+                    }
+                  }}
+                  onMouseUp={() => {
+                    setIsSelecting(false);
+                    handleMouseUp(day.date);
+                  }}
+                >
+                  {renderReservations(
+                    reservation.filter((res) => String(res.roomNumber) === roomType.label),
+                    day.date,
+                    roomType
+                  )}
+                </td>
+              )
+            })}
+          </tr>
+        ))}
         </tbody>
       </table>
     </div>
