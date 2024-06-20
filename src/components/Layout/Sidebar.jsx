@@ -29,31 +29,31 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active:true,
             items: [
                 {
-                    ref: "/homepage/frontOffice", label: t("frontOffice.frontOffice.label"), active: true
+                    ref: "/homepage/frontOffice", label: t("sidebar.frontoffice.frontOffice"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/client_form", label: t("frontOffice.clientFiles.label"), active: true
+                    ref: "/homepage/frontOffice/client_form", label: t("sidebar.frontoffice.clientFiles"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk", label: t("frontOffice.frontDesk.frontDesk.label"), active: true
+                    ref: "/homepage/frontDesk", label: t("sidebar.frontoffice.frontDesk"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/reservations", label: t("frontOffice.frontDesk.frontDesk.bookings"), active: true
+                    ref: "/homepage/frontDesk/reservations", label: t("sidebar.frontoffice.reservations"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/arrivals", label: t("frontOffice.frontDesk.frontDesk.arrivals"), active: true
+                    ref: "/homepage/frontDesk/arrivals", label: t("sidebar.frontoffice.arrivals"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/guestlist", label: t("frontOffice.frontDesk.frontDesk.guestList"), active: true
+                    ref: "/homepage/frontDesk/guestlist", label: t("sidebar.frontoffice.guestList"), active: true
                 },
                 {
-                    ref: "/homepage/frontDesk/departures", label: t("frontOffice.frontDesk.frontDesk.departures"), active: true
+                    ref: "/homepage/frontDesk/departures", label: t("sidebar.frontoffice.departures"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/tipology_Plan", label: t("frontOffice.typologyPlan.label"), active: true
+                    ref: "/homepage/frontOffice/tipology_Plan", label: t("sidebar.frontoffice.typologiesPlan"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/rooms_Plan", label: t("frontOffice.roomsPlan.label"), active: true
+                    ref: "/homepage/frontOffice/rooms_Plan", label: t("sidebar.frontoffice.roomsPlan"), active: true
 
                 }
             ]

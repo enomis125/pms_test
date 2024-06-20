@@ -23,8 +23,8 @@
                 "arrivals": "Arrivals",
                 "guestList": "Guest List",
                 "departures": "Departures",
-                "tipologiesPlan": "Tipologies Plan",
-                "reservationsPlan": "Reservations Plan"
+                "typologiesPlan": "Typologies Plan",
+                "roomsPlan": "Rooms Plan"
             },
             "housekeeping": {
                 "label": "Housekeeping",
@@ -94,7 +94,6 @@
         },
         "frontOffice": {
             "frontOffice": {
-                "label": "Front Office",
                 "generalCard": "General",
                 "individualCard": "Individuals",
                 "businessCard": "Businesses",
@@ -136,8 +135,7 @@
             },
             "frontDesk": {
                 "frontDesk": {
-                    "label": "Front Desk",
-                    "bookings": "Bookings",
+                    "reservations": "Reservations",
                     "arrivals": "Arrivals",
                     "guestList": "Guest List",
                     "departures": "Departures"
