@@ -212,7 +212,7 @@ export default function Salutation() {
                               editor={"test"}
                             />
                           </DropdownItem>
-                          <DropdownItem key="delete" onClick={() => handleDelete(salutation.salutationID)}>Remove</DropdownItem>
+                          <DropdownItem key="delete" onClick={() => handleDelete(salutation.salutationID)}>{t('cardex.salutations.modalEditDelete')}</DropdownItem>
                           <DropdownItem key="view">View</DropdownItem>
                         </DropdownMenu>
                       </Dropdown>

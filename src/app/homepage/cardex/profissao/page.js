@@ -214,7 +214,7 @@ export default function Profession() {
                             />
                           </DropdownItem>
                           <DropdownItem key="delete" onClick={() => handleDelete(profession.professionID)}>
-                            {t('cardex.profession.delete')}
+                            {t('cardex.profession.modalEditDelete')}
                           </DropdownItem>
                           <DropdownItem key="view">View</DropdownItem>
                         </DropdownMenu>

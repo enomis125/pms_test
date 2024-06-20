@@ -223,7 +223,7 @@ export default function customerPreferences() {
                             />
                           </DropdownItem>
                           <DropdownItem key="delete" onClick={() => handleDelete(preference.clientPreferencesID)}>
-                            {t('cardex.clientPreferences.')}
+                            {t('cardex.clientPreferences.modalEditDelete')}
                           </DropdownItem>
                           <DropdownItem key="view">{t('cardex.clientPreferences.view')}</DropdownItem>
                         </DropdownMenu>

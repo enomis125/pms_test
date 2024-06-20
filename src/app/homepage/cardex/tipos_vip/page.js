@@ -208,7 +208,7 @@ export default function Vipcode() {
                           />
                         </DropdownItem>
                         <DropdownItem key="delete" onClick={() => handleDelete(vipcode.customerCode)}>
-                          {t("cardex.viptypes.headerActions")}
+                          {t("cardex.viptypes.modalEditDelete")}
                         </DropdownItem>
                         <DropdownItem key="view">Ver</DropdownItem>
                       </DropdownMenu>

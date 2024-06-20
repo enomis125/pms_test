@@ -203,7 +203,7 @@ export default function Knowledgemethod() {
                             />
                           </DropdownItem>
                           <DropdownItem key="delete" onClick={() => handleDelete(knowledgemethod.knowledgeMethodID)}>
-                            {t('cardex.knowledgemethod.delete')}
+                            {t('cardex.knowledgemethod.modalEditDelete')}
                           </DropdownItem>
                           <DropdownItem key="view">View</DropdownItem>
                         </DropdownMenu>

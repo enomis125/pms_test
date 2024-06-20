@@ -225,7 +225,7 @@ export default function Nationalities() {
                             />
                           </DropdownItem>
                           <DropdownItem key="delete" onClick={() => handleDelete(nationality.codeNr)}>
-                            {t('cardex.nationalities.delete')}
+                            {t('cardex.nationalities.modalEditDelete')}
                           </DropdownItem>
                           <DropdownItem key="view">View</DropdownItem>
                         </DropdownMenu>

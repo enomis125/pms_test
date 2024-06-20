@@ -211,7 +211,7 @@ export default function Members() {
                             />
                           </DropdownItem>
                           <DropdownItem key="delete" onClick={() => handleDelete(member.memberID)}>
-                            {t("cardex.members.deleteError")}
+                            {t("cardex.members.modalEditDelete")}
                           </DropdownItem>
                           <DropdownItem key="view">View</DropdownItem>
                         </DropdownMenu>

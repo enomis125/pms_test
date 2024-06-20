@@ -1085,7 +1085,7 @@
         },
         "cardex": {
             "cardex": {
-                "cardexCardSaudation": "GREETING TABLE",
+                "cardexCardSaudation": "SALUTATIONS TABLE",
                 "cardexCardNationalities": "TABLE OF NATIONALITIES",
                 "cardexCardKnowledgeMethods": "KNOWLEDGE METHODS",
                 "cardexCardProfessions": "TABLE OF PROFESSIONS",
@@ -1098,7 +1098,7 @@
             },
             "salutations": {
                 "headerID": "ID",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "headerTitle": "Title",
                 "headerType": "Type",
@@ -1110,13 +1110,14 @@
                 "modalEditID": "ID: ",
                 "deleteSuccess": "Salutation removed successfully!",
                 "deleteError": "Error removing salutation.",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Salutation",
                     "modalEditHeader": "Edit Salutation",
                     "buttonSave": "Save",
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description",
                     "labelTreat": "Treat",
                     "labelGender": "Gender",
@@ -1146,6 +1147,7 @@
                 "modalEditID": "ID: ",
                 "deleteSuccess": "Nationality removed successfully!",
                 "deleteError": "Error removing nationality.",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Nationality",
                     "modalEditHeader": "Edit Nationality",
@@ -1163,7 +1165,7 @@
             },
             "knowledgemethod": {
                 "headerID": "ID",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "searchPlaceholder": "Search...",
                 "buttonNew": "New",
@@ -1173,6 +1175,7 @@
                 "deleteSuccess": "Method removed successfully!",
                 "deleteError": "Error removing method.",
                 "knowledgeMethodHeader": "Knowledge Method",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Knowledge Method",
                     "modalEditHeader": "Edit Knowledge Method",
@@ -1180,7 +1183,7 @@
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
                     "labelGroup": "Group",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description",
                     "labelEstado": "State"
                 }
@@ -1188,7 +1191,7 @@
             "profession": {
                 "headerID": "ID",
                 "headerGroup": "Group",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "headerOrdering": "Ordering",
                 "headerProperty": "Property",
@@ -1200,6 +1203,7 @@
                 "deleteSuccess": "Profession removed successfully!",
                 "deleteError": "Error removing profession.",
                 "professionHeader": "Profession",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Profession",
                     "modalEditHeader": "Edit Profession",
@@ -1207,13 +1211,13 @@
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
                     "labelGroup": "Group",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description"
                 }
             },
             "idDocument": {
                 "headerID": "ID",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "searchPlaceholder": "Search...",
                 "headerOrdering": "Ordering",
@@ -1225,6 +1229,7 @@
                 "deleteSuccess": "Document removed successfully!",
                 "deleteError": "Error removing Document.",
                 "identificationDocHeader": "Identification Document",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Document Type",
                     "modalEditHeader": "Edit Document Type",
@@ -1232,14 +1237,14 @@
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
                     "labelGroup": "Group",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description",
                     "labelStatus": "Status"
                 }
             },
             "clientPreferences": {
                 "headerID": "ID",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "headerGroup": "Group",
                 "searchPlaceholder": "Search...",
@@ -1253,6 +1258,7 @@
                 "deleteError": "Error removing Document.",
                 "view": "View",
                 "clientPreferencesheader":"Client Preferences",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Client Preference",
                     "modalEditHeader": "Edit Client Preference",
@@ -1260,7 +1266,7 @@
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
                     "labelGroup": "Group",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description",
                     "labelStatus": "Status"
                 }
@@ -1270,7 +1276,7 @@
                 "headerName": "Name",
                 "headerCode": "Code",
                 "headerOrdering": "Ordering",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "headerFunction": "Function",
                 "headerDetails": "Details",
@@ -1283,12 +1289,13 @@
                 "modalEditID": "ID: ",
                 "deleteSuccess": "Client removed successfully!",
                 "deleteError": "Error removing client.",
-                "languagesHeader": "Languages"
+                "languagesHeader": "Languages",
+                "modalEditDelete":"Delete"
             },
             "members": {
                 "headerID": "ID",
                 "headerGroup": "Group",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "headerOrder": "Order",
                 "headerProperty": "Property",
@@ -1301,6 +1308,7 @@
                 "deleteSuccess": "Member removed successfully!",
                 "deleteError": "Error removing member.",
                 "membersHeader":"Members",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Member",
                     "modalEditHeader": "Edit Member",
@@ -1308,7 +1316,7 @@
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
                     "labelGroup": "Group",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description",
                     "labelStatus": "Status"
                 }
@@ -1316,7 +1324,7 @@
             "marketing": {
                 "headerID": "ID",
                 "headerGroup": "Group",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "headerOrder": "Order",
                 "headerProperty": "Property",
@@ -1329,6 +1337,7 @@
                 "deleteSuccess": "Marketing removed successfully!",
                 "deleteError": "Error removing marketing.",
                 "marketingHeader": "Marketing",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert Marketing",
                     "modalEditHeader": "Edit Marketing",
@@ -1336,14 +1345,14 @@
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
                     "labelGroup": "Group",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description",
                     "labelStatus": "Status"
                 }
             },
             "viptypes": {
                 "headerID": "ID",
-                "headerAbbreviation": "Abbreviation",
+                "headerAbbreviation": "Shortname",
                 "headerDescription": "Description",
                 "headerOrder": "Order",
                 "headerProperty": "Property",
@@ -1356,13 +1365,14 @@
                 "deleteSuccess": "VIP removed successfully!",
                 "deleteError": "Error removing VIP.",
                 "vipTypesheader": "Vip Types",
+                "modalEditDelete":"Delete",
                 "new": {
                     "modalInsertHeader": "Insert VIP Code",
                     "modalEditHeader": "Edit VIP Code",
                     "buttonSave": "Save",
                     "buttonExpand": "Expand",
                     "buttonClose": "Close",
-                    "labelAbreviature": "Abbreviation",
+                    "labelAbreviature": "Shortname",
                     "labelDescription": "Description",
                     "labelDetails": "Details",
                     "labelStatus": "Status"

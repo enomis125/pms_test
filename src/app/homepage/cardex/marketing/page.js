@@ -211,7 +211,7 @@ export default function Marketing() {
                             />
                           </DropdownItem>
                           <DropdownItem key="delete" onClick={() => handleDelete(marketing.marketingID)}>
-                            {t("cardex.marketing.headerActions")}
+                            {t("cardex.marketing.modalEditDelete")}
                           </DropdownItem>
                           <DropdownItem key="view">View</DropdownItem>
                         </DropdownMenu>

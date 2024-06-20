@@ -159,7 +159,7 @@ export default function Characteristics() {
                           formTypeModal={41}
                         ></FormModals>
                       </DropdownItem>
-                      <DropdownItem key="delete">{t('cardex.languages.deleteSuccess')}</DropdownItem>
+                      <DropdownItem key="delete">{t('cardex.languages.modalEditDelete')}</DropdownItem>
                       <DropdownItem key="see">{t('cardex.languages.deleteError')}</DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
