@@ -1128,6 +1128,11 @@
                     "radioFirstName": "First Name",
                     "radioNoExt": "No Ext.",
                     "labelType": "Type"
+                },
+                "pagination": {
+                    "noRecords": "0 results",
+                    "pageRecords": "Records per Page:",
+                    "of": "of"
                 }
             },
             "nationalities": {
@@ -1161,6 +1166,11 @@
                     "labelGroup": "Group",
                     "labelOrdenation": "Order",
                     "labelIsocode": "ISO Code"
+                },
+                "pagination": {
+                    "noRecords": "0 results",
+                    "pageRecords": "Records per Page:",
+                    "of": "of"
                 }
             },
             "knowledgemethod": {

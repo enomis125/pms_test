@@ -4,6 +4,7 @@ import { Pagination, Button } from "@nextui-org/react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { CSVLink } from "react-csv";
+import { useTranslations } from "next-intl";
 
 export default function CustomPagination({
   page,
@@ -16,6 +17,7 @@ export default function CustomPagination({
   dataCSVButton,
 }) {
   const pathname = usePathname();
+  const t = useTranslations('Index'); // Fetch translations
   const segments = pathname.split('/');
   const lastSegment = segments[segments.length - 1];
   const filename = `${lastSegment}.csv`;
@@ -79,7 +81,7 @@ export default function CustomPagination({
             className="mx-5"
           />
           <div>
-            <span className="text-sm text-black">Linhas por página:</span>
+            <span className="text-sm text-black"> {t('pagination.pageRecords')}</span>
             <select
               value={rowsPerPage}
               onChange={handleChangeRowsPerPage}
@@ -96,8 +98,8 @@ export default function CustomPagination({
               ? `${(page - 1) * rowsPerPage + 1}-${Math.min(
                   page * rowsPerPage,
                   items.length
-                )} de ${items.length}`
-              : "0 resultados"}
+                )} ${t('pagination.of')} ${items.length}`
+              : t('pagination.noRecords')}
           </div>
         </div>
       </div>

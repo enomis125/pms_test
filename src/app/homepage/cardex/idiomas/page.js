@@ -183,7 +183,7 @@ export default function Characteristics() {
           />
           <div>
             <span className="text-sm text-black">
-              {t('headerStatus')}
+             Linhas por página
             </span>
             <select
               value={rowsPerPage}
