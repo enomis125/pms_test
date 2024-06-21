@@ -1080,6 +1080,13 @@
                     "itemoccurrence": "Item Occurrence",
                     "user": "user",
                     "updatedon": "Updated On"
+                },
+                "dropDown":{
+                    "buttonEdit" : "Edit",
+                    "buttonView" : "View",
+                    "buttonDelete" : "Delete",
+                    "buttonFound" : "Found",
+                    "buttonConcluded" : "Concluded"
                 }
             }
         },

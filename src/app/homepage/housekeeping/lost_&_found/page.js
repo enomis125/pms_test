@@ -136,7 +136,7 @@ export default function lostAndFound() {
         return (
           <DropdownMenu>
             <DropdownItem key="delete"><LostandFoundForm
-              buttonName={"Editar"}
+              buttonName={t("housekeeping.lostandfound.dropDown.buttonEdit")}
               editIcon={<FiEdit3 size={25} />}
               buttonColor={"transparent"}
               modalHeader={"Editar Item"}
@@ -146,17 +146,17 @@ export default function lostAndFound() {
               editor={"teste"}
             >Editar</LostandFoundForm>
             </DropdownItem>
-            <DropdownItem key="edit">Encontrado</DropdownItem>
-            <DropdownItem key="apagar">Excluir</DropdownItem>
+            <DropdownItem key="edit">{t("housekeeping.lostandfound.dropDown.buttonFound")}</DropdownItem>
+            <DropdownItem key="apagar">{t("housekeeping.lostandfound.dropDown.buttonDelete")}</DropdownItem>
           </DropdownMenu>
         );
 
       case 2:
         return (
           <DropdownMenu>
-            <DropdownItem key="edit">Editar</DropdownItem>
-            <DropdownItem onClick={() => handleStatusChange(referenceNumber, 3)}>Concluído</DropdownItem>
-            <DropdownItem key="delete">Excluir</DropdownItem>
+            <DropdownItem key="edit">{t("housekeeping.lostandfound.dropDown.buttonEdit")}</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(referenceNumber, 3)}>{t("housekeeping.lostandfound.dropDown.buttonConcluded")}</DropdownItem>
+            <DropdownItem key="delete">{t("housekeeping.lostandfound.dropDown.buttonDelete")}</DropdownItem>
           </DropdownMenu>
         );
 
@@ -164,8 +164,8 @@ export default function lostAndFound() {
       case 3:
         return (
           <DropdownMenu>
-            <DropdownItem key="edit">Editar</DropdownItem>
-            <DropdownItem key="delete">Excluir</DropdownItem>
+            <DropdownItem key="edit">{t("housekeeping.lostandfound.dropDown.buttonEdit")}</DropdownItem>
+            <DropdownItem key="delete">{t("housekeeping.lostandfound.dropDown.buttonDelete")}</DropdownItem>
           </DropdownMenu>
         );
     }

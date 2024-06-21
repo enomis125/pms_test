@@ -7,7 +7,7 @@ import {
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { IoPeopleSharp } from "react-icons/io5";
-import { FaBed, FaXmark, FaCheck, FaCheckDouble } from "react-icons/fa6";
+import { FaBed, FaXmark, FaCheck } from "react-icons/fa6";
 import { TbTransferVertical } from "react-icons/tb";
 import { MdComputer, MdOutlineTouchApp } from "react-icons/md";
 import { ImWrench } from "react-icons/im";
@@ -15,6 +15,7 @@ import { GiBroom } from "react-icons/gi";
 import { IoFilter } from "react-icons/io5";
 import { RxFrame } from "react-icons/rx";
 import { HiRefresh } from "react-icons/hi";
+import { CgSearchFound } from "react-icons/cg";
 
 import {useTranslations} from 'next-intl'; 
 
@@ -75,7 +76,7 @@ export default function ManagementForm() {
             console.log("Room Number:", roomNumber);
 
             // Realiza o PUT request para atualizar o estado na base de dados
-            await axios.put(`/api/v1/housekeeping/management`, {
+            await axios.patch(`/api/v1/housekeeping/management`, {
                 data: {
                     roomNumber,
                     roomStatus,
@@ -148,13 +149,13 @@ export default function ManagementForm() {
                         </td>
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
-                                <FaCheck />
+                                <CgSearchFound size={20}/>
                                 <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableChecked")}</span>
                             </div>
                         </td>
                         <td className={`h-14 border-tableCol select-none w-[150px]`}>
                             <div className='flex items-center justify-center text-center bg-white border border-grey p-2 rounded-lg mr-3'>
-                                <FaCheckDouble />
+                                <FaCheck />
                                 <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableClean")}</span>
                             </div>
                         </td>
