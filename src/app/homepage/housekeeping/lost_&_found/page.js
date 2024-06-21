@@ -342,7 +342,6 @@ export default function lostAndFound() {
                 name={"Search"}
                 label={t("housekeeping.lostandfound.lostandfoundSearchRoom")}
                 ariaLabel={"room"}
-                style={"mt-4"}
                 value={roomNumberFilter}
                 onChange={(e) => setRoomNumberFilter(e.target.value)}
               />
@@ -352,7 +351,6 @@ export default function lostAndFound() {
                 name={"Search"}
                 label={t("housekeeping.lostandfound.lostandfoundSearchGuestName")}
                 ariaLabel={"search"}
-                style={"mt-4"}
                 value={guestNameFilter}
                 onChange={(e) => setGuestNameFilter(e.target.value)}
               />
