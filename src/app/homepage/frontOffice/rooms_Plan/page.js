@@ -84,6 +84,8 @@ export default function CalendarPage() {
 
   const [nights, setNights] = useState([]);
 
+  const [newEndDate, setNewEndDate] = useState(null);
+
   const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
   //FILTRO DE BOTOES 
@@ -177,78 +179,84 @@ export default function CalendarPage() {
   /*-----FUNÇÃO PARA SELECIONAR, ARRASTAR E LARGAR AS CELULAS----------------------------------------------------------------------------- */
   const handleMouseDown = (date, roomID, rowIndex, columnIndex) => {
     const formattedDate = date.format('YYYY-MM-DD');
-    setSelectionInfo({ roomID, dates: [formattedDate] });
+    if (!isResizing) {
+      setSelectionInfo({ roomID, dates: [formattedDate] });
 
-    // Check if there are available rooms for the selected date and room type
-    //const availableRooms = updatedAvailability[roomTypeID][formattedDate];
-    setIsDragging(true);
-    setIsSelecting(true);
-    setStartDate(formattedDate);
-    setSelectedRow(rowIndex);
-    setSelectedColumn(columnIndex); // Definir a coluna selecionada
-    setSelectedCells([{ row: rowIndex, column: columnIndex }]);
-    const newSelectedCell = { row: rowIndex, column: columnIndex, date };
-    setCellsSelection([...cellsSelection, newSelectedCell]);
-    if (ctrlPressed) {
-      setSelectionInfo(prev => ({
-        roomID: prev.roomID,
-        dates: [...prev.dates, formattedDate]
-      }));
-      setStartDate2(formattedDate);
+      // Check if there are available rooms for the selected date and room type
+      //const availableRooms = updatedAvailability[roomTypeID][formattedDate];
+      setIsDragging(true);
+      setIsSelecting(true);
+      setStartDate(formattedDate);
+      setSelectedRow(rowIndex);
+      setSelectedColumn(columnIndex); // Definir a coluna selecionada
+      setSelectedCells([{ row: rowIndex, column: columnIndex }]);
+      const newSelectedCell = { row: rowIndex, column: columnIndex, date };
+      setCellsSelection([...cellsSelection, newSelectedCell]);
+      if (ctrlPressed) {
+        setSelectionInfo(prev => ({
+          roomID: prev.roomID,
+          dates: [...prev.dates, formattedDate]
+        }));
+        setStartDate2(formattedDate);
+      }
     }
   };
 
   const handleMouseOver = (date, rowIndex, columnIndex) => {
-    if (isDragging && selectionInfo.roomID) {
-      setTipology(selectionInfo.roomID);
-      const formattedDate = date.format('YYYY-MM-DD');
-      setSelectedCells(prevCells => [...prevCells, { row: rowIndex, column: columnIndex }]);
-      if (!selectionInfo.dates.includes(formattedDate)) {
-        setSelectionInfo(prev => ({
-          ...prev,
-          dates: [...prev.dates, formattedDate]
-        }));
+    if (!isResizing) {
+      if (isDragging && selectionInfo.roomID) {
+        setTipology(selectionInfo.roomID);
+        const formattedDate = date.format('YYYY-MM-DD');
+        setSelectedCells(prevCells => [...prevCells, { row: rowIndex, column: columnIndex }]);
+        if (!selectionInfo.dates.includes(formattedDate)) {
+          setSelectionInfo(prev => ({
+            ...prev,
+            dates: [...prev.dates, formattedDate]
+          }));
+        }
+        setSelectedRow(rowIndex); // Atualizar a linha selecionada
+        setSelectedColumn(columnIndex); // Atualizar a coluna selecionada
       }
-      setSelectedRow(rowIndex); // Atualizar a linha selecionada
-      setSelectedColumn(columnIndex); // Atualizar a coluna selecionada
     }
   };
 
   const handleMouseUp = (date) => {
-    if (isDragging) {
-      setIsDragging(false);
-      setShowModal(true);
-      setFinalSelectedCells(selectedCells);
-      const formattedDate = date.format('YYYY-MM-DD');
-      const selectedRoom = roomTypeState.find(t => t.roomID === selectionInfo.roomID);
-      const roomName = selectedRoom ? selectedRoom.label : '';
-      const roomID = selectedRoom ? selectedRoom.roomID : '';
-      const tipologyID = selectedRoom ? selectedRoom.roomType : '';
-      // Extrair o segundo número (valor) do objeto groupReservation
-      const groupNumber = Object.values(groupReservation)[0] || '';
+    if (!isResizing) {
+      if (isDragging) {
+        setIsDragging(false);
+        setShowModal(true);
+        setFinalSelectedCells(selectedCells);
+        const formattedDate = date.format('YYYY-MM-DD');
+        const selectedRoom = roomTypeState.find(t => t.roomID === selectionInfo.roomID);
+        const roomName = selectedRoom ? selectedRoom.label : '';
+        const roomID = selectedRoom ? selectedRoom.roomID : '';
+        const tipologyID = selectedRoom ? selectedRoom.roomType : '';
+        // Extrair o segundo número (valor) do objeto groupReservation
+        const groupNumber = Object.values(groupReservation)[0] || '';
 
-      // Calcular o número de noites
-      const numberNights = calculateNights(startDate, formattedDate);
-      setNights(numberNights);
+        // Calcular o número de noites
+        const numberNights = calculateNights(startDate, formattedDate);
+        setNights(numberNights);
 
-      if (ctrlPressed) {
-        // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
-        setEndDate2(date.format('YYYY-MM-DD'), () => {
-          // O estado endDate2 foi atualizado, agora você pode acessá-lo com segurança
-          setSelectedDates((prevDates) => [...prevDates,
-          { start: startDate, end: formattedDate, roomName, roomID, tipologyID, numberNights },
-          { start: startDate2, end: formattedDate, roomName, roomID, tipologyID, numberNights },
-          ]);
-        });
-      } else {
-        // Se a tecla Ctrl não está pressionada, defina startDate e endDate
-        setEndDate(date.format('YYYY-MM-DD'));
-        // Usar o estado anterior para garantir que endDate tenha o valor atualizado
-        setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: formattedDate, roomName, roomID, tipologyID, numberNights }]);
+        if (ctrlPressed) {
+          // Se a tecla Ctrl está pressionada, defina startDate2 e endDate2
+          setEndDate2(date.format('YYYY-MM-DD'), () => {
+            // O estado endDate2 foi atualizado, agora você pode acessá-lo com segurança
+            setSelectedDates((prevDates) => [...prevDates,
+            { start: startDate, end: formattedDate, roomName, roomID, tipologyID, numberNights },
+            { start: startDate2, end: formattedDate, roomName, roomID, tipologyID, numberNights },
+            ]);
+          });
+        } else {
+          // Se a tecla Ctrl não está pressionada, defina startDate e endDate
+          setEndDate(date.format('YYYY-MM-DD'));
+          // Usar o estado anterior para garantir que endDate tenha o valor atualizado
+          setSelectedDates((prevDates) => [...prevDates, { start: startDate, end: formattedDate, roomName, roomID, tipologyID, numberNights }]);
+        }
+
+        // Limpar seleção após o uso
+        setSelectionInfo({ roomID: null, dates: [] });
       }
-
-      // Limpar seleção após o uso
-      setSelectionInfo({ roomID: null, dates: [] });
     }
   };
 
@@ -265,30 +273,32 @@ export default function CalendarPage() {
     }
   };
   /** --- FUNÇÃO PARA AUMENTAR OU DIMINUIR RESERVA ---------------------------------------------------------------------------------------------*/
-  const handleMouseDownRightResize = (event, reservationId) => {
+  const handleMouseDownRightResize = (event, reservationId, date) => {
     setIsResizing(true);
     let x = event.clientX;
     const resizeableEle = reservationRefs.current[reservationId];
     const initialWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
     let width = initialWidth;
-
+  
     const onMouseMoveRightResize = (event) => {
       const dx = event.clientX - x;
       width = Math.max(10, width + dx); // prevent width from going below 10px
       resizeableEle.style.width = `${width}px`;
       x = event.clientX;
     };
-
+  
     const onMouseUpRightResize = () => {
       document.removeEventListener('mousemove', onMouseMoveRightResize);
       document.removeEventListener('mouseup', onMouseUpRightResize);
       setIsResizing(false);
+      setNewEndDate(date.format('YYYY-MM-DD')); // Convert the Day.js object to a string before setting the newEndDate state
+      alert(`New end date: ${newEndDate}`);
     };
-
+  
     document.addEventListener('mousemove', onMouseMoveRightResize);
     document.addEventListener('mouseup', onMouseUpRightResize);
   };
-  
+
   /*-----FUNÇÃO PARA EXIBIR AS RESERVAS NO CALENDARIO--------------------------------------------------------------------------------------------------------- */
   const renderReservations = (reservations, date, roomType) => {
     const filteredReservations = reservations.filter((reservation) => {
@@ -323,8 +333,9 @@ export default function CalendarPage() {
 
       const style = {
         position: 'absolute',
-        left: `calc(${roomColumnWidth}% + ${(leftOffset / (daysInMonth + dayOffsetFromStartOfWeek)) * calendarWidth}% + ${positionAdjustment}%)`, // Calcular posição correta com ajuste adicional
-        width: `calc(${(duration / daysInMonth) * calendarWidth}% - ${widthAdjustment}%)`, // Calcular largura correta e ajustar largura no checkout
+        left: `calc(${roomColumnWidth}% + ${(leftOffset / (daysInMonth + dayOffsetFromStartOfWeek)) * calendarWidth}% + ${positionAdjustment}%)`,
+        width: `calc(${(duration / daysInMonth) * calendarWidth}% - ${widthAdjustment}%)`,
+        marginTop: -15,
         backgroundColor: 'red',
         color: 'white',
         padding: '1px',
@@ -343,14 +354,19 @@ export default function CalendarPage() {
         alignItems: 'center',
         paddingLeft: '5px', // Adjust padding as needed
       };
-      
+
       return (
         <div key={reservation.id} ref={(el) => (reservationRefs.current[reservation.id] = el)} style={style} className="absolute border border-black w-full h-full">
-        <div style={textContainerStyle}>{reservation.roomNumber}</div>
-        <div ref={(el) => (resizerRefs.current[reservation.id] = el)} onMouseDown={(e) => handleMouseDownRightResize(e, reservation.id)} className="absolute bg-black cursor-ew-resize text-left" style={{ right: 0, top: 0, bottom: 0, width: 5 }}>
-          {/* Resizer content */}
+          <div style={textContainerStyle}>{reservation.roomNumber}</div>
+          <div
+            ref={(el) => (resizerRefs.current[reservation.id] = el)}
+            onMouseDown={(e) => handleMouseDownRightResize(e, reservation.id, date)}
+            className="absolute bg-black cursor-ew-resize text-left"
+            style={{ right: 0, top: 0, bottom: 0, width: 5 }}
+          >
+            {/* Resizer content */}
+          </div>
         </div>
-      </div>
       );
     });
   };
@@ -687,49 +703,49 @@ export default function CalendarPage() {
           </tr>
         </thead>
         <tbody>
-        {roomTypeState.map((roomType, rowIndex) => (
-          <tr key={roomType.roomID} onClick={() => handleRowSelection(rowIndex)}>
-            <td className="text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white">
-              <span>{roomType.label}</span>
-            </td>
-            {weeks.days.map((day, index) => {
-              const formattedDate = day.date.format('YYYY-MM-DD');
-              const isSelected = selectionInfo.roomID === roomType.roomID && selectionInfo.dates.includes(formattedDate);
+          {roomTypeState.map((roomType, rowIndex) => (
+            <tr key={roomType.roomID} onClick={() => handleRowSelection(rowIndex)}>
+              <td className="text-xs w-full h-10 flex justify-between items-center px-4 border-b-2 bg-white">
+                <span>{roomType.label}</span>
+              </td>
+              {weeks.days.map((day, index) => {
+                const formattedDate = day.date.format('YYYY-MM-DD');
+                const isSelected = selectionInfo.roomID === roomType.roomID && selectionInfo.dates.includes(formattedDate);
 
-              return (
-                <td
-                  key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                return (
+                  <td
+                    key={index}
+                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
                   ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
                   ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
                   ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-sky-400" : ""}
                   select-none`}
-                  onMouseDown={() => {
-                    setIsSelecting(true);
-                    handleMouseDown(day.date, roomType.roomID, rowIndex, index);
-                    setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                  }}
-                  onMouseOver={() => {
-                    if (isSelecting) {
-                      handleMouseOver(day.date, rowIndex, index);
+                    onMouseDown={() => {
+                      setIsSelecting(true);
+                      handleMouseDown(day.date, roomType.roomID, rowIndex, index);
                       setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                    }
-                  }}
-                  onMouseUp={() => {
-                    setIsSelecting(false);
-                    handleMouseUp(day.date);
-                  }}
-                >
-                  {renderReservations(
-                    reservation.filter((res) => String(res.roomNumber) === roomType.label),
-                    day.date,
-                    roomType
-                  )}
-                </td>
-              )
-            })}
-          </tr>
-        ))}
+                    }}
+                    onMouseOver={() => {
+                      if (isSelecting) {
+                        handleMouseOver(day.date, rowIndex, index);
+                        setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                      }
+                    }}
+                    onMouseUp={() => {
+                      setIsSelecting(false);
+                      handleMouseUp(day.date);
+                    }}
+                  >
+                    {renderReservations(
+                      reservation.filter((res) => String(res.roomNumber) === roomType.label),
+                      day.date,
+                      roomType
+                    )}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
