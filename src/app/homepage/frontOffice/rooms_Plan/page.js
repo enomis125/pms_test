@@ -279,6 +279,7 @@ export default function CalendarPage() {
     const resizeableEle = reservationRefs.current[reservationId];
     const initialWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
     let width = initialWidth;
+    setNewEndDate(date.format('YYYY-MM-DD'));
   
     const onMouseMoveRightResize = (event) => {
       const dx = event.clientX - x;
@@ -291,7 +292,6 @@ export default function CalendarPage() {
       document.removeEventListener('mousemove', onMouseMoveRightResize);
       document.removeEventListener('mouseup', onMouseUpRightResize);
       setIsResizing(false);
-      setNewEndDate(date.format('YYYY-MM-DD')); // Convert the Day.js object to a string before setting the newEndDate state
       alert(`New end date: ${newEndDate}`);
     };
   
