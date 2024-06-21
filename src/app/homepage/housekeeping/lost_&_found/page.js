@@ -123,10 +123,10 @@ export default function lostAndFound() {
   const handleButtonClick = (buttonValue) => {
     if (selectedButton === buttonValue) {
       setSelectedButton(null);
-      setDropdownType(null); 
+     
     } else {
       setSelectedButton(buttonValue);
-      setDropdownType(buttonValue); 
+      
     }
   };
 
@@ -134,19 +134,20 @@ export default function lostAndFound() {
     switch (isFound) {
       case 1:
         return (
-          <DropdownMenu>
-            <DropdownItem key="delete"><LostandFoundForm
+          <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
+            <DropdownItem key="edit" aria-label="Editar detalhes">
+              <LostandFoundForm
               buttonName={t("housekeeping.lostandfound.dropDown.buttonEdit")}
               editIcon={<FiEdit3 size={25} />}
               buttonColor={"transparent"}
               modalHeader={"Editar Item"}
               modalEditArrow={<BsArrowRight size={25} />}
-              modalEdit={`ID: ${lostAndFound.idLostandFound}`}
+              modalEdit={`ID: ${referenceNumber}`}
               formTypeModal={12}
               editor={"teste"}
             >Editar</LostandFoundForm>
             </DropdownItem>
-            <DropdownItem key="edit">{t("housekeeping.lostandfound.dropDown.buttonFound")}</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(referenceNumber, 2)}>{t("housekeeping.lostandfound.dropDown.buttonFound")}</DropdownItem>
             <DropdownItem key="apagar">{t("housekeeping.lostandfound.dropDown.buttonDelete")}</DropdownItem>
           </DropdownMenu>
         );
