@@ -18,6 +18,7 @@ import { BsHouseGearFill } from "react-icons/bs";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 import { RadioGroup, Radio } from "@nextui-org/react";
 import { useTranslations } from 'next-intl';
+import axios from "axios";
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
     const t = useTranslations('Index');
