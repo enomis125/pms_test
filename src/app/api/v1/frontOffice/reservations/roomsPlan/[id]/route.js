@@ -43,12 +43,7 @@ export async function PATCH(request, context) {
                 reservationID: parseInt(id),
             },
             data: {
-                checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
-                nightCount: parseInt(data.nightCount),
-                adultCount: parseInt(data.adultCount),
-                updatedBy: userID,
-                reservationStatus: parseInt(data.reservationStatus),
 
             }
         })
