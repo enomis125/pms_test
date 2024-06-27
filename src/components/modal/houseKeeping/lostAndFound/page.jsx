@@ -154,7 +154,7 @@ const LostAndFoundForm = ({
             )}
             {formTypeModal === 12 && (
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
+                    <Button onPress={onOpen} color={buttonColor}  className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal

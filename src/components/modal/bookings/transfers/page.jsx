@@ -50,13 +50,13 @@ const transferForm = ({
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -126,23 +126,23 @@ const transferForm = ({
             {
                 formTypeModal === 12 && ( //transfers edit
                     <>
-                        <Button onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
-                            {buttonName} {buttonIcon}
-                        </Button>
-                        <Modal
-                            classNames={{
-                                base: "max-h-screen",
-                                wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                                body: "h-full",
-                            }}
-                            size="full"
-                            isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
-                            <ModalContent>
-                                {(onClose) => (
+                       <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
+                        {buttonName} {buttonIcon}
+                    </Button>
+                    <Modal
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
                                     <>
-                                        <>
-                                            <form onSubmit={handleUpdateTransfer}>
-                                                <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                        <form onSubmit={(e) => handleUpdateTransfer(e)}>
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                                     <div className="flex flex-row justify-start gap-4">
                                                         {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
                                                     </div>
