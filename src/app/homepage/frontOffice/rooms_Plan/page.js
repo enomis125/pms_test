@@ -84,8 +84,6 @@ export default function CalendarPage() {
 
   const [nights, setNights] = useState([]);
 
-  const [newEndDate, setNewEndDate] = useState(null);
-
   const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
   //FILTRO DE BOTOES 
@@ -100,10 +98,12 @@ export default function CalendarPage() {
   const [isGuestNameValid, setIsGuestNameValid] = useState(false);
   const [selectedGuestId, setSelectedGuestId] = useState('');
 
-  const cellWidth = 100 / (weeks.days.length - 1);
   const [isResizing, setIsResizing] = useState(false);
+  const [newEndDate, setNewEndDate] = useState(null);
+  const [resizedEndDate, setResizedEndDate] = useState(null);
   const reservationRefs = useRef({});
   const resizerRefs = useRef({});
+
 
   const t = useTranslations('Index');
 
@@ -231,8 +231,6 @@ export default function CalendarPage() {
         const roomName = selectedRoom ? selectedRoom.label : '';
         const roomID = selectedRoom ? selectedRoom.roomID : '';
         const tipologyID = selectedRoom ? selectedRoom.roomType : '';
-        // Extrair o segundo número (valor) do objeto groupReservation
-        const groupNumber = Object.values(groupReservation)[0] || '';
 
         // Calcular o número de noites
         const numberNights = calculateNights(startDate, formattedDate);
@@ -273,32 +271,135 @@ export default function CalendarPage() {
     }
   };
   /** --- FUNÇÃO PARA AUMENTAR OU DIMINUIR RESERVA ---------------------------------------------------------------------------------------------*/
-  const handleMouseDownRightResize = (event, reservationId, date) => {
+  const [cellWidth, setCellWidth] = useState(55); // Add a state for cellWidth
+  const [startDateResize, setStartDateResize] = useState(dayjs()); // Add a state for startDate
+  
+  useEffect(() => {
+    const tableElement = document.getElementById('table-id');
+    if (tableElement) {
+      const tableWidth = tableElement.offsetWidth;
+      const calendarWidth = tableWidth * 0.85;
+      const totalDaysInMonth = startDateResize.daysInMonth();
+      const initialCellWidth = calendarWidth / totalDaysInMonth;
+      setCellWidth(initialCellWidth);
+    }
+  }, [startDateResize]);
+  
+  const handleMouseDownRightResize = (event, reservationID, date, checkOutDate) => {
     setIsResizing(true);
     let x = event.clientX;
-    const resizeableEle = reservationRefs.current[reservationId];
+    const resizeableEle = reservationRefs.current[reservationID];
     const initialWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
     let width = initialWidth;
-    setNewEndDate(date.format('YYYY-MM-DD'));
+    const startDate = dayjs(date); // Data de início do redimensionamento
+    let localNewEndDate = dayjs(checkOutDate); // Data de término atual da reserva
+  
+    const initialCellIndex = Math.floor((x - resizeableEle.offsetLeft) / cellWidth);
+    const initialDate = startDate.clone().add(initialCellIndex, 'day');
   
     const onMouseMoveRightResize = (event) => {
       const dx = event.clientX - x;
-      width = Math.max(10, width + dx); // prevent width from going below 10px
+      width = Math.max(10, width + dx); // Garante que a largura não seja menor que 10px
       resizeableEle.style.width = `${width}px`;
       x = event.clientX;
+  
+      // Calcula a nova data de término com base na largura atual
+      const cells = Math.round(width / cellWidth);
+      const newEndDate = startDate.clone().add(cells - 1, 'day');
+  
+      // Atualiza a data de término local
+      localNewEndDate = newEndDate;
     };
   
-    const onMouseUpRightResize = () => {
+    const onMouseUpRightResize = async () => {
       document.removeEventListener('mousemove', onMouseMoveRightResize);
       document.removeEventListener('mouseup', onMouseUpRightResize);
       setIsResizing(false);
-      alert(`New end date: ${newEndDate}`);
+  
+      // Atualiza startDateResize com a nova data de término
+      setStartDateResize(localNewEndDate);
+  
+      // Use localNewEndDate para qualquer processamento ou logging adicional
+      console.log("Nova data de término:", localNewEndDate.format('DD-MM-YYYY'));
+  
+      try {
+        // Enviar a nova data para a API usando PATCH
+        const response = await axios.patch(`/api/v1/frontOffice/reservations/roomsPlan/${reservationID}`, {
+          data: {
+            checkOutDate: localNewEndDate.format('YYYY-MM-DD'),
+          },
+        });
+        console.log('Reserva atualizada:', response.data);
+        // Você pode adicionar lógica adicional aqui para atualizar o estado das reservas na sua aplicação
+      } catch (error) {
+        console.error('Erro ao atualizar reserva:', error);
+      }
     };
   
     document.addEventListener('mousemove', onMouseMoveRightResize);
     document.addEventListener('mouseup', onMouseUpRightResize);
   };
 
+
+  /*const [cellWidth, setCellWidth] = useState(55); // Add a state for cellWidth
+  const [startDateResize, setStartDateResize] = useState(dayjs()); // Add a state for startDate
+  
+  useEffect(() => {
+    const tableElement = document.getElementById('table-id');
+    if (tableElement) {
+      const tableWidth = tableElement.offsetWidth;
+      const calendarWidth = tableWidth * 0.85;
+      const totalDaysInMonth = startDateResize.daysInMonth();
+      const initialCellWidth = calendarWidth / totalDaysInMonth;
+      setCellWidth(initialCellWidth);
+    }
+  }, [startDateResize]);
+  
+  const handleMouseDownRightResize = (event, reservationID, date, checkOutDate) => {
+    setIsResizing(true);
+    let x = event.clientX;
+    const resizeableEle = reservationRefs.current[reservationID];
+    const initialWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
+    let width = initialWidth;
+    const startDate = dayjs(date); // Data de início do redimensionamento
+    let localNewEndDate = dayjs(checkOutDate); // Data de término atual da reserva
+  
+    const initialCellIndex = Math.floor((x - resizeableEle.offsetLeft) / cellWidth);
+    const initialDate = startDate.clone().add(initialCellIndex, 'day');
+  
+    const onMouseMoveRightResize = (event) => {
+      const dx = event.clientX - x;
+      width = Math.max(10, width + dx); // Garante que a largura não seja menor que 10px
+      resizeableEle.style.width = `${width}px`;
+      x = event.clientX;
+  
+      // Calcula a nova data de término com base na largura atual
+      const cells = Math.round(width / cellWidth);
+      const newEndDate = startDate.clone().add(cells - 1, 'day');
+  
+      // Atualiza a data de término local
+      localNewEndDate = newEndDate;
+    };
+  
+    const onMouseUpRightResize = () => {
+      document.removeEventListener('mousemove', onMouseMoveRightResize);
+      document.removeEventListener('mouseup', onMouseUpRightResize);
+      setIsResizing(false);
+  
+      // Atualiza a data de término da reserva com a nova data calculada
+      updateReservationEndDate(reservationID, localNewEndDate);
+    };
+  
+    document.addEventListener('mousemove', onMouseMoveRightResize);
+    document.addEventListener('mouseup', onMouseUpRightResize);
+  };
+  
+  const updateReservationEndDate = (reservationID, newEndDate) => {
+    // Implemente a lógica para atualizar a data de término da reserva na sua aplicação
+    console.log("Nova data de término:", newEndDate.format('DD-MM-YYYY'));
+    // Exemplo: dispatch para atualizar a reserva no estado ou enviar para o backend
+  };*/
+   
   /*-----FUNÇÃO PARA EXIBIR AS RESERVAS NO CALENDARIO--------------------------------------------------------------------------------------------------------- */
   const renderReservations = (reservations, date, roomType) => {
     const filteredReservations = reservations.filter((reservation) => {
@@ -309,17 +410,14 @@ export default function CalendarPage() {
 
     const daysInMonth = date.daysInMonth();
     const startOfMonth = date.startOf('month');
-
-    const dayOffsetFromStartOfWeek = startOfMonth.day(); // Obter o dia da semana do início do mês (0-6)
+    const dayOffsetFromStartOfWeek = startOfMonth.day(); // Dia da semana do início do mês (0-6)
 
     // A largura da coluna de quartos em porcentagem
     const roomColumnWidth = 14.7; // 15%
     const calendarWidth = 84.3; // 100% - 15%
 
-    // Ajuste adicional para compensar possíveis bordas
+    // Ajustes adicionais para compensar possíveis bordas
     const positionAdjustment = 2.7; // 2%
-
-    // Ajuste de largura no checkout
     const widthAdjustment = 1.2; // 1%
 
     return filteredReservations.map((reservation) => {
@@ -329,12 +427,17 @@ export default function CalendarPage() {
       const dayOffset = checkInDate.date() - 1; // Ajustar para basear no índice do dia (0-based)
       const duration = checkOutDate.diff(checkInDate, 'day');
 
-      const leftOffset = dayOffset + dayOffsetFromStartOfWeek; // Adicionar deslocamento da semana
+      // Cálculo do left para iniciar meio pixel mais para a direita do início da célula de check-in
+      const leftOffset = dayOffset + dayOffsetFromStartOfWeek + 0.3; // Adicionar deslocamento da semana e meio pixel extra
+
+      // Cálculo da largura para terminar no meio da célula de check-out
+      const totalCellWidth = (duration / daysInMonth) * calendarWidth; // Largura total da reserva em relação ao calendário
+      const width = totalCellWidth - widthAdjustment; // Ajuste de largura para terminar no meio da célula
 
       const style = {
         position: 'absolute',
         left: `calc(${roomColumnWidth}% + ${(leftOffset / (daysInMonth + dayOffsetFromStartOfWeek)) * calendarWidth}% + ${positionAdjustment}%)`,
-        width: `calc(${(duration / daysInMonth) * calendarWidth}% - ${widthAdjustment}%)`,
+        width: `calc(${width}% - ${widthAdjustment}%)`,
         marginTop: -15,
         backgroundColor: 'red',
         color: 'white',
@@ -356,15 +459,15 @@ export default function CalendarPage() {
       };
 
       return (
-        <div key={reservation.id} ref={(el) => (reservationRefs.current[reservation.id] = el)} style={style} className="absolute border border-black w-full h-full">
+        <div key={reservation.reservationID} ref={(el) => (reservationRefs.current[reservation.reservationID] = el)} style={style} className="absolute border border-black w-full h-full">
           <div style={textContainerStyle}>{reservation.roomNumber}</div>
           <div
-            ref={(el) => (resizerRefs.current[reservation.id] = el)}
-            onMouseDown={(e) => handleMouseDownRightResize(e, reservation.id, date)}
+            ref={(el) => (resizerRefs.current[reservation.reservationID] = el)}
+            onMouseDown={(e) => handleMouseDownRightResize(e, reservation.reservationID, reservation.checkOutDate, date)}
             className="absolute bg-black cursor-ew-resize text-left"
             style={{ right: 0, top: 0, bottom: 0, width: 5 }}
           >
-            {/* Resizer content */}
+            {/* Conteúdo do redimensionador */}
           </div>
         </div>
       );
