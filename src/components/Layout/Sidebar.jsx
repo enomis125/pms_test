@@ -283,6 +283,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 {
                     ref: "/homepage/priceManagement/seasons", label: t('sidebar.priceManagement.seasons'), active: true
                 },
+                {
+                    ref: "/homepage/priceManagement/price_table", label: t('sidebar.priceManagement.priceTable'), active: true
+                },
 
             ]
         }

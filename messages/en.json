@@ -90,7 +90,9 @@
                 "label": "Price Management",
                 "priceCodes": "Price Codes",
                 "priceCodesDescription": "Price Codes Description",
-                "seasons": "Seasons"
+                "seasons": "Seasons",
+                "priceTable" : "Price Table"
+                
             }
         },
         "frontOffice": {
