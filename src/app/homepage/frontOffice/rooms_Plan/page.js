@@ -46,6 +46,9 @@ export default function CalendarPage() {
   const [reservationRange, setReservationRange] = useState({ start: null, end: null });
 
   const [roomTypeState, setRoomTypeState] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]);
+  const [hkpStatus, setHkpStatus] = useState([]);
+
   const [reservation, setReservation] = useState([]);
 
   const [dragStart, setDragStart] = useState(null);
@@ -119,7 +122,6 @@ export default function CalendarPage() {
         const resRooms = await axios.get(`/api/v1/hotel/rooms`);
         const allRooms = resRooms.data.response;
         setRoomTypeState(allRooms);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -127,6 +129,57 @@ export default function CalendarPage() {
 
     getData();
   }, []);
+
+  /*------CHAMA A API DAS TIPOLOGIAS ------------------------------------------- */
+  useEffect(() => {
+    const getRoomTypes = async () => {
+      try {
+        const resRoomTypes = await axios.get(`/api/v1/hotel/tipologys`);
+        const allRoomTypes = resRoomTypes.data.response;
+        setRoomTypes(allRoomTypes);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getRoomTypes();
+  }, []);
+
+  const getRoomTypeName = (roomType) => {
+    const type = roomTypes.find(type => type.roomTypeID === roomType);
+    return type ? type.name : 'Unknown';
+  };
+
+  /*------CHAMA A API DO HOUSEKEEPING ------------------------------------------- */
+  useEffect(() => {
+    const getHousekeeping = async () => {
+      try {
+        const resHousekeeping = await axios.get(`/api/v1/housekeeping/housekeeping`);
+        const housekeepingRecords = resHousekeeping.data.housekeepingRecords;
+  
+        // Verificação para garantir que housekeepingRecords é um array
+        if (Array.isArray(housekeepingRecords)) {
+          setHkpStatus(housekeepingRecords);
+  
+          // Exibir no console o roomStatus de cada item
+          housekeepingRecords.forEach(room => {
+            console.log(room.roomStatus);
+          });
+        } else {
+          console.error("Unexpected response format:", resHousekeeping.data);
+        }
+      } catch (error) {
+        console.error("Error fetching housekeeping data:", error);
+      }
+    };
+  
+    getHousekeeping();
+  }, []);
+
+  const getHousekeepingStatus = (roomID) => {
+    const roomHkp = hkpStatus.find(roomHkp => roomHkp.roomNumber === roomID);
+    return roomHkp ? roomHkp.roomStatus : 'Unknown';
+  };
 
   /*----FUNÇÕES PARA NAVEGAR 1 MES PARA TRAS, PARA A FRENTE OU PARA IR PARA O ATUAL---------------------------------------------------------------------------- */
   const goToPreviousMonth = () => {
@@ -273,7 +326,7 @@ export default function CalendarPage() {
   /** --- FUNÇÃO PARA AUMENTAR OU DIMINUIR RESERVA ---------------------------------------------------------------------------------------------*/
   const [cellWidth, setCellWidth] = useState(55); // Add a state for cellWidth
   const [startDateResize, setStartDateResize] = useState(dayjs()); // Add a state for startDate
-  
+
   useEffect(() => {
     const tableElement = document.getElementById('table-id');
     if (tableElement) {
@@ -284,7 +337,7 @@ export default function CalendarPage() {
       setCellWidth(initialCellWidth);
     }
   }, [startDateResize]);
-  
+
   const handleMouseDownRightResize = (event, reservationID, date, checkOutDate) => {
     setIsResizing(true);
     let x = event.clientX;
@@ -293,35 +346,35 @@ export default function CalendarPage() {
     let width = initialWidth;
     const startDate = dayjs(date); // Data de início do redimensionamento
     let localNewEndDate = dayjs(checkOutDate); // Data de término atual da reserva
-  
+
     const initialCellIndex = Math.floor((x - resizeableEle.offsetLeft) / cellWidth);
     const initialDate = startDate.clone().add(initialCellIndex, 'day');
-  
+
     const onMouseMoveRightResize = (event) => {
       const dx = event.clientX - x;
       width = Math.max(10, width + dx); // Garante que a largura não seja menor que 10px
       resizeableEle.style.width = `${width}px`;
       x = event.clientX;
-  
+
       // Calcula a nova data de término com base na largura atual
       const cells = Math.round(width / cellWidth);
       const newEndDate = startDate.clone().add(cells - 1, 'day');
-  
+
       // Atualiza a data de término local
       localNewEndDate = newEndDate;
     };
-  
+
     const onMouseUpRightResize = async () => {
       document.removeEventListener('mousemove', onMouseMoveRightResize);
       document.removeEventListener('mouseup', onMouseUpRightResize);
       setIsResizing(false);
-  
+
       // Atualiza startDateResize com a nova data de término
       setStartDateResize(localNewEndDate);
-  
+
       // Use localNewEndDate para qualquer processamento ou logging adicional
       console.log("Nova data de término:", localNewEndDate.format('DD-MM-YYYY'));
-  
+
       try {
         // Enviar a nova data para a API usando PATCH
         const response = await axios.patch(`/api/v1/frontOffice/reservations/roomsPlan/${reservationID}`, {
@@ -335,7 +388,7 @@ export default function CalendarPage() {
         console.error('Erro ao atualizar reserva:', error);
       }
     };
-  
+
     document.addEventListener('mousemove', onMouseMoveRightResize);
     document.addEventListener('mouseup', onMouseUpRightResize);
   };
@@ -399,7 +452,7 @@ export default function CalendarPage() {
     console.log("Nova data de término:", newEndDate.format('DD-MM-YYYY'));
     // Exemplo: dispatch para atualizar a reserva no estado ou enviar para o backend
   };*/
-   
+
   /*-----FUNÇÃO PARA EXIBIR AS RESERVAS NO CALENDARIO--------------------------------------------------------------------------------------------------------- */
   const renderReservations = (reservations, date, roomType) => {
     const filteredReservations = reservations.filter((reservation) => {
@@ -809,7 +862,11 @@ export default function CalendarPage() {
           {roomTypeState.map((roomType, rowIndex) => (
             <tr key={roomType.roomID} onClick={() => handleRowSelection(rowIndex)}>
               <td className="text-xs w-full h-10 flex justify-between items-center px-4 border-b-2 bg-white">
-                <span>{roomType.label}</span>
+                <div className='flex justify-left gap-2'>
+                  <span>{roomType.label}</span>
+                  <span>{getRoomTypeName(roomType.roomType)}</span> {/* Exibe o nome da tipologia */}
+                </div>
+                <span>{getHousekeepingStatus(roomType.roomID)}</span> {/* Exibe o status */}
               </td>
               {weeks.days.map((day, index) => {
                 const formattedDate = day.date.format('YYYY-MM-DD');
