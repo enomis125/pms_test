@@ -15,13 +15,51 @@ import { IoMdPricetags } from "react-icons/io";
 import { PiUsersFourFill } from "react-icons/pi";
 import { MdOutlineCleaningServices } from "react-icons/md";
 import { BsHouseGearFill } from "react-icons/bs";
-
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import { RadioGroup, Radio } from "@nextui-org/react";
 import { useTranslations } from 'next-intl';
+import axios from "axios";
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
     const t = useTranslations('Index');
 
     const hotelSetup = process.env.NEXT_PUBLIC_HOTEL_SETUP === "true";
+
+    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const [selected, setSelected] = useState('');
+
+
+    const languages = [
+        { label: 'Português', value: 'pt' },
+        { label: 'Espanhol', value: 'es' },
+        { label: 'Francês', value: 'fr' },
+        { label: 'Inglês', value: 'en' }
+    ];
+
+    const handleOpen = () => {
+        setIsOpen(true);
+    };
+
+    const handleClose = () => {
+        setIsOpen(false);
+    };
+
+    const handleLanguageSelect = async () => {
+        const selectedLang = languages.find(lang => lang.label === selected);
+        setSelectedLanguage(selectedLang ? selectedLang.value : '');
+        console.log('Selected language:', selectedLang ? selectedLang.value : '');
+
+        const setCookie = await axios.post(`/api/languageCookies`, {
+            data: {
+                language: selectedLang.value
+            }
+        })
+
+        handleClose();
+
+        window.location.reload(true);
+    };
 
     const listItems = {
         //"Dashboard": [],
@@ -274,13 +312,47 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
 
                     <hr className="border-t border-primary-800 my-4" />
 
-                    <br />
+                    <div className="flex items-center gap-x-2">
+                    <Button size="sm" className="bg-slate-200 uppercase" onClick={handleOpen}>
+                            {selectedLanguage || 'Select Language'}
+                        </Button>
+                        <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
+                            <ModalContent>
+                                {(onClose) => (
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1">Select Language</ModalHeader>
+                                        <ModalBody>
+                                            <div className="flex flex-col gap-3">
+                                                <RadioGroup value={selected} onValueChange={setSelected}>
+                                                    {languages.map((language) => (
+                                                        <Radio key={language.value} value={language.label}>
+                                                            {language.value.toUpperCase()} - {language.label}
+                                                        </Radio>
+                                                    ))}
+                                                </RadioGroup>
+                                                <p className="text-default-500 text-small">Selected: {selected}</p>
+                                            </div>
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="danger" variant="light" onClick={onClose}>
+                                                Close
+                                            </Button>
+                                            <Button color="primary" onClick={handleLanguageSelect}>
+                                                Choose
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                )}
+                            </ModalContent>
+                        </Modal>
+
 
                     <div className="flex items-center space-x-2">
                         <Link href="/dashboard" className='flex space-x-4 align-middle ml-3'>
                             <FaUser className="text-2xl text-primary-800" />
                             <span className="text-sm text-primary-800 font-semibold">Sujeito Teste</span>
                         </Link>
+                    </div>
                     </div>
 
                     <br />

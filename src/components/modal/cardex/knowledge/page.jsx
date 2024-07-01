@@ -41,13 +41,13 @@ const KnowledgeForm = ({
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
                         <ModalContent>
                             {(onClose) => (
                                 <form onSubmit={handleSubmitKnowledgeMethod}>
@@ -111,17 +111,17 @@ const KnowledgeForm = ({
 
             {formTypeModal === 12 && (
                 <>
-                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
+                   <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
                         <ModalContent>
                             {(onClose) => (
                                 <form onSubmit={(e) => handleUpdateKnowledgeMethod(e)}>

@@ -12,7 +12,7 @@ import reserveMotiveInsert, { reserveMotiveEdit } from "@/components/functionsFo
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-import {useTranslations} from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 
 const reservationMotiveForm = ({
@@ -52,13 +52,13 @@ const reservationMotiveForm = ({
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -130,13 +130,13 @@ const reservationMotiveForm = ({
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: isExpanded ? "w-full h-screen" : "lg:pl-72 h-screen w-full",
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
                         <ModalContent>
                             {(onClose) => (
                                 <>

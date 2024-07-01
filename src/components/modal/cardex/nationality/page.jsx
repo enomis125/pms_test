@@ -41,17 +41,17 @@ const NationalityForm = ({
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: "lg:pl-72 h-screen w-full", // Adjust wrapper classes as needed
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
                         <ModalContent>
                             {(onClose) => (
                                 <form onSubmit={handleSubmitNacionality}>
-                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                   <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                         {t('cardex.nationalities.new.modalInsertHeader')}
                                         <div className='flex flex-row items-center mr-5'>
                                             <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
@@ -126,13 +126,13 @@ const NationalityForm = ({
                         {buttonName} {buttonIcon}
                     </Button>
                     <Modal
-                        classNames={{
-                            base: "max-h-screen",
-                            wrapper: "lg:pl-72 h-screen w-full", // Adjust wrapper classes as needed
-                            body: "h-full",
-                        }}
-                        size="full"
-                        isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                        isOpen={isOpen}
+                        hideCloseButton={true}
+                        onOpenChange={onOpenChange}
+                        isDismissable={false}
+                        isKeyboardDismissDisabled={true}
+                        className="z-50"
+                    >
                         <ModalContent>
                             {(onClose) => (
                                 <form onSubmit={(e) => handleUpdateNationality(e)}>
