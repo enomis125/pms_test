@@ -17,6 +17,12 @@ import CompanyForm from "@/components/modal/frontOffice/clientForm/companies/pag
 import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAgency/page";
 import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
 import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
+import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import {
+  Autocomplete,
+  AutocompleteSection,
+  AutocompleteItem
+} from "@nextui-org/autocomplete";
 import { BiSolidPencil } from "react-icons/bi";
 import { FiPlus, FiX } from 'react-icons/fi';
 import { FaCalendarAlt, FaRegTrashAlt, FaRegUserCircle, FaBed } from 'react-icons/fa';
@@ -71,7 +77,7 @@ export default function CalendarPage() {
   const [cellsSelection, setCellsSelection] = useState([]);
 
 
-  //FILTRO DE BOTOES 
+  //FILTRO DE BOTOES
   const [showButton, setShowButton] = useState(false);
 
   const currentYear = dayjs().year();
@@ -103,7 +109,7 @@ export default function CalendarPage() {
   const [nights, setNights] = useState([]);
 
   const t = useTranslations('Index');
-   
+
   const handleToggleModal = () => {
     setShowModal(!showModal);
   };
@@ -578,38 +584,38 @@ export default function CalendarPage() {
               <div className="flex flex-col justify-center items-center mt-2 gap-2 px-4">
                 <p className='text-xs text-gray-500'>{t("frontOffice.plans.modals.guestDetails")}</p>
                 <div className='flex flex-row gap-2'>
-                <IndividualForm
-                  buttonName={t("frontOffice.frontOffice.individualCard")}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
-                <CompanyForm
-                  buttonName={t("frontOffice.frontOffice.businessCard")}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
-                <GroupForm
-                  buttonName={t("frontOffice.frontOffice.groupsCard")}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
+                  <IndividualForm
+                    buttonName={t("frontOffice.frontOffice.individualCard")}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                  <CompanyForm
+                    buttonName={t("frontOffice.frontOffice.businessCard")}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                  <GroupForm
+                    buttonName={t("frontOffice.frontOffice.groupsCard")}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
                 </div>
                 <div className='flex flex-row gap-2'>
-                <TravelGroupForm
-                  buttonName={t("frontOffice.frontOffice.travelAgencyCard")}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
-                <OthersForm
-                  buttonName={t("frontOffice.frontOffice.othersCard")}
-                  buttonColor={"transparent"}
-                  buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
-                  formTypeModal={0}
-                />
+                  <TravelGroupForm
+                    buttonName={t("frontOffice.frontOffice.travelAgencyCard")}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[7rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
+                  <OthersForm
+                    buttonName={t("frontOffice.frontOffice.othersCard")}
+                    buttonColor={"transparent"}
+                    buttonClass={"h-5 w-[6rem] px-1 rounded-2xl bg-gray-300 text-xs text-black border-2 border-gray-400 hover:bg-blue-600 hover:border-blue-600 hover:text-white"}
+                    formTypeModal={0}
+                  />
                 </div>
               </div>
             )}
@@ -679,7 +685,10 @@ export default function CalendarPage() {
 
       <div className={`bg-primary-600 ${showModal ? 'py-4' : 'py-2'}`}>
         <div className='flex justify-between items-center'>
-          <p className='text-ml text-white px-4'><b>{t("frontOffice.typologyPlan.label")}</b></p>
+          <p className='text-ml text-white px-4'><b>{t("priceManagement.priceTable.title")}</b></p>
+          <CountryAutocomplete className="w-5" label={t("priceManagement.priceTable.priceDescriptionHeader")} />
+          <CountryAutocomplete label={t("priceManagement.priceTable.people")} />
+          <CountryAutocomplete label={t("priceManagement.priceTable.filters")} />
           <div className='flex items-center gap-5'>
             <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
             {!showModal && (
@@ -696,35 +705,35 @@ export default function CalendarPage() {
                 <PopoverContent className="w-[250px]">
                   {(titleProps) => (
                     <div className="px-1 py-2 w-full">
-                    <p className="text-small font-bold text-foreground" {...titleProps}>
-                    {t("frontOffice.plans.modals.filter")}
-                    </p>
-                    <div className="mt-2 flex flex-col justify-around">
-                      <div className="flex items-center justify-between">
-                        <span className='text-center font-bold'>{selectedYear}</span>
-                        <div className='flex flex-row gap-4'>
-                        <button onClick={() => handleYearChange('decrement')} className='p-2'>
-                          <IoIosArrowUp size={10} />
-                        </button>
-                        <button onClick={() => handleYearChange('increment')} className='p-2'>
-                          <IoIosArrowDown size={10} />
-                        </button>
+                      <p className="text-small font-bold text-foreground" {...titleProps}>
+                        {t("frontOffice.plans.modals.filter")}
+                      </p>
+                      <div className="mt-2 flex flex-col justify-around">
+                        <div className="flex items-center justify-between">
+                          <span className='text-center font-bold'>{selectedYear}</span>
+                          <div className='flex flex-row gap-4'>
+                            <button onClick={() => handleYearChange('decrement')} className='p-2'>
+                              <IoIosArrowUp size={10} />
+                            </button>
+                            <button onClick={() => handleYearChange('increment')} className='p-2'>
+                              <IoIosArrowDown size={10} />
+                            </button>
+                          </div>
+                        </div>
+                        {/**EXIBIÇÃO DOS MESES EM 3 COLUNAS E 4 LINHAS */}
+                        <div className="mt-4 grid grid-cols-4 gap-2">
+                          {months.map((month, index) => (
+                            <button
+                              key={index}
+                              onClick={() => handleMonthChange(index)}
+                              className={`p-2 text-center rounded-full w-12 h-12 hover:bg-primary`}
+                            >
+                              {month}
+                            </button>
+                          ))}
                         </div>
                       </div>
-                      {/**EXIBIÇÃO DOS MESES EM 3 COLUNAS E 4 LINHAS */}
-                      <div className="mt-4 grid grid-cols-4 gap-2">
-                        {months.map((month, index) => (
-                          <button
-                            key={index}
-                            onClick={() => handleMonthChange(index)}
-                            className={`p-2 text-center rounded-full w-12 h-12 hover:bg-primary`}
-                          >
-                            {month}
-                          </button>
-                        ))}
-                      </div>
                     </div>
-                  </div>
                   )}
                 </PopoverContent>
               </Popover>
@@ -739,9 +748,9 @@ export default function CalendarPage() {
         <thead>
           <tr>
             {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
-            <th className='w-[15%] bg-tableCol text-left px-4'>{t("frontOffice.typologyPlan.datatable.typologys")}</th>
+            <th className='w-[15%] bg-tableCol text-left px-4'>{t("priceManagement.priceTable.rates")}</th>
             {weeks[currentWeekIndex].map((day, index) => (
-              <td key={index} className={`w-[5%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
+              <td key={index} className={`w-[5%] h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none
               ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
                 <div className='flex flex-col justify-center text-center'>
                   <span className="text-xs text-gray-400">{daysOfWeek[day.date.day()]}</span>
@@ -758,15 +767,6 @@ export default function CalendarPage() {
             <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex)}>
               <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
                 <span>{roomType.name}</span>
-                <div className='flex flex-row items-center gap-2'>
-                  <span>{roomCounts[roomType.roomTypeID] || 0}</span>
-                  <span><BiSolidPencil size={15} color='gray' onClick={() => {
-                    const newCount = prompt("Enter the number of rooms:");
-                    if (newCount !== null && !isNaN(newCount)) {
-                      handleRoomCountUpdate(roomType.roomTypeID, parseInt(newCount));
-                    }
-                  }} /></span>
-                </div>
               </td>
               {weeks[currentWeekIndex].map((day, index) => {
                 const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
@@ -778,10 +778,10 @@ export default function CalendarPage() {
                 return (
                   <td
                     key={index}
-                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
+                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
+                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
                     ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}  
+                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}
                     select-none`}
                     onMouseDown={() => {
                       {   /*                if (availableRooms <= 0) {
@@ -816,235 +816,9 @@ export default function CalendarPage() {
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
+                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
                     }`}></td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*DAY USE LINHA */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.dayUse")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/* CALCULA O NÚMERO DE QUARTOS DISPONÍVEIS */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.totalAvailable")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              const totalAvailable = roomTypeState.reduce((acc, roomType) => {
-                return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
-              }, 0);
-              return (
-                <td
-                  key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}
-                >
-                  {totalAvailable}
-                </td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/* TOTAL OVERBOOKING */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.totalOverbooking")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              const dayFormat = day.date.format('YYYY-MM-DD');
-              const totalOverbooking = totalOverbookings[dayFormat] || 0;
-              return (
-                <td
-                  key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
-                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
-                  `}>
-                  {totalOverbooking}
-                </td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*ALLOT - NON DED/NOT PU */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.allotNonDedNotPu")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*ALLOT - NON DED/PU */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.allotNonDedPu")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*ALLOT - DEDUCT/NOT PU */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.allotDeductNotPu")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*ALLOT - DEDUCT/PU */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.allotDeductPu")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*OUT OF ORDER*/}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.outOfOrder")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*OPTION - DEDUCT*/}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.optionDeduct")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*OPTION - NON DEDUCT*/}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.optionNonDeduct")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*CONFIRMED - DEDUCT*/}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.confirmedDeduct")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}>0</td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*CALCULA O NRM DE QUARTOS FISICOS DISPONIVEIS*/}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.physicallyAvailable")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              const totalAvailable = roomTypeState.reduce((acc, roomType) => {
-                return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
-              }, 0);
-              return (
-                <td
-                  key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}
-                >
-                  {totalAvailable}
-                </td>
-              );
-            })}
-          </tr>
-          <tr>
-            {/*
-            CALCULA A % DE QUARTOS JÁ OCUPADOS
-            O% - TODOS OS QUARTOS LIVRES | 100% - TODOS OS QUARTOS OCUPADOS
-            */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-              <span>{t("frontOffice.typologyPlan.datatable.occupation")}</span>
-            </td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              const totalAvailableRooms = roomTypeState.reduce((acc, roomType) => {
-                return acc + (availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0);
-              }, 0);
-              const totalOccupiedRooms = roomTypeState.reduce((acc, roomType) => {
-                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-                const occupiedRooms = (roomCounts[roomType.roomTypeID] || 0) - availableRooms;
-                return acc + occupiedRooms;
-              }, 0);
-              const totalRooms = roomTypeState.reduce((acc, roomType) => acc + (roomCounts[roomType.roomTypeID] || 0), 0);
-              const dailyOccupancyPercentage = totalRooms > 0 ? Math.round((totalOccupiedRooms / totalRooms) * 100) : 0;
-
-              return (
-                /*
-                PINTA A CELULA DE ACORDO COM A %
-                VERDE 0 A 49
-                AMARELO 50 A 69
-                VERMELHO 70 A 100
-                */
-                <td
-                  key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                  ${dailyOccupancyPercentage <= 49 ? "bg-green bg-opacity-30" : ""} 
-                  ${dailyOccupancyPercentage >= 50 && dailyOccupancyPercentage <= 69 ? "bg-yellow-100" : ""} 
-                  ${dailyOccupancyPercentage >= 70 ? "bg-red-200" : ""} 
-                  border-tableCol select-none`}>
-                  {dailyOccupancyPercentage}%
-                </td>
               );
             })}
           </tr>

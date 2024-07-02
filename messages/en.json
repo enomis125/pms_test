@@ -92,7 +92,7 @@
                 "priceCodesDescription": "Price Codes Description",
                 "seasons": "Seasons",
                 "priceTable" : "Price Table"
-                
+
             }
         },
         "frontOffice": {
@@ -842,7 +842,15 @@
                 "view": {
                     "modalHeader": "View Price Code"
                 }
+            },
+            "priceTable":{
+                "title" : "Rates Table",
+                "rates" : "Rates",
+                "people" : "People",
+                "filters" : "Filters",
+                "priceDescriptionHeader": "Price Description Header"
             }
+
         },
         "hotel": {
             "hotel": {
