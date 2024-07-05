@@ -15,6 +15,7 @@ import knowledgeMethodInsert from "@/components/functionsForm/CRUD/cardex/knowle
 import doctypesInsert from "@/components/functionsForm/CRUD/cardex/doctypes/page";
 import marketingInsert from "@/components/functionsForm/CRUD/cardex/marketing/page";
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
+import { useTranslations } from "next-intl";
 
 
 
@@ -33,6 +34,7 @@ const formModals = ({
     formTypeModal,
 }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const t = useTranslations('Index'); // Fetch translations
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
 
@@ -68,86 +70,79 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitSalutation}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.salutations.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-
                                                 <div className="flex items-center">
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"abreviature"}
                                                         name={"Abreviature"}
-                                                        label={"Abreviatura"}
-                                                        ariaLabel={"Abreviatura"}
+                                                        label={t("cardex.salutations.new.labelAbreviature")}
+                                                        ariaLabel={t("cardex.salutations.new.labelAbreviature")}
                                                         onChange={handleInputSalutation} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("cardex.salutations.new.labelDescription")}
+                                                    ariaLabel={t("cardex.salutations.new.labelDescription")}
                                                     onChange={handleInputSalutation} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"treat"}
                                                     name={"Treat"}
-                                                    label={"Tratamento"}
-                                                    ariaLabel={"Tratamento"}
+                                                    label={t("cardex.salutations.new.labelTreat")}
+                                                    ariaLabel={t("cardex.salutations.new.labelTreat")}
                                                     onChange={handleInputSalutation} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"gender"}
                                                     name={"Gender"}
-                                                    label={"Trat.Pessoal"}
-                                                    ariaLabel={"Trat.Pessoal"}
+                                                    label={t("cardex.salutations.new.labelGender")}
+                                                    ariaLabel={t("cardex.salutations.new.labelGender")}
                                                     onChange={handleInputSalutation} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"title"}
                                                     name={"Title"}
-                                                    label={"Titulo"}
-                                                    ariaLabel={"Titulo"}
+                                                    label={t("cardex.salutations.new.labelTitle")}
+                                                    ariaLabel={t("cardex.salutations.new.labelTitle")}
                                                     onChange={handleInputSalutation} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
-                                                    ariaLabel={"Ordenação"}
+                                                    label={t("cardex.salutations.new.labelOrdenation")}
+                                                    ariaLabel={t("cardex.salutations.new.labelOrdenation")}
                                                     onChange={handleInputSalutation} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"nameSuff"}
                                                     name={"NameSuff"}
-                                                    label={"Nome-Suffix"}
-                                                    ariaLabel={"Nome-Suffix"}
+                                                    label={t("cardex.salutations.new.labelNameSuff")}
+                                                    ariaLabel={t("cardex.salutations.new.labelNameSuff")}
                                                     onChange={handleInputSalutation} />
-
                                                 <div className="flex flex-row justify-left items-center">
-                                                    <label className="mr-10">Tipo</label>
-                                                    <div className="flex flex-row justify-center items-center mr-10">
-                                                        <label className="mr-2">Nome</label>
-                                                        <input type="radio" name="Gender" value="name"></input>
-                                                    </div>
-                                                    <div className="flex flex-row justify-center items-center mr-10">
-                                                        <label className="mr-2">Primeiro Nome</label>
-                                                        <input type="radio" name="FistName" value="name"></input>
+                                                    <label>{t("cardex.salutations.new.labelType")}</label>
+                                                    <div className="flex flex-row justify-center items-center">
+                                                        <label>{t("cardex.salutations.new.radioName")}</label>
+                                                        <input type="radio" name="type" value="name" onChange={handleInputSalutation} />
                                                     </div>
                                                     <div className="flex flex-row justify-center items-center">
-                                                        <label className="mr-2">Sem ext.</label>
-                                                        <input type="radio" name="NoExt" value="name"></input>
+                                                        <label>{t("cardex.salutations.new.radioFirstName")}</label>
+                                                        <input type="radio" name="type" value="firstName" onChange={handleInputSalutation} />
+                                                    </div>
+                                                    <div className="flex flex-row justify-center items-center">
+                                                        <label>{t("cardex.salutations.new.radioNoExt")}</label>
+                                                        <input type="radio" name="type" value="noExt" onChange={handleInputSalutation} />
                                                     </div>
                                                 </div>
                                             </ModalBody>
@@ -171,73 +166,66 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitNacionality}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.nationalities.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-
                                                 <div className="flex items-center">
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"Fo"}
                                                         name={"Fo"}
-                                                        label={"Detalhes"}
-                                                        ariaLabel={"Detalhes"}
+                                                        label={t("cardex.nationalities.new.labelFo")}
+                                                        ariaLabel={t("cardex.nationalities.new.labelFo")}
                                                         onChange={handleInputNacionality} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"nation"}
                                                     name={"Nation"}
-                                                    label={"País"}
-                                                    ariaLabel={"País"}
+                                                    label={t("cardex.nationalities.new.labelNation")}
+                                                    ariaLabel={t("cardex.nationalities.new.labelNation")}
                                                     onChange={handleInputNacionality} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"nationality"}
                                                     name={"Nationality"}
-                                                    label={"Nacionalidade"}
-                                                    ariaLabel={"Nacionalidade"}
+                                                    label={t("cardex.nationalities.new.labelNationality")}
+                                                    ariaLabel={t("cardex.nationalities.new.labelNationality")}
                                                     onChange={handleInputNacionality} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"statnr"}
                                                     name={"Statnr"}
-                                                    label={"Número de Estatísticas"}
-                                                    ariaLabel={"Número de Estatísticas"}
+                                                    label={t("cardex.nationalities.new.labelStatnr")}
+                                                    ariaLabel={t("cardex.nationalities.new.labelStatnr")}
                                                     onChange={handleInputNacionality} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"group"}
                                                     name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"}
+                                                    label={t("cardex.nationalities.new.labelGroup")}
+                                                    ariaLabel={t("cardex.nationalities.new.labelGroup")}
                                                     onChange={handleInputNacionality} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"ordenation"}
                                                     name={"Ordenation"}
-                                                    label={"Ordenação"}
-                                                    ariaLabel={"Ordenação"}
+                                                    label={t("cardex.nationalities.new.labelOrdenation")}
+                                                    ariaLabel={t("cardex.nationalities.new.labelOrdenation")}
                                                     onChange={handleInputNacionality} />
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"isocode"}
                                                     name={"Isocode"}
-                                                    label={"Código ISO"}
-                                                    ariaLabel={"Código ISO"}
+                                                    label={t("cardex.nationalities.new.labelIsocode")}
+                                                    ariaLabel={t("cardex.nationalities.new.labelIsocode")}
                                                     onChange={handleInputNacionality} />
-
                                             </ModalBody>
                                         </form>
                                     </>
@@ -260,28 +248,29 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitKnowledgeMethod}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.knowledgemethod.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                                 </div>
                                             </ModalHeader>
                                             <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"group"}
                                                     name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"} />
+                                                    label={t("cardex.knowledgemethod.new.labelGroup")}
+                                                    ariaLabel={t("cardex.knowledgemethod.new.labelGroup")}
+                                                    onChange={handleInputKnowledgeMethod} />
 
                                                 <div className="flex items-center">
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"abreviature"}
                                                         name={"Abreviature"}
-                                                        label={"Abreviatura"}
-                                                        ariaLabel={"Abreviatura"}
+                                                        label={t("cardex.knowledgemethod.new.labelAbreviature")}
+                                                        ariaLabel={t("cardex.knowledgemethod.new.labelAbreviature")}
                                                         onChange={handleInputKnowledgeMethod} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
@@ -290,8 +279,8 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("cardex.knowledgemethod.new.labelDescription")}
+                                                    ariaLabel={t("cardex.knowledgemethod.new.labelDescription")}
                                                     onChange={handleInputKnowledgeMethod} />
 
                                                 <div>
@@ -299,13 +288,13 @@ const formModals = ({
                                                         id="link-checkbox"
                                                         type="checkbox"
                                                         value=""
-                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                    ></input>
+                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    />
                                                     <label
-                                                        for="link-checkbox"
-                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                        htmlFor="link-checkbox"
+                                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("cardex.knowledgemethod.new.labelEstado")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -330,7 +319,8 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitProfession}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.profession.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -342,24 +332,24 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"group"}
                                                     name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"}
+                                                    label={t("cardex.profession.new.labelGroup")}
+                                                    ariaLabel={t("cardex.profession.new.labelGroup")}
                                                     onChange={handleInputProfession} />
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("cardex.profession.new.labelAbreviature")}
+                                                    ariaLabel={t("cardex.profession.new.labelAbreviature")}
                                                     onChange={handleInputProfession} />
 
                                                 <InputFieldControlled
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("cardex.profession.new.labelDescription")}
+                                                    ariaLabel={t("cardex.profession.new.labelDescription")}
                                                     onChange={handleInputProfession} />
 
                                             </ModalBody>
@@ -384,7 +374,8 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitDoctypes}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.idDocument.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -396,16 +387,16 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"group"}
                                                     name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"} />
+                                                    label={t("cardex.idDocument.new.labelGroup")}
+                                                    ariaLabel={t("cardex.idDocument.new.labelGroup")} />
 
                                                 <div className="flex items-center">
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"shortName"}
                                                         name={"ShortName"}
-                                                        label={"Abreviatura"}
-                                                        ariaLabel={"Abreviatura"}
+                                                        label={t("cardex.idDocument.new.labelAbreviature")}
+                                                        ariaLabel={t("cardex.idDocument.new.labelAbreviature")}
                                                         onChange={handleInputDoctypes} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
@@ -414,8 +405,8 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"name"}
                                                     name={"Name"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("cardex.idDocument.new.labelDescription")}
+                                                    ariaLabel={t("cardex.idDocument.new.labelDescription")}
                                                     onChange={handleInputDoctypes} />
 
                                                 <div>
@@ -423,13 +414,13 @@ const formModals = ({
                                                         id="link-checkbox"
                                                         type="checkbox"
                                                         value=""
-                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                    ></input>
+                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    />
                                                     <label
-                                                        for="link-checkbox"
-                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                        htmlFor="link-checkbox"
+                                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("cardex.idDocument.new.labelStatus")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -455,7 +446,8 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitCustomerPreferences}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.clientPreferences.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -467,16 +459,16 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"group"}
                                                     name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"} />
+                                                    label={t("cardex.clientPreferences.new.labelGroup")}
+                                                    ariaLabel={t("cardex.clientPreferences.new.labelGroup")} />
 
                                                 <div className="flex items-center">
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"abreviature"}
                                                         name={"Abreviature"}
-                                                        label={"Abreviatura"}
-                                                        ariaLabel={"Abreviatura"}
+                                                        label={t("cardex.clientPreferences.new.labelAbreviature")}
+                                                        ariaLabel={t("cardex.clientPreferences.new.labelAbreviature")}
                                                         onChange={handleInputCustomerPreferences} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
@@ -485,8 +477,8 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("cardex.clientPreferences.new.labelDescription")}
+                                                    ariaLabel={t("cardex.clientPreferences.new.labelDescription")}
                                                     onChange={handleInputCustomerPreferences} />
 
                                                 <div>
@@ -494,13 +486,13 @@ const formModals = ({
                                                         id="link-checkbox"
                                                         type="checkbox"
                                                         value=""
-                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                    ></input>
+                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    />
                                                     <label
-                                                        for="link-checkbox"
-                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                        htmlFor="link-checkbox"
+                                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("cardex.clientPreferences.new.labelStatus")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -526,7 +518,8 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitMember}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.members.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -538,16 +531,16 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"group"}
                                                     name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"} />
+                                                    label={t("cardex.members.new.labelGroup")}
+                                                    ariaLabel={t("cardex.members.new.labelGroup")} />
 
                                                 <div className="flex items-center">
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"abreviature"}
                                                         name={"Abreviature"}
-                                                        label={"Abreviatura"}
-                                                        ariaLabel={"Abreviatura"}
+                                                        label={t("cardex.members.new.labelAbreviature")}
+                                                        ariaLabel={t("cardex.members.new.labelAbreviature")}
                                                         onChange={handleInputMember} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
@@ -556,8 +549,8 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("cardex.members.new.labelDescription")}
+                                                    ariaLabel={t("cardex.members.new.labelDescription")}
                                                     onChange={handleInputMember} />
 
                                                 <div>
@@ -565,13 +558,13 @@ const formModals = ({
                                                         id="link-checkbox"
                                                         type="checkbox"
                                                         value=""
-                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                    ></input>
+                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    />
                                                     <label
-                                                        for="link-checkbox"
-                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                        htmlFor="link-checkbox"
+                                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("cardex.members.new.labelStatus")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -597,7 +590,8 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitMarketing}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.marketing.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -609,16 +603,16 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"group"}
                                                     name={"Group"}
-                                                    label={"Grupo"}
-                                                    ariaLabel={"Grupo"} />
+                                                    label={t("cardex.marketing.new.labelGroup")}
+                                                    ariaLabel={t("cardex.marketing.new.labelGroup")} />
 
                                                 <div className="flex items-center">
                                                     <InputFieldControlled
                                                         type={"text"}
                                                         id={"abreviature"}
                                                         name={"Abreviature"}
-                                                        label={"Abreviatura"}
-                                                        ariaLabel={"Abreviatura"}
+                                                        label={t("cardex.marketing.new.labelAbreviature")}
+                                                        ariaLabel={t("cardex.marketing.new.labelAbreviature")}
                                                         onChange={handleInputMarketing} />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
@@ -627,8 +621,8 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"description"}
                                                     name={"Description"}
-                                                    label={"Descrição"}
-                                                    ariaLabel={"Descrição"}
+                                                    label={t("cardex.marketing.new.labelDescription")}
+                                                    ariaLabel={t("cardex.marketing.new.labelDescription")}
                                                     onChange={handleInputMarketing} />
 
                                                 <div>
@@ -636,13 +630,13 @@ const formModals = ({
                                                         id="link-checkbox"
                                                         type="checkbox"
                                                         value=""
-                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                    ></input>
+                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    />
                                                     <label
-                                                        for="link-checkbox"
-                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                        htmlFor="link-checkbox"
+                                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("cardex.marketing.new.labelStatus")}
                                                     </label>
                                                 </div>
                                             </ModalBody>
@@ -667,7 +661,8 @@ const formModals = ({
                                 <>
                                     <>
                                         <form onSubmit={handleSubmitVipcode}>
-                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">{modalHeader}
+                                            <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
+                                                {t('cardex.viptypes.new.modalInsertHeader')}
                                                 <div className='flex flex-row items-center mr-5'>
                                                     <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
                                                     <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
@@ -679,8 +674,9 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"abreviature"}
                                                     name={"Abreviature"}
-                                                    label={"Abreviatura"}
-                                                    ariaLabel={"Abreviatura"}
+                                                    label={t("cardex.viptypes.new.labelAbreviature")}
+                                                    ariaLabel={t("cardex.viptypes.new.labelAbreviature")}
+                                                    onChange={handleInputVipcode}
                                                 />
 
                                                 <div className="flex items-center">
@@ -688,9 +684,10 @@ const formModals = ({
                                                         type={"text"}
                                                         id={"description"}
                                                         name={"Description"}
-                                                        label={"Descrição"}
-                                                        ariaLabel={"Descrição"}
-                                                        onChange={handleInputVipcode} />
+                                                        label={t("cardex.viptypes.new.labelDescription")}
+                                                        ariaLabel={t("cardex.viptypes.new.labelDescription")}
+                                                        onChange={handleInputVipcode}
+                                                    />
                                                     <AiOutlineGlobal className="ml-auto text-xl" />
                                                 </div>
 
@@ -698,8 +695,9 @@ const formModals = ({
                                                     type={"text"}
                                                     id={"details"}
                                                     name={"Details"}
-                                                    label={"Detalhes"}
-                                                    ariaLabel={"Detalhes"}
+                                                    label={t("cardex.viptypes.new.labelDetails")}
+                                                    ariaLabel={t("cardex.viptypes.new.labelDetails")}
+                                                    onChange={handleInputVipcode}
                                                 />
 
                                                 <div>
@@ -707,13 +705,13 @@ const formModals = ({
                                                         id="link-checkbox"
                                                         type="checkbox"
                                                         value=""
-                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                    ></input>
+                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    />
                                                     <label
-                                                        for="link-checkbox"
-                                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                        htmlFor="link-checkbox"
+                                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                     >
-                                                        Estado
+                                                        {t("cardex.viptypes.new.labelStatus")}
                                                     </label>
                                                 </div>
                                             </ModalBody>

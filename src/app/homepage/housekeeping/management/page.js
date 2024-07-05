@@ -5,9 +5,10 @@ import {
     Button, Input
 } from "@nextui-org/react";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { format, parseISO, isSameDay } from 'date-fns';
 
 import { IoPeopleSharp } from "react-icons/io5";
-import { FaBed, FaXmark, FaCheck, FaCheckDouble } from "react-icons/fa6";
+import { FaBed, FaXmark, FaCheck } from "react-icons/fa6";
 import { TbTransferVertical } from "react-icons/tb";
 import { MdComputer, MdOutlineTouchApp } from "react-icons/md";
 import { ImWrench } from "react-icons/im";
@@ -15,13 +16,14 @@ import { GiBroom } from "react-icons/gi";
 import { IoFilter } from "react-icons/io5";
 import { RxFrame } from "react-icons/rx";
 import { HiRefresh } from "react-icons/hi";
+import { CgSearchFound } from "react-icons/cg";
 
-import {useTranslations} from 'next-intl'; 
+import { useTranslations } from 'next-intl';
 
 export default function ManagementForm() {
 
-    const [roomTypeState, setRoomTypeState] = useState([]);
-    const t = useTranslations('Index'); 
+    const [roomData, setRoomData] = useState([]);
+    const t = useTranslations('Index');
 
     const stateOrder = ['outOfService', 'dirty', 'touched', 'cleaning', 'checked', 'clean'];
     const stateColors = {
@@ -41,17 +43,47 @@ export default function ManagementForm() {
         clean: 6
     };
 
+
+    const fetchData = async () => {
+        try {
+            const currentDate = format(new Date(), 'yyyy-MM-dd');
+
+            const [resRooms, resHousekeeping, resReservations] = await Promise.all([
+                axios.get(`/api/v1/hotel/rooms`),
+                axios.get(`/api/v1/housekeeping/management/`),
+                axios.get(`/api/v1/frontOffice/reservations/`)
+            ]);
+
+            const rooms = resRooms.data.response;
+            const housekeeping = resHousekeeping.data;
+            const reservations = resReservations.data.response;
+
+            //Filter date 
+            const filteredReservations = reservations.filter(reservation =>
+            isSameDay(parseISO(reservation.checkInDate), currentDate)
+        );
+
+            const combinedData = rooms.map(room => {
+                const housekeepingRecord = housekeeping.find(h => h.roomNumber === room.roomID);
+                const reservationRecord = filteredReservations.find(r => r.roomNumber === parseInt(room.label));
+
+                return {
+                    ...room,
+                    state: housekeepingRecord ? stateOrder[housekeepingRecord.roomStatus - 1] : 'outOfService',
+                    adultCount: reservationRecord ? reservationRecord.adultCount : 0
+                };
+            });
+
+            console.log('Combined Data:', combinedData);
+
+            setRoomData(combinedData);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const resTipologies = await axios.get(`/api/v1/hotel/rooms`);
-                const tipologies = resTipologies.data.response;
-                setRoomTypeState(tipologies);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        getData();
+        fetchData();
     }, []);
 
     const onDragEnd = async (result) => {
@@ -59,23 +91,16 @@ export default function ManagementForm() {
 
         const newStateIndex = parseInt(result.destination.droppableId);
         const roomTypeIndex = parseInt(result.draggableId);
-        const newRoomTypes = [...roomTypeState];
-        newRoomTypes[roomTypeIndex].state = stateOrder[newStateIndex];
+        const newRoomData = [...roomData];
+        newRoomData[roomTypeIndex].state = stateOrder[newStateIndex];
 
-        console.log("newRoomTypes:", newRoomTypes); // Verifica o estado de newRoomTypes
-
-        // Atualiza o estado local
-        setRoomTypeState(newRoomTypes);
+        setRoomData(newRoomData);
 
         try {
-            const roomNumber = newRoomTypes[roomTypeIndex].roomID;
+            const roomNumber = newRoomData[roomTypeIndex].roomID;
             const roomStatus = stateValues[stateOrder[newStateIndex]];
 
-            console.log("Room Status:", roomStatus);
-            console.log("Room Number:", roomNumber);
-
-            // Realiza o PUT request para atualizar o estado na base de dados
-            await axios.put(`/api/v1/housekeeping/management`, {
+            await axios.patch(`/api/v1/housekeeping/management/${roomNumber}`, {
                 data: {
                     roomNumber,
                     roomStatus,
@@ -122,55 +147,32 @@ export default function ManagementForm() {
                                 <span><MdComputer /></span>
                             </div>
                         </td>
-                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
-                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
-                                <ImWrench />
-                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableOutOfService")}</span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
-                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
-                                <FaXmark />
-                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableDirty")}</span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
-                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
-                                <MdOutlineTouchApp />
-                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableTouched")}</span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
-                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
-                                <GiBroom />
-                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableCleaning")}</span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
-                            <div className='flex  items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
-                                <FaCheck />
-                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableChecked")}</span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[150px]`}>
-                            <div className='flex items-center justify-center text-center bg-white border border-grey p-2 rounded-lg mr-3'>
-                                <FaCheckDouble />
-                                <span className='ml-2 text-sm uppercase'>{t("housekeeping.management.managementTableClean")}</span>
-                            </div>
-                        </td>
+                        {stateOrder.map((state, stateIndex) => (
+                            <td className={`h-14 border-tableCol select-none w-[150px]`} key={stateIndex}>
+                                <div className='flex items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
+                                    {state === 'outOfService' && <ImWrench />}
+                                    {state === 'dirty' && <FaXmark />}
+                                    {state === 'touched' && <MdOutlineTouchApp />}
+                                    {state === 'cleaning' && <GiBroom />}
+                                    {state === 'checked' && <CgSearchFound size={20} />}
+                                    {state === 'clean' && <FaCheck />}
+                                    <span className='ml-2 text-sm uppercase'>{t(`housekeeping.management.managementTable${state.charAt(0).toUpperCase() + state.slice(1)}`)}</span>
+                                </div>
+                            </td>
+                        ))}
                     </tr>
                 </thead>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <tbody className="">
-                        {roomTypeState.map((roomType, roomTypeIndex) => (
-                            <tr key={roomType.roomTypeID}>
+                    <tbody>
+                        {roomData.map((room, roomIndex) => (
+                            <tr key={room.roomID}>
                                 <td className='flex flex-col max-w-45 text-xs w-full h-10 justify-between items-left border-b-2 bg-white p-1'>
-                                    <span className="font-bold">{roomType.label}</span>
-                                    <span>{roomType.roomtypes.desc}</span>
+                                    <span className="font-bold">{room.label}</span>
+                                    <span>{room.roomtypes.desc}</span>
                                 </td>
                                 <td className={`border-tableCol select-none w-[40px]`}>
                                     <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
-                                        <span>1</span>
+                                        <span>{room.adultCount}</span>
                                     </div>
                                 </td>
                                 <td className={`border-tableCol select-none w-[40px]`}>
@@ -192,12 +194,12 @@ export default function ManagementForm() {
                                     <Droppable droppableId={`${stateIndex}`} key={state}>
                                         {(provided) => (
                                             <td
-                                                className={`border-tableCol border-2 border-white rounded-lg select-none w-[150px] m-2 ${state === roomType.state ? stateColors[state] : ''}`}
+                                                className={`border-tableCol border-2 border-white rounded-lg select-none w-[150px] m-2 ${state === room.state ? stateColors[state] : ''}`}
                                                 ref={provided.innerRef}
                                                 {...provided.droppableProps}
                                             >
-                                                {state === roomType.state ? (
-                                                    <Draggable draggableId={`${roomTypeIndex}`} index={roomTypeIndex}>
+                                                {state === room.state ? (
+                                                    <Draggable draggableId={`${roomIndex}`} index={roomIndex}>
                                                         {(provided) => (
                                                             <div
                                                                 className='flex flex-col items-left text-xs justify-between text-left p-1 '
@@ -205,8 +207,8 @@ export default function ManagementForm() {
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
                                                             >
-                                                                <span className="font-bold">{roomType.label}</span>
-                                                                <span>{roomType.roomtypes.desc}</span>
+                                                                <span className="font-bold">{room.label}</span>
+                                                                <span>{room.roomtypes.desc}</span>
                                                             </div>
                                                         )}
                                                     </Draggable>

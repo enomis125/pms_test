@@ -10,7 +10,7 @@ export default function InputFieldControlled({ type, id, name, onChange, label, 
                 type={type}
                 id={id}
                 name={name}
-                className={`${style} border-b border-neutral-100`}
+                className={`${style} border-b-2 border-gray-200 px-1 h-10 outline-none`}
                 onChange={onChange}
                 placeholder="-"
                 aria-label={ariaLabel}

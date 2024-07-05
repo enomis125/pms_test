@@ -50,7 +50,6 @@ export async function PUT(request) {
                 roomNumber: parseInt(data.roomNumber),
                 propertyID: propertyID,
                 createdBy: userID,
-             
             }
         });
 

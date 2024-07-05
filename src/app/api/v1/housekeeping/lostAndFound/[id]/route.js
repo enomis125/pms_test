@@ -101,6 +101,7 @@ export async function PUT(request, context) {
     try {
         const { id } = context.params;
         const { data } = await request.json();
+        const prisma = generatePrismaClient()
 
         const updateRecord = await prisma.lostAndFound.update({
             where: {
