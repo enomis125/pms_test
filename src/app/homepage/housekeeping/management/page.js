@@ -5,7 +5,7 @@ import {
     Button, Input
 } from "@nextui-org/react";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { format, parseISO, isSameDay } from 'date-fns';
+import { format, parseISO, isWithinInterval, isToday } from 'date-fns';
 
 import { IoPeopleSharp } from "react-icons/io5";
 import { FaBed, FaXmark, FaCheck } from "react-icons/fa6";
@@ -17,15 +17,18 @@ import { IoFilter } from "react-icons/io5";
 import { RxFrame } from "react-icons/rx";
 import { HiRefresh } from "react-icons/hi";
 import { CgSearchFound } from "react-icons/cg";
+import { FaArrowRight, FaArrowLeft, FaArrowDown, FaRegTimesCircle } from "react-icons/fa";
 
 import { useTranslations } from 'next-intl';
 
 export default function ManagementForm() {
 
     const [roomData, setRoomData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
     const t = useTranslations('Index');
 
     const stateOrder = ['outOfService', 'dirty', 'touched', 'cleaning', 'checked', 'clean'];
+
     const stateColors = {
         outOfService: 'bg-neutral-300',
         dirty: 'bg-red-600',
@@ -43,10 +46,13 @@ export default function ManagementForm() {
         clean: 6
     };
 
-
     const fetchData = async () => {
         try {
-            const currentDate = format(new Date(), 'yyyy-MM-dd');
+            const currentDate = new Date();
+            const formattedCurrentDate = format(currentDate, 'yyyy-MM-dd');
+
+            const resRoomTypes = await axios.get(`/api/v1/hotel/tipologys`);
+            const roomTypes = resRoomTypes.data.response;
 
             const [resRooms, resHousekeeping, resReservations] = await Promise.all([
                 axios.get(`/api/v1/hotel/rooms`),
@@ -58,23 +64,50 @@ export default function ManagementForm() {
             const housekeeping = resHousekeeping.data;
             const reservations = resReservations.data.response;
 
-            //Filter date 
             const filteredReservations = reservations.filter(reservation =>
-            isSameDay(parseISO(reservation.checkInDate), currentDate)
-        );
+                isWithinInterval(currentDate, {
+                    start: parseISO(reservation.checkInDate),
+                    end: parseISO(reservation.checkOutDate)
+                })
+            );
 
             const combinedData = rooms.map(room => {
                 const housekeepingRecord = housekeeping.find(h => h.roomNumber === room.roomID);
                 const reservationRecord = filteredReservations.find(r => r.roomNumber === parseInt(room.label));
 
+                const roomType = roomTypes.find(rt => rt.roomTypeID === room.roomType);
+
+                let reservationStateIcon;
+
+                if (reservationRecord) {
+                    const checkInDate = parseISO(reservationRecord.checkInDate);
+                    const checkOutDate = parseISO(reservationRecord.checkOutDate);
+
+                    if (isToday(checkInDate)) {
+                        reservationStateIcon = <FaArrowLeft />;
+                    } else if (isToday(checkOutDate)) {
+                        reservationStateIcon = <FaArrowRight />;
+                    } else if (isWithinInterval(currentDate, { start: checkInDate, end: checkOutDate })) {
+                        reservationStateIcon = <FaArrowDown />;
+                    } else {
+                        reservationStateIcon = <FaRegTimesCircle />;
+                    }
+                } else {
+                    if (isToday(room.checkOutDate)) {
+                        reservationStateIcon = <FaRegTimesCircle />;
+                    } else {
+                        reservationStateIcon = <FaRegTimesCircle />;
+                    }
+                }
+
                 return {
                     ...room,
                     state: housekeepingRecord ? stateOrder[housekeepingRecord.roomStatus - 1] : 'outOfService',
-                    adultCount: reservationRecord ? reservationRecord.adultCount : 0
+                    adultCount: reservationRecord ? reservationRecord.adultCount : 0,
+                    reservationStateIcon,
+                    numBeds: roomType ? roomType.numBeds : 0
                 };
             });
-
-            console.log('Combined Data:', combinedData);
 
             setRoomData(combinedData);
         } catch (error) {
@@ -89,16 +122,28 @@ export default function ManagementForm() {
     const onDragEnd = async (result) => {
         if (!result.destination) return;
 
-        const newStateIndex = parseInt(result.destination.droppableId);
-        const roomTypeIndex = parseInt(result.draggableId);
-        const newRoomData = [...roomData];
-        newRoomData[roomTypeIndex].state = stateOrder[newStateIndex];
+        const { source, destination, draggableId } = result;
+
+        if (source.droppableId === destination.droppableId) return;
+
+        const roomIndex = parseInt(draggableId);
+        const newState = stateOrder[parseInt(destination.droppableId)];
+
+        const newRoomData = roomData.map((room, index) => {
+            if (index === roomIndex) {
+                return {
+                    ...room,
+                    state: newState
+                };
+            }
+            return room;
+        });
 
         setRoomData(newRoomData);
 
         try {
-            const roomNumber = newRoomData[roomTypeIndex].roomID;
-            const roomStatus = stateValues[stateOrder[newStateIndex]];
+            const roomNumber = newRoomData[roomIndex].roomID;
+            const roomStatus = stateValues[newState];
 
             await axios.patch(`/api/v1/housekeeping/management/${roomNumber}`, {
                 data: {
@@ -106,11 +151,14 @@ export default function ManagementForm() {
                     roomStatus,
                 }
             });
-
         } catch (error) {
             console.error("Error updating room status:", error);
         }
     };
+
+    const filteredRoomData = roomData.filter(room => 
+        `${room.label} ${room.roomtypes.desc}`.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <main>
@@ -123,106 +171,116 @@ export default function ManagementForm() {
                     </div>
                 </div>
             </div>
-            <table className='w-[100%] bg-tableCol'>
-                <thead>
-                    <tr>
-                        <th className='w-[15%] bg-tableCol text-left px-4'><Input type="text" placeholder={t("housekeeping.management.managementFilterRooms")} startContent={<HiRefresh />} /></th>
-                        <td className={`h-14 border-tableCol select-none w-[40px] `}>
-                            <div className='flex flex-col justify-center items-center text-center bg-white p-2'>
-                                <span><IoPeopleSharp /></span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[40px] `}>
-                            <div className='flex flex-col justify-center items-center text-center bg-white p-2 '>
-                                <span><FaBed /></span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[40px] `}>
-                            <div className='flex flex-col justify-center items-center text-center bg-white p-2'>
-                                <span><TbTransferVertical /></span>
-                            </div>
-                        </td>
-                        <td className={`h-14 border-tableCol select-none w-[40px]`}>
-                            <div className='flex flex-col  justify-center items-center text-center bg-white p-2'>
-                                <span><MdComputer /></span>
-                            </div>
-                        </td>
-                        {stateOrder.map((state, stateIndex) => (
-                            <td className={`h-14 border-tableCol select-none w-[150px]`} key={stateIndex}>
-                                <div className='flex items-center justify-center text-center bg-white border border-grey p-2 rounded-lg'>
-                                    {state === 'outOfService' && <ImWrench />}
-                                    {state === 'dirty' && <FaXmark />}
-                                    {state === 'touched' && <MdOutlineTouchApp />}
-                                    {state === 'cleaning' && <GiBroom />}
-                                    {state === 'checked' && <CgSearchFound size={20} />}
-                                    {state === 'clean' && <FaCheck />}
-                                    <span className='ml-2 text-sm uppercase'>{t(`housekeeping.management.managementTable${state.charAt(0).toUpperCase() + state.slice(1)}`)}</span>
+            <div className="">
+                <table className="w-full table-fixed bg-tableCol">
+                    <thead>
+                        <tr>
+                            <th className="w-[15%] bg-tableCol text-left px-4">
+                                <Input 
+                                    type="text" 
+                                    placeholder={t("housekeeping.management.managementFilterRooms")} 
+                                    startContent={<HiRefresh />} 
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </th>
+                            <td className="h-14 border border-tableCol select-none w-[40px]">
+                                <div className="flex flex-col justify-center items-center text-center bg-white p-2" title="NR. GUESTS">
+                                    <span><IoPeopleSharp /></span>
                                 </div>
                             </td>
-                        ))}
-                    </tr>
-                </thead>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <tbody>
-                        {roomData.map((room, roomIndex) => (
-                            <tr key={room.roomID}>
-                                <td className='flex flex-col max-w-45 text-xs w-full h-10 justify-between items-left border-b-2 bg-white p-1'>
-                                    <span className="font-bold">{room.label}</span>
-                                    <span>{room.roomtypes.desc}</span>
-                                </td>
-                                <td className={`border-tableCol select-none w-[40px]`}>
-                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
-                                        <span>{room.adultCount}</span>
+                            <td className="h-14 border border-tableCol select-none w-[40px]">
+                                <div className="flex flex-col justify-center items-center text-center bg-white p-2" title="NR. OF BEDROOMS">
+                                    <span><FaBed /></span>
+                                </div>
+                            </td>
+                            <td className="h-14 border border-tableCol select-none w-[40px]">
+                                <div className="flex flex-col justify-center items-center text-center bg-white p-2" title="IN / OUT">
+                                    <span><TbTransferVertical /></span>
+                                </div>
+                            </td>
+                            <td className="h-14 border border-tableCol select-none w-[40px]">
+                                <div className="flex flex-col justify-center items-center text-center bg-white p-2" title="CHANGE SHEETS">
+                                    <span><MdComputer /></span>
+                                </div>
+                            </td>
+                            {stateOrder.map((state, stateIndex) => (
+                                <td className="h-14 border border-tableCol select-none w-[150px]" key={stateIndex}>
+                                    <div className="flex items-center justify-center text-center bg-white border border-grey p-2 rounded-lg">
+                                        {state === 'outOfService' && <ImWrench />}
+                                        {state === 'dirty' && <FaXmark />}
+                                        {state === 'touched' && <MdOutlineTouchApp />}
+                                        {state === 'cleaning' && <GiBroom />}
+                                        {state === 'checked' && <CgSearchFound size={20} />}
+                                        {state === 'clean' && <FaCheck />}
+                                        <span className="text-sm uppercase">{t(`housekeeping.management.managementTable${state.charAt(0).toUpperCase() + state.slice(1)}`)}</span>
                                     </div>
                                 </td>
-                                <td className={`border-tableCol select-none w-[40px]`}>
-                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
-                                        <span>1</span>
-                                    </div>
-                                </td>
-                                <td className={`border-tableCol select-none w-[40px]`}>
-                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
-                                        <span>1</span>
-                                    </div>
-                                </td>
-                                <td className={`border-tableCol select-none w-[40px]`}>
-                                    <div className='flex flex-col justify-center text-center border-2 border-white p-1.5'>
-                                        <span>1</span>
-                                    </div>
-                                </td>
-                                {stateOrder.map((state, stateIndex) => (
-                                    <Droppable droppableId={`${stateIndex}`} key={state}>
-                                        {(provided) => (
-                                            <td
-                                                className={`border-tableCol border-2 border-white rounded-lg select-none w-[150px] m-2 ${state === room.state ? stateColors[state] : ''}`}
-                                                ref={provided.innerRef}
-                                                {...provided.droppableProps}
-                                            >
-                                                {state === room.state ? (
-                                                    <Draggable draggableId={`${roomIndex}`} index={roomIndex}>
-                                                        {(provided) => (
-                                                            <div
-                                                                className='flex flex-col items-left text-xs justify-between text-left p-1 '
-                                                                ref={provided.innerRef}
-                                                                {...provided.draggableProps}
-                                                                {...provided.dragHandleProps}
-                                                            >
-                                                                <span className="font-bold">{room.label}</span>
-                                                                <span>{room.roomtypes.desc}</span>
-                                                            </div>
-                                                        )}
-                                                    </Draggable>
-                                                ) : null}
-                                                {provided.placeholder}
-                                            </td>
-                                        )}
-                                    </Droppable>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </DragDropContext>
-            </table>
+                            ))}
+                        </tr>
+                    </thead>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <tbody>
+                            {filteredRoomData.map((room, roomIndex) => (
+                                <tr key={room.roomID}>
+                                    <td className='flex flex-col max-w-45 text-xs w-full h-10 justify-between items-left border-b-2 bg-white p-1'>
+                                        <span className="font-bold">{room.label}</span>
+                                        <span>{room.roomtypes.desc}</span>
+                                    </td>
+                                    <td className="border border-tableCol select-none w-[40px]">
+                                        <div className="h-10 flex flex-col justify-center text-center border-2 border-white p-1.5">
+                                            <span>{room.adultCount}</span>
+                                        </div>
+                                    </td>
+                                    <td className="border border-tableCol select-none w-[40px]">
+                                        <div className="h-10 flex flex-col justify-center text-center border-2 border-white p-1.5">
+                                            <span>{room.numBeds}</span>
+                                        </div>
+                                    </td>
+                                    <td className="border border-tableCol select-none w-[40px]">
+                                        <div className="h-10 flex flex-col content-center justify-center text-center border-2 border-white p-2.5">
+                                            <span>{room.reservationStateIcon}</span>
+                                        </div>
+                                    </td>
+                                    <td className="border border-tableCol select-none w-[40px]">
+                                        <div className="h-10 flex flex-col justify-center text-center border-2 border-white p-1.5">
+                                            <span>1</span>
+                                        </div>
+                                    </td>
+                                    {stateOrder.map((state, stateIndex) => (
+                                        <Droppable droppableId={`${stateIndex}`} key={state}>
+                                            {(provided, snapshot) => (
+                                                <td
+                                                    className={`border border-tableCol border-2 border-white rounded-lg select-none w-[150px] m-2 ${state === room.state && !snapshot.isDraggingOver ? stateColors[state] : ''}`}
+                                                    ref={provided.innerRef}
+                                                    {...provided.droppableProps}
+                                                >
+                                                    {state === room.state ? (
+                                                        <Draggable draggableId={`${roomIndex}`} index={roomIndex}>
+                                                            {(provided, snapshot) => (
+                                                                <div
+                                                                    className={`flex flex-col items-left text-xs justify-between text-left p-1 ${snapshot.isDragging ? stateColors[room.state] : ''}`}
+                                                                    ref={provided.innerRef}
+                                                                    {...provided.draggableProps}
+                                                                    {...provided.dragHandleProps}
+                                                                >
+                                                                    <span className="font-bold">{room.label}</span>
+                                                                    <span>{room.roomtypes.desc}</span>
+                                                                </div>
+                                                            )}
+                                                        </Draggable>
+                                                    ) : null}
+                                                    {provided.placeholder}
+                                                </td>
+                                            )}
+                                        </Droppable>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </DragDropContext>
+                </table>
+            </div>
         </main>
     );
 }
