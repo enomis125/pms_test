@@ -18,6 +18,7 @@ import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAge
 import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
 import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+
 import {
   Autocomplete,
   AutocompleteSection,
@@ -26,7 +27,7 @@ import {
 import { BiSolidPencil } from "react-icons/bi";
 import { FiPlus, FiX } from 'react-icons/fi';
 import { FaCalendarAlt, FaRegTrashAlt, FaRegUserCircle, FaBed } from 'react-icons/fa';
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import Modal from '@/components/modal/confirmationBoxs/page';
 
 import { MdOutlineZoomOut } from "react-icons/md";
@@ -44,6 +45,18 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isBetween);
 
 export default function CalendarPage() {
+
+
+  const [expandedIndexes, setExpandedIndexes] = useState([]);
+
+  const toggleExpandIndexes = (index) => {
+    setExpandedIndexes(prevState =>
+      prevState.includes(index)
+        ? prevState.filter(i => i !== index)
+        : [...prevState, index]
+    );
+  };
+
   const [today, setToday] = useState(dayjs());
   const [weeks, setWeeks] = useState(generateDate(today.month(), today.year()));
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
@@ -685,10 +698,12 @@ export default function CalendarPage() {
 
       <div className={`bg-primary-600 ${showModal ? 'py-4' : 'py-2'}`}>
         <div className='flex justify-between items-center'>
-          <p className='text-ml text-white px-4'><b>{t("priceManagement.priceTable.title")}</b></p>
-          <CountryAutocomplete className="w-5" label={t("priceManagement.priceTable.priceDescriptionHeader")} />
-          <CountryAutocomplete label={t("priceManagement.priceTable.people")} />
-          <CountryAutocomplete label={t("priceManagement.priceTable.filters")} />
+          <div className='flex gap-20 items-center'>
+            <p className='text-ml text-white px-4'><b>{t("priceManagement.priceTable.title")}</b></p>
+            <CountryAutocomplete className="w-5 " label={t("priceManagement.priceTable.priceDescriptionHeader")} />
+            <CountryAutocomplete label={t("priceManagement.priceTable.people")} />
+            <CountryAutocomplete label={t("priceManagement.priceTable.filters")} />
+          </div>
           <div className='flex items-center gap-5'>
             <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
             {!showModal && (
@@ -764,51 +779,59 @@ export default function CalendarPage() {
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map((roomType, rowIndex) => (
-            <tr key={roomType.roomTypeID} onClick={() => handleRowSelection(rowIndex)}>
-              <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
-                <span>{roomType.name}</span>
-              </td>
-              {weeks[currentWeekIndex].map((day, index) => {
-                const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-                const formattedDate = day.date.format('YYYY-MM-DD');
-                const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
+            <React.Fragment key={roomType.roomTypeID}>
+              <tr onClick={() => toggleExpandIndexes(rowIndex)}>
+                <td className='text-xs w-full h-8 flex space-x-1 items-center px-4 border-b-2 bg-white'>
+                  {expandedIndexes.includes(rowIndex) ? <FaMinus /> : <FaPlus />}
+                  <span>{roomType.name}</span>
+                </td>
+                {weeks[currentWeekIndex].map((day, index) => {
+                  const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+                  const formattedDate = day.date.format('YYYY-MM-DD');
+                  const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
 
-                const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
+                  const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
 
-                return (
-                  <td
-                    key={index}
-                    className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
-                    ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
-                    ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                    ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}
-                    select-none`}
-                    onMouseDown={() => {
-                      {   /*                if (availableRooms <= 0) {
-                        showAlert("QUARTOS INSUFICIENTES");
-                      }*/}
-                      setIsSelecting(true);
-                      handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
-                      setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                    }}
-                    onMouseOver={() => {
-                      if (isSelecting) {
-                        handleMouseOver(day.date, rowIndex, index);
+                  return (
+                    <td
+                      key={index}
+                      className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
+                      ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
+                      ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
+                      ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}
+                      select-none`}
+                      onMouseDown={() => {
+                        setIsSelecting(true);
+                        handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
                         setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                        {/*if (availableRooms <= 0) {
-                          showAlert("QUARTOS INSUFICIENTES");
-                        }*/}
-                      }
-                    }}
-                    onMouseUp={() => {
-                      setIsSelecting(false);
-                      handleMouseUp(day.date);
-                    }}>
-                    {availableRooms}
+                      }}
+                      onMouseOver={() => {
+                        if (isSelecting) {
+                          handleMouseOver(day.date, rowIndex, index);
+                          setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                        }
+                      }}
+                      onMouseUp={() => {
+                        setIsSelecting(false);
+                        handleMouseUp(day.date);
+                      }}>
+                      {availableRooms}
+                    </td>
+                  );
+                })}
+              </tr>
+              {expandedIndexes.includes(rowIndex) && (
+                <tr>
+                  <td colSpan={weeks[currentWeekIndex].length + 1}>
+                    {/* Render your additional content here */}
+                    <div className="p-4">
+                      {/* Example additional content */}
+                      <p>Additional details for {roomType.name}</p>
+                    </div>
                   </td>
-                );
-              })}
-            </tr>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
           <tr>
             {/*LINHA SEPARADORA DA GRELHA */}
@@ -816,9 +839,10 @@ export default function CalendarPage() {
             {weeks[currentWeekIndex].map((day, index) => {
               return (
                 <td
+                  key={index}
                   className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
-                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")
-                    }`}></td>
+                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}`}>
+                </td>
               );
             })}
           </tr>
