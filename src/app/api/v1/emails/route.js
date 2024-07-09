@@ -42,7 +42,7 @@ export async function GET(req) {
 
             const { name, date, time, people } = reservationDetails;
 
-            console.log(name);
+            // console.log(name);
 
             // try {
             //     const response = await axios.post('http://localhost:3001/api/v1/bookings', {
@@ -55,7 +55,7 @@ export async function GET(req) {
             //     throw error;
             // }
 
-            console.log(`Reserva criada para ${name} no dia ${date} às ${time} para ${people} pessoas.`);
+            // console.log(`Reserva criada para ${name} no dia ${date} às ${time} para ${people} pessoas.`);
         }
 
         return NextResponse.json({ message: 'E-mails processados e reservas criadas.' }, { status: 200 });

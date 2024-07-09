@@ -85,7 +85,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
             active: true,
             items: [
                 {
-                    ref: "/homepage/company", label: t('sidebar.settings.company'), active: true
+                    ref: "/homepage/credentials", label: "Email Credentials", active: true
                 },
                 {
                     ref: "/homepage/charge_accounts", label: t('sidebar.settings.chargeAccounts'), active: true
