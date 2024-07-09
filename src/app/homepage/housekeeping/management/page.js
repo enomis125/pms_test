@@ -20,11 +20,13 @@ import { CgSearchFound } from "react-icons/cg";
 import { FaArrowRight, FaArrowLeft, FaArrowDown, FaRegTimesCircle } from "react-icons/fa";
 
 import { useTranslations } from 'next-intl';
+import { formatISO } from "date-fns";
 
 export default function ManagementForm() {
 
     const [roomData, setRoomData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const getCurrentTimestamp = () => formatISO(new Date());
     const t = useTranslations('Index');
 
     const stateOrder = ['outOfService', 'dirty', 'touched', 'cleaning', 'checked', 'clean'];
@@ -119,6 +121,22 @@ export default function ManagementForm() {
         fetchData();
     }, []);
 
+    const addHousekeepingLog = async (roomNumber, roomState) => {
+        const currentTime = new Date();
+        const formattedDate = format(currentTime, 'yyyy-MM-dd');
+        const formattedTime = format(currentTime, 'HH:mm:ss');
+
+        try {
+            await axios.put('/api/v1/logs', {
+                roomNumber,
+                roomState,
+                timestamp: `${formattedDate}T${formattedTime}`,
+            });
+        } catch (error) {
+            console.error('Error creating housekeeping log:', error);
+        }
+    };
+
     const onDragEnd = async (result) => {
         if (!result.destination) return;
 
@@ -151,12 +169,14 @@ export default function ManagementForm() {
                     roomStatus,
                 }
             });
+
+            await addHousekeepingLog(roomNumber, newState); // Chama a função para adicionar o log
         } catch (error) {
             console.error("Error updating room status:", error);
         }
     };
 
-    const filteredRoomData = roomData.filter(room => 
+    const filteredRoomData = roomData.filter(room =>
         `${room.label} ${room.roomtypes.desc}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -176,10 +196,10 @@ export default function ManagementForm() {
                     <thead>
                         <tr>
                             <th className="w-[15%] bg-tableCol text-left px-4">
-                                <Input 
-                                    type="text" 
-                                    placeholder={t("housekeeping.management.managementFilterRooms")} 
-                                    startContent={<HiRefresh />} 
+                                <Input
+                                    type="text"
+                                    placeholder={t("housekeeping.management.managementFilterRooms")}
+                                    startContent={<HiRefresh />}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
