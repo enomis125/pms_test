@@ -91,7 +91,7 @@
                 "priceCodes": "Price Codes",
                 "priceCodesDescription": "Price Codes Description",
                 "seasons": "Seasons",
-                "priceTable" : "Price Table"
+                "ratesPlanner" : "Rates Planner"
 
             }
         },
@@ -844,9 +844,9 @@
                 }
             },
             "priceTable":{
-                "title" : "Rates Table",
+                "title" : "Rates Planner",
                 "rates" : "Rates",
-                "people" : "People",
+                "people" : "Pax",
                 "filters" : "Filters",
                 "priceDescriptionHeader": "Price Description Header"
             }

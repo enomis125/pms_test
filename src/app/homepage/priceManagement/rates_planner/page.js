@@ -18,6 +18,9 @@ import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAge
 import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
 import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import { FaPerson } from "react-icons/fa6";
+import { FaRegPlusSquare } from "react-icons/fa";
+import { FiMinusSquare } from "react-icons/fi";
 
 import {
   Autocomplete,
@@ -46,15 +49,18 @@ dayjs.extend(isBetween);
 
 export default function CalendarPage() {
 
-
   const [expandedIndexes, setExpandedIndexes] = useState([]);
+  const [expandedColumns, setExpandedColumns] = useState([]);
 
+  // Função para alternar a expansão de colunas
   const toggleExpandIndexes = (index) => {
-    setExpandedIndexes(prevState =>
-      prevState.includes(index)
-        ? prevState.filter(i => i !== index)
-        : [...prevState, index]
-    );
+    if (expandedIndexes.includes(index)) {
+      setExpandedIndexes(expandedIndexes.filter(i => i !== index));
+      setExpandedColumns(expandedColumns.filter(c => c !== index));
+    } else {
+      setExpandedIndexes([...expandedIndexes, index]);
+      setExpandedColumns([...expandedColumns, index]);
+    }
   };
 
   const [today, setToday] = useState(dayjs());
@@ -120,6 +126,7 @@ export default function CalendarPage() {
   const [groupReservation, setRoomRevervation] = useState({}); // Estado para armazenar o número de quartos associados a cada tipo de quarto
 
   const [nights, setNights] = useState([]);
+  const [numPeople, setNumPeople] = useState(1);
 
   const t = useTranslations('Index');
 
@@ -431,6 +438,8 @@ export default function CalendarPage() {
   };
 
 
+
+
   useEffect(() => {
     const getData = async () => {
       if (!dataFetched) {
@@ -553,6 +562,17 @@ export default function CalendarPage() {
   const handleZoomOutClick = () => {
     window.location.href = '/homepage/frontOffice/tipology_Plan/zoom_out';
   }
+
+  const increasePeople = () => {
+    setNumPeople(numPeople + 1);
+  };
+
+  const decreasePeople = () => {
+    if (numPeople > 0) {
+      setNumPeople(numPeople - 1);
+    }
+  };
+
 
   return (
     <div className='w-full'>
@@ -700,9 +720,17 @@ export default function CalendarPage() {
         <div className='flex justify-between items-center'>
           <div className='flex gap-20 items-center'>
             <p className='text-ml text-white px-4'><b>{t("priceManagement.priceTable.title")}</b></p>
-            <CountryAutocomplete className="w-5 " label={t("priceManagement.priceTable.priceDescriptionHeader")} />
-            <CountryAutocomplete label={t("priceManagement.priceTable.people")} />
+            <CountryAutocomplete className="w-5 text-white" label={t("priceManagement.priceTable.priceDescriptionHeader")} />
             <CountryAutocomplete label={t("priceManagement.priceTable.filters")} />
+            <div className='flex items-center gap-2.5 pt-5'>
+              <span className='text-white'><FaPerson size={27} /></span>
+              <span className='text-white'> {numPeople}</span>
+              <div className='flex items-center gap-1.5'>
+                
+              <span className='text-white' onClick={increasePeople}><FaRegPlusSquare size={17} /></span>
+              <span className='text-white' onClick={decreasePeople}><FiMinusSquare size={17} /></span>
+              </div>
+            </div>
           </div>
           <div className='flex items-center gap-5'>
             <MdOutlineZoomOut size={20} color='white' className='cursor-pointer' onClick={handleZoomOutClick} />
@@ -785,6 +813,7 @@ export default function CalendarPage() {
                   {expandedIndexes.includes(rowIndex) ? <FaMinus /> : <FaPlus />}
                   <span>{roomType.name}</span>
                 </td>
+
                 {weeks[currentWeekIndex].map((day, index) => {
                   const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
                   const formattedDate = day.date.format('YYYY-MM-DD');
@@ -822,14 +851,43 @@ export default function CalendarPage() {
               </tr>
               {expandedIndexes.includes(rowIndex) && (
                 <tr>
-                  <td colSpan={weeks[currentWeekIndex].length + 1}>
-                    {/* Render your additional content here */}
-                    <div className="p-4">
-                      {/* Example additional content */}
-                      <p>Additional details for {roomType.name}</p>
-                    </div>
-                  </td>
-                </tr>
+            {/*LINHA SEPARADORA DA GRELHA */}
+            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
+            {weeks[currentWeekIndex].map((day, index) => {
+                  const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+                  const formattedDate = day.date.format('YYYY-MM-DD');
+                  const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
+
+                  const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
+
+                  return (
+                    <td
+                      key={index}
+                      className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
+                      ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
+                      ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
+                      ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}
+                      select-none`}
+                      onMouseDown={() => {
+                        setIsSelecting(true);
+                        handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
+                        setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                      }}
+                      onMouseOver={() => {
+                        if (isSelecting) {
+                          handleMouseOver(day.date, rowIndex, index);
+                          setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                        }
+                      }}
+                      onMouseUp={() => {
+                        setIsSelecting(false);
+                        handleMouseUp(day.date);
+                      }}>
+                      {availableRooms}
+                    </td>
+                  );
+                })}
+          </tr>
               )}
             </React.Fragment>
           ))}
