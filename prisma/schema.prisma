@@ -2450,3 +2450,10 @@ model reservationHistory {
   description          String   @default("") @db.VarChar(200)
   xdebug               String   @default("") @db.VarChar(50)
 }
+
+model housekeepingLogs {
+  id         Int      @id @default(autoincrement())
+  roomNumber Int
+  roomState  String   @db.VarChar(50)
+  timestamp  DateTime @db.DateTime(0)
+}
