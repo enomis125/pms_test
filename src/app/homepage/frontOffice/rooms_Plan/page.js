@@ -31,6 +31,12 @@ import { expansion } from "@/components/functionsForm/expansion/page";
 
 import { useTranslations } from 'next-intl';
 
+import { ImWrench } from "react-icons/im";
+import { GiBroom } from "react-icons/gi";
+import { MdOutlineTouchApp } from "react-icons/md";
+import { FaXmark, FaCheck } from "react-icons/fa6";
+import { CgSearchFound } from "react-icons/cg";
+
 // Configurando plugins
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -156,29 +162,54 @@ export default function CalendarPage() {
       try {
         const resHousekeeping = await axios.get(`/api/v1/housekeeping/housekeeping`);
         const housekeepingRecords = resHousekeeping.data.housekeepingRecords;
-  
-        // Verificação para garantir que housekeepingRecords é um array
-        if (Array.isArray(housekeepingRecords)) {
-          setHkpStatus(housekeepingRecords);
-  
-          // Exibir no console o roomStatus de cada item
-          housekeepingRecords.forEach(room => {
-            console.log(room.roomStatus);
-          });
-        } else {
-          console.error("Unexpected response format:", resHousekeeping.data);
-        }
+        setHkpStatus(housekeepingRecords);
       } catch (error) {
         console.error("Error fetching housekeeping data:", error);
       }
     };
-  
+
     getHousekeeping();
   }, []);
 
   const getHousekeepingStatus = (roomID) => {
     const roomHkp = hkpStatus.find(roomHkp => roomHkp.roomNumber === roomID);
-    return roomHkp ? roomHkp.roomStatus : 'Unknown';
+    if (roomHkp) {
+      const { roomStatus } = roomHkp;
+      let icon, color;
+
+      // Define o ícone e a cor com base no status
+      switch (roomStatus) {
+        case 1: //out of service
+          icon = <ImWrench color="orange" size={18} />;
+          break;
+        case 2: //dirty
+          icon = <FaXmark color="red" size={18} />;
+          break;
+        case 3: //touched
+          icon = <MdOutlineTouchApp color="orange" size={18} />;
+          break;
+        case 4: //cleaning
+          icon = <GiBroom color="#FFD700" size={18} />;
+          break;
+        case 5: //checked
+          icon = <CgSearchFound color="#00CED1" size={18} />;
+          break;
+        case 6: //clean
+          icon = <FaCheck color="lime" size={18} />;
+          break;
+        default:
+          icon = <FaTimesCircle color="gray" size={18} />;
+          break;
+      }
+
+      return (
+        <div className="flex items-center gap-2">
+          {icon}
+        </div>
+      );
+    } else {
+      return 'Unknown';
+    }
   };
 
   /*----FUNÇÕES PARA NAVEGAR 1 MES PARA TRAS, PARA A FRENTE OU PARA IR PARA O ATUAL---------------------------------------------------------------------------- */
@@ -315,62 +346,89 @@ export default function CalendarPage() {
     try {
       const response = await axios.get('/api/v1/frontOffice/reservations');
       if (Array.isArray(response.data.response)) {
-        setReservation(response.data.response); // Now we're sure it's an array
+        const reservations = response.data.response;
+
+        // Criando uma função auxiliar para buscar o perfil do hóspede
+        const fetchGuestProfile = async (reservation) => {
+          try {
+            const guestProfileResponse = await axios.get(`/api/v1/frontOffice/clientForm/individuals/${reservation.guestNumber}`);
+            console.log(`Perfil do hóspede para guestNumber ${reservation.guestNumber}:`, guestProfileResponse.data);
+            const firstName = guestProfileResponse.data.response.firstName;
+            const secondName = guestProfileResponse.data.response.secondName;
+
+            // Retornando a reserva atualizada com os nomes do hóspede
+            return {
+              ...reservation,
+              guestFirstName: firstName,
+              guestSecondName: secondName
+            };
+          } catch (error) {
+            console.error(`Erro ao buscar perfil do hóspede para guestNumber ${reservation.guestNumber}:`, error);
+            // Em caso de erro, retorna a reserva original
+            return reservation;
+          }
+        };
+
+        // Mapeando as reservas para promessas assíncronas
+        const promises = reservations.map(fetchGuestProfile);
+
+        // Aguardando todas as promessas serem resolvidas
+        const updatedReservations = await Promise.all(promises);
+
+        // Atualizando o estado com as reservas atualizadas
+        setReservation(updatedReservations);
       } else {
-        console.error('Invalid response data:', response.data.response);
+        console.error('Dados de resposta inválidos:', response.data.response);
       }
     } catch (error) {
-      console.error('Error fetching reservations:', error);
+      console.error('Erro ao buscar reservas:', error);
     }
   };
+
+
   /** --- FUNÇÃO PARA AUMENTAR OU DIMINUIR RESERVA ---------------------------------------------------------------------------------------------*/
-  const [cellWidth, setCellWidth] = useState(55); // Add a state for cellWidth
-  const [startDateResize, setStartDateResize] = useState(dayjs()); // Add a state for startDate
-
-  useEffect(() => {
-    const tableElement = document.getElementById('table-id');
-    if (tableElement) {
-      const tableWidth = tableElement.offsetWidth;
-      const calendarWidth = tableWidth * 0.85;
-      const totalDaysInMonth = startDateResize.daysInMonth();
-      const initialCellWidth = calendarWidth / totalDaysInMonth;
-      setCellWidth(initialCellWidth);
-    }
-  }, [startDateResize]);
-
-  const handleMouseDownRightResize = (event, reservationID, date, checkOutDate) => {
+  const handleMouseDownRightResize = async (event, reservationID, date, checkOutDate) => {
     setIsResizing(true);
     let x = event.clientX;
     const resizeableEle = reservationRefs.current[reservationID];
-    const initialWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
-    let width = initialWidth;
+    if (!resizeableEle) return;
     const startDate = dayjs(date); // Data de início do redimensionamento
     let localNewEndDate = dayjs(checkOutDate); // Data de término atual da reserva
 
-    const initialCellIndex = Math.floor((x - resizeableEle.offsetLeft) / cellWidth);
-    const initialDate = startDate.clone().add(initialCellIndex, 'day');
-
     const onMouseMoveRightResize = (event) => {
       const dx = event.clientX - x;
-      width = Math.max(10, width + dx); // Garante que a largura não seja menor que 10px
-      resizeableEle.style.width = `${width}px`;
-      x = event.clientX;
-
-      // Calcula a nova data de término com base na largura atual
-      const cells = Math.round(width / cellWidth);
-      const newEndDate = startDate.clone().add(cells - 1, 'day');
-
-      // Atualiza a data de término local
+      const currentWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
+      let newWidth;
+      let newEndDate;
+    
+      if (dx > 0) { // Resizing to the right
+        newWidth = currentWidth + dx;
+        const targetCell = document.elementFromPoint(event.clientX, event.clientY);
+        if (!targetCell || !targetCell.id.startsWith('cell-')) return;
+        const targetDay = parseInt(targetCell.id.replace('cell-', ''), 10);
+        if (isNaN(targetDay)) return;
+        newEndDate = startDate.clone().date(targetDay);
+      } else { // Resizing to the left
+        newWidth = currentWidth - Math.abs(dx);
+        const targetCell = document.elementFromPoint(event.clientX, event.clientY);
+        if (!targetCell || !targetCell.id.startsWith('cell-')) return;
+        const targetDay = parseInt(targetCell.id.replace('cell-', ''), 10);
+        if (isNaN(targetDay)) return;
+        newEndDate = startDate.clone().date(targetDay);
+      }
+    
+      // Não permite que a largura da reserva seja menor que 0
+      if (newWidth < 0) return;
+    
+      resizeableEle.style.width = `${newWidth}px`;
       localNewEndDate = newEndDate;
+      x = event.clientX;
     };
 
     const onMouseUpRightResize = async () => {
       document.removeEventListener('mousemove', onMouseMoveRightResize);
       document.removeEventListener('mouseup', onMouseUpRightResize);
       setIsResizing(false);
-
-      // Atualiza startDateResize com a nova data de término
-      setStartDateResize(localNewEndDate);
 
       // Use localNewEndDate para qualquer processamento ou logging adicional
       console.log("Nova data de término:", localNewEndDate.format('DD-MM-YYYY'));
@@ -391,141 +449,172 @@ export default function CalendarPage() {
 
     document.addEventListener('mousemove', onMouseMoveRightResize);
     document.addEventListener('mouseup', onMouseUpRightResize);
-  };
+  }; 
 
+  /*const handleMouseDownDrag = (event, reservationID, checkInDate, checkOutDate) => {
+    setIsDragging(true);
+    let startX = event.clientX;
+    const dragElement = reservationRefs.current[reservationID];
+    if (!dragElement) return;
 
-  /*const [cellWidth, setCellWidth] = useState(55); // Add a state for cellWidth
-  const [startDateResize, setStartDateResize] = useState(dayjs()); // Add a state for startDate
-  
-  useEffect(() => {
-    const tableElement = document.getElementById('table-id');
-    if (tableElement) {
-      const tableWidth = tableElement.offsetWidth;
-      const calendarWidth = tableWidth * 0.85;
-      const totalDaysInMonth = startDateResize.daysInMonth();
-      const initialCellWidth = calendarWidth / totalDaysInMonth;
-      setCellWidth(initialCellWidth);
+    const originalLeft = parseInt(dragElement.style.left, 10);
+    const originalCheckInDate = dayjs(checkInDate);
+    const reservationDuration = dayjs(checkOutDate).diff(originalCheckInDate, 'day');
+    let localNewCheckInDate = originalCheckInDate; // Inicializar a variável
+
+    const onMouseMoveDrag = (event) => {
+        const dx = event.clientX - startX;
+        const newLeft = originalLeft + dx;
+
+        dragElement.style.left = `${newLeft}px`;
+
+        const targetCell = document.elementFromPoint(event.clientX, event.clientY);
+        if (targetCell && targetCell.id.startsWith('cell-')) {
+            const targetDay = parseInt(targetCell.id.replace('cell-', ''), 10);
+            if (!isNaN(targetDay)) {
+                const newMonth = originalCheckInDate.month(); // Preserva o mês original
+                localNewCheckInDate = dayjs().set('month', newMonth).date(targetDay);
+            }
+        }
+    };
+
+    const onMouseUpDrag = async () => {
+        document.removeEventListener('mousemove', onMouseMoveDrag);
+        document.removeEventListener('mouseup', onMouseUpDrag);
+        setIsDragging(false);
+
+        const localNewCheckOutDate = localNewCheckInDate.add(reservationDuration, 'day');
+
+        alert(`Nova data de check-in: ${localNewCheckInDate.format('DD-MM-YYYY')}\nNova data de check-out: ${localNewCheckOutDate.format('DD-MM-YYYY')}`);
+
+        try {
+            const response = await axios.patch(`/api/v1/frontOffice/reservations/roomsPlan/${reservationID}`, {
+                data: {
+                    checkInDate: localNewCheckInDate.format('YYYY-MM-DD'),
+                    checkOutDate: localNewCheckOutDate.format('YYYY-MM-DD'),
+                },
+            });
+            console.log('Reserva atualizada:', response.data);
+        } catch (error) {
+            console.error('Erro ao atualizar reserva:', error);
+        }
+    };
+
+    document.addEventListener('mousemove', onMouseMoveDrag);
+    document.addEventListener('mouseup', onMouseUpDrag);
+};*/
+
+const renderReservations = (reservations, date, roomType) => {
+    if (!reservations) {
+        console.warn('Não há reservas para renderizar.');
+        return [];
     }
-  }, [startDateResize]);
-  
-  const handleMouseDownRightResize = (event, reservationID, date, checkOutDate) => {
-    setIsResizing(true);
-    let x = event.clientX;
-    const resizeableEle = reservationRefs.current[reservationID];
-    const initialWidth = parseInt(window.getComputedStyle(resizeableEle).width, 10);
-    let width = initialWidth;
-    const startDate = dayjs(date); // Data de início do redimensionamento
-    let localNewEndDate = dayjs(checkOutDate); // Data de término atual da reserva
-  
-    const initialCellIndex = Math.floor((x - resizeableEle.offsetLeft) / cellWidth);
-    const initialDate = startDate.clone().add(initialCellIndex, 'day');
-  
-    const onMouseMoveRightResize = (event) => {
-      const dx = event.clientX - x;
-      width = Math.max(10, width + dx); // Garante que a largura não seja menor que 10px
-      resizeableEle.style.width = `${width}px`;
-      x = event.clientX;
-  
-      // Calcula a nova data de término com base na largura atual
-      const cells = Math.round(width / cellWidth);
-      const newEndDate = startDate.clone().add(cells - 1, 'day');
-  
-      // Atualiza a data de término local
-      localNewEndDate = newEndDate;
-    };
-  
-    const onMouseUpRightResize = () => {
-      document.removeEventListener('mousemove', onMouseMoveRightResize);
-      document.removeEventListener('mouseup', onMouseUpRightResize);
-      setIsResizing(false);
-  
-      // Atualiza a data de término da reserva com a nova data calculada
-      updateReservationEndDate(reservationID, localNewEndDate);
-    };
-  
-    document.addEventListener('mousemove', onMouseMoveRightResize);
-    document.addEventListener('mouseup', onMouseUpRightResize);
-  };
-  
-  const updateReservationEndDate = (reservationID, newEndDate) => {
-    // Implemente a lógica para atualizar a data de término da reserva na sua aplicação
-    console.log("Nova data de término:", newEndDate.format('DD-MM-YYYY'));
-    // Exemplo: dispatch para atualizar a reserva no estado ou enviar para o backend
-  };*/
 
-  /*-----FUNÇÃO PARA EXIBIR AS RESERVAS NO CALENDARIO--------------------------------------------------------------------------------------------------------- */
-  const renderReservations = (reservations, date, roomType) => {
     const filteredReservations = reservations.filter((reservation) => {
-      const isSameRoom = roomTypeState.find((room) => room.label === String(reservation.roomNumber));
-      const isSameMonth = dayjs(reservation.checkInDate).month() === date.month();
-      return isSameRoom && isSameMonth;
+        const isSameRoom = String(reservation.roomNumber) === roomType.label;
+        const isSameMonth = dayjs(reservation.checkInDate).month() === date.month();
+        return isSameRoom && isSameMonth;
     });
-
-    const daysInMonth = date.daysInMonth();
-    const startOfMonth = date.startOf('month');
-    const dayOffsetFromStartOfWeek = startOfMonth.day(); // Dia da semana do início do mês (0-6)
-
-    // A largura da coluna de quartos em porcentagem
-    const roomColumnWidth = 14.7; // 15%
-    const calendarWidth = 84.3; // 100% - 15%
-
-    // Ajustes adicionais para compensar possíveis bordas
-    const positionAdjustment = 2.7; // 2%
-    const widthAdjustment = 1.2; // 1%
 
     return filteredReservations.map((reservation) => {
-      const checkInDate = dayjs(reservation.checkInDate);
-      const checkOutDate = dayjs(reservation.checkOutDate);
+        const checkInDate = dayjs(reservation.checkInDate);
+        const checkOutDate = dayjs(reservation.checkOutDate);
 
-      const dayOffset = checkInDate.date() - 1; // Ajustar para basear no índice do dia (0-based)
-      const duration = checkOutDate.diff(checkInDate, 'day');
+        const checkInDay = checkInDate.date();
+        const checkOutDay = checkOutDate.date();
 
-      // Cálculo do left para iniciar meio pixel mais para a direita do início da célula de check-in
-      const leftOffset = dayOffset + dayOffsetFromStartOfWeek + 0.3; // Adicionar deslocamento da semana e meio pixel extra
+        const startCellId = `cell-${checkInDay}`;
+        const endCellId = `cell-${checkOutDay}`;
 
-      // Cálculo da largura para terminar no meio da célula de check-out
-      const totalCellWidth = (duration / daysInMonth) * calendarWidth; // Largura total da reserva em relação ao calendário
-      const width = totalCellWidth - widthAdjustment; // Ajuste de largura para terminar no meio da célula
+        const startCell = document.getElementById(startCellId);
+        const endCell = document.getElementById(endCellId);
 
-      const style = {
-        position: 'absolute',
-        left: `calc(${roomColumnWidth}% + ${(leftOffset / (daysInMonth + dayOffsetFromStartOfWeek)) * calendarWidth}% + ${positionAdjustment}%)`,
-        width: `calc(${width}% - ${widthAdjustment}%)`,
-        marginTop: -15,
-        backgroundColor: 'red',
-        color: 'white',
-        padding: '1px',
-        borderRadius: '4px',
-        fontSize: '12px',
-        height: '30px',
-      };
+        if (!startCell || !endCell) {
+            console.warn(`Célula não encontrada: ${!startCell ? startCellId : endCellId}`);
+            return null;
+        }
 
-      const textContainerStyle = {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        width: 'calc(100% - 5px)', // Adjust width to accommodate resizer
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: '5px', // Adjust padding as needed
-      };
+        const startCellRect = startCell.getBoundingClientRect();
+        const endCellRect = endCell.getBoundingClientRect();
+        const cellWidth = startCellRect.width;
+        const halfCellWidth = cellWidth / 2;
 
-      return (
-        <div key={reservation.reservationID} ref={(el) => (reservationRefs.current[reservation.reservationID] = el)} style={style} className="absolute border border-black w-full h-full">
-          <div style={textContainerStyle}>{reservation.roomNumber}</div>
-          <div
-            ref={(el) => (resizerRefs.current[reservation.reservationID] = el)}
-            onMouseDown={(e) => handleMouseDownRightResize(e, reservation.reservationID, reservation.checkOutDate, date)}
-            className="absolute bg-black cursor-ew-resize text-left"
-            style={{ right: 0, top: 0, bottom: 0, width: 5 }}
-          >
-            {/* Conteúdo do redimensionador */}
-          </div>
-        </div>
-      );
+        const leftStartPosition = startCellRect.left + window.pageXOffset + halfCellWidth;
+        const leftEndPosition = endCellRect.left + window.pageXOffset + halfCellWidth;
+
+        const reservationWidth = leftEndPosition - leftStartPosition;
+
+        const style = {
+            position: 'absolute',
+            left: leftStartPosition,
+            width: reservationWidth,
+            marginTop: -20,
+            backgroundColor: 'red',
+            color: 'white',
+            padding: '1px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            height: '40px',
+        };
+
+        const textContainerStyle = {
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: 'calc(100% - 5px)', // Adjust width to accommodate resizer
+            display: 'flex',
+            flexDirection: 'column', // Ajustar para layout de coluna
+            alignItems: 'flex-start', // Alinhar texto à esquerda
+            paddingLeft: '5px', // Adjust padding as needed
+        };
+
+        const guestFirstName = reservation.guestFirstName || 'Nome do hóspede não disponível';
+        const guestSecondName = reservation.guestSecondName || 'Sobrenome do hóspede não disponível';
+
+        let reservationStatusColor = 'yellow';
+        if (reservation.reservationStatus === 1) {
+            reservationStatusColor = 'yellow';
+        } else if (reservation.reservationStatus === 2) {
+            reservationStatusColor = 'green';
+        } else if (reservation.reservationStatus === 3) {
+            reservationStatusColor = 'red';
+        } else if (reservation.reservationStatus === 4) {
+            reservationStatusColor = 'gray';
+        } else if (reservation.reservationStatus === 5) {
+            reservationStatusColor = 'white';
+        }
+
+        const formattedCheckInDate = checkInDate.format('DD.MM');
+        const formattedCheckOutDate = checkOutDate.format('DD.MM');
+
+        return (
+            <div
+                key={reservation.reservationID}
+                style={style}
+                className="absolute border border-black w-full h-full"
+                ref={(element) => (reservationRefs.current[reservation.reservationID] = element)}
+                //onMouseDown={(e) => handleMouseDownDrag(e, reservation.reservationID, reservation.checkInDate, reservation.checkOutDate)}
+            >
+                <div style={{ background: reservationStatusColor }} className='border-1 border-black rounded-sm w-2 h-2 ml-1 mt-1'></div>
+                <div style={textContainerStyle} className='flex-col ml-3'>
+                    <span>{`${guestSecondName}, ${guestFirstName}`}</span>
+                    <span>{`${formattedCheckInDate} - ${formattedCheckOutDate}`}</span>
+                </div>
+                <div
+                    onMouseDown={(e) => handleMouseDownRightResize(e, reservation.reservationID, reservation.checkOutDate, date)}
+                    className="absolute bg-black cursor-ew-resize text-left"
+                    style={{ right: 0, top: 0, bottom: 0, width: 5 }}
+                >
+                    {/* Conteúdo do redimensionador */}
+                </div>
+            </div>
+        );
     });
-  };
+};
+
+
+
 
   const updateAvailability = () => {
     fetchData();
@@ -844,11 +933,9 @@ export default function CalendarPage() {
       <table className='w-[100%] bg-tableCol'>
         <thead>
           <tr>
-            {/*CABEÇALHO DA TABELA C/ FORMATAÇÃO DE DATA */}
             <th className='w-[15%] bg-tableCol text-left px-4'>{t("frontOffice.roomsPlan.label")}</th>
             {weeks.days.map((day, index) => (
-              <td key={index} className={`h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none 
-              ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
+              <td key={index} className={`h-14 border-tableCol border-l-3 border-r-3 border-b-2 ${day.date.day() === 0 || day.date.day() === 6 ? "bg-tableColWeekend" : "bg-lightBlueCol"} select-none ${day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : ""} select-none`}>
                 <div className='flex flex-col justify-center text-center'>
                   <span className="text-xs text-gray-400">{daysOfWeek[day.date.day()]}</span>
                   <span className='text-sm font-bold'>{day.date.format('DD')}</span>
@@ -861,34 +948,38 @@ export default function CalendarPage() {
         <tbody>
           {roomTypeState.map((roomType, rowIndex) => (
             <tr key={roomType.roomID} onClick={() => handleRowSelection(rowIndex)}>
-              <td className="text-xs w-full h-10 flex justify-between items-center px-4 border-b-2 bg-white">
-                <div className='flex justify-left gap-2'>
-                  <span>{roomType.label}</span>
-                  <span>{getRoomTypeName(roomType.roomType)}</span> {/* Exibe o nome da tipologia */}
+              <td className="text-xs w-full h-12 flex justify-between items-center px-4 border-b-2 bg-white">
+                <div className='flex flex-col justify-left'>
+                  <span><b>{roomType.label}</b></span>
+                  <span className='text-gray-500'>{getRoomTypeName(roomType.roomType)}</span> {/* Exibe o nome da tipologia */}
                 </div>
                 <span>{getHousekeepingStatus(roomType.roomID)}</span> {/* Exibe o status */}
               </td>
-              {weeks.days.map((day, index) => {
-                const formattedDate = day.date.format('YYYY-MM-DD');
-                const isSelected = selectionInfo.roomID === roomType.roomID && selectionInfo.dates.includes(formattedDate);
+              {weeks.days.map((day, columnIndex) => {
+                const dayOfMonth = day.date.date(); // Obtém o dia do mês
+                const cellId = `cell-${dayOfMonth}`; // ID exclusivo para o dia do mês
+                const monthSelected = day.date.format('MM'); // Obtém o mês selecionado
+                const roomInfo = `${roomType.label} - ${getRoomTypeName(roomType.roomType)}`; // Informação do quarto
 
                 return (
                   <td
-                    key={index}
+                    key={cellId}
+                    id={cellId}
+                    title={`${cellId}.${monthSelected}\n#${roomInfo}`} // Adiciona o ID da célula, mês e informação do quarto ao atributo title
                     className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg 
-                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
-                  ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                  ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-sky-400" : ""}
-                  select-none`}
+              ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")} 
+              ${selectionInfo.roomID === roomType.roomID && selectionInfo.dates.includes(day.date.format('YYYY-MM-DD')) ? "border-3 border-blue-600 rounded-lg" : ""}
+              ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === columnIndex) ? "bg-sky-400" : ""}
+              select-none`}
                     onMouseDown={() => {
                       setIsSelecting(true);
-                      handleMouseDown(day.date, roomType.roomID, rowIndex, index);
-                      setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                      handleMouseDown(day.date, roomType.roomID, rowIndex, columnIndex);
+                      setCellsSelection([...cellsSelection, { row: rowIndex, column: columnIndex, date: day.date }]);
                     }}
                     onMouseOver={() => {
                       if (isSelecting) {
-                        handleMouseOver(day.date, rowIndex, index);
-                        setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                        handleMouseOver(day.date, rowIndex, columnIndex);
+                        setCellsSelection([...cellsSelection, { row: rowIndex, column: columnIndex, date: day.date }]);
                       }
                     }}
                     onMouseUp={() => {
@@ -902,7 +993,7 @@ export default function CalendarPage() {
                       roomType
                     )}
                   </td>
-                )
+                );
               })}
             </tr>
           ))}
@@ -911,3 +1002,4 @@ export default function CalendarPage() {
     </div>
   );
 }
+
