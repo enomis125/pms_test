@@ -8,26 +8,18 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  Tabs,
-  Tab,
 } from "@nextui-org/react";
-// imports de icons
 import { TfiSave } from "react-icons/tfi";
 import { LiaExpandSolid } from "react-icons/lia";
 import { MdClose } from "react-icons/md";
-import { CheckboxGroup, Checkbox } from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 import InputFieldControlled from "@/components/functionsForm/inputs/typeText/page";
-
 import { expansion } from "@/components/functionsForm/expansion/page";
 import ModalFooterContent from "@/components/modal/modalFooterContent";
-import PriceManagementGroupAutocomplete from "@/components/functionsForm/autocomplete/priceManagent/page";
 import RateCodesGroupNameAutocomplete from "@/components/functionsForm/autocomplete/rateCodes/name/page";
-import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
-import RoomsAutocomplete from "@/components/functionsForm/autocomplete/rooms/page";
-import SeasonsAutocomplete from "@/components/functionsForm/autocomplete/seasons/page";
 import priceDescriptionInsert from "@/components/functionsForm/CRUD/priceManagent/priceDescription/page";
-import { priceDescriptionEdit } from "@/components/functionsForm/CRUD/priceManagent/priceDescription/page";
 import axios from 'axios';
 
 const priceDescriptionForm = ({
@@ -49,32 +41,84 @@ const priceDescriptionForm = ({
 
   const {
     handleInputPriceDescription,
+    handleInputPriceDescriptionPrices,
+    handleInputPriceDescriptionRooms,
     handleSubmitPriceDescription,
     handleRateNameSelect,
     handleCheckboxChange
   } = priceDescriptionInsert();
-  /*const {
-    handleUpdatePriceDescription,
-    setValuesPriceDescription,
-    valuesPriceDescription,
-  } = priceDescriptionEdit(idPriceDescription);*/
+
   const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
   const [tipologyGroup, setTipologyGroup] = useState([]);
+  const [rooms, setRooms] = useState([]);
+  const [expandedInputValues, setExpandedInputValues] = useState([]);
+
   useEffect(() => {
-    const getData = async () => {
+    const fetchTipologyData = async () => {
       try {
         const res = await axios.get("/api/v1/hotel/tipologys");
         const filteredData = res.data.response.filter(
-          (tipologyGroup) => tipologyGroup.label !== ""
+          (tipology) => tipology.label !== ""
         );
         setTipologyGroup(filteredData);
+        setExpandedInputValues(filteredData.map(() => ({
+          preco1: '', preco2: '', preco3: '', preco4: '', preco5: '', preco6: ''
+        })));
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching tipology data:", error);
       }
     };
-    getData();
+    fetchTipologyData();
   }, []);
+
+  useEffect(() => {
+    const fetchRoomsData = async () => {
+      try {
+        const res = await axios.get("/api/v1/hotel/rooms");
+        const filteredData = res.data.response.filter(
+          (room) => room.label !== ""
+        );
+        setRooms(filteredData);
+        setExpandedInputValues(filteredData.map(() => ({
+          precoQuarto1: '', precoQuarto2: '', precoQuarto3: '', precoQuarto4: '', precoQuarto5: '', precoQuarto6: ''
+        })));
+      } catch (error) {
+        console.error("Error fetching rooms data:", error);
+      }
+    };
+    fetchRoomsData();
+  }, []);
+
+  const [expandedIndexes, setExpandedIndexes] = useState([]);
+
+  const toggleExpandIndexes = (index) => {
+    setExpandedIndexes(prevState =>
+      prevState.includes(index)
+        ? prevState.filter(i => i !== index)
+        : [...prevState, index]
+    );
+  };
+
+  const handleExpandedInputChangeTypology = (index, event) => {
+    const { name, value } = event.target;
+    setExpandedInputValues(prevState => {
+      const newValuesRooms = [...prevState];
+      newValuesRooms[index] = { ...newValuesRooms[index], [name]: value };
+      return newValuesRooms;
+    });
+    handleInputPriceDescriptionPrices(index, event);
+  };
+
+  const handleExpandedInputChangeRoom = (index, event) => {
+    const { name, value } = event.target;
+    setExpandedInputValues(prevState => {
+      const newValuesRooms = [...prevState];
+      newValuesRooms[index] = { ...newValuesRooms[index], [name]: value };
+      return newValuesRooms;
+    });
+    handleInputPriceDescriptionRooms(index, event);
+  };
 
   return (
     <>
@@ -196,15 +240,6 @@ const priceDescriptionForm = ({
 
                           <InputFieldControlled
                             type={"number"}
-                            id={"ventilation"}
-                            name={"Ventilation"}
-                            label={"Ventilation"}
-                            style={"w-30 outline-none h-10"}
-                            onChange={handleInputPriceDescription}
-                          />
-
-                          <InputFieldControlled
-                            type={"number"}
                             id={"billText"}
                             name={"BillText"}
                             label={"Bill Text"}
@@ -222,7 +257,7 @@ const priceDescriptionForm = ({
                           />
                         </div>
                         <div className="flex flex-row gap-8">
-                          <p className="w-28 text-center text-xs">Typology</p>
+                          <p className="ml-2 w-28 text-center text-xs">Typology</p>
                           <p className="w-28 text-center text-xs">1 Person</p>
                           <p className="w-28 text-center text-xs">2 People</p>
                           <p className="w-28 text-center text-xs">3 People</p>
@@ -230,282 +265,143 @@ const priceDescriptionForm = ({
                           <p className="w-28 text-center text-xs">5 People</p>
                           <p className="w-28 text-center text-xs">6 People</p>
                         </div>
-                        {tipologyGroup.map((tipologyGroup) => (
-                      <div className="flex flex-row gap-8">
-                        <p className="w-28 h-full my-auto">{tipologyGroup.name}</p>
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"preco1"}
-                          name={"Preco1"}
-                          //label={"Preço 1"}
-                          style={"w-28 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"preco2"}
-                          name={"Preco2"}
-                          //label={"Preço 2"}
-                          style={"w-28 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"preco3"}
-                          name={"Preco3"}
-                          //label={"Preço 3"}
-                          style={"w-28 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"preco4"}
-                          name={"Preco4"}
-                          //label={"Preço 4"}
-                          style={"w-28 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"preco5"}
-                          name={"Preco5"}
-                          //label={"Preço 5"}
-                          style={"w-28 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"preco6"}
-                          name={"Preco6"}
-                          //label={"Preço 6"}
-                          style={"w-28 outline-none h-10 bg-slate-100"}
-                          onChange={handleInputPriceDescription}
-                        />
-                      </div>
+                        {tipologyGroup.map((group, index) => (
+                          <div key={index} className="flex flex-col gap-2">
+                            <div className="flex flex-row gap-8 items-center">
+                              <div className="w-2">
+                                <button type="button" onClick={() => toggleExpandIndexes(index)}>
+                                  {expandedIndexes.includes(index) ? <FaMinus size={10}/> : <FaPlus size={10}/>}
+                                </button>
+                              </div>
+                              <p className="w-28 h-full my-auto">{group.name}</p>
+                              <div className="w-28">
+                                <InputFieldControlled
+                                  type="number"
+                                  name="Preco1"
+                                  style={"w-30 outline-none h-10"}
+                                  onChange={(event) => handleExpandedInputChangeTypology(index, event)}
+                                />
+                              </div>
+                              <div className="w-28">
+                                <InputFieldControlled
+                                  type="number"
+                                  name="Preco2"
+                                  style={"w-30 outline-none h-10"}
+                                  onChange={(event) => handleExpandedInputChangeTypology(index, event)}
+                                />
+                              </div>
+                              <div className="w-28">
+                                <InputFieldControlled
+                                  type="number"
+                                  name="Preco3"
+                                  style={"w-30 outline-none h-10"}
+                                  onChange={(event) => handleExpandedInputChangeTypology(index, event)}
+                                />
+                              </div>
+                              <div className="w-28">
+                                <InputFieldControlled
+                                  type="number"
+                                  name="Preco4"
+                                  style={"w-30 outline-none h-10"}
+                                  onChange={(event) => handleExpandedInputChangeTypology(index, event)}
+                                />
+                              </div>
+                              <div className="w-28">
+                                <InputFieldControlled
+                                  type="number"
+                                  name="Preco5"
+                                  style={"w-30 outline-none h-10"}
+                                  onChange={(event) => handleExpandedInputChangeTypology(index, event)}
+                                />
+                              </div>
+                              <div className="w-28">
+                                <InputFieldControlled
+                                  type="number"
+                                  name="Preco6"
+                                  style={"w-30 outline-none h-10"}
+                                  onChange={(event) => handleExpandedInputChangeTypology(index, event)}
+                                />
+                              </div>
+                            </div>
+                            {expandedIndexes.includes(index) && (
+                              rooms.filter(room => room.roomType === group.roomTypeID).length > 0 ? (
+                                rooms.filter(room => room.roomType === group.roomTypeID).map((room, roomIndex) => (
+                                <div key={room.roomID} className="flex flex-row gap-8">
+                                  <div className="w-2" />
+                                  <p className="w-28">{room.label}</p>
+                                  <div className="w-28">
+                                    <InputFieldControlled
+                                      type="number"
+                                      name="PrecoQuarto1"
+                                      style={"w-30 outline-none h-10 bg-slate-200"}
+                                      value={expandedInputValues[room.roomID]?.PrecoQuarto1 ||''}
+                                      onChange={(event) => handleExpandedInputChangeRoom(room.roomID, event)}
+                                    />
+                                  </div>
+                                  <div className="w-28">
+                                    <InputFieldControlled
+                                      type="number"
+                                      name="PrecoQuarto2"
+                                      style={"w-30 outline-none h-10"}
+                                      value={expandedInputValues[room.roomID]?.PrecoQuarto2 || ''}
+                                      onChange={(event) => handleExpandedInputChangeRoom(room.roomID, event)}
+                                    />
+                                  </div>
+                                  <div className="w-28">
+                                    <InputFieldControlled
+                                      type="number"
+                                      name="PrecoQuarto3"
+                                      style={"w-30 outline-none h-10"}
+                                      value={expandedInputValues[room.roomID]?.PrecoQuarto3 || ''}
+                                      onChange={(event) => handleExpandedInputChangeRoom(room.roomID, event)}
+                                    />
+                                  </div>
+                                  <div className="w-28">
+                                    <InputFieldControlled
+                                      type="number"
+                                      name="PrecoQuarto4"
+                                      style={"w-30 outline-none h-10"}
+                                      value={expandedInputValues[room.roomID]?.PrecoQuarto4 || ''}
+                                      onChange={(event) => handleExpandedInputChangeRoom(room.roomID, event)}
+                                    />
+                                  </div>
+                                  <div className="w-28">
+                                    <InputFieldControlled
+                                      type="number"
+                                      name="PrecoQuarto5"
+                                      style={"w-30 outline-none h-10"}
+                                      value={expandedInputValues[room.roomID]?.PrecoQuarto5 || ''}
+                                      onChange={(event) => handleExpandedInputChangeRoom(room.roomID, event)}
+                                    />
+                                  </div>
+                                  <div className="w-28">
+                                    <InputFieldControlled
+                                      type="number"
+                                      name="PrecoQuarto6"
+                                      style={"w-30 outline-none h-10"}
+                                      value={expandedInputValues[room.roomID]?.PrecoQuarto6 || ''}
+                                      onChange={(event) => handleExpandedInputChangeRoom(room.roomID, event)}
+                                    />
+                                  </div>
+                                </div>
+                              ))
+                            ): (
+                              <div className="flex flex-row gap-8">
+                                <div className="w-2" />
+                                <p className="w-28">No rooms associated with this typology</p>
+                              </div>
+                            ))}
+                          </div>
                         ))}
                       </div>
                     </ModalBody>
-                  </form>
-                </>
-              )}
-            </ModalContent>
-          </Modal>
-        </>
-      )}
-
-      {formTypeModal === 12 && ( //tipology edit
-        <>
-          <Button
-            fullWidth={true}
-            size="md"
-            onPress={onOpen}
-            color={buttonColor}
-            className="-h-3 flex justify-start -p-3"
-          >
-            {buttonName} {buttonIcon}
-          </Button>
-          <Modal
-            classNames={{
-              base: "max-h-screen",
-              wrapper: isExpanded
-                ? "w-full h-screen"
-                : "lg:pl-72 h-screen w-full",
-              body: "h-full",
-            }}
-            size="full"
-            isOpen={isOpen}
-            onOpenChange={onOpenChange}
-            isDismissable={false}
-            isKeyboardDismissDisabled={true}
-            hideCloseButton={true}
-          >
-            <ModalContent>
-              {(onClose) => (
-                <>
-                  <form onSubmit={(e) => handleUpdatePriceManagement(e)}>
-                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
-                      <div className="flex flex-row justify-start gap-4">
-                        {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
-                      </div>
-                      <div className="flex flex-row items-center mr-5">
-                        <Button
-                          color="transparent"
-                          onClick={() => { onClose(); window.location.reload(); }}
-                          className="-mr-5"
-                          type="submit"
-                        >
-                          <TfiSave size={25} />
-                        </Button>
-                        <Button
-                          color="transparent"
-                          className="-mr-5"
-                          onClick={toggleExpand}
-                        >
-                          <LiaExpandSolid size={30} />
-                        </Button>
-                        <Button
-                          color="transparent"
-                          variant="light"
-                          onClick={() => { onClose(); window.location.reload(); }}
-                        >
-                          <MdClose size={30} />
-                        </Button>
-                      </div>
-                    </ModalHeader>
-                    <ModalBody className="flex flex-col mx-5 my-5 space-y-8">
-                      <div className="flex flex-row gap-8">
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"RateGroup"}
-                          name={"RateGroup"}
-                          label={"Rate Group"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          value={valuesPriceManagement.RateGroup}
-                          onChange={(e) =>
-                            setValuesPriceManagement({
-                              ...valuesPriceManagement,
-                              RateGroup: e.target.value,
-                            })
-                          }
-                        />
-
-                        <InputFieldControlled
-                          type={"number"}
-                          id={"RateCode"}
-                          name={"RateCode"}
-                          label={"Rate Code"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          value={valuesPriceManagement.RateCode}
-                          onChange={(e) =>
-                            setValuesPriceManagement({
-                              ...valuesPriceManagement,
-                              RateCode: e.target.value,
-                            })
-                          }
-                        />
-
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"Type"}
-                          name={"Type"}
-                          label={"Type"}
-                          style={"w-30 outline-none h-10"}
-                          onChange={handleInputPriceDescription}
-                        />
-                      </div>
-                      <InputFieldControlled
-                        type={"text"}
-                        id={"text1"}
-                        name={"Text1"}
-                        label={"Text 1"}
-                        style={"w-full outline-none h-10"}
-                        onChange={handleInputPriceDescription}
+                    <ModalFooter>
+                      <ModalFooterContent
+                        closeModal={onClose}
+                        buttonColor={buttonColor}
                       />
-
-                      <div className="flex flex-row gap-8">
-                        <InputFieldControlled
-                          type={"number"}
-                          id={"sortOrder"}
-                          name={"sortOrder"}
-                          label={"Sort Order"}
-                          style={"w-30 outline-none h-10"}
-                          onChange={handleInputPriceDescription}
-                        />
-                      </div>
-                      <CheckboxGroup label="Virtual Rate">
-                        <Checkbox value="">Base Rate</Checkbox>
-                      </CheckboxGroup>
-
-                      <div className="flex flex-row gap-8">
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"Surcharge"}
-                          name={"Surcharge"}
-                          label={"Surcharge (%)"}
-                          style={"w-30 outline-none h-10"}
-                          onChange={handleInputPriceDescription}
-                        />
-
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"plusMinor"}
-                          name={"plusMinor"}
-                          label={"+/-"}
-                          style={"w-30 outline-none h-10"}
-                          onChange={handleInputPriceDescription}
-                        />
-
-                        <PriceManagementGroupAutocomplete
-                          label={"Round To"}
-                          style={""}
-                          onChange={(value) => handleSelect(value)}
-                        />
-                      </div>
-                      <div className="flex flex-row gap-8">
-                        <CheckboxGroup label="Options">
-                          <Checkbox value="">Special Rate</Checkbox>
-                        </CheckboxGroup>
-                        <CheckboxGroup label="Options">
-                          <Checkbox value="">
-                            Hide in Rate Availability
-                          </Checkbox>
-                        </CheckboxGroup>
-                      </div>
-                      <div className="flex flex-row gap-4">
-                        <InputFieldControlled
-                          type={"text"}
-                          id={"hotels"}
-                          name={"Hotels"}
-                          label={"Hotels"}
-                          style={"w-30 outline-none h-10 bg-slate-100"}
-                          value={valuesPriceManagement.Hotels}
-                          onChange={(e) =>
-                            setValuesPriceManagement({
-                              ...valuesPriceManagement,
-                              Hotels: e.target.value,
-                            })
-                          }
-                        />
-
-                        <PriceManagementGroupAutocomplete
-                          label={"Routing Code"}
-                          style={""}
-                          onChange={(value) => handleSelect(value)}
-                        />
-                        <PriceManagementGroupAutocomplete
-                          label={"Target"}
-                          style={""}
-                          onChange={(value) => handleSelect(value)}
-                        />
-                      </div>
-
-                      {/*<div className="w-full flex flex-col gap-4 mb-4">
-    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-        <Autocomplete
-            variant="underlined"
-            defaultItems={Tipologia}
-            label=" Grupo Tipologia"
-            className="w-full"
-        >
-            {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-        </Autocomplete>
-    </div>
-</div>
-<div className="w-full flex flex-col gap-4 mb-4">
-    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-        <Autocomplete
-            variant="underlined"
-            defaultItems={Caracteristicas}
-            label="Função"
-            className="w-full"
-        >
-            {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-        </Autocomplete>
-    </div>
-</div>*/}
-                    </ModalBody>
+                    </ModalFooter>
                   </form>
-                  <ModalFooterContent criado={criado} editado={editado} />
                 </>
               )}
             </ModalContent>
