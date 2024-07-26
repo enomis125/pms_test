@@ -4,16 +4,18 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken"
 
+const MAIN_PROJECT_URL = 'http://localhost:3000';
+
 export async function GET(request) {
     const tokenCookie = cookies().get("jwt");
 
     if (!tokenCookie) {
-        return new NextResponse(JSON.stringify({ status: 401, message: "Token não encontrado" }), { status: 401 });
+        return NextResponse.redirect(`${MAIN_PROJECT_URL}`); // Redirect to main project login page
     }
     const token = jwt.decode(tokenCookie.value);
 
     if (!token) {
-        return new NextResponse(JSON.stringify({ status: 400, message: "Token inválido" }), { status: 400 });
+        return NextResponse.redirect(`${MAIN_PROJECT_URL}`); // Redirect to main project login page
     }
 
     const propertyID = token.propertyID;

@@ -2365,6 +2365,7 @@ model priceDescriptionHeader {
   @@index([updatedBy], map: "priceDescriptionHeader_users_2_idx")
 }
 
+
 model priceDescriptionPricesRooms {
   priceDescriptionPricesRoomsID                      Int      @id @default(autoincrement())
   priceDescriptionHeaderID                           Int      @default(-1)

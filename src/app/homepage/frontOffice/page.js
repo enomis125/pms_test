@@ -22,7 +22,7 @@ const Card = () => {
                 <Cartao title={t("frontOffice.frontOffice.individualCard")} description={""} listType={"#"} icon={<PiListPlus size={35} />} formTypeCard={0}/>
             </div>
             <div className="">
-                <Cartao title={t("frontOffice.frontOffice.businessCard")} description={""}  listType={"#"} icon={<FaBoxesStacked size={35}/>} formTypeCard={0}/>
+                <Cartao title={t("frontOffice.frontOffice.companyCard")} description={""}  listType={"#"} icon={<FaBoxesStacked size={35}/>} formTypeCard={0}/>
             </div>
             <div className="">
                 <Cartao title={t("frontOffice.frontOffice.travelAgencyCard")} description={""} icon={<PiListDashesBold  size={35}/>} listType={"#"} formTypeCard={0}/>
