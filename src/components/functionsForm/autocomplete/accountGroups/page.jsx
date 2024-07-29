@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import axios from 'axios';
 
+
 export default function AccountGroupAutocomplete({ label, style, onChange }) {
 
     const [accountGroups, setAccountGroups] = useState([]);
@@ -33,7 +34,7 @@ export default function AccountGroupAutocomplete({ label, style, onChange }) {
         >
           {accountGroups.map((accountGroups) => (
             <AutocompleteItem key={accountGroups.accountsGroupsID} value={accountGroups} textValue={accountGroups.accountsGroupsID.toString()} onClick={() => onChange(accountGroups)}>
-              {accountGroups.accountsGroupsID}
+              {accountGroups.name}
             </AutocompleteItem>
           ))}
         </Autocomplete>
