@@ -3,55 +3,125 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function PriceDescriptionInsert() {
-  const dataInicioDefault = "01/01/1980";
-  const dataFimDefault = new Date("01/01/2100");
-
-  //inserção na tabela RateCodes
+  const [tipologyGroup, setTipologyGroup] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [priceDescription, setPriceDescription] = useState({
-    //Linha 1
     Ref: "",
     Nome: "",
     RateCodeName: "",
-    //Linha 2
     Valid: 0,
     Inicio: "",
     Fim: "",
     Property: "",
-    Ventilation: "",
     BillText: "",
     RevenueAccount: "",
-    /*Preco1: "",
-    Preco2: "",
-    Preco3: "",
-    Preco4: "",
-    Preco5: "",
-    Preco6: "",*/
+    PricesTypology: [],
+    PricesRooms: [],
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [tipologyRes, roomsRes] = await Promise.all([
+          axios.get("/api/v1/hotel/tipologys"),
+          axios.get("/api/v1/hotel/rooms"),
+        ]);
+
+        const filteredTipology = tipologyRes.data.response.filter(
+          (tipology) => tipology.label !== ""
+        );
+        const filteredRooms = roomsRes.data.response.filter(
+          (room) => room.label !== ""
+        );
+
+        setTipologyGroup(filteredTipology);
+        setRooms(filteredRooms);
+
+        setPriceDescription((prev) => ({
+          ...prev,
+          PricesTypology: filteredTipology.map((tipology) => ({
+            Typology: tipology.roomTypeID,
+            Preco1: "",
+            Preco2: "",
+            Preco3: "",
+            Preco4: "",
+            Preco5: "",
+            Preco6: "",
+          })),
+          PricesRooms: filteredRooms.map((room) => ({
+            Room: "",
+            PrecoQuarto1: "",
+            PrecoQuarto2: "",
+            PrecoQuarto3: "",
+            PrecoQuarto4: "",
+            PrecoQuarto5: "",
+            PrecoQuarto6: "",
+          })),
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleRateNameSelect = (name) => {
-    setPriceDescription({
-      ...priceDescription,
+    setPriceDescription((prev) => ({
+      ...prev,
       RateCodeName: name.rategrpID,
-    });
+    }));
   };
 
   const handleInputPriceDescription = (event) => {
-    setPriceDescription({
-      ...priceDescription,
-      [event.target.name]: event.target.value,
+    const { name, value } = event.target;
+    setPriceDescription((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleInputPriceDescriptionPrices = (index, event) => {
+    const { name, value } = event.target;
+    setPriceDescription((prev) => {
+      const newPrices = [...prev.PricesTypology];
+      newPrices[index] = {
+        ...newPrices[index],
+        [name]: value,
+      };
+      return {
+        ...prev,
+        PricesTypology: newPrices,
+      };
+    });
+  };
+
+  const handleInputPriceDescriptionRooms = (index, event) => {
+    const { name, value } = event.target;
+    setPriceDescription((prev) => {
+      const newPricesRooms = [...prev.PricesRooms];
+      newPricesRooms[index] = {
+        ...newPricesRooms[index],
+        [name]: value,
+      };
+      return {
+        ...prev,
+        PricesRooms: newPricesRooms,
+      };
     });
   };
 
   const handleCheckboxChange = (event) => {
-    setPriceDescription({
-      ...priceDescription,
+    setPriceDescription((prev) => ({
+      ...prev,
       [event.target.name]: +event.target.checked,
-    });
+    }));
   };
 
   const handleSubmitPriceDescription = async (event) => {
     event.preventDefault();
     console.log(priceDescription);
+
     if (
       !priceDescription.Ref ||
       !priceDescription.Nome ||
@@ -59,15 +129,15 @@ export default function PriceDescriptionInsert() {
       !priceDescription.Inicio ||
       !priceDescription.Fim ||
       !priceDescription.Property ||
-      !priceDescription.Ventilation ||
       !priceDescription.BillText ||
       !priceDescription.RevenueAccount
     ) {
       alert("Preencha os campos corretamente");
       return;
     }
-
     
+
+    try {
       const headerCreationInfo = await axios.put('/api/v1/prices/priceDescriptionHeader', {
         data: {
           ref: priceDescription.Ref,
@@ -77,72 +147,52 @@ export default function PriceDescriptionInsert() {
           validFrom: priceDescription.Inicio,
           validUntil: priceDescription.Fim,
           property: priceDescription.Property,
-          ventilation: priceDescription.Ventilation,
           billText: priceDescription.BillText,
           revenueAccount: priceDescription.RevenueAccount,
         },
       });
-      const headerCreationID = headerCreationInfo.data.newRecord.headerCreationID.toString();
-/*
-      await axios.put('/api/v1/prices/priceDescriptionPrice', {
-        data: {
-          priceDescriptionID: headerCreationID,
-          price1: priceDescription.Preco1,
-          price2: priceDescription.Preco2,
-          price3: priceDescription.Preco3,
-          price4: priceDescription.Preco4,
-          price5: priceDescription.Preco5,
-          price6: priceDescription.Preco6,
-        },
-      });*/
+      const headerCreationID = headerCreationInfo.data.newRecord.priceDescriptionHeaderID;
 
-    
+      await axios.put('/api/v1/prices/priceDescriptionPrices', {
+        data: priceDescription.PricesTypology.map(price => ({
+          priceDescriptionID: headerCreationID,
+          Typology: price.Typology,
+          Preco1: price.Preco1,
+          Preco2: price.Preco2,
+          Preco3: price.Preco3,
+          Preco4: price.Preco4,
+          Preco5: price.Preco5,
+          Preco6: price.Preco6,
+        })),
+      });
+
+      await axios.put('/api/v1/prices/priceDescriptionRooms', {
+        data: priceDescription.PricesRooms.map((price, index) => ({
+          priceDescriptionID: headerCreationID,
+          Room: index,
+          PrecoQuarto1: price?.PrecoQuarto1 || '',
+          PrecoQuarto2: price?.PrecoQuarto2 || '',
+          PrecoQuarto3: price?.PrecoQuarto3 || '',
+          PrecoQuarto4: price?.PrecoQuarto4 || '',
+          PrecoQuarto5: price?.PrecoQuarto5 || '',
+          PrecoQuarto6: price?.PrecoQuarto6 || '',
+        })),
+      });
+      
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
   };
 
   return {
     handleInputPriceDescription,
+    handleInputPriceDescriptionPrices,
+    handleInputPriceDescriptionRooms,
     handleSubmitPriceDescription,
     handleRateNameSelect,
     handleCheckboxChange,
+    priceDescription,
+    tipologyGroup,
+    rooms,
   };
 }
-/*
-export function PriceDescriptionEdit(idPriceDescription) {
-  const [valuesPriceDescription, setValuesPriceDescription] = useState({
-    id: idPriceDescription,
-    Nome: "",
-    RateCodeName: "",
-  });
-
-  useEffect(() => {
-    axios
-      .get("/api/v1/prices/priceDescription/" + idPriceDescription)
-      .then((res) => {
-        //console.log("TESTE TESTE TESTE", res.data.response.raterName)
-        setValuesPriceDescription({
-          ...valuesPriceDescription,
-          Nome: res.data.response.nome,
-          RateCodeName: res.data.response.rateCodeName,
-        });
-      })
-      .catch((err) => console.log(err));
-  }, [idPriceDescription, valuesPriceDescription]);
-
-  const handleUpdatePriceDescription = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`/api/v1/prices/priceDescription/` + idPriceDescription, {
-        data: {
-          Nome: valuesPriceDescription.Nome,
-          rateCodeName: valuesPriceDescription.RateCodeName,
-        },
-      })
-      .catch((err) => console.log(err));
-  };
-
-  return {
-    handleUpdatePriceDescription,
-    setValuesPriceDescription,
-    valuesPriceDescription,
-  };
-}*/

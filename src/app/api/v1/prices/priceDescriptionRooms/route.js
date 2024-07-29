@@ -29,7 +29,7 @@ export async function PUT(request) {
 
   try {
     const requestData = await request.json();
-    console.log("Received data3333:", requestData);
+    console.log("Received data:", requestData);
 
     const data = requestData.data;
     
@@ -37,16 +37,22 @@ export async function PUT(request) {
       throw new Error("Invalid input data: Expected an array of objects");
     }
 
-    const newRecords = await prisma.priceDescriptionPricesTypology.createMany({
-      data: data.map(priceData => ({
-        priceDescriptionHeaderID: parseInt(priceData.priceDescriptionID),
-        typologyID: priceData.Typology,
-        p1: removeComma(priceData.Preco1),
-        p2: removeComma(priceData.Preco2),
-        p3: removeComma(priceData.Preco3),
-        p4: removeComma(priceData.Preco4),
-        p5: removeComma(priceData.Preco5),
-        p6: removeComma(priceData.Preco6),
+    console.log(data);
+
+    const newRecords = await prisma.priceDescriptionPricesRooms.createMany({
+      data: data.filter(price => 
+        price !== undefined &&
+        (price.PrecoQuarto1 || price.PrecoQuarto2 || price.PrecoQuarto3 || 
+         price.PrecoQuarto4 || price.PrecoQuarto5 || price.PrecoQuarto6)
+      ).map(price => ({
+        priceDescriptionHeaderID: parseInt(price.priceDescriptionID),
+        roomID: parseInt(price.Room),
+        p1: removeComma(price.PrecoQuarto1),
+        p2: removeComma(price.PrecoQuarto2),
+        p3: removeComma(price.PrecoQuarto3),
+        p4: removeComma(price.PrecoQuarto4),
+        p5: removeComma(price.PrecoQuarto5),
+        p6: removeComma(price.PrecoQuarto6),
         createdBy: userID
       })),
     });

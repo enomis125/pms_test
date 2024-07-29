@@ -90,7 +90,9 @@
                 "label": "Price Management",
                 "priceCodes": "Price Codes",
                 "priceCodesDescription": "Price Codes Description",
-                "seasons": "Seasons"
+                "seasons": "Seasons",
+                "ratesPlanner" : "Rates Planner"
+
             }
         },
         "frontOffice": {
@@ -840,7 +842,15 @@
                 "view": {
                     "modalHeader": "View Price Code"
                 }
+            },
+            "priceTable":{
+                "title" : "Rates Planner",
+                "rates" : "Rates",
+                "people" : "Pax",
+                "filters" : "Filters",
+                "priceDescriptionHeader": "Price Description Header"
             }
+
         },
         "hotel": {
             "hotel": {
