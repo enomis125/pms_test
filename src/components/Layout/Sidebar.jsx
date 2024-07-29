@@ -32,9 +32,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
 
     const languages = [
         { label: 'Português', value: 'pt' },
-        { label: 'Espanhol', value: 'es' },
-        { label: 'Francês', value: 'fr' },
-        { label: 'Inglês', value: 'en' }
+        { label: 'Español', value: 'es' },
+        { label: 'Français', value: 'fr' },
+        { label: 'English', value: 'en' }
     ];
 
     const handleOpen = () => {
