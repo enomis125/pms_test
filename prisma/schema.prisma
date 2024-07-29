@@ -282,6 +282,63 @@ model cancelledReservations {
   @@index([updatedBy], map: "cancelledReservations_users_2_idx")
 }
 
+model cashierCloseHeader {
+  cashierCloseHeaderID                      Int      @id @default(autoincrement())
+  cashierID                                 Int      @default(-1)
+  openDate                                  DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  openTime                                  DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
+  openUserID                                Int      @default(-1)
+  closeDate                                 DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  closeTime                                 DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
+  closeUserID                               Int      @default(-1)
+  cashierValue                              Decimal  @default(-1.00) @db.Decimal(19, 2)
+  createdAt                                 DateTime @default(now()) @db.Timestamp(0)
+  createdBy                                 Int
+  updatedAt                                 DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                                 Int?
+  users_cashierCloseHeader_createdByTousers users    @relation("cashierCloseHeader_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseHeader_users_1")
+  users_cashierCloseHeader_updatedByTousers users?   @relation("cashierCloseHeader_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseHeader_users_2")
+
+  @@index([createdBy, updatedBy], map: "cashierCloseHeader_users_1_idx")
+  @@index([updatedBy], map: "cashierCloseHeader_users_2_idx")
+}
+
+model cashierCloseLines {
+  cashierCloseLinesID                      Int      @id @default(autoincrement())
+  cashierCloseHeaderID                     Int      @default(-1)
+  paymentMethodID                          Int      @default(-1)
+  paymentMethodDescription                 String   @default("") @db.VarChar(200)
+  value                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
+  extraValue                               Decimal  @default(-1.00) @db.Decimal(19, 2)
+  createdAt                                DateTime @default(now()) @db.Timestamp(0)
+  createdBy                                Int
+  updatedAt                                DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                                Int?
+  users_cashierCloseLines_createdByTousers users    @relation("cashierCloseLines_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseLines_users_1")
+  users_cashierCloseLines_updatedByTousers users?   @relation("cashierCloseLines_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseLines_users_2")
+
+  @@index([createdBy, updatedBy], map: "cashierCloseLines_users_1_idx")
+  @@index([updatedBy], map: "cashierCloseLines_users_2_idx")
+}
+
+model cashierTypes {
+  cashierTypesID                      Int        @id @default(autoincrement())
+  cashierDescription                  String     @default("") @db.VarChar(200)
+  propertyID                          Int
+  cashierValue                        Decimal    @default(-1.00) @db.Decimal(19, 2)
+  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                           Int
+  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                           Int?
+  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "cashierTypes_properties")
+  users_cashierTypes_createdByTousers users      @relation("cashierTypes_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierTypes_users_1")
+  users_cashierTypes_updatedByTousers users?     @relation("cashierTypes_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierTypes_users_2")
+
+  @@index([propertyID], map: "cashierTypes_properties_idx")
+  @@index([createdBy, updatedBy], map: "cashierTypes_users_1_idx")
+  @@index([updatedBy], map: "cashierTypes_users_2_idx")
+}
+
 model cashiers {
   cashierId                       Int        @id @default(autoincrement())
   propertyID                      Int
@@ -476,6 +533,49 @@ model doctypes {
 
   @@index([createdBy], map: "doctypes_users_1_idx")
   @@index([updatedBy], map: "doctypes_users_2_idx")
+}
+
+model documentLines {
+  documentLinesID                      Int      @id @default(autoincrement())
+  pendingTableDate                     DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  pendingTableTime                     DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
+  documentHeaderID                     Int      @default(-1)
+  fiscalNumberID                       Int      @default(-1)
+  lineID                               Int      @default(-1)
+  transactionID                        Int      @default(-1)
+  productID                            Int      @default(-1)
+  productDescription                   String   @default("") @db.VarChar(200)
+  taxID                                Int      @default(-1)
+  taxPercentage                        Int      @default(-1)
+  noTaxReasonID                        Int      @default(-1)
+  noTaxReasonDescription               String   @default("") @db.VarChar(200)
+  cashierID                            Int      @default(-1)
+  cashierDescription                   String   @default("") @db.VarChar(200)
+  unitValue                            Decimal  @default(-1.00) @db.Decimal(19, 2)
+  quant                                Int      @default(-1)
+  discountID                           Int      @default(-1)
+  discountPercentage                   Int      @default(-1)
+  discountValue                        Decimal  @default(-1.00) @db.Decimal(19, 2)
+  totalWithTaxNoDiscount               Decimal  @default(-1.00) @db.Decimal(19, 2)
+  totalWithoutTaxNoDiscount            Decimal  @default(-1.00) @db.Decimal(19, 2)
+  printGroupCounter                    Int      @default(-1)
+  printGroupDescription                Int      @default(-1)
+  reservationID                        Int      @default(-1)
+  roomID                               Int      @default(-1)
+  reservationName                      String   @default("") @db.VarChar(100)
+  billingWindowID                      Int      @default(-1)
+  closeCashierID                       Int      @default(-1)
+  paymentMethodID                      Int      @default(-1)
+  paymentDescription                   String   @default("") @db.VarChar(200)
+  createdAt                            DateTime @default(now()) @db.Timestamp(0)
+  createdBy                            Int
+  updatedAt                            DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                            Int?
+  users_documentLines_createdByTousers users    @relation("documentLines_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "documentLines_users_1")
+  users_documentLines_updatedByTousers users?   @relation("documentLines_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "documentLines_users_2")
+
+  @@index([createdBy, updatedBy], map: "documentLines_users_1_idx")
+  @@index([updatedBy], map: "documentLines_users_2_idx")
 }
 
 model formsofknowledge {
@@ -881,6 +981,96 @@ model hear {
   @@index([updatedBy], map: "hear_users_2_idx")
 }
 
+model histTransactions {
+  histTransactionsID                      Int        @id @default(autoincrement())
+  propertyID                              Int
+  clientID                                Int        @default(-1)
+  roomID                                  Int        @default(-1)
+  productID                               Int        @default(-1)
+  lineType                                Int        @default(-1)
+  paymentMethodID                         Int        @default(-1)
+  lineDescription                         String     @default("") @db.VarChar(200)
+  taxID                                   Int        @default(-1)
+  taxPercentage                           Int        @default(-1)
+  noTaxReasonID                           Int        @default(-1)
+  noTaxReasonDescription                  String     @default("") @db.VarChar(200)
+  unitValue                               Decimal    @default(-1.00) @db.Decimal(19, 2)
+  quant                                   Int        @default(-1)
+  totalWithTax                            Decimal    @default(-1.00) @db.Decimal(19, 2)
+  totalWithoutTax                         Decimal    @default(-1.00) @db.Decimal(19, 2)
+  totalTax                                Decimal    @default(-1.00) @db.Decimal(19, 2)
+  debit                                   Int        @default(-1)
+  credit                                  Int        @default(-1)
+  cancel                                  Int        @default(-1)
+  cancelUserID                            Int        @default(-1)
+  cancelDate                              DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  productGroupID                          Int        @default(-1)
+  productGroupDescription                 String     @default("") @db.VarChar(200)
+  supervised                              String     @default("") @db.VarChar(200)
+  createdAt                               DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                               Int
+  updatedAt                               DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                               Int?
+  properties                              properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "histTransactions_properties")
+  users_histTransactions_createdByTousers users      @relation("histTransactions_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "histTransactions_users_1")
+  users_histTransactions_updatedByTousers users?     @relation("histTransactions_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "histTransactions_users_2")
+
+  @@index([propertyID], map: "histTransactions_properties_idx")
+  @@index([createdBy, updatedBy], map: "histTransactions_users_1_idx")
+  @@index([updatedBy], map: "histTransactions_users_2_idx")
+}
+
+model housekeeping {
+  hotelCode                           Int      @default(-1)
+  stationID                           Int      @default(-1)
+  bookingNumber                       Int      @default(-1)
+  startDate                           DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  endDate                             DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  roomNumber                          Int      @default(-1)
+  categoryNumber                      Int      @default(-1)
+  customerID                          Int      @default(-1)
+  bookingStatus                       Int      @default(-1)
+  globalBookingID                     Int      @default(-1)
+  globalStartDate                     DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  globalEndDate                       DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  groupMaster                         Int      @default(-1)
+  groupNumber                         Int      @default(-1)
+  roomStatus                          Int      @default(-1)
+  laundry                             Int      @default(-1)
+  housekeepingDate                    DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  housekeepingTime                    String   @default("") @db.VarChar(30)
+  loyaltyPoints                       Int      @default(-1)
+  referenceNumber                     Int      @id @default(autoincrement())
+  reservationCharacter                Int      @default(-1)
+  relocation                          Int      @default(-1)
+  bookingText                         String   @default("") @db.VarChar(50)
+  arrivalTime                         String   @default("") @db.VarChar(5)
+  departureTime                       String   @default("") @db.VarChar(5)
+  priority                            Int      @default(-1)
+  fromRoomNumber                      Int      @default(-1)
+  fromOccupancy                       Int      @default(-1)
+  fromTask                            String   @default("") @db.VarChar(512)
+  isDeleted                           Int      @default(-1)
+  daysNotOccupied                     Int      @default(-1)
+  suiteNumber                         Int      @default(-1)
+  createdAt                           DateTime @default(now()) @db.Timestamp(0)
+  createdBy                           Int
+  updatedAt                           DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                           Int?
+  users_housekeeping_createdByTousers users    @relation("housekeeping_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "housekeeping_users_1")
+  users_housekeeping_updatedByTousers users?   @relation("housekeeping_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "housekeeping_users_2")
+
+  @@index([createdBy], map: "housekeeping_users_1_idx")
+  @@index([updatedBy], map: "housekeeping_users_2_idx")
+}
+
+model housekeepingLogs {
+  id         Int      @id @default(autoincrement())
+  roomNumber Int
+  roomState  String   @db.VarChar(50)
+  timestamp  DateTime @db.DateTime(0)
+}
+
 model knowledgemethod {
   knowledgeMethodID                      Int      @id @default(autoincrement())
   abreviature                            String   @default("") @db.VarChar(250)
@@ -946,6 +1136,18 @@ model maintenance {
   @@index([propertyID], map: "maintenance_properties_idx")
   @@index([createdBy], map: "maintenance_users_1_idx")
   @@index([updatedBy], map: "maintenance_users_2_idx")
+}
+
+model maintenanceRooms {
+  IDmaintenance Int     @id @default(autoincrement())
+  priority      String? @db.VarChar(45)
+  status        String? @db.VarChar(45)
+  locationType  String? @db.VarChar(45)
+  location      String? @db.VarChar(45)
+  roomStatus    String? @db.VarChar(45)
+  season        String? @db.VarChar(45)
+  description   String? @db.VarChar(150)
+  assignee      String? @db.VarChar(45)
 }
 
 model market {
@@ -1305,6 +1507,100 @@ model pmshotel {
   deletionMark  Int    @default(-1)
 }
 
+model priceDescriptionHeader {
+  priceDescriptionHeaderID                      Int      @id @default(autoincrement())
+  ref                                           String   @default("") @db.VarChar(255)
+  descriptionName                               String   @default("") @db.VarChar(255)
+  priceCode                                     Int      @default(-1)
+  valid                                         Int      @default(-1)
+  validFrom                                     DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  validUntil                                    DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  property                                      Int      @default(-1)
+  billText                                      String   @default("") @db.VarChar(255)
+  billingAccountID                              Int      @default(-1)
+  createdAt                                     DateTime @default(now()) @db.Timestamp(0)
+  createdBy                                     Int
+  updatedAt                                     DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                                     Int?
+  users_priceDescriptionHeader_createdByTousers users    @relation("priceDescriptionHeader_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionHeader_users_1")
+  users_priceDescriptionHeader_updatedByTousers users?   @relation("priceDescriptionHeader_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionHeader_users_2")
+
+  @@index([createdBy], map: "priceDescriptionHeader_users_1_idx")
+  @@index([updatedBy], map: "priceDescriptionHeader_users_2_idx")
+}
+
+model priceDescriptionPricesRooms {
+  priceDescriptionPricesRoomsID                      Int      @id @default(autoincrement())
+  priceDescriptionHeaderID                           Int      @default(-1)
+  roomID                                             Int      @default(-1)
+  p1                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p2                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p3                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p4                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p5                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p6                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
+  createdAt                                          DateTime @default(now()) @db.Timestamp(0)
+  createdBy                                          Int
+  updatedAt                                          DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                                          Int?
+  users_priceDescriptionPricesRooms_createdByTousers users    @relation("priceDescriptionPricesRooms_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesRooms_users_1")
+  users_priceDescriptionPricesRooms_updatedByTousers users?   @relation("priceDescriptionPricesRooms_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesRooms_users_2")
+
+  @@index([createdBy], map: "priceDescriptionPricesRooms_users_1_idx")
+  @@index([updatedBy], map: "priceDescriptionPricesRooms_users_2_idx")
+}
+
+model priceDescriptionPricesTypology {
+  priceDescriptionPricesTypologyID                      Int      @id @default(autoincrement())
+  priceDescriptionHeaderID                              Int      @default(-1)
+  typologyID                                            Int      @default(-1)
+  p1                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p2                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p3                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p4                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p5                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p6                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
+  createdAt                                             DateTime @default(now()) @db.Timestamp(0)
+  createdBy                                             Int
+  updatedAt                                             DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                                             Int?
+  users_priceDescriptionPricesTypology_createdByTousers users    @relation("priceDescriptionPricesTypology_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesTypology_users_1")
+  users_priceDescriptionPricesTypology_updatedByTousers users?   @relation("priceDescriptionPricesTypology_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesTypology_users_2")
+
+  @@index([createdBy], map: "priceDescriptionPricesTypology_users_1_idx")
+  @@index([updatedBy], map: "priceDescriptionPricesTypology_users_2_idx")
+}
+
+model priceDescriptionSpecialPrices {
+  priceDescriptionSpecialPricesID                      Int      @id @default(-1)
+  priceDescriptionHeaderID                             Int      @default(-1)
+  validFrom                                            DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  validUntil                                           DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
+  roomID                                               Int?     @default(-1)
+  typologyID                                           Int?     @default(-1)
+  p1                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p2                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p3                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p4                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p5                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
+  p6                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
+  createdAt                                            DateTime @default(now()) @db.Timestamp(0)
+  createdBy                                            Int
+  updatedAt                                            DateTime @default(now()) @db.Timestamp(0)
+  updatedBy                                            Int?
+  users_priceDescriptionSpecialPrices_createdByTousers users    @relation("priceDescriptionSpecialPrices_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionSpecialPrices_users_1")
+  users_priceDescriptionSpecialPrices_updatedByTousers users?   @relation("priceDescriptionSpecialPrices_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionSpecialPrices_users_2")
+
+  @@index([createdBy], map: "priceDescriptionSpecialPrices_users_1_idx")
+  @@index([updatedBy], map: "priceDescriptionSpecialPrices_users_2_idx")
+}
+
+model pricesHeaderToVentilation {
+  pricesHeaderToVentilationID Int @id @default(-1)
+  priceDescriptionHeaderID    Int @default(-1)
+  ventilationID               Int @default(-1)
+}
+
 model profession {
   professionID                      Int      @id @default(autoincrement())
   gruppe                            Int      @default(-1)
@@ -1360,6 +1656,17 @@ model properties {
   salesHeader           salesHeader[]
   salesSeries           salesSeries[]
   transactions          transactions[]
+}
+
+model property_tokens {
+  propertyID   Int        @id
+  accessToken  String     @db.LongText
+  refreshToken String     @db.LongText
+  expiryDate   BigInt
+  scope        String     @db.VarChar(100)
+  tokenType    String     @db.VarChar(45)
+  provider     String     @db.VarChar(45)
+  properties   properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "propertyTokens_properties")
 }
 
 model ratecodedetails {
@@ -1575,6 +1882,27 @@ model replacementcode {
 
   @@index([createdBy], map: "replacementcode_users_1_idx")
   @@index([updatedBy], map: "replacementcode_users_2_idx")
+}
+
+model reservationHistory {
+  reservationHistoryID Int      @id @default(autoincrement())
+  entryDatetime        DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  sysDate              DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  sysTime              DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
+  createdBy            Int      @default(-1)
+  mpeHotel             Int      @default(-1)
+  userID               Int      @default(-1)
+  openCashier          String   @default("") @db.VarChar(30)
+  groupAction          String   @default("") @db.VarChar(50)
+  actionName           String   @default("") @db.VarChar(50)
+  roomNumber           String   @default("") @db.VarChar(20)
+  guestProfileID       Int      @default(-1)
+  stationID            Int      @default(-1)
+  guestName            String   @default("") @db.VarChar(80)
+  reservationID        Int      @default(-1)
+  banquetingRef        Int      @default(-1)
+  description          String   @default("") @db.VarChar(200)
+  xdebug               String   @default("") @db.VarChar(50)
 }
 
 model reservationchange {
@@ -1999,6 +2327,88 @@ model roomtypesgroups {
   @@index([updatedBy], map: "roomtypesgroups_users_2_idx")
 }
 
+model salesHeader {
+  salesHeaderID                      Int        @id @default(autoincrement())
+  propertyID                         Int
+  clientID                           Int        @default(-1)
+  nameSurname                        String     @default("") @db.VarChar(100)
+  fiscalNumber                       String     @default("") @db.VarChar(50)
+  address                            String     @default("") @db.VarChar(20)
+  email                              String     @default("") @db.VarChar(20)
+  zipCode                            String     @default("") @db.VarChar(20)
+  locality                           String     @default("") @db.VarChar(20)
+  countryID                          Int        @default(-1)
+  salutationID                       Int        @default(-1)
+  reservationID                      Int        @default(-1)
+  roomTypeID                         Int        @default(-1)
+  roomID                             Int        @default(-1)
+  checkIn                            DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
+  checkOut                           DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
+  reservationLocation                String     @default("") @db.VarChar(20)
+  documentTypeID                     Int        @default(-1)
+  fiscalNumberID                     Int        @default(-1)
+  documentID                         Int        @default(-1)
+  systemDate                         DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
+  systemTime                         DateTime   @default(dbgenerated("'00:00:00'")) @db.Time(0)
+  totalWithTax                       Decimal    @default(-1.00) @db.Decimal(19, 2)
+  totalWithoutTax                    Decimal    @default(-1.00) @db.Decimal(19, 2)
+  totalTax                           Decimal    @default(-1.00) @db.Decimal(19, 2)
+  status                             Int        @default(-1)
+  dueDate                            DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  paymentConditionID                 Int        @default(0)
+  cancelationID                      Int        @default(-1)
+  cancelationReason                  String     @default("") @db.VarChar(200)
+  SAFT                               String     @default("") @db.VarChar(50)
+  RSAKeyVersion                      String     @default("") @db.VarChar(50)
+  certificate                        String     @default("") @db.VarChar(50)
+  prevHash                           Int        @default(-1)
+  hash                               Int        @default(-1)
+  hashMap                            Int        @default(-1)
+  SAFTExport                         Int        @default(-1)
+  exportDate                         DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  invoiceTypeSAFT                    String     @default("") @db.VarChar(50)
+  ATSeries                           String     @default("") @db.VarChar(50)
+  ATCUD                              Int        @default(-1)
+  QRCode                             String     @default("") @db.VarChar(8192)
+  returnedDocumentID                 Int        @default(-1)
+  returnedReasonID                   Int        @default(-1)
+  returnedJustification              String     @default("") @db.VarChar(50)
+  extra                              String     @default("") @db.VarChar(50)
+  createdAt                          DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                          Int
+  updatedAt                          DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                          Int?
+  properties                         properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "salesHeader_properties")
+  users_salesHeader_createdByTousers users      @relation("salesHeader_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesHeader_users_1")
+  users_salesHeader_updatedByTousers users?     @relation("salesHeader_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesHeader_users_2")
+
+  @@index([propertyID], map: "salesHeader_properties_idx")
+  @@index([createdBy, updatedBy], map: "salesHeader_users_1_idx")
+  @@index([updatedBy], map: "salesHeader_users_2_idx")
+}
+
+model salesSeries {
+  salesSeriesID                      Int        @id @default(autoincrement())
+  abreviature                        String     @default("") @db.VarChar(200)
+  docTypeID                          Int        @default(-1)
+  propertyID                         Int
+  startDate                          DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
+  endDate                            DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
+  seriesATCode                       Int        @default(-1)
+  createdAt                          DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                          Int
+  updatedAt                          DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                          Int?
+  properties                         properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "salesSeries_properties")
+  users_salesSeries_createdByTousers users      @relation("salesSeries_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesSeries_users_1")
+  users_salesSeries_updatedByTousers users?     @relation("salesSeries_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesSeries_users_2")
+
+  @@index([propertyID], map: "salesSeries_properties")
+  @@index([salesSeriesID], map: "salesSeries_properties_idx")
+  @@index([createdBy, updatedBy], map: "salesSeries_users_1_idx")
+  @@index([updatedBy], map: "salesSeries_users_2_idx")
+}
+
 model salutions {
   salutationID                     Int      @id @default(autoincrement())
   salutation                       String   @default("") @db.VarChar(40)
@@ -2092,6 +2502,45 @@ model taxes {
 
   @@index([createdBy], map: "taxes_users_1_idx")
   @@index([updatedBy], map: "taxes_users_2_idx")
+}
+
+model transactions {
+  transactionsID                      Int        @id @default(autoincrement())
+  propertyID                          Int
+  clientID                            Int        @default(-1)
+  roomID                              Int        @default(-1)
+  productID                           Int        @default(-1)
+  lineType                            Int        @default(-1)
+  paymentMethodID                     Int        @default(-1)
+  lineDescription                     String     @default("") @db.VarChar(200)
+  taxID                               Int        @default(-1)
+  taxPercentage                       Int        @default(-1)
+  noTaxReasonID                       Int        @default(-1)
+  noTaxReasonDescription              String     @default("") @db.VarChar(200)
+  unitValue                           Decimal    @default(-1.00) @db.Decimal(19, 2)
+  quant                               Int        @default(-1)
+  totalWithTax                        Decimal    @default(-1.00) @db.Decimal(19, 2)
+  totalWithoutTax                     Decimal    @default(-1.00) @db.Decimal(19, 2)
+  totalTax                            Decimal    @default(-1.00) @db.Decimal(19, 2)
+  debit                               Int        @default(-1)
+  credit                              Int        @default(-1)
+  cancel                              Int        @default(-1)
+  cancelUserID                        Int        @default(-1)
+  cancelDate                          DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  productGroupID                      Int        @default(-1)
+  productGroupDescription             String     @default("") @db.VarChar(200)
+  supervised                          String     @default("") @db.VarChar(200)
+  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
+  createdBy                           Int
+  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
+  updatedBy                           Int?
+  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "transactions_properties")
+  users_transactions_createdByTousers users      @relation("transactions_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "transactions_users_1")
+  users_transactions_updatedByTousers users?     @relation("transactions_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "transactions_users_2")
+
+  @@index([propertyID], map: "transactions_properties_idx")
+  @@index([createdBy, updatedBy], map: "transactions_users_1_idx")
+  @@index([updatedBy], map: "transactions_users_2_idx")
 }
 
 model transfers {
@@ -2297,458 +2746,4 @@ model vipcode {
 
   @@index([createdBy], map: "vipcode_users_1_idx")
   @@index([updatedBy], map: "vipcode_users_2_idx")
-}
-
-model housekeeping {
-  hotelCode                           Int      @default(-1)
-  stationID                           Int      @default(-1)
-  bookingNumber                       Int      @default(-1)
-  startDate                           DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  endDate                             DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  roomNumber                          Int      @default(-1)
-  categoryNumber                      Int      @default(-1)
-  customerID                          Int      @default(-1)
-  bookingStatus                       Int      @default(-1)
-  globalBookingID                     Int      @default(-1)
-  globalStartDate                     DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  globalEndDate                       DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  groupMaster                         Int      @default(-1)
-  groupNumber                         Int      @default(-1)
-  roomStatus                          Int      @default(-1)
-  laundry                             Int      @default(-1)
-  housekeepingDate                    DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  housekeepingTime                    String   @default("") @db.VarChar(30)
-  loyaltyPoints                       Int      @default(-1)
-  referenceNumber                     Int      @id @default(autoincrement())
-  reservationCharacter                Int      @default(-1)
-  relocation                          Int      @default(-1)
-  bookingText                         String   @default("") @db.VarChar(50)
-  arrivalTime                         String   @default("") @db.VarChar(5)
-  departureTime                       String   @default("") @db.VarChar(5)
-  priority                            Int      @default(-1)
-  fromRoomNumber                      Int      @default(-1)
-  fromOccupancy                       Int      @default(-1)
-  fromTask                            String   @default("") @db.VarChar(512)
-  isDeleted                           Int      @default(-1)
-  daysNotOccupied                     Int      @default(-1)
-  suiteNumber                         Int      @default(-1)
-  createdAt                           DateTime @default(now()) @db.Timestamp(0)
-  createdBy                           Int
-  updatedAt                           DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                           Int?
-  users_housekeeping_createdByTousers users    @relation("housekeeping_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "housekeeping_users_1")
-  users_housekeeping_updatedByTousers users?   @relation("housekeeping_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "housekeeping_users_2")
-
-  @@index([createdBy], map: "housekeeping_users_1_idx")
-  @@index([updatedBy], map: "housekeeping_users_2_idx")
-}
-
-model priceDescriptionHeader {
-  priceDescriptionHeaderID                      Int      @id @default(autoincrement())
-  ref                                           String   @default("") @db.VarChar(255)
-  descriptionName                               String   @default("") @db.VarChar(255)
-  priceCode                                     Int      @default(-1)
-  valid                                         Int      @default(-1)
-  validFrom                                     DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
-  validUntil                                    DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
-  property                                      Int      @default(-1)
-  billText                                      String   @default("") @db.VarChar(255)
-  billingAccountID                              Int      @default(-1)
-  createdAt                                     DateTime @default(now()) @db.Timestamp(0)
-  createdBy                                     Int
-  updatedAt                                     DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                                     Int?
-  users_priceDescriptionHeader_createdByTousers users    @relation("priceDescriptionHeader_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionHeader_users_1")
-  users_priceDescriptionHeader_updatedByTousers users?   @relation("priceDescriptionHeader_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionHeader_users_2")
-
-  @@index([createdBy], map: "priceDescriptionHeader_users_1_idx")
-  @@index([updatedBy], map: "priceDescriptionHeader_users_2_idx")
-}
-
-
-model priceDescriptionPricesRooms {
-  priceDescriptionPricesRoomsID                      Int      @id @default(autoincrement())
-  priceDescriptionHeaderID                           Int      @default(-1)
-  roomID                                             Int      @default(-1)
-  p1                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p2                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p3                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p4                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p5                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p6                                                 Decimal  @default(-1.00) @db.Decimal(19, 2)
-  createdAt                                          DateTime @default(now()) @db.Timestamp(0)
-  createdBy                                          Int
-  updatedAt                                          DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                                          Int?
-  users_priceDescriptionPricesRooms_createdByTousers users    @relation("priceDescriptionPricesRooms_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesRooms_users_1")
-  users_priceDescriptionPricesRooms_updatedByTousers users?   @relation("priceDescriptionPricesRooms_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesRooms_users_2")
-
-  @@index([createdBy], map: "priceDescriptionPricesRooms_users_1_idx")
-  @@index([updatedBy], map: "priceDescriptionPricesRooms_users_2_idx")
-}
-
-model priceDescriptionPricesTypology {
-  priceDescriptionPricesTypologyID                      Int      @id @default(autoincrement())
-  priceDescriptionHeaderID                              Int      @default(-1)
-  typologyID                                            Int      @default(-1)
-  p1                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p2                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p3                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p4                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p5                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p6                                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
-  createdAt                                             DateTime @default(now()) @db.Timestamp(0)
-  createdBy                                             Int
-  updatedAt                                             DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                                             Int?
-  users_priceDescriptionPricesTypology_createdByTousers users    @relation("priceDescriptionPricesTypology_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesTypology_users_1")
-  users_priceDescriptionPricesTypology_updatedByTousers users?   @relation("priceDescriptionPricesTypology_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionPricesTypology_users_2")
-
-  @@index([createdBy], map: "priceDescriptionPricesTypology_users_1_idx")
-  @@index([updatedBy], map: "priceDescriptionPricesTypology_users_2_idx")
-}
-
-model priceDescriptionSpecialPrices {
-  priceDescriptionSpecialPricesID                      Int      @id @default(-1)
-  priceDescriptionHeaderID                             Int      @default(-1)
-  validFrom                                            DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
-  validUntil                                           DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
-  roomID                                               Int?     @default(-1)
-  typologyID                                           Int?     @default(-1)
-  p1                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p2                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p3                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p4                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p5                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
-  p6                                                   Decimal  @default(-1.00) @db.Decimal(19, 2)
-  createdAt                                            DateTime @default(now()) @db.Timestamp(0)
-  createdBy                                            Int
-  updatedAt                                            DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                                            Int?
-  users_priceDescriptionSpecialPrices_createdByTousers users    @relation("priceDescriptionSpecialPrices_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionSpecialPrices_users_1")
-  users_priceDescriptionSpecialPrices_updatedByTousers users?   @relation("priceDescriptionSpecialPrices_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "priceDescriptionSpecialPrices_users_2")
-
-  @@index([createdBy], map: "priceDescriptionSpecialPrices_users_1_idx")
-  @@index([updatedBy], map: "priceDescriptionSpecialPrices_users_2_idx")
-}
-
-model pricesHeaderToVentilation {
-  pricesHeaderToVentilationID Int @id @default(-1)
-  priceDescriptionHeaderID    Int @default(-1)
-  ventilationID               Int @default(-1)
-}
-
-model maintenanceRooms {
-  IDmaintenance Int     @id @default(autoincrement())
-  roomStatus    String? @db.VarChar(45)
-  reason        String? @db.VarChar(45)
-  text          String? @db.VarChar(45)
-  date          String? @db.VarChar(45)
-  user1         String? @db.VarChar(45)
-  change        String? @db.VarChar(45)
-  user2         String? @db.VarChar(45)
-  RefNumber     Int?
-  text2         String? @db.VarChar(45)
-  document      String? @db.VarChar(45)
-  priority      String? @db.VarChar(45)
-  roomNumber    Int?
-}
-
-model reservationHistory {
-  reservationHistoryID Int      @id @default(autoincrement())
-  entryDatetime        DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  sysDate              DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  sysTime              DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
-  createdBy            Int      @default(-1)
-  mpeHotel             Int      @default(-1)
-  userID               Int      @default(-1)
-  openCashier          String   @default("") @db.VarChar(30)
-  groupAction          String   @default("") @db.VarChar(50)
-  actionName           String   @default("") @db.VarChar(50)
-  roomNumber           String   @default("") @db.VarChar(20)
-  guestProfileID       Int      @default(-1)
-  stationID            Int      @default(-1)
-  guestName            String   @default("") @db.VarChar(80)
-  reservationID        Int      @default(-1)
-  banquetingRef        Int      @default(-1)
-  description          String   @default("") @db.VarChar(200)
-  xdebug               String   @default("") @db.VarChar(50)
-}
-
-model housekeepingLogs {
-  id         Int      @id @default(autoincrement())
-  roomNumber Int
-  roomState  String   @db.VarChar(50)
-  timestamp  DateTime @db.DateTime(0)
-}
-
-model cashierCloseHeader {
-  cashierCloseHeaderID                      Int      @id @default(autoincrement())
-  cashierID                                 Int      @default(-1)
-  openDate                                  DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
-  openTime                                  DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
-  openUserID                                Int      @default(-1)
-  closeDate                                 DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
-  closeTime                                 DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
-  closeUserID                               Int      @default(-1)
-  cashierValue                              Decimal  @default(-1.00) @db.Decimal(19, 2)
-  createdAt                                 DateTime @default(now()) @db.Timestamp(0)
-  createdBy                                 Int
-  updatedAt                                 DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                                 Int?
-  users_cashierCloseHeader_createdByTousers users    @relation("cashierCloseHeader_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseHeader_users_1")
-  users_cashierCloseHeader_updatedByTousers users?   @relation("cashierCloseHeader_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseHeader_users_2")
-
-  @@index([createdBy, updatedBy], map: "cashierCloseHeader_users_1_idx")
-  @@index([updatedBy], map: "cashierCloseHeader_users_2_idx")
-}
-
-model cashierCloseLines {
-  cashierCloseLinesID                      Int      @id @default(autoincrement())
-  cashierCloseHeaderID                     Int      @default(-1)
-  paymentMethodID                          Int      @default(-1)
-  paymentMethodDescription                 String   @default("") @db.VarChar(200)
-  value                                    Decimal  @default(-1.00) @db.Decimal(19, 2)
-  extraValue                               Decimal  @default(-1.00) @db.Decimal(19, 2)
-  createdAt                                DateTime @default(now()) @db.Timestamp(0)
-  createdBy                                Int
-  updatedAt                                DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                                Int?
-  users_cashierCloseLines_createdByTousers users    @relation("cashierCloseLines_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseLines_users_1")
-  users_cashierCloseLines_updatedByTousers users?   @relation("cashierCloseLines_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierCloseLines_users_2")
-
-  @@index([createdBy, updatedBy], map: "cashierCloseLines_users_1_idx")
-  @@index([updatedBy], map: "cashierCloseLines_users_2_idx")
-}
-
-model cashierTypes {
-  cashierTypesID                      Int        @id @default(autoincrement())
-  cashierDescription                  String     @default("") @db.VarChar(200)
-  propertyID                          Int
-  cashierValue                        Decimal    @default(-1.00) @db.Decimal(19, 2)
-  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                           Int
-  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                           Int?
-  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "cashierTypes_properties")
-  users_cashierTypes_createdByTousers users      @relation("cashierTypes_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierTypes_users_1")
-  users_cashierTypes_updatedByTousers users?     @relation("cashierTypes_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "cashierTypes_users_2")
-
-  @@index([propertyID], map: "cashierTypes_properties_idx")
-  @@index([createdBy, updatedBy], map: "cashierTypes_users_1_idx")
-  @@index([updatedBy], map: "cashierTypes_users_2_idx")
-}
-
-model documentLines {
-  documentLinesID                      Int      @id @default(autoincrement())
-  pendingTableDate                     DateTime @default(dbgenerated("'1900-01-01'")) @db.Date
-  pendingTableTime                     DateTime @default(dbgenerated("'00:00:00'")) @db.Time(0)
-  documentHeaderID                     Int      @default(-1)
-  fiscalNumberID                       Int      @default(-1)
-  lineID                               Int      @default(-1)
-  transactionID                        Int      @default(-1)
-  productID                            Int      @default(-1)
-  productDescription                   String   @default("") @db.VarChar(200)
-  taxID                                Int      @default(-1)
-  taxPercentage                        Int      @default(-1)
-  noTaxReasonID                        Int      @default(-1)
-  noTaxReasonDescription               String   @default("") @db.VarChar(200)
-  cashierID                            Int      @default(-1)
-  cashierDescription                   String   @default("") @db.VarChar(200)
-  unitValue                            Decimal  @default(-1.00) @db.Decimal(19, 2)
-  quant                                Int      @default(-1)
-  discountID                           Int      @default(-1)
-  discountPercentage                   Int      @default(-1)
-  discountValue                        Decimal  @default(-1.00) @db.Decimal(19, 2)
-  totalWithTaxNoDiscount               Decimal  @default(-1.00) @db.Decimal(19, 2)
-  totalWithoutTaxNoDiscount            Decimal  @default(-1.00) @db.Decimal(19, 2)
-  printGroupCounter                    Int      @default(-1)
-  printGroupDescription                Int      @default(-1)
-  reservationID                        Int      @default(-1)
-  roomID                               Int      @default(-1)
-  reservationName                      String   @default("") @db.VarChar(100)
-  billingWindowID                      Int      @default(-1)
-  closeCashierID                       Int      @default(-1)
-  paymentMethodID                      Int      @default(-1)
-  paymentDescription                   String   @default("") @db.VarChar(200)
-  createdAt                            DateTime @default(now()) @db.Timestamp(0)
-  createdBy                            Int
-  updatedAt                            DateTime @default(now()) @db.Timestamp(0)
-  updatedBy                            Int?
-  users_documentLines_createdByTousers users    @relation("documentLines_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "documentLines_users_1")
-  users_documentLines_updatedByTousers users?   @relation("documentLines_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "documentLines_users_2")
-
-  @@index([createdBy, updatedBy], map: "documentLines_users_1_idx")
-  @@index([updatedBy], map: "documentLines_users_2_idx")
-}
-
-model histTransactions {
-  histTransactionsID                      Int        @id @default(autoincrement())
-  propertyID                              Int
-  clientID                                Int        @default(-1)
-  roomID                                  Int        @default(-1)
-  productID                               Int        @default(-1)
-  lineType                                Int        @default(-1)
-  paymentMethodID                         Int        @default(-1)
-  lineDescription                         String     @default("") @db.VarChar(200)
-  taxID                                   Int        @default(-1)
-  taxPercentage                           Int        @default(-1)
-  noTaxReasonID                           Int        @default(-1)
-  noTaxReasonDescription                  String     @default("") @db.VarChar(200)
-  unitValue                               Decimal    @default(-1.00) @db.Decimal(19, 2)
-  quant                                   Int        @default(-1)
-  totalWithTax                            Decimal    @default(-1.00) @db.Decimal(19, 2)
-  totalWithoutTax                         Decimal    @default(-1.00) @db.Decimal(19, 2)
-  totalTax                                Decimal    @default(-1.00) @db.Decimal(19, 2)
-  debit                                   Int        @default(-1)
-  credit                                  Int        @default(-1)
-  cancel                                  Int        @default(-1)
-  cancelUserID                            Int        @default(-1)
-  cancelDate                              DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  productGroupID                          Int        @default(-1)
-  productGroupDescription                 String     @default("") @db.VarChar(200)
-  supervised                              String     @default("") @db.VarChar(200)
-  createdAt                               DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                               Int
-  updatedAt                               DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                               Int?
-  properties                              properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "histTransactions_properties")
-  users_histTransactions_createdByTousers users      @relation("histTransactions_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "histTransactions_users_1")
-  users_histTransactions_updatedByTousers users?     @relation("histTransactions_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "histTransactions_users_2")
-
-  @@index([propertyID], map: "histTransactions_properties_idx")
-  @@index([createdBy, updatedBy], map: "histTransactions_users_1_idx")
-  @@index([updatedBy], map: "histTransactions_users_2_idx")
-}
-
-model property_tokens {
-  propertyID   Int        @id
-  accessToken  String     @db.LongText
-  refreshToken String     @db.LongText
-  expiryDate   BigInt
-  scope        String     @db.VarChar(100)
-  tokenType    String     @db.VarChar(45)
-  provider     String     @db.VarChar(45)
-  properties   properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "propertyTokens_properties")
-}
-
-model salesHeader {
-  salesHeaderID                      Int        @id @default(autoincrement())
-  propertyID                         Int
-  clientID                           Int        @default(-1)
-  nameSurname                        String     @default("") @db.VarChar(100)
-  fiscalNumber                       String     @default("") @db.VarChar(50)
-  address                            String     @default("") @db.VarChar(20)
-  email                              String     @default("") @db.VarChar(20)
-  zipCode                            String     @default("") @db.VarChar(20)
-  locality                           String     @default("") @db.VarChar(20)
-  countryID                          Int        @default(-1)
-  salutationID                       Int        @default(-1)
-  reservationID                      Int        @default(-1)
-  roomTypeID                         Int        @default(-1)
-  roomID                             Int        @default(-1)
-  checkIn                            DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
-  checkOut                           DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
-  reservationLocation                String     @default("") @db.VarChar(20)
-  documentTypeID                     Int        @default(-1)
-  fiscalNumberID                     Int        @default(-1)
-  documentID                         Int        @default(-1)
-  systemDate                         DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
-  systemTime                         DateTime   @default(dbgenerated("'00:00:00'")) @db.Time(0)
-  totalWithTax                       Decimal    @default(-1.00) @db.Decimal(19, 2)
-  totalWithoutTax                    Decimal    @default(-1.00) @db.Decimal(19, 2)
-  totalTax                           Decimal    @default(-1.00) @db.Decimal(19, 2)
-  status                             Int        @default(-1)
-  dueDate                            DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  paymentConditionID                 Int        @default(0)
-  cancelationID                      Int        @default(-1)
-  cancelationReason                  String     @default("") @db.VarChar(200)
-  SAFT                               String     @default("") @db.VarChar(50)
-  RSAKeyVersion                      String     @default("") @db.VarChar(50)
-  certificate                        String     @default("") @db.VarChar(50)
-  prevHash                           Int        @default(-1)
-  hash                               Int        @default(-1)
-  hashMap                            Int        @default(-1)
-  SAFTExport                         Int        @default(-1)
-  exportDate                         DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  invoiceTypeSAFT                    String     @default("") @db.VarChar(50)
-  ATSeries                           String     @default("") @db.VarChar(50)
-  ATCUD                              Int        @default(-1)
-  QRCode                             String     @default("") @db.VarChar(8192)
-  returnedDocumentID                 Int        @default(-1)
-  returnedReasonID                   Int        @default(-1)
-  returnedJustification              String     @default("") @db.VarChar(50)
-  extra                              String     @default("") @db.VarChar(50)
-  createdAt                          DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                          Int
-  updatedAt                          DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                          Int?
-  properties                         properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "salesHeader_properties")
-  users_salesHeader_createdByTousers users      @relation("salesHeader_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesHeader_users_1")
-  users_salesHeader_updatedByTousers users?     @relation("salesHeader_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesHeader_users_2")
-
-  @@index([propertyID], map: "salesHeader_properties_idx")
-  @@index([createdBy, updatedBy], map: "salesHeader_users_1_idx")
-  @@index([updatedBy], map: "salesHeader_users_2_idx")
-}
-
-model salesSeries {
-  salesSeriesID                      Int        @id @default(autoincrement())
-  abreviature                        String     @default("") @db.VarChar(200)
-  docTypeID                          Int        @default(-1)
-  propertyID                         Int
-  startDate                          DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
-  endDate                            DateTime   @default(dbgenerated("'1900-01-01'")) @db.Date
-  seriesATCode                       Int        @default(-1)
-  createdAt                          DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                          Int
-  updatedAt                          DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                          Int?
-  properties                         properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "salesSeries_properties")
-  users_salesSeries_createdByTousers users      @relation("salesSeries_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesSeries_users_1")
-  users_salesSeries_updatedByTousers users?     @relation("salesSeries_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "salesSeries_users_2")
-
-  @@index([propertyID], map: "salesSeries_properties")
-  @@index([salesSeriesID], map: "salesSeries_properties_idx")
-  @@index([createdBy, updatedBy], map: "salesSeries_users_1_idx")
-  @@index([updatedBy], map: "salesSeries_users_2_idx")
-}
-
-model transactions {
-  transactionsID                      Int        @id @default(autoincrement())
-  propertyID                          Int
-  clientID                            Int        @default(-1)
-  roomID                              Int        @default(-1)
-  productID                           Int        @default(-1)
-  lineType                            Int        @default(-1)
-  paymentMethodID                     Int        @default(-1)
-  lineDescription                     String     @default("") @db.VarChar(200)
-  taxID                               Int        @default(-1)
-  taxPercentage                       Int        @default(-1)
-  noTaxReasonID                       Int        @default(-1)
-  noTaxReasonDescription              String     @default("") @db.VarChar(200)
-  unitValue                           Decimal    @default(-1.00) @db.Decimal(19, 2)
-  quant                               Int        @default(-1)
-  totalWithTax                        Decimal    @default(-1.00) @db.Decimal(19, 2)
-  totalWithoutTax                     Decimal    @default(-1.00) @db.Decimal(19, 2)
-  totalTax                            Decimal    @default(-1.00) @db.Decimal(19, 2)
-  debit                               Int        @default(-1)
-  credit                              Int        @default(-1)
-  cancel                              Int        @default(-1)
-  cancelUserID                        Int        @default(-1)
-  cancelDate                          DateTime   @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
-  productGroupID                      Int        @default(-1)
-  productGroupDescription             String     @default("") @db.VarChar(200)
-  supervised                          String     @default("") @db.VarChar(200)
-  createdAt                           DateTime   @default(now()) @db.Timestamp(0)
-  createdBy                           Int
-  updatedAt                           DateTime   @default(now()) @db.Timestamp(0)
-  updatedBy                           Int?
-  properties                          properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "transactions_properties")
-  users_transactions_createdByTousers users      @relation("transactions_createdByTousers", fields: [createdBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "transactions_users_1")
-  users_transactions_updatedByTousers users?     @relation("transactions_updatedByTousers", fields: [updatedBy], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "transactions_users_2")
-
-  @@index([propertyID], map: "transactions_properties_idx")
-  @@index([createdBy, updatedBy], map: "transactions_users_1_idx")
-  @@index([updatedBy], map: "transactions_users_2_idx")
 }
