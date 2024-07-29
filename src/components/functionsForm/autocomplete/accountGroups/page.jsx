@@ -33,7 +33,7 @@ export default function AccountGroupAutocomplete({ label, style, onChange }) {
         >
           {accountGroups.map((accountGroups) => (
             <AutocompleteItem key={accountGroups.accountsGroupsID} value={accountGroups} textValue={accountGroups.accountsGroupsID.toString()} onClick={() => onChange(accountGroups)}>
-              {accountGroups.accountsGroupsID}
+              {accountGroups.name}
             </AutocompleteItem>
           ))}
         </Autocomplete>

@@ -22,7 +22,7 @@ export default function revenueAccountInsert() {
 
         setRevenueAccounts({
             ...revenueAccount,
-            AccountGroup: accountGroups.accountsGroupsID,
+            AccountGroup: accountGroups.name,
         })
     };
     
@@ -59,7 +59,7 @@ export default function revenueAccountInsert() {
                 Abreviature: revenueAccount.Abreviature,
                 Details: revenueAccount.Details,
 
-                AccountGroup: revenueAccount.AccountGroup.toString(),
+                AccountGroup: revenueAccount.AccountGroup,
                 Taxes: revenueAccount.Taxes,
                 extaxRevenueAccount: revenueAccount.DepartmentID,
             }
