@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import axios from 'axios';
 
-/*teste */
+
 export default function AccountGroupAutocomplete({ label, style, onChange }) {
 
     const [accountGroups, setAccountGroups] = useState([]);
