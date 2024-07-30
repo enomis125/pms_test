@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   //imports de tabelas
-  Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination,
+  Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
   //imports de dropdown menu
   Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
   //imports de inputs
@@ -26,13 +26,14 @@ import LoadingBackdrop from "@/components/table/loadingBackdrop/loadingBackdrop"
 
 import { useTranslations } from 'next-intl';
 
-
 export default function Rooms() {
-  const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
-  const [searchValue, setSearchValue] = React.useState("");
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [searchValue, setSearchValue] = useState("");
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const t = useTranslations('Index');
 
@@ -50,29 +51,23 @@ export default function Rooms() {
     getData();
   }, []);
 
-  const filteredItems = React.useMemo(() => {
-    return rooms.filter((rooms) =>
-      rooms.description.toLowerCase().includes(
-        searchValue.toLowerCase()
-      ) ||
-      rooms.roomID.toString().toLowerCase().includes(
-        searchValue.toLowerCase()
-      )
-    );
-  }, [rooms, searchValue]);
+  const handleOpenModal = (room) => {
+    setSelectedRoom(room);
+    setIsModalOpen(true);
+  };
 
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
+  const handleCloseModal = () => {
+    setSelectedRoom(null);
+    setIsModalOpen(false);
+  };
 
-    return filteredItems.slice(start, end);
-  }, [page, filteredItems, rowsPerPage]);
+  const filteredItems = rooms.filter((room) =>
+    room.description.toLowerCase().includes(searchValue.toLowerCase()) ||
+    room.roomID.toString().toLowerCase().includes(searchValue.toLowerCase())
+  );
 
+  const items = filteredItems.slice((page - 1) * rowsPerPage, page * rowsPerPage);
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
-
-  const renderCell = React.useCallback((rooms, columnKey) => {
-    const cellValue = rooms[columnKey];
-  }, []);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -86,8 +81,9 @@ export default function Rooms() {
 
   const handleDelete = async (idRoom) => {
     try {
-      const response = await axios.delete(`/api/v1/hotel/rooms/` + idRoom);
-      alert("Quarto removida com sucesso!");
+      await axios.delete(`/api/v1/hotel/rooms/${idRoom}`);
+      alert("Quarto removido com sucesso!");
+      setRooms(rooms.filter(room => room.roomID !== idRoom)); // Update the rooms state after deletion
     } catch (error) {
       console.error("Erro ao remover quarto:", error.message);
     }
@@ -112,15 +108,18 @@ export default function Rooms() {
               />
             </div>
           </div>
+          <Button onClick={() => handleOpenModal()} color="primary" className="w-fit">
+              {t("general.newRecord")} <FiPlus size={15} />
+          </Button>
+          </div>
           <RoomForm
-            buttonName={t("general.newRecord")}
-            buttonIcon={<FiPlus size={15} />}
-            buttonColor={"primary"}
             modalHeader={t("hotel.rooms.new.modalHeader")}
             modalIcons={"bg-red"}
             formTypeModal={11}
-          ></RoomForm>
-        </div>
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            room={selectedRoom}
+          />
       </div>
       <div className="mx-5 h-[65vh] min-h-full">
         <PaginationTable
@@ -182,29 +181,32 @@ export default function Rooms() {
                 </TableColumn>
               </TableHeader>
               <TableBody>
-                {items.map((rooms, index) => (
-
+                {items.map((room, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-left underline text-blue-600"><RoomForm
-                      buttonName={rooms.roomID}
-                      editIcon={<FiEdit3 size={25} />}
-                      buttonColor={"transparent"}
-                      modalHeader={t("hotel.rooms.edit.modalHeader")}
-                      modalEditArrow={<BsArrowRight size={25} />}
-                      modalEdit={`ID: ${rooms.roomID}`}
-                      formTypeModal={12}
-                      idRoom={rooms.roomID}
-                      idRoomType={rooms.roomType}
-                      criado={rooms.createdAt}
-                      editado={rooms.updatedAt}
-                      editor={"teste"}
-                    /></TableCell>
-                    <TableCell >{rooms.label}</TableCell>
-                    <TableCell className="px-10">{rooms.roomType}</TableCell>
-                    <TableCell>{rooms.pmsHotel}</TableCell>
-                    <TableCell>{rooms.description}</TableCell>
-                    <TableCell>{rooms.description2}</TableCell>
-                    <TableCell>{rooms.temptext}</TableCell>
+                    <TableCell className="text-left underline text-blue-600"onClick={() => handleOpenModal(room)}>
+                      {room.roomID}
+                      <RoomForm
+                        editIcon={<FiEdit3 size={25} />}
+                        modalHeader={t("hotel.rooms.edit.modalHeader")}
+                        modalEditArrow={<BsArrowRight size={25} />}
+                        modalEdit={`ID: ${room.roomID}`}
+                        formTypeModal={12}
+                        idRoom={room.roomID}
+                        idRoomType={room.roomType}
+                        criado={room.createdAt}
+                        editado={room.updatedAt}
+                        editor={"teste"}
+                        isOpen={selectedRoom?.roomID === room.roomID && isModalOpen}
+                        onClose={handleCloseModal}
+                        room={selectedRoom}
+                      />
+                    </TableCell>
+                    <TableCell>{room.label}</TableCell>
+                    <TableCell className="px-10">{room.roomType}</TableCell>
+                    <TableCell>{room.pmsHotel}</TableCell>
+                    <TableCell>{room.description}</TableCell>
+                    <TableCell>{room.description2}</TableCell>
+                    <TableCell>{room.temptext}</TableCell>
                     <TableCell className="flex justify-end">
                       <Dropdown>
                         <DropdownTrigger>
@@ -215,25 +217,16 @@ export default function Rooms() {
                             <BsThreeDotsVertical size={20} className="text-gray-400" />
                           </Button>
                         </DropdownTrigger>
-                        <DropdownMenu aria-label="Static Actions" closeOnSelect={false} isOpen={true}>
-                          <DropdownItem key="edit">
-                            <RoomForm
-                              buttonName={t("general.editRecord")}
-                              editIcon={<FiEdit3 size={25} />}
-                              buttonColor={"transparent"}
-                              modalHeader={t("hotel.rooms.edit.modalHeader")}
-                              modalEditArrow={<BsArrowRight size={25} />}
-                              modalEdit={`ID: ${rooms.roomID}`}
-                              formTypeModal={12}
-                              idRoom={rooms.roomID}
-                              idRoomType={rooms.roomType}
-                              criado={rooms.createdAt}
-                              editado={rooms.updatedAt}
-                              editor={"teste"}
-                            ></RoomForm>
+                        <DropdownMenu aria-label="Static Actions">
+                          <DropdownItem key="edit" onClick={() => handleOpenModal(room)}>
+                            {t("general.editRecord")}
                           </DropdownItem>
-                          <DropdownItem key="delete" onClick={() => handleDelete(rooms.roomID)}>{t("general.removeRecord")}</DropdownItem>
-                          <DropdownItem key="view">{t("general.viewRecord")}</DropdownItem>
+                          <DropdownItem key="delete" onClick={() => handleDelete(room.roomID)}>
+                            {t("general.removeRecord")}
+                          </DropdownItem>
+                          <DropdownItem key="view">
+                            {t("general.viewRecord")}
+                          </DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </TableCell>

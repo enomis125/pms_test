@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import axios from 'axios';
 //imports de icons
 import { TfiSave } from "react-icons/tfi";
@@ -15,41 +15,54 @@ import ModalFooterContent from "@/components/modal/modalFooterContent";
 import CaracteristicsAutocomplete from "@/components/functionsForm/autocomplete/caracteristic/page";
 import TipologyAutocomplete from "@/components/functionsForm/autocomplete/tipology/page";
 
-import {useTranslations} from 'next-intl';
+import { useTranslations } from 'next-intl';
 
-const roomForm = ({
-    idRoom,
-    idRoomType,
-    buttonName,
-    buttonIcon,
-    modalHeader,
-    editIcon,
-    modalEditArrow,
-    modalEdit,
-    formTypeModal,
-    buttonColor,
-    criado,
-    editado,
-    editor
+const RoomForm = ({
+  idRoom,
+  idRoomType,
+  buttonName,
+  buttonIcon,
+  modalHeader,
+  editIcon,
+  modalEditArrow,
+  modalEdit,
+  formTypeModal,
+  buttonColor,
+  criado,
+  editado,
+  editor,
+  isOpen,
+  onOpen,
+  onOpenChange,
+  onClose,
 }) => {
 
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { handleInputRoom, handleSubmitRoom, handleCaracteristicSelect, handleTipologySelect } = roomsInsert();
+  const { handleUpdateRoom, setValuesRoom, valuesRoom } = roomsEdit(idRoom, idRoomType);
 
-    const { handleInputRoom, handleSubmitRoom, handleCaracteristicSelect, handleTipologySelect } = roomsInsert();
-    const { handleUpdateRoom, setValuesRoom, valuesRoom } = roomsEdit(idRoom, idRoomType);
+  const { toggleExpand, setIsExpanded, isExpanded } = expansion();
 
-    const { toggleExpand, setIsExpanded, isExpanded } = expansion();
+  const t = useTranslations('Index');
 
-    const t = useTranslations('Index');
+  useEffect(() => {
+    if (formTypeModal === 12 && idRoom) {
+      // Fetch the room data based on idRoom and setValuesRoom accordingly
+      // This ensures that the edit form is pre-populated with the correct data
+      axios.get(`/api/rooms/${idRoom}`)
+        .then(response => {
+          setValuesRoom(response.data);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the room data!", error);
+        });
+    }
+  }, [idRoom, formTypeModal, setValuesRoom]);
 
     return (
         <>
 
             {formTypeModal === 11 && ( //rooms insert
                 <>
-                    <Button onPress={onOpen} color={buttonColor} className="w-fit">
-                        {buttonName} {buttonIcon}
-                    </Button>
                     <Modal
                         isOpen={isOpen}
                         hideCloseButton={true}
@@ -57,6 +70,7 @@ const roomForm = ({
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         className="z-50"
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
@@ -64,9 +78,8 @@ const roomForm = ({
                                     <form onSubmit={handleSubmitRoom}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             {modalHeader}
-                                            <div className='flex flex-row items-center mr-5'>
+                                            <div className='flex flex-row items-center'>
                                                 <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                                 <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
@@ -153,16 +166,14 @@ const roomForm = ({
 
             {formTypeModal === 12 && ( //rooms edit
                 <>
-                    <Button fullWidth={true} size="md" onPress={onOpen} color={buttonColor} className="-h-3 flex justify-start -p-3">
-                        {buttonName} {buttonIcon}
-                    </Button>
                     <Modal
                         isOpen={isOpen}
                         hideCloseButton={true}
-                        onOpenChange={onOpenChange}
+                        onOpenChange={onClose}
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         className="z-50"
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
@@ -172,9 +183,8 @@ const roomForm = ({
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
                                             </div>
-                                            <div className='flex flex-row items-center mr-5'>
+                                            <div className='flex flex-row items-center'>
                                                 <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                                 <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
@@ -268,4 +278,4 @@ const roomForm = ({
     );
 };
 
-export default roomForm;
+export default RoomForm;

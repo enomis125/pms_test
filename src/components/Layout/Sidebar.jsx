@@ -153,9 +153,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 {
                     ref: "/homepage/hotelSetup/manutencao", label: t('sidebar.hotel.maintenance'), active: true
                 },
-                {
-                    ref: "/homepage/false", label: "False", active: hotelSetup
-                },
             ]
         },
 
