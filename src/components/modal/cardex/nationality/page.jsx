@@ -47,15 +47,15 @@ const NationalityForm = ({
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         className="z-50"
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
                                 <form onSubmit={handleSubmitNacionality}>
                                    <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                         {t('cardex.nationalities.new.modalInsertHeader')}
-                                        <div className='flex flex-row items-center mr-5'>
+                                        <div className='flex flex-row items-center'>
                                             <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                             <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
                                         </div>
                                     </ModalHeader>
@@ -132,15 +132,15 @@ const NationalityForm = ({
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         className="z-50"
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
                                 <form onSubmit={(e) => handleUpdateNationality(e)}>
                                     <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                         {t('cardex.nationalities.new.modalEditHeader')}
-                                        <div className='flex flex-row items-center mr-5'>
+                                        <div className='flex flex-row items-center'>
                                             <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                            <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                             <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
                                         </div>
                                     </ModalHeader>

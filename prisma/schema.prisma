@@ -2365,7 +2365,6 @@ model priceDescriptionHeader {
   @@index([updatedBy], map: "priceDescriptionHeader_users_2_idx")
 }
 
-
 model priceDescriptionPricesRooms {
   priceDescriptionPricesRoomsID                      Int      @id @default(autoincrement())
   priceDescriptionHeaderID                           Int      @default(-1)
@@ -2440,18 +2439,14 @@ model pricesHeaderToVentilation {
 
 model maintenanceRooms {
   IDmaintenance Int     @id @default(autoincrement())
-  roomStatus    String? @db.VarChar(45)
-  reason        String? @db.VarChar(45)
-  text          String? @db.VarChar(45)
-  date          String? @db.VarChar(45)
-  user1         String? @db.VarChar(45)
-  change        String? @db.VarChar(45)
-  user2         String? @db.VarChar(45)
-  RefNumber     Int?
-  text2         String? @db.VarChar(45)
-  document      String? @db.VarChar(45)
   priority      String? @db.VarChar(45)
-  roomNumber    Int?
+  status        String? @db.VarChar(45)
+  locationType  String? @db.VarChar(45)
+  location      String? @db.VarChar(45)
+  roomStatus    String? @db.VarChar(45)
+  season        String? @db.VarChar(45)
+  description   String? @db.VarChar(150)
+  assignee      String? @db.VarChar(45)
 }
 
 model reservationHistory {

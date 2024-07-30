@@ -52,6 +52,7 @@ const tipologyForm = ({
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         className="z-50"
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
@@ -59,9 +60,8 @@ const tipologyForm = ({
                                     <form onSubmit={handleSubmitRoomtype}>
                                         <ModalHeader className="flex flex-row justify-between items-center gap-1 bg-primary-600 text-white">
                                             {modalHeader}
-                                            <div className='flex flex-row items-center mr-5'>
+                                            <div className='flex flex-row items-center'>
                                                 <Button color="transparent" onClick={() => { onClose(); window.location.reload(); }} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                                 <Button color="transparent" variant="light" onClick={() => { onClose(); window.location.reload(); }}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>
@@ -145,6 +145,7 @@ const tipologyForm = ({
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         className="z-50"
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
@@ -154,9 +155,8 @@ const tipologyForm = ({
                                             <div className="flex flex-row justify-start gap-4">
                                                 {editIcon} {modalHeader} {modalEditArrow} {modalEdit}
                                             </div>
-                                            <div className='flex flex-row items-center mr-5'>
+                                            <div className='flex flex-row items-center'>
                                                 <Button color="transparent" onPress={onClose} className="-mr-5" type="submit"><TfiSave size={25} /></Button>
-                                                <Button color="transparent" className="-mr-5" onClick={toggleExpand}><LiaExpandSolid size={30} /></Button>
                                                 <Button color="transparent" variant="light" onPress={onClose}><MdClose size={30} /></Button>
                                             </div>
                                         </ModalHeader>

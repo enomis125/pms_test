@@ -56,7 +56,7 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -117,7 +117,7 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -182,7 +182,7 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside" className="z-50">
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} scrollBehavior="inside" className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -266,7 +266,7 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100 -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -343,7 +343,7 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -428,7 +428,7 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -493,7 +493,7 @@ const formModals = ({ idDepartment,
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>

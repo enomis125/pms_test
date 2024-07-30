@@ -80,7 +80,7 @@ const formModals = ({
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName} {buttonIcon}
                     </Button>
-                    <Modal isOpen={isOpen} hideCloseButton={true} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
+                    <Modal isOpen={isOpen} size="xl" hideCloseButton={true} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} className="z-50">
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -155,6 +155,7 @@ const formModals = ({
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         hideCloseButton={true}
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
@@ -261,7 +262,7 @@ const formModals = ({
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -315,7 +316,7 @@ const formModals = ({
                     <Button onPress={onOpen} isIconOnly className="bg-primary-100   -mt ml-4" size="sm" variant="light">
                         {buttonName}
                     </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
+                    <Modal isOpen={isOpen} size="xl" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} hideCloseButton={true}>
                         <ModalContent>
                             {(onClose) => (
                                 <>
@@ -398,6 +399,7 @@ const formModals = ({
                         isDismissable={false}
                         isKeyboardDismissDisabled={true}
                         hideCloseButton={true}
+                        size="xl"
                     >
                         <ModalContent>
                             {(onClose) => (
