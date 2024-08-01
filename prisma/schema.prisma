@@ -1658,6 +1658,17 @@ model properties {
   transactions          transactions[]
 }
 
+model property_tokens {
+  propertyID   Int        @id
+  accessToken  String     @db.LongText
+  refreshToken String     @db.LongText
+  expiryDate   BigInt
+  scope        String     @db.VarChar(100)
+  tokenType    String     @db.VarChar(45)
+  provider     String     @db.VarChar(45)
+  properties   properties @relation(fields: [propertyID], references: [propertyID], onDelete: NoAction, onUpdate: NoAction, map: "propertyTokens_properties")
+}
+
 model ratecodedetails {
   rateCodeDetID                          Int        @id @default(autoincrement())
   propertyID                             Int
@@ -2736,4 +2747,3 @@ model vipcode {
   @@index([createdBy], map: "vipcode_users_1_idx")
   @@index([updatedBy], map: "vipcode_users_2_idx")
 }
-
