@@ -3,24 +3,21 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
-import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io'
+import { IoIosArrowDown, IoIosArrowForward, IoMdPricetags } from 'react-icons/io'
 import { FaLaptopHouse, FaUser } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import { FaTruck } from "react-icons/fa";
-import { IoReceipt, IoStorefront  } from "react-icons/io5";
-import { FaCalendarAlt } from "react-icons/fa";
-import { IoSettings } from "react-icons/io5";
-import { FaHotel } from "react-icons/fa";
-import { IoMdPricetags } from "react-icons/io";
+import { IoReceipt, IoStorefront, IoSettings  } from "react-icons/io5";
+import { FaCalendarAlt, FaHotel } from "react-icons/fa";
 import { PiUsersFourFill } from "react-icons/pi";
-import { MdOutlineCleaningServices } from "react-icons/md";
 import { BsHouseGearFill } from "react-icons/bs";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import { RadioGroup, Radio } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, RadioGroup, Radio} from "@nextui-org/react";
 import { useTranslations } from 'next-intl';
 import axios from "axios";
 
 const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
+
+    const { data: session, status } = useSession();
     const t = useTranslations('Index');
 
     const hotelSetup = process.env.NEXT_PUBLIC_HOTEL_SETUP === "true";
@@ -32,9 +29,9 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
 
     const languages = [
         { label: 'Português', value: 'pt' },
-        { label: 'Espanhol', value: 'es' },
-        { label: 'Francês', value: 'fr' },
-        { label: 'Inglês', value: 'en' }
+        { label: 'Español', value: 'es' },
+        { label: 'Français', value: 'fr' },
+        { label: 'English', value: 'en' }
     ];
 
     const handleOpen = () => {
@@ -72,7 +69,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/frontOffice", label: t("sidebar.frontoffice.frontOffice"), active: true
                 },
                 {
-                    ref: "/homepage/frontOffice/client_form", label: t("sidebar.frontoffice.clientFiles"), active: true
+                    ref: "/homepage/frontOffice/client_files", label: t("sidebar.frontoffice.clientFiles"), active: true
                 },
                 {
                     ref: "/homepage/frontDesk", label: t("sidebar.frontoffice.frontDesk"), active: true
@@ -152,9 +149,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                 },
                 {
                     ref: "/homepage/hotelSetup/manutencao", label: t('sidebar.hotel.maintenance'), active: true
-                },
-                {
-                    ref: "/homepage/false", label: "False", active: hotelSetup
                 },
             ]
         },
@@ -284,7 +278,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     ref: "/homepage/priceManagement/seasons", label: t('sidebar.priceManagement.seasons'), active: true
                 },
                 {
-                    ref: "/homepage/priceManagement/price_table", label: t('sidebar.priceManagement.priceTable'), active: true
+                    ref: "/homepage/priceManagement/rates_planner", label: t('sidebar.priceManagement.ratesPlanner'), active: true
                 },
 
             ]
@@ -353,8 +347,10 @@ const Sidebar = ({ showSidebar, setShowSidebar, children, name }) => {
                     <div className="flex items-center space-x-2">
                         <Link href="/dashboard" className='flex space-x-4 align-middle ml-3'>
                             <FaUser className="text-2xl text-primary-800" />
-                            <span className="text-sm text-primary-800 font-semibold">Sujeito Teste</span>
-                        </Link>
+                            {status === 'authenticated' && session && (
+                            <span className="text-sm text-primary-800 font-semibold">{`${session.user.name} ${session.user.lastname}`}</span>
+                        )}
+                            </Link>
                     </div>
                     </div>
 

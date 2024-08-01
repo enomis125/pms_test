@@ -343,7 +343,7 @@ export default function reservations() {
                 editor={"teste"}
               />
             </DropdownItem>
-            <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>{t("frontOffice.frontDesk.bookings.cards.checkOut")}</DropdownItem>
+            <DropdownItem onClick={() => handleStatusChange(reservationID, 2)}>{t("frontOffice.frontDesk.bookings.cards.checkedOut")}</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 3)}>{t("frontOffice.frontDesk.bookings.cards.canceled")}</DropdownItem>
             <DropdownItem onClick={() => handleStatusChange(reservationID, 0)}>{t("frontOffice.frontDesk.bookings.cards.cancelCI")}</DropdownItem>
           </DropdownMenu>

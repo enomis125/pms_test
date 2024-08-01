@@ -38,7 +38,7 @@ export default function TipologyGroupAutocomplete({ label, style, onChange }) {
             value={tipologyGroup}
             onClick={() => onChange(tipologyGroup)}
           >
-            {tipologyGroup.roomTypeGroupID}
+            {tipologyGroup.label}
           </AutocompleteItem>
         ))}
       </Autocomplete>

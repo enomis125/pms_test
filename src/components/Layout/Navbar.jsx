@@ -11,6 +11,7 @@ import { FaSearch } from "react-icons/fa";
 import Loader from '../Loader/Loader';
 
 
+
 export default function Navbar({ toggle, children, breadcrumbs }) {
     const router = useRouter()
     const [showModal, setShowModal] = useState(router.query?.error);

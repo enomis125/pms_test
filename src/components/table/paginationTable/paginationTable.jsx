@@ -5,6 +5,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { CSVLink } from "react-csv";
 import { useTranslations } from "next-intl";
+import { BsFiletypePdf, BsFiletypeCsv } from "react-icons/bs";
 
 export default function CustomPagination({
   page,
@@ -54,16 +55,17 @@ export default function CustomPagination({
       <div className="bg-tableFooter border border-tableFooterBorder flex justify-between items-center lg:pl-72 w-full min-h-10vh fixed bottom-0 right-0 z-20 text-sm text-default-400 py-3">
         <div>
           {dataCSVButton && dataCSVButton.length > 0 && (
-            <div className="ml-5 space-x-3">
-              <Button onPress={exportToPDF}>PDF</Button>
+            <div className="ml-5 space-x-3 flex flex-row">
+              <Button onPress={exportToPDF}><BsFiletypePdf size={17}/>PDF</Button>
               <Button>
                 <CSVLink
+                className="flex flex-row gap-1"
                   data={dataCSVButton}
                   filename={filename}
                   separator={";"}
                   enclosingCharacter={""}
                 >
-                  CSV
+                  <BsFiletypeCsv size={17}/>CSV
                 </CSVLink>
               </Button>
             </div>

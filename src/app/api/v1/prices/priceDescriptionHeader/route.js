@@ -43,7 +43,7 @@ export async function PUT(request) {
                 validUntil: validUntil,
 
                 property: parseInt(data.property),
-                ventilation: parseInt(data.ventilation),
+                //ventilation: parseInt(data.ventilation),
                 billText: data.billText,
                 billingAccountID: parseInt(data.revenueAccount),
                 createdBy: userID

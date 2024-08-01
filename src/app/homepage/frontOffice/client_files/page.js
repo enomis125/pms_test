@@ -38,6 +38,9 @@ export default function clientForm() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [searchValue, setSearchValue] = React.useState("");
   const [individual, setIndividual] = useState([]);
+  const [emails, setEmails] = useState({});
+  const [phoneNumbers, setPhoneNumbers] = useState({});
+  const [addresses, setAddresses] = useState({});
 
   const [isLoading, setIsLoading] = useState(true);
   const [dataFetched, setDataFetched] = useState(false);
@@ -49,18 +52,50 @@ export default function clientForm() {
       if (!dataFetched) {
         setIsLoading(true);
         try {
-          const res = await axios.get("/api/v1/frontOffice/clientForm/individuals");
-          setIndividual(res.data.response);
+          // Fetch individuals
+          const resIndividuals = await axios.get("/api/v1/frontOffice/clientForm/individuals");
+          const individuals = resIndividuals.data.response;
+
+          // emails
+          let emails = {};
+
+          for (let ind of individuals) {
+            const resEmail = await axios.get(`/api/v1/frontOffice/clientForm/individuals/email/${ind.email}`);
+            emails[ind.email] = resEmail.data.response; // Store the entire response
+          }
+
+          //phone numbers
+          let phones = {};
+
+          for (let ind of individuals) {
+            const resPhones = await axios.get(`/api/v1/frontOffice/clientForm/individuals/phone/${ind.phoneNumber}`);
+            phones[ind.phoneNumber] = resPhones.data.response; // Store the entire response
+          }
+
+          //address
+          let addresses = {};
+
+          for (let ind of individuals) {
+            const resAddress = await axios.get(`/api/v1/frontOffice/clientForm/individuals/address/${ind.address}`);
+            addresses[ind.address] = resAddress.data.response; // Store the entire response
+          }
+
+          // Set state
+          setIndividual(individuals);
+          setEmails(emails);
+          setPhoneNumbers(phones);
+          setAddresses(addresses);
           setDataFetched(true);
         } catch (error) {
           console.error("Erro ao encontrar as fichas de cliente:", error.message);
         } finally {
           setIsLoading(false);
         }
-      };
-    }
+      }
+    };
+
     getData();
-  }, []);
+  }, [dataFetched]);
 
   const filteredItems = React.useMemo(() => {
     if (!individual || !Array.isArray(individual)) {
@@ -418,11 +453,11 @@ export default function clientForm() {
                       )}
                     </TableCell>
                     <TableCell className="px-20">{individual.profileType}</TableCell>
-                    <TableCell className="">{individual.firstName ? individual.firstName : individual.name}</TableCell>
+                    <TableCell className="">{individual.firstName ? individual.firstName : (individual.name ? individual.name : individual.companyName)}</TableCell>
                     <TableCell className="">{individual.secondName}</TableCell>
-                    <TableCell className="">{individual.country}</TableCell>
-                    <TableCell className="">{individual.email}</TableCell>
-                    <TableCell className="">{individual.phoneNumber}</TableCell>
+                    <TableCell className="">{addresses[individual.address] ? addresses[individual.address].mainAddress : 'Address not found'}</TableCell>
+                    <TableCell className="">{emails[individual.email] ? emails[individual.email].personalEmail : 'Email not found'}</TableCell>
+                    <TableCell className="">{phoneNumbers[individual.phoneNumber] ? phoneNumbers[individual.phoneNumber].personalPhone : 'Phone not found'}</TableCell>
                     <TableCell className="flex justify-end">
                       <Dropdown>
                         <DropdownTrigger>
