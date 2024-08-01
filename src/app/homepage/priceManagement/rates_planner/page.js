@@ -84,6 +84,7 @@ export default function CalendarPage() {
   const [endDate, setEndDate] = useState(null);
 
   const [tipology, setTipology] = useState(null);
+  const [rooms, setRooms] = useState([]);
 
   const [startDate2, setStartDate2] = useState(null);
   const [endDate2, setEndDate2] = useState(null);
@@ -568,10 +569,25 @@ export default function CalendarPage() {
   };
 
   const decreasePeople = () => {
-    if (numPeople > 0) {
+    if (numPeople > 1) {
       setNumPeople(numPeople - 1);
     }
   };
+
+  useEffect(() => {
+    const fetchRoomsData = async () => {
+      try {
+        const res = await axios.get("/api/v1/hotel/rooms");
+        const filteredData = res.data.response.filter(
+          (room) => room.label !== ""
+        );
+        setRooms(filteredData);
+      } catch (error) {
+        console.error("Error fetching rooms data:", error);
+      }
+    };
+    fetchRoomsData();
+  }, []);
 
 
   return (
@@ -818,7 +834,6 @@ export default function CalendarPage() {
                   const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
                   const formattedDate = day.date.format('YYYY-MM-DD');
                   const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
-
                   const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
 
                   return (
@@ -850,59 +865,68 @@ export default function CalendarPage() {
                 })}
               </tr>
               {expandedIndexes.includes(rowIndex) && (
-                <tr>
-            {/*LINHA SEPARADORA DA GRELHA */}
-            <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
-            {weeks[currentWeekIndex].map((day, index) => {
-                  const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
-                  const formattedDate = day.date.format('YYYY-MM-DD');
-                  const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
+                rooms.filter(room => room.roomType === roomType.roomTypeID).length > 0 ? (
+                  rooms.filter(room => room.roomType === roomType.roomTypeID).map((room, roomIndex) => (
+                    <tr key={roomIndex}>
+                      {/*LINHA SEPARADORA DA GRELHA */}
+                      <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'>
+                        {room.label}
+                      </td>
+                      {weeks[currentWeekIndex].map((day, index) => {
+                        const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
+                        const formattedDate = day.date.format('YYYY-MM-DD');
+                        const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
+                        const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
 
-                  const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
-
-                  return (
-                    <td
-                      key={index}
-                      className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
-                      ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
-                      ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
-                      ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}
-                      select-none`}
-                      onMouseDown={() => {
-                        setIsSelecting(true);
-                        handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
-                        setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                      }}
-                      onMouseOver={() => {
-                        if (isSelecting) {
-                          handleMouseOver(day.date, rowIndex, index);
-                          setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
-                        }
-                      }}
-                      onMouseUp={() => {
-                        setIsSelecting(false);
-                        handleMouseUp(day.date);
-                      }}>
-                      {availableRooms}
+                        return (
+                          <td
+                            key={index}
+                            className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
+                            ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}
+                            ${isSelected ? "border-3 border-blue-600 rounded-lg" : ""}
+                            ${finalSelectedCells.some(cell => cell.row === rowIndex && cell.column === index) ? "bg-blue-200" : ""}
+                            select-none`}
+                            onMouseDown={() => {
+                              setIsSelecting(true);
+                              handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
+                              setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                            }}
+                            onMouseOver={() => {
+                              if (isSelecting) {
+                                handleMouseOver(day.date, rowIndex, index);
+                                setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                              }
+                            }}
+                            onMouseUp={() => {
+                              setIsSelecting(false);
+                              handleMouseUp(day.date);
+                            }}>
+                            {availableRooms}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={weeks[currentWeekIndex].length + 1} className="flex flex-row gap-8">
+                      <div className="w-2" />
+                      <p className="w-28">No rooms associated with this typology</p>
                     </td>
-                  );
-                })}
-          </tr>
+                  </tr>
+                )
               )}
             </React.Fragment>
           ))}
           <tr>
-            {/*LINHA SEPARADORA DA GRELHA */}
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
-            {weeks[currentWeekIndex].map((day, index) => {
-              return (
-                <td
-                  key={index}
-                  className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
-                  ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}`}>
-                </td>
-              );
-            })}
+            {weeks[currentWeekIndex].map((day, index) => (
+              <td
+                key={index}
+                className={`text-center text-sm border-l-3 border-r-3 border-b-2 rounded-lg
+                ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}`}>
+              </td>
+            ))}
           </tr>
         </tbody>
       </table>
