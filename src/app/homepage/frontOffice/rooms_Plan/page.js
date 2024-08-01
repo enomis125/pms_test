@@ -505,113 +505,144 @@ export default function CalendarPage() {
 };*/
 
 const renderReservations = (reservations, date, roomType) => {
-    if (!reservations) {
-        console.warn('Não há reservas para renderizar.');
-        return [];
-    }
+  if (!reservations) {
+      console.warn('Não há reservas para renderizar.');
+      return [];
+  }
 
-    const filteredReservations = reservations.filter((reservation) => {
-        const isSameRoom = String(reservation.roomNumber) === roomType.label;
-        const isSameMonth = dayjs(reservation.checkInDate).month() === date.month();
-        return isSameRoom && isSameMonth;
-    });
+  const reservationsToRender = reservations.reduce((acc, reservation) => {
+      const checkInDate = dayjs(reservation.checkInDate);
+      const checkOutDate = dayjs(reservation.checkOutDate);
+      
+      const isSameRoom = String(reservation.roomNumber) === roomType.label;
+      
+      if (!isSameRoom) return acc;
 
-    return filteredReservations.map((reservation) => {
-        const checkInDate = dayjs(reservation.checkInDate);
-        const checkOutDate = dayjs(reservation.checkOutDate);
+      const reservationStartMonth = checkInDate.month();
+      const reservationEndMonth = checkOutDate.month();
+      
+      const currentMonth = date.month();
 
-        const checkInDay = checkInDate.date();
-        const checkOutDay = checkOutDate.date();
+      if (reservationStartMonth === currentMonth && reservationEndMonth === currentMonth) {
+          acc.push(reservation);
+      } else if (reservationStartMonth === currentMonth) {
+          acc.push({
+              ...reservation,
+              checkOutDate: checkInDate.endOf('month').toISOString(),
+          });
+      } else if (reservationEndMonth === currentMonth) {
+          acc.push({
+              ...reservation,
+              checkInDate: checkOutDate.startOf('month').toISOString(),
+          });
+      }
 
-        const startCellId = `cell-${checkInDay}`;
-        const endCellId = `cell-${checkOutDay}`;
+      return acc;
+  }, []);
 
-        const startCell = document.getElementById(startCellId);
-        const endCell = document.getElementById(endCellId);
+  return reservationsToRender.map((reservation) => {
+      const checkInDate = dayjs(reservation.checkInDate);
+      const checkOutDate = dayjs(reservation.checkOutDate);
 
-        if (!startCell || !endCell) {
-            console.warn(`Célula não encontrada: ${!startCell ? startCellId : endCellId}`);
-            return null;
-        }
+      const checkInDay = checkInDate.date();
+      const checkOutDay = checkOutDate.date();
 
-        const startCellRect = startCell.getBoundingClientRect();
-        const endCellRect = endCell.getBoundingClientRect();
-        const cellWidth = startCellRect.width;
-        const halfCellWidth = cellWidth / 2;
+      const startCellId = `cell-${checkInDay}`;
+      const endCellId = `cell-${checkOutDay}`;
 
-        const leftStartPosition = startCellRect.left + window.pageXOffset + halfCellWidth;
-        const leftEndPosition = endCellRect.left + window.pageXOffset + halfCellWidth;
+      const startCell = document.getElementById(startCellId);
+      const endCell = document.getElementById(endCellId);
 
-        const reservationWidth = leftEndPosition - leftStartPosition;
+      if (!startCell || !endCell) {
+          console.warn(`Célula não encontrada: ${!startCell ? startCellId : endCellId}`);
+          return null;
+      }
 
-        const style = {
-            position: 'absolute',
-            left: leftStartPosition,
-            width: reservationWidth,
-            marginTop: -20,
-            backgroundColor: 'red',
-            color: 'white',
-            padding: '1px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            height: '40px',
-        };
+      const startCellRect = startCell.getBoundingClientRect();
+      const endCellRect = endCell.getBoundingClientRect();
+      const cellWidth = startCellRect.width;
+      const halfCellWidth = cellWidth / 2;
 
-        const textContainerStyle = {
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: 'calc(100% - 5px)', // Adjust width to accommodate resizer
-            display: 'flex',
-            flexDirection: 'column', // Ajustar para layout de coluna
-            alignItems: 'flex-start', // Alinhar texto à esquerda
-            paddingLeft: '5px', // Adjust padding as needed
-        };
+      let leftStartPosition;
+      if (checkInDate.date() === 1) {
+          leftStartPosition = startCellRect.left + window.pageXOffset;
+      } else {
+          leftStartPosition = startCellRect.left + window.pageXOffset + halfCellWidth;
+      }
+      
+      const leftEndPosition = endCellRect.left + window.pageXOffset + halfCellWidth;
 
-        const guestFirstName = reservation.guestFirstName || 'Nome do hóspede não disponível';
-        const guestSecondName = reservation.guestSecondName || 'Sobrenome do hóspede não disponível';
+      const reservationWidth = leftEndPosition - leftStartPosition;
 
-        let reservationStatusColor = 'yellow';
-        if (reservation.reservationStatus === 1) {
-            reservationStatusColor = 'yellow';
-        } else if (reservation.reservationStatus === 2) {
-            reservationStatusColor = 'green';
-        } else if (reservation.reservationStatus === 3) {
-            reservationStatusColor = 'red';
-        } else if (reservation.reservationStatus === 4) {
-            reservationStatusColor = 'gray';
-        } else if (reservation.reservationStatus === 5) {
-            reservationStatusColor = 'white';
-        }
+      const style = {
+          position: 'absolute',
+          left: leftStartPosition,
+          width: reservationWidth,
+          marginTop: -20,
+          backgroundColor: 'red',
+          color: 'white',
+          padding: '1px',
+          borderRadius: '4px',
+          fontSize: '12px',
+          height: '40px',
+      };
 
-        const formattedCheckInDate = checkInDate.format('DD.MM');
-        const formattedCheckOutDate = checkOutDate.format('DD.MM');
+      const textContainerStyle = {
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: 'calc(100% - 5px)', // Adjust width to accommodate resizer
+          display: 'flex',
+          flexDirection: 'column', // Ajustar para layout de coluna
+          alignItems: 'flex-start', // Alinhar texto à esquerda
+          paddingLeft: '5px', // Adjust padding as needed
+      };
 
-        return (
-            <div
-                key={reservation.reservationID}
-                style={style}
-                className="absolute border border-black w-full h-full"
-                ref={(element) => (reservationRefs.current[reservation.reservationID] = element)}
-                //onMouseDown={(e) => handleMouseDownDrag(e, reservation.reservationID, reservation.checkInDate, reservation.checkOutDate)}
-            >
-                <div style={{ background: reservationStatusColor }} className='border-1 border-black rounded-sm w-2 h-2 ml-1 mt-1'></div>
-                <div style={textContainerStyle} className='flex-col ml-3'>
-                    <span>{`${guestSecondName}, ${guestFirstName}`}</span>
-                    <span>{`${formattedCheckInDate} - ${formattedCheckOutDate}`}</span>
-                </div>
-                <div
-                    onMouseDown={(e) => handleMouseDownRightResize(e, reservation.reservationID, reservation.checkOutDate, date)}
-                    className="absolute bg-black cursor-ew-resize text-left"
-                    style={{ right: 0, top: 0, bottom: 0, width: 5 }}
-                >
-                    {/* Conteúdo do redimensionador */}
-                </div>
-            </div>
-        );
-    });
+      const guestFirstName = reservation.guestFirstName || 'Nome do hóspede não disponível';
+      const guestSecondName = reservation.guestSecondName || 'Sobrenome do hóspede não disponível';
+
+      let reservationStatusColor = 'yellow';
+      if (reservation.reservationStatus === 1) {
+          reservationStatusColor = 'yellow';
+      } else if (reservation.reservationStatus === 2) {
+          reservationStatusColor = 'green';
+      } else if (reservation.reservationStatus === 3) {
+          reservationStatusColor = 'red';
+      } else if (reservation.reservationStatus === 4) {
+          reservationStatusColor = 'gray';
+      } else if (reservation.reservationStatus === 5) {
+          reservationStatusColor = 'white';
+      }
+
+      const formattedCheckInDate = checkInDate.format('DD.MM');
+      const formattedCheckOutDate = checkOutDate.format('DD.MM');
+
+      return (
+          <div
+              key={reservation.reservationID}
+              style={style}
+              className="absolute border border-black w-full h-full"
+              ref={(element) => (reservationRefs.current[reservation.reservationID] = element)}
+              //onMouseDown={(e) => handleMouseDownDrag(e, reservation.reservationID, reservation.checkInDate, reservation.checkOutDate)}
+          >
+              <div style={{ background: reservationStatusColor }} className='border-1 border-black rounded-sm w-2 h-2 ml-1 mt-1'></div>
+              <div style={textContainerStyle} className='flex-col ml-3'>
+                  <span>{`${guestSecondName}, ${guestFirstName}`}</span>
+                  <span>{`${formattedCheckInDate} - ${formattedCheckOutDate}`}</span>
+              </div>
+              <div
+                  onMouseDown={(e) => handleMouseDownRightResize(e, reservation.reservationID, reservation.checkOutDate, date)}
+                  className="absolute bg-black cursor-ew-resize text-left"
+                  style={{ right: 0, top: 0, bottom: 0, width: 5 }}
+              >
+                  {/* Conteúdo do redimensionador */}
+              </div>
+          </div>
+      );
+  });
 };
+
 
 
 
