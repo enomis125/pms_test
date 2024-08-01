@@ -779,6 +779,7 @@ export default function CalendarPage() {
         <tbody>
           {/*EXIBE AS TIPOLOGIAS E O NRM DE QUARTOS ASSOCIADOS A CADA UMA */}
           {roomTypeState.map((roomType, rowIndex) => (
+
             <React.Fragment key={roomType.roomTypeID}>
               <tr onClick={() => toggleExpandIndexes(rowIndex)}>
                 <td className='text-xs w-full h-8 flex space-x-1 items-center px-4 border-b-2 bg-white'>
@@ -803,7 +804,7 @@ export default function CalendarPage() {
                       onMouseDown={() => {
                         setIsSelecting(true);
                         handleMouseDown(day.date, roomType.roomTypeID, rowIndex, index);
-                        setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
+                   setCellsSelection([...cellsSelection, { row: rowIndex, column: index, date: day.date }]);
                       }}
                       onMouseOver={() => {
                         if (isSelecting) {
