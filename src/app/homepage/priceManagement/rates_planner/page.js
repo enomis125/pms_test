@@ -18,6 +18,7 @@ import TravelGroupForm from "@/components/modal/frontOffice/clientForm/travelAge
 import GroupForm from "@/components/modal/frontOffice/clientForm/groups/page";
 import OthersForm from "@/components/modal/frontOffice/clientForm/others/page";
 import CountryAutocomplete from "@/components/functionsForm/autocomplete/country/page";
+import HeaderAutocomplete from "@/components/functionsForm/autocomplete/priceDescriptionHeader/page";
 import { FaPerson } from "react-icons/fa6";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { FiMinusSquare } from "react-icons/fi";
@@ -127,7 +128,16 @@ export default function CalendarPage() {
   const [groupReservation, setRoomRevervation] = useState({}); // Estado para armazenar o número de quartos associados a cada tipo de quarto
 
   const [nights, setNights] = useState([]);
-  const [numPeople, setNumPeople] = useState(1);
+
+  const [typologyPrices, setTypologyPrices] = useState([]);
+  const [pricesRoom, setPricesRoom] = useState([]);
+  const [prices, setPrices] = useState([]);
+  const [roomPrices, setRoomPrices] = useState([]);
+  const [peopleCount, setPeopleCount] = useState(1);
+
+  const [selectedHeaderID, setSelectedHeaderID] = useState({
+    ID: ''
+  });
 
   const t = useTranslations('Index');
 
@@ -138,20 +148,37 @@ export default function CalendarPage() {
   useEffect(() => {
     const getData = async () => {
       try {
+        // Fetch tipologies
         const resTipologies = await axios.get(`/api/v1/hotel/tipologys`);
-        setRoomTypeState(resTipologies.data.response);
+        console.log("Tipologies Response:", resTipologies);
+        const tipologies = resTipologies.data.response;
 
+        // Fetch room counts
         let tempRoomCounts = {};
-        await Promise.all(resTipologies.data.response.map(async (tipology) => {
+        await Promise.all(tipologies.map(async (tipology) => {
           const resRooms = await axios.get(`/api/v1/hotel/rooms/tipologys/${tipology.roomTypeID}`);
           tempRoomCounts[tipology.roomTypeID] = resRooms.data.response.length;
         }));
+        console.log("Room Counts:", tempRoomCounts);
 
+        // Fetch typology prices
+        const resTypologyPrices = await axios.get(`/api/v1/prices/priceDescriptionPrices`);
+        console.log("Typology Prices Response:", resTypologyPrices);
+        const typologyPrices = resTypologyPrices.data.response;
+
+        // Fetch room prices
+        const resRoomPrices = await axios.get(`/api/v1/prices/priceDescriptionRooms`);
+        console.log("Room Prices Response:", resRoomPrices);
+        const price = resRoomPrices.data.response;
+
+        // Update states together to avoid multiple re-renders
+        setRoomTypeState(tipologies);
         setRoomCounts(tempRoomCounts);
+        setPrices(typologyPrices);
+        setRoomPrices(price);
 
-        const resBookings = await axios.get(`/api/v1/frontOffice/reservations`);
-        setReservation(resBookings.data.response);
-        updateAvailability(); // Call after loading all data
+        // Call updateAvailability after loading all data
+        updateAvailability(typologyPrices, price);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
       }
@@ -159,6 +186,7 @@ export default function CalendarPage() {
 
     getData();
   }, []);
+
 
   useEffect(() => {
     // Atualizar o updatedAvailability sempre que o availability for atualizado
@@ -177,47 +205,55 @@ export default function CalendarPage() {
   }, [availability]);
 
   const updateAvailability = () => {
-    let updatedAvailability = {};
-    let dailyOverbookings = {};
-
-    roomTypeState.forEach(roomType => {
+    let typologyPrices = {};
+    let updateRoomPrices = {};
+  
+    // Determine o campo de preço baseado no número de pessoas
+    const priceKey = `p${peopleCount}`;
+    console.log("PORRA QUERO AS MINHAS FERIAS", priceKey)
+    // Filtragem de preços de tipologia
+    const filteredPrices = prices.filter(price => price.priceDescriptionHeaderID === 76);
+  
+    filteredPrices.forEach(price => {
+      const typologyID = price.typologyID;
+      const priceForPeopleCount = price[priceKey]; // Usa o preço correspondente ao número de pessoas
+  
+      if (!typologyPrices[typologyID]) {
+        typologyPrices[typologyID] = {};
+      }
+  
       weeks[currentWeekIndex].forEach(day => {
         const dayFormat = day.date.format('YYYY-MM-DD');
-        const filteredReservations = reservation.filter(res =>
-          dayjs(res.checkInDate).startOf('day').isSameOrBefore(day.date) &&
-          dayjs(res.checkOutDate).endOf('day').subtract(2, 'hours').isAfter(day.date) &&
-          res.roomTypeNumber === roomType.roomTypeID
-        );
-
-        const reservedRooms = filteredReservations.length;
-        const totalRooms = roomCounts[roomType.roomTypeID] || 0;
-        const availableRooms = totalRooms - reservedRooms;
-
-        if (!updatedAvailability[roomType.roomTypeID]) {
-          updatedAvailability[roomType.roomTypeID] = {};
-        }
-        updatedAvailability[roomType.roomTypeID][dayFormat] = availableRooms;
-
-        // Inicializar a contagem de overbookings diários se não existir
-        if (!dailyOverbookings[dayFormat]) {
-          dailyOverbookings[dayFormat] = 0;
-        }
-
-        // Calcular overbookings
-        if (availableRooms < 0) {
-          dailyOverbookings[dayFormat] += Math.abs(availableRooms); // Adiciona a quantidade de overbookings
-        }
+        typologyPrices[typologyID][dayFormat] = priceForPeopleCount;
       });
     });
-
-    setAvailability(updatedAvailability);
-    setTotalOverbookings(dailyOverbookings);
-    setOverbookings(dailyOverbookings);
-  }
+  
+    // Filtragem de preços de quartos
+    const filteredPricesRooms = roomPrices.filter(price => price.priceDescriptionHeaderID === 76);
+  
+    filteredPricesRooms.forEach(price => {
+      const roomID = price.roomID;
+      const priceForPeopleCountRoom = price[priceKey]; // Usa o preço correspondente ao número de pessoas
+  
+      if (!updateRoomPrices[roomID]) {
+        updateRoomPrices[roomID] = {};
+      }
+  
+      weeks[currentWeekIndex].forEach(day => {
+        const dayFormat = day.date.format('YYYY-MM-DD');
+        updateRoomPrices[roomID][dayFormat] = priceForPeopleCountRoom;
+      });
+    });
+  
+    setTypologyPrices(typologyPrices);
+    setPricesRoom(updateRoomPrices);
+  };
 
   useEffect(() => {
-    updateAvailability(); // Recalculate whenever dependencies change
-  }, [roomTypeState, roomCounts, reservation, currentWeekIndex]);
+    if (roomTypeState.length && prices.length && roomPrices.length) {
+      updateAvailability();
+    }
+  }, [roomTypeState, prices, roomPrices, currentWeekIndex, peopleCount]);
 
   // Funções para navegar entre as semanas
   const goToPreviousWeek = () => {
@@ -564,13 +600,25 @@ export default function CalendarPage() {
     window.location.href = '/homepage/frontOffice/tipology_Plan/zoom_out';
   }
 
+  // Aumento de pessoas 
   const increasePeople = () => {
-    setNumPeople(numPeople + 1);
+    if (peopleCount < 6) {
+      setPeopleCount(prevCount => {
+        const newCount = prevCount + 1;
+        console.log("P", newCount);
+        return newCount;
+      });
+    }
   };
-
+  
+  // Diminuição de pessoas
   const decreasePeople = () => {
-    if (numPeople > 1) {
-      setNumPeople(numPeople - 1);
+    if (peopleCount > 1) {
+      setPeopleCount(prevCount => {
+        const newCount = prevCount - 1;
+        console.log("P", newCount);
+        return newCount;
+      });
     }
   };
 
@@ -589,6 +637,20 @@ export default function CalendarPage() {
     fetchRoomsData();
   }, []);
 
+
+//   const handleHeaderChange = (header) => {
+//     if (header) {
+//         setSelectedHeaderID(header.priceDescriptionHeaderID);
+//     }
+// };
+
+const handleHeaderChange = (header) => {
+
+  setSelectedHeaderID({
+      ...selectedHeaderID,
+      ID: header.priceDescriptionHeaderID,
+  })
+};
 
   return (
     <div className='w-full'>
@@ -736,15 +798,15 @@ export default function CalendarPage() {
         <div className='flex justify-between items-center'>
           <div className='flex gap-20 items-center'>
             <p className='text-ml text-white px-4'><b>{t("priceManagement.priceTable.title")}</b></p>
-            <CountryAutocomplete className="w-5 text-white" label={t("priceManagement.priceTable.priceDescriptionHeader")} />
+            <HeaderAutocomplete className="w-5 text-white" label={t("priceManagement.priceTable.priceDescriptionHeader")} onChange={(value) => handleHeaderChange(value)} />
             <CountryAutocomplete label={t("priceManagement.priceTable.filters")} />
             <div className='flex items-center gap-2.5 pt-5'>
               <span className='text-white'><FaPerson size={27} /></span>
-              <span className='text-white'> {numPeople}</span>
+              <span className='text-white'> {peopleCount}</span>
               <div className='flex items-center gap-1.5'>
-                
-              <span className='text-white' onClick={increasePeople}><FaRegPlusSquare size={17} /></span>
-              <span className='text-white' onClick={decreasePeople}><FiMinusSquare size={17} /></span>
+                {/* Aumentar ou diminuir as pessoas */}
+                <span className='text-white' onClick={decreasePeople}><FiMinusSquare size={17} /></span>
+                <span className='text-white' onClick={increasePeople}><FaRegPlusSquare size={17} /></span>
               </div>
             </div>
           </div>
@@ -831,11 +893,10 @@ export default function CalendarPage() {
                 </td>
 
                 {weeks[currentWeekIndex].map((day, index) => {
-                  const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
                   const formattedDate = day.date.format('YYYY-MM-DD');
+                  const typologyPrice = typologyPrices[roomType.roomTypeID]?.[formattedDate] || 'N/A'; //exibe os preços por tipologia na tabela
                   const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
                   const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
-
                   return (
                     <td
                       key={index}
@@ -859,7 +920,7 @@ export default function CalendarPage() {
                         setIsSelecting(false);
                         handleMouseUp(day.date);
                       }}>
-                      {availableRooms}
+                      {typologyPrice}
                     </td>
                   );
                 })}
@@ -873,8 +934,8 @@ export default function CalendarPage() {
                         {room.label}
                       </td>
                       {weeks[currentWeekIndex].map((day, index) => {
-                        const availableRooms = availability[roomType.roomTypeID]?.[day.date.format('YYYY-MM-DD')] || 0;
                         const formattedDate = day.date.format('YYYY-MM-DD');
+                        const roomPrice = pricesRoom[room.roomID]?.[formattedDate] || 'N/A'; //exibe os preços por tipologia na tabela
                         const isSelected = selectionInfo.roomTypeID === roomType.roomTypeID && selectionInfo.dates.includes(formattedDate);
                         const isCellSelected = selectedCells.some(cell => cell.row === rowIndex && cell.column === index);
 
@@ -901,7 +962,7 @@ export default function CalendarPage() {
                               setIsSelecting(false);
                               handleMouseUp(day.date);
                             }}>
-                            {availableRooms}
+                            {roomPrice}
                           </td>
                         );
                       })}
@@ -918,7 +979,7 @@ export default function CalendarPage() {
               )}
             </React.Fragment>
           ))}
-          <tr>
+          {/* <tr>
             <td className='text-xs w-full h-8 flex justify-between items-center px-4 border-b-2 bg-white'></td>
             {weeks[currentWeekIndex].map((day, index) => (
               <td
@@ -927,7 +988,7 @@ export default function CalendarPage() {
                 ${(day.date.day() === 0 || day.date.day() === 6) ? "bg-lightBlueCol" : (day.date.isSame(today, 'day') ? "bg-primary bg-opacity-30" : "bg-white")}`}>
               </td>
             ))}
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>
