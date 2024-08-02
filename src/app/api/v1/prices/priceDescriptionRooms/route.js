@@ -2,6 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { generatePrismaClient, getPropertyIDFromToken, getUserIDFromToken } from '@/app/lib/utils';
 import { cookies } from 'next/headers';
 
+export async function GET(request) {
+
+  const tokenCookie = cookies().get("jwt");
+
+  const prisma = generatePrismaClient()
+
+  const priceDescriptionPricesRoomsRecords = await prisma.priceDescriptionPricesRooms.findMany()
+
+  const response = priceDescriptionPricesRoomsRecords
+
+  prisma.$disconnect()
+
+  return new NextResponse(JSON.stringify({ response, status: 200 }));
+}
+
 export async function PUT(request) {
   const tokenCookie = cookies().get("jwt");
 
@@ -32,7 +47,7 @@ export async function PUT(request) {
     console.log("Received data:", requestData);
 
     const data = requestData.data;
-    
+
     if (!Array.isArray(data) || data.length === 0) {
       throw new Error("Invalid input data: Expected an array of objects");
     }
@@ -65,3 +80,4 @@ export async function PUT(request) {
     return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
   }
 }
+ 
